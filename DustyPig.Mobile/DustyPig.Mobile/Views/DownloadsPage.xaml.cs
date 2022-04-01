@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class DownloadsPage : ContentPage
     {
-        public LoginPage()
+        public DownloadsPage()
         {
             InitializeComponent();
         }

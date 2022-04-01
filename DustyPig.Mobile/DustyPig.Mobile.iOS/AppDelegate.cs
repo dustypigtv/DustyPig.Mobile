@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using ObjCRuntime;
 using UIKit;
 
 namespace DustyPig.Mobile.iOS
@@ -23,9 +24,22 @@ namespace DustyPig.Mobile.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            //Make sure to set PlatformDep before creating a new App()
+            App.PlatformDep = new PlatformDep();
+
             LoadApplication(new App());
 
+            UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
+            UITabBar.Appearance.SelectedImageTintColor = UIColor.White;
+
+
             return base.FinishedLaunching(app, options);
+        }
+
+        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, [Transient] UIWindow forWindow)
+        {
+            return ((PlatformDep)App.PlatformDep).CurrentOrientation;
         }
     }
 }
