@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build Android
+    name: Build
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,5 +22,8 @@ jobs:
       - name: Install dependencies
         run: nuget restore DustyPig.Mobile.sln
 
-      - name: Build
+      - name: Build Android
         run: msbuild DustyPig.Mobile/DustyPig.Mobile.Android/DustyPig.Mobile.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
+
+      - name: Build iOS
+        run: msbuild DustyPig.Mobile/DustyPig.Mobile.iOS/DustyPig.Mobile.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
