@@ -15,8 +15,8 @@ namespace DustyPig.Mobile.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-            Finish();
+            //StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+            //Finish();
         }
 
         public override void OnBackPressed() { }
