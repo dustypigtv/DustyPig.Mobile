@@ -2,7 +2,7 @@
 
 namespace DustyPig
 {
-    static class Theme
+    public static class Theme
     {
         /// <summary>
         /// #333333

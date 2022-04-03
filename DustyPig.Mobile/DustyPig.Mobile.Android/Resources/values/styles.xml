@@ -18,10 +18,7 @@
 
 	<style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="android:windowBackground">@drawable/splash_screen</item>
-		<item name="android:windowTranslucentNavigation">true</item>
 		<item name="android:windowNoTitle">true</item>
-		<item name="android:windowFullscreen">true</item>
-		<item name="android:windowContentOverlay">@null</item>
 		<item name="android:windowDrawsSystemBarBackgrounds">false</item>
 	</style>
 </resources>
