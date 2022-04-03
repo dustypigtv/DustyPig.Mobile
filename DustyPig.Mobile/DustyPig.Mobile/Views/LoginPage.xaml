@@ -5,11 +5,60 @@
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout>
-            
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+
+                <ffsvg:SvgCachedImage
+                    Margin="0,20,0,0"
+                    WidthRequest="100" 
+                    HeightRequest="100"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Center"
+                    Source="resource://DustyPig.Mobile.Images.logo.svg" />
+
+                                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="2" />
+                        <RowDefinition Height="20" />
+
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="1" Text="Invalid Credentials" TextColor="Red" IsVisible="False" />
+
+                    <Entry Grid.Row="1" Grid.Column="1" Placeholder="Email" ReturnType="Next" Keyboard="Email" TextTransform="Lowercase" ClearButtonVisibility="WhileEditing" WidthRequest="300">
+                    </Entry>
+
+                    <Entry Grid.Row="2" Grid.Column="1" Placeholder="Password" ReturnType="Go" ClearButtonVisibility="WhileEditing" WidthRequest="300" IsPassword="True">
+                    </Entry>
+
+                    <Label Grid.Row="3" Grid.Column="1" Text="Forgot Password" HorizontalOptions="EndAndExpand" />
+
+                    <Button Grid.Row="5" Grid.Column="1" Text="Login" WidthRequest="300" />
+
+                    <BoxView Grid.Row="7" Grid.Column="1" HeightRequest="1" Color="#FFFFFF" />
+
+                    <Button Grid.Row="9" Grid.Column="1" Text="Login with Google" WidthRequest="300" />
+                    <Button Grid.Row="10" Grid.Column="1" Text="Login with Facebook" WidthRequest="300" />
+                    <Button Grid.Row="11" Grid.Column="1" Text="Login with Microsoft" WidthRequest="300" />
+
+                </Grid>
+
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
