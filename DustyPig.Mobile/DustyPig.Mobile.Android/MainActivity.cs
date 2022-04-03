@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using FFImageLoading.Forms.Platform;
 
 namespace DustyPig.Mobile.Droid
 {
@@ -21,6 +22,9 @@ namespace DustyPig.Mobile.Droid
 
             //Make sure to set PlatformDep before creating a new App()
             App.PlatformDep = new PlatformDep(this);
+
+            //FFImageLoading
+            CachedImageRenderer.Init(true);
 
 
             LoadApplication(new App());

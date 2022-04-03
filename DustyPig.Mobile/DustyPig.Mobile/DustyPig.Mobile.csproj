@@ -7,16 +7,21 @@
 
   <ItemGroup>
     <None Remove="Resources\font_awesome_6_solid.otf" />
+    <None Remove="Images\" />
+    <None Remove="Images\logo.svg" />
+    <None Remove="Xamarin.FFImageLoading.Svg.Forms" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\font_awesome_6_solid.otf" />
+    <EmbeddedResource Include="Images\logo.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="DustyPig.API" Version="3.0.0.5" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,5 +43,8 @@
     <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
 </Project>

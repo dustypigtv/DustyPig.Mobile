@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using FFImageLoading.Forms.Platform;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
@@ -27,6 +27,10 @@ namespace DustyPig.Mobile.iOS
 
             //Make sure to set PlatformDep before creating a new App()
             App.PlatformDep = new PlatformDep();
+
+            //FFImageLoading
+            CachedImageRenderer.Init();
+            
 
             LoadApplication(new App());
 
