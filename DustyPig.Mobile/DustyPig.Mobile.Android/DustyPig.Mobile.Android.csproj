@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -80,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DustyPig.Mobile\DustyPig.Mobile.csproj">
-      <Project>{86B39511-BC73-47FF-8624-2739A671F2DC}</Project>
+      <Project>{C6292328-9C1B-4538-91D6-5714B383DA2E}</Project>
       <Name>DustyPig.Mobile</Name>
     </ProjectReference>
   </ItemGroup>
