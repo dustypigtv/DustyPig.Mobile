@@ -62,27 +62,75 @@
 
                     </Grid.RowDefinitions>
 
-                    <Label Grid.Row="0" Grid.Column="1" Text="Invalid Credentials" TextColor="Red" IsVisible="False" />
+                    <Label 
+                        Grid.Row="0" 
+                        Grid.Column="1" 
+                        Text="Invalid Credentials" 
+                        TextColor="Red" 
+                        IsVisible="False" />
 
-                    <Entry Grid.Row="1" Grid.Column="1" Placeholder="Email" ReturnType="Next" Keyboard="Email" TextTransform="Lowercase" ClearButtonVisibility="WhileEditing" WidthRequest="300">
-                    </Entry>
+                    <Entry 
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        Placeholder="Email" 
+                        ReturnType="Next" 
+                        Keyboard="Email" 
+                        TextTransform="Lowercase" 
+                        ClearButtonVisibility="WhileEditing" 
+                        WidthRequest="300" />
 
-                    <Entry Grid.Row="2" Grid.Column="1" Placeholder="Password" ReturnType="Go" ClearButtonVisibility="WhileEditing" IsPassword="True">
-                    </Entry>
+                    <Entry 
+                        Grid.Row="2" 
+                        Grid.Column="1" 
+                        Placeholder="Password" 
+                        ReturnType="Go" 
+                        ClearButtonVisibility="WhileEditing" 
+                        IsPassword="True" />
 
-                    <Label Grid.Row="3" Grid.Column="1" Text="Forgot Password" HorizontalOptions="EndAndExpand" />
+                    <Label 
+                        Grid.Row="3" 
+                        Grid.Column="1" 
+                        Text="Forgot Password" 
+                        HorizontalOptions="EndAndExpand" />
 
-                    <Button Grid.Row="5" Grid.Column="1" Text="Login" HeightRequest="40" />
+                    <Button 
+                        Grid.Row="5" 
+                        Grid.Column="1" 
+                        Text="Login" 
+                        HeightRequest="40" />
 
-                    <BoxView Grid.Row="6" Grid.Column="1" VerticalOptions="Center" HeightRequest="1" Color="#FFFFFF" />
+                    <BoxView 
+                        Grid.Row="6" 
+                        Grid.Column="1" 
+                        VerticalOptions="Center" 
+                        HeightRequest="1" 
+                        Color="#FFFFFF" />
 
-                    <Button Grid.Row="7" Grid.Column="1" Text="Login with Apple" />
+                    <Button 
+                        Grid.Row="7" 
+                        Grid.Column="1" 
+                        Text="Login with Apple" />
 
-                    <Button Grid.Row="8" Grid.Column="1" Text="Login with Google" />
+                    <Button 
+                        Grid.Row="8" 
+                        Grid.Column="1" 
+                        Text="Login with Google" />
 
-                    <slbtns:XamFacebook Grid.Row="9" Grid.Column="1" HeightRequest="40" OnSuccess="{Binding FacebookSuccessCommand}" OnError="{Binding FacebookErrorCommand}" OnCancel="{Binding LoginCancelledCommand}" />
+                    <slbtns:XamFacebook 
+                        Grid.Row="9" 
+                        Grid.Column="1" 
+                        HeightRequest="40"
+                        PaddingTop="10" 
+                        PaddingBottom="10" 
+                        TextSize="15" 
+                        OnSuccess="{Binding FacebookSuccessCommand}" 
+                        OnError="{Binding FacebookErrorCommand}" 
+                        OnCancel="{Binding LoginCancelledCommand}" />
 
-                    <Button Grid.Row="10" Grid.Column="1" Text="Login with Microsoft" />
+                    <Button 
+                        Grid.Row="10" 
+                        Grid.Column="1" 
+                        Text="Login with Microsoft" />
 
                 </Grid>
 
