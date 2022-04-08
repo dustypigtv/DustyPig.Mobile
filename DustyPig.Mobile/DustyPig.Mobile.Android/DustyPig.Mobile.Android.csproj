@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Xamarin.Facebook.Login.Android">
+      <Version>11.2.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
@@ -66,6 +69,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoginButtonRenderers\XamFacebookRenderer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="PlatformDep.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -94,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

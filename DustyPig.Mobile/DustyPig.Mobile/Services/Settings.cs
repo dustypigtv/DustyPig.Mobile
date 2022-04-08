@@ -5,8 +5,7 @@ namespace DustyPig.Mobile.Services
 {
     static class Settings
     {
-        private const string LOCAL_ACCOUNT_TOKEN = "local_account_token";
-        private const string LOCAL_PROFILE_TOKEN = "local_profile_Token";
+        private const string LOCAL_PROFILE_TOKEN = "profile_Token";
 
         private const string AUTO_SKIP_INTRO_KEY = "auto_skip_intro";
         private const string AUTO_PLAY_NEXT_KEY = "auto_play_next";
@@ -35,10 +34,6 @@ namespace DustyPig.Mobile.Services
 
             return ret;
         }
-
-        public static Task SaveAccountTokenAsync(string token) => SecureStorage.SetAsync(LOCAL_ACCOUNT_TOKEN, token);
-
-        public static Task<string> GetAccountTokenAsync() => GetSecureString(LOCAL_ACCOUNT_TOKEN);
 
         public static Task SaveProfileTokenAsync(string token) => SecureStorage.SetAsync(LOCAL_PROFILE_TOKEN, token);
 

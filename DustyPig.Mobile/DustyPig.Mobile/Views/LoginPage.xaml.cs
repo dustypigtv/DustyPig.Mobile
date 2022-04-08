@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using DustyPig.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +10,9 @@ namespace DustyPig.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
+            BindingContext = VM = new LoginViewModel();
         }
+
+        public LoginViewModel VM { get; }
     }
 }

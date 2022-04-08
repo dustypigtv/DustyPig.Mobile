@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DustyPig.Mobile.Views.LoginPage"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:slbtns="clr-namespace:DustyPig.Mobile.LoginButtons"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <ScrollView>
@@ -20,20 +21,44 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="250" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
+                        
+                        <!-- 0: Invlaid Credentials -->
                         <RowDefinition Height="Auto" />
+
+                        <!-- 1: Email  -->
                         <RowDefinition Height="Auto" />
+
+                        <!-- 2: Password -->
                         <RowDefinition Height="Auto" />
+
+                        <!-- 3: Forgot Password -->
                         <RowDefinition Height="Auto" />
+
+                        <!-- 4: BLANK -->
                         <RowDefinition Height="20" />
+
+                        <!-- 5: Login -->
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="2" />
-                        <RowDefinition Height="20" />
+
+                        <!-- 6: Line -->
+                        <RowDefinition Height="40" />
+
+                        <!-- 7: Login with Apple -->
+                        <RowDefinition Height="Auto" />
+
+                        <!-- 8: Login with Google -->
+                        <RowDefinition Height="Auto" />
+
+                        <!-- 9: Login with Facebook -->
+                        <RowDefinition Height="Auto" />
+
+                        <!-- 10: Login with Microsoft -->
+                        <RowDefinition Height="Auto" />
 
                     </Grid.RowDefinitions>
 
@@ -42,18 +67,22 @@
                     <Entry Grid.Row="1" Grid.Column="1" Placeholder="Email" ReturnType="Next" Keyboard="Email" TextTransform="Lowercase" ClearButtonVisibility="WhileEditing" WidthRequest="300">
                     </Entry>
 
-                    <Entry Grid.Row="2" Grid.Column="1" Placeholder="Password" ReturnType="Go" ClearButtonVisibility="WhileEditing" WidthRequest="300" IsPassword="True">
+                    <Entry Grid.Row="2" Grid.Column="1" Placeholder="Password" ReturnType="Go" ClearButtonVisibility="WhileEditing" IsPassword="True">
                     </Entry>
 
                     <Label Grid.Row="3" Grid.Column="1" Text="Forgot Password" HorizontalOptions="EndAndExpand" />
 
-                    <Button Grid.Row="5" Grid.Column="1" Text="Login" WidthRequest="300" />
+                    <Button Grid.Row="5" Grid.Column="1" Text="Login" HeightRequest="40" />
 
-                    <BoxView Grid.Row="7" Grid.Column="1" HeightRequest="1" Color="#FFFFFF" />
+                    <BoxView Grid.Row="6" Grid.Column="1" VerticalOptions="Center" HeightRequest="1" Color="#FFFFFF" />
 
-                    <Button Grid.Row="9" Grid.Column="1" Text="Login with Google" WidthRequest="300" />
-                    <Button Grid.Row="10" Grid.Column="1" Text="Login with Facebook" WidthRequest="300" />
-                    <Button Grid.Row="11" Grid.Column="1" Text="Login with Microsoft" WidthRequest="300" />
+                    <Button Grid.Row="7" Grid.Column="1" Text="Login with Apple" />
+
+                    <Button Grid.Row="8" Grid.Column="1" Text="Login with Google" />
+
+                    <slbtns:XamFacebook Grid.Row="9" Grid.Column="1" HeightRequest="40" OnSuccess="{Binding FacebookSuccessCommand}" OnError="{Binding FacebookErrorCommand}" OnCancel="{Binding LoginCancelledCommand}" />
+
+                    <Button Grid.Row="10" Grid.Column="1" Text="Login with Microsoft" />
 
                 </Grid>
 
