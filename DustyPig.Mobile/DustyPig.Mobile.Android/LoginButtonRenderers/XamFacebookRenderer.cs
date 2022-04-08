@@ -22,8 +22,6 @@ namespace DustyPig.Mobile.Droid.LoginButtonRenderers
             
         }
 
-        private LoginButton NativeButton => (LoginButton)Control;
-
         private XamFacebook XamButton => (XamFacebook)Element;
         
 
