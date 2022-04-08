@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <resources>
-	<string name="app_id">1082703882261587</string>
-	<string name="app_name">Dusty Pig</string>
+	<string name="facebook_app_id">1082703882261587</string>
+	<string name="facebook_app_name">Dusty Pig</string>
 	<string name="fb_login_protocol_scheme">fb1082703882261587</string>
 </resources>

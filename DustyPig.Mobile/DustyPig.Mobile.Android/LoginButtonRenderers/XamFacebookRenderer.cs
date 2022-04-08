@@ -50,8 +50,7 @@ namespace DustyPig.Mobile.Droid.LoginButtonRenderers
                 //When this button is shown, it means nobody is logged in. Make sure that facebook is in the same state
                 LoginManager.Instance.LogOut();
 
-                var fbButton = new LoginButton(Context) { LoginBehavior = LoginBehavior.NativeWithFallback };
-
+                var fbButton = new LoginButton(Context) { LoginBehavior = LoginBehavior.WebOnly };
                 fbButton.SetTextSize(ComplexUnitType.Dip, e.NewElement.TextSize);
 
                 int paddingTop = (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, e.NewElement.PaddingTop, Context.Resources.DisplayMetrics);
