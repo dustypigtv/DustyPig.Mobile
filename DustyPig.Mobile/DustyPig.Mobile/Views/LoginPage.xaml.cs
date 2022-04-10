@@ -10,9 +10,10 @@ namespace DustyPig.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
+            
             BindingContext = VM = new LoginViewModel();
         }
 
-        public LoginViewModel VM { get; }
+        public LoginViewModel VM { get; }       
     }
 }

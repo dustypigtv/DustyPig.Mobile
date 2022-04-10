@@ -1,4 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.SocialLogin.FB;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -8,37 +10,30 @@ namespace DustyPig.Mobile.ViewModels
     {
         public LoginViewModel()
         {
-            FacebookSuccessCommand = new Command<string>(async (s) => await OnFacebookSuccess(s));
-            FacebookErrorCommand = new Command<string>(async (s) => await OnFacebookError(s));
-            LoginCancelledCommand = new Command(OnLoginCancelled);
+            FacebookLoginCommand = new Command(async () => await OnFacebookLoginCommand());
         }
 
-        public Command<string> FacebookSuccessCommand { get; }
+        public Command FacebookLoginCommand { get; }
 
-        private async Task OnFacebookSuccess(string oAuthToken)
+        private async Task OnFacebookLoginCommand()
         {
-            var client = new API.v3.Client();
-            var ret = await client.Auth.OAuthLoginAsync(new OAuthCredentials { Provider = OAuthCredentialProviders.Facebook, Token = oAuthToken });
-            
-            
+            try
+            {
+                var fbtoken = await FacebookClient.Current.LoginAsync();
+
+                //var client = new API.v3.Client();
+                //var dpToken = await client.Auth.OAuthLoginAsync(new OAuthCredentials { Provider = OAuthCredentialProviders.Facebook, Token = fbtoken });
+                await Shell.Current.DisplayAlert("Facebook Login", "Success!", "OK");
+            }
+            catch (OperationCanceledException ex)
+            {
+                await Shell.Current.DisplayAlert("Facebook Login", "Cancelled", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Facebook Login", ex.Message, "OK");
+            }
         }
-
-
-        public Command<string> FacebookErrorCommand { get; }
-
-        private async Task OnFacebookError(string s)
-        {
-
-        }
-
-
-        public Command LoginCancelledCommand { get; }
-
-        private void OnLoginCancelled()
-        {
-
-        }
-
 
     }
 }

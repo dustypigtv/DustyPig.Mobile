@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DustyPig.Mobile.Views.LoginPage"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             xmlns:slbtns="clr-namespace:DustyPig.Mobile.LoginButtons"
+             xmlns:local="clr-namespace:DustyPig.Mobile"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
+            <StackLayout Margin="0,20,0,20">
 
                 <ffsvg:SvgCachedImage
-                    Margin="0,20,0,0"
                     WidthRequest="100" 
                     HeightRequest="100"
                     VerticalOptions="Start"
@@ -18,7 +17,7 @@
                     Source="resource://DustyPig.Mobile.Images.logo.svg" />
 
                                 
-                <Grid>
+                <Grid RowSpacing="16">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="250" />
@@ -28,7 +27,7 @@
                     <Grid.RowDefinitions>
                         
                         <!-- 0: Invlaid Credentials -->
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="20" />
 
                         <!-- 1: Email  -->
                         <RowDefinition Height="Auto" />
@@ -36,32 +35,27 @@
                         <!-- 2: Password -->
                         <RowDefinition Height="Auto" />
 
-                        <!-- 3: Forgot Password -->
-                        <RowDefinition Height="Auto" />
-
-                        <!-- 4: BLANK -->
-                        <RowDefinition Height="20" />
-
-                        <!-- 5: Login -->
-                        <RowDefinition Height="Auto" />
-
-                        <!-- 6: Line -->
+                        <!-- 3: Login -->
                         <RowDefinition Height="40" />
 
-                        <!-- 7: Login with Apple -->
-                        <RowDefinition Height="Auto" />
+                        <!-- 4: Signup/Forgot Password -->
+                        <RowDefinition Height="30" />
 
-                        <!-- 8: Login with Google -->
-                        <RowDefinition Height="Auto" />
+                        <!-- 5: Line -->
+                        <RowDefinition Height="20" />
 
-                        <!-- 9: Login with Facebook -->
-                        <RowDefinition Height="Auto" />
+                        <!-- 6: Facebook -->
+                        <RowDefinition Height="40" />
 
-                        <!-- 10: Login with Microsoft -->
-                        <RowDefinition Height="Auto" />
+                        <!-- 7: Google -->
+                        <RowDefinition Height="40" />
+
+                        <!-- 8: Apple -->
+                        <RowDefinition Height="40" />
 
                     </Grid.RowDefinitions>
 
+                    <!-- Inavalid Credentials -->
                     <Label 
                         Grid.Row="0" 
                         Grid.Column="1" 
@@ -69,6 +63,7 @@
                         TextColor="Red" 
                         IsVisible="False" />
 
+                    <!-- Email -->
                     <Entry 
                         Grid.Row="1" 
                         Grid.Column="1" 
@@ -76,9 +71,9 @@
                         ReturnType="Next" 
                         Keyboard="Email" 
                         TextTransform="Lowercase" 
-                        ClearButtonVisibility="WhileEditing" 
-                        WidthRequest="300" />
+                        ClearButtonVisibility="WhileEditing" />
 
+                    <!-- Password -->
                     <Entry 
                         Grid.Row="2" 
                         Grid.Column="1" 
@@ -87,53 +82,108 @@
                         ClearButtonVisibility="WhileEditing" 
                         IsPassword="True" />
 
-                    <Label 
+                    <!-- Login -->
+                    <Button 
                         Grid.Row="3" 
                         Grid.Column="1" 
-                        Text="Forgot Password" 
-                        HorizontalOptions="EndAndExpand" />
+                        Text="Login" />
 
-                    <Button 
-                        Grid.Row="5" 
-                        Grid.Column="1" 
-                        Text="Login" 
-                        HeightRequest="40" />
+                    
+                    <!-- Signup / Forgot Password -->
+                    <Grid
+                        Grid.Row="4"
+                        Grid.Column="1">
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <local:CustomButton
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            HorizontalTextAlignment="Start"
+                            Padding="0,0,0,0"
+                            BackgroundColor="Transparent"
+                            Text="Signup" />
+                        
+                        <local:CustomButton
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            HorizontalTextAlignment="End"
+                            Padding="10,0,0,0"
+                            BackgroundColor="Transparent"
+                            Text="Forgot Password" />
+
+                    </Grid>
+                    
+                    
+                    <!-- Line -->
                     <BoxView 
-                        Grid.Row="6" 
+                        Grid.Row="5" 
                         Grid.Column="1" 
                         VerticalOptions="Center" 
                         HeightRequest="1" 
                         Color="#FFFFFF" />
 
-                    <Button 
-                        Grid.Row="7" 
-                        Grid.Column="1" 
-                        Text="Login with Apple" />
+                    <!-- Facebook -->
+                    <Grid
+                        Grid.Row="6"
+                        Grid.Column="1">
 
-                    <Button 
-                        Grid.Row="8" 
-                        Grid.Column="1" 
-                        Text="Login with Google" />
+                        <local:CustomButton 
+                            Text="Continue with Facebook" 
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="#1877F2"
+                            Command="{Binding FacebookLoginCommand}">
+                            <Button.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="Android" Value="sans-serif-medium" />
+                                    <On Platform="iOS" Value="Roboto Medium" />
+                                </OnPlatform>
+                            </Button.FontFamily>
+                        </local:CustomButton>
 
-                    <slbtns:XamFacebook 
-                        Grid.Row="9" 
-                        Grid.Column="1" 
-                        HeightRequest="40"
-                        PaddingTop="10" 
-                        PaddingBottom="10" 
-                        TextSize="15" 
-                        OnSuccess="{Binding FacebookSuccessCommand}" 
-                        OnError="{Binding FacebookErrorCommand}" 
-                        OnCancel="{Binding LoginCancelledCommand}" />
+                        <Image
+                            HorizontalOptions="Start"
+                            Source="{local:ImageResource facebook_logo.png}"
+                            Margin="10,10,10,10"
+                            InputTransparent="True" />
+                    </Grid>
+                    
 
-                    <Button 
-                        Grid.Row="10" 
-                        Grid.Column="1" 
-                        Text="Login with Microsoft" />
+                    <!-- Google -->
+                    <Grid
+                        Grid.Row="7"
+                        Grid.Column="1">
+
+                        <local:CustomButton 
+                            Text="Sign in with Google" 
+                            HorizontalOptions="FillAndExpand"
+                            BackgroundColor="#4285F4">
+                            <Button.FontFamily>
+                                <OnPlatform x:TypeArguments="x:String">
+                                    <On Platform="Android" Value="sans-serif-medium" />
+                                    <On Platform="iOS" Value="Roboto Medium" />
+                                </OnPlatform>
+                            </Button.FontFamily>
+                        </local:CustomButton>
+
+                        <Image
+                            HorizontalOptions="Start"
+                            Source="{local:ImageResource google_logo.png}"
+                            InputTransparent="True" />
+                    </Grid>
+
+                    <!-- Apple -->
+                    <Button
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        Text="Sign in with Apple"
+                        TextColor="Black"
+                        BackgroundColor="White"/>
 
                 </Grid>
-
 
             </StackLayout>
         </ScrollView>

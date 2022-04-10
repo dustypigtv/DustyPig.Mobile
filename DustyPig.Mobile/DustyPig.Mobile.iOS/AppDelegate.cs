@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DustyPig.Mobile.SocialLogin.FB;
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using ObjCRuntime;
@@ -37,13 +35,31 @@ namespace DustyPig.Mobile.iOS
             UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
             UITabBar.Appearance.SelectedImageTintColor = UIColor.White;
 
-
+            FacebookClientManager.Init(app, options);
+            FacebookClient.Current = new FacebookClientManager();
+            
             return base.FinishedLaunching(app, options);
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, [Transient] UIWindow forWindow)
         {
             return ((PlatformDep)App.PlatformDep).CurrentOrientation;
+        }
+
+        public override void OnActivated(UIApplication uiApplication)
+        {
+            base.OnActivated(uiApplication);
+            FacebookClientManager.OnActivated();
+        }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            return FacebookClientManager.OpenUrl(app, url, options);
+        }
+
+        public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+        {
+            return FacebookClientManager.OpenUrl(application, url, sourceApplication, annotation);
         }
     }
 }
