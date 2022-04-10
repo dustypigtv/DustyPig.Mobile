@@ -23,8 +23,7 @@ namespace DustyPig.Mobile.SocialLogin.FB
             {
                 CancelAction = () =>
                 {
-                    bool declinedEmail = AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
-                    if (declinedEmail)
+                    if (EmailDenied)
                         ThrowEmailException();
                     else
                         _loginTaskCompletionSource.TrySetCanceled();
@@ -47,6 +46,8 @@ namespace DustyPig.Mobile.SocialLogin.FB
         public static void OnActivityResult(int requestCode, Result resultCode, Intent intent) =>
             _callbackManager?.OnActivityResult(requestCode, (int)resultCode, intent);
 
+        private static bool EmailDenied = AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
+
         private void ThrowEmailException() =>
             _loginTaskCompletionSource?.TrySetException(new Exception("Email is required to use Dusty Pig. Please try again and allow email access"));
 
@@ -54,9 +55,7 @@ namespace DustyPig.Mobile.SocialLogin.FB
         {
             _loginTaskCompletionSource = new TaskCompletionSource<string>();
 
-            bool reask = AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
-            
-            LoginManager.Instance.SetAuthType(reask ? "rerequest" : null);
+            LoginManager.Instance.SetAuthType(EmailDenied ? "rerequest" : null);
             LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
             LoginManager.Instance.LogInWithReadPermissions(_activity, new string[] { "email" }.ToList());
            
