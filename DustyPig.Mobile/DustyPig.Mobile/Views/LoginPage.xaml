@@ -135,6 +135,7 @@
                             Text="Continue with Facebook" 
                             HorizontalOptions="FillAndExpand"
                             BackgroundColor="#1877F2"
+                            TextColor="White"
                             Command="{Binding FacebookLoginCommand}">
                             <Button.FontFamily>
                                 <OnPlatform x:TypeArguments="x:String">
@@ -160,7 +161,9 @@
                         <local:CustomButton 
                             Text="Sign in with Google" 
                             HorizontalOptions="FillAndExpand"
-                            BackgroundColor="#4285F4">
+                            BackgroundColor="#4285F4"
+                            TextColor="White"
+                            Command="{Binding GoogleLoginCommand}">
                             <Button.FontFamily>
                                 <OnPlatform x:TypeArguments="x:String">
                                     <On Platform="Android" Value="sans-serif-medium" />

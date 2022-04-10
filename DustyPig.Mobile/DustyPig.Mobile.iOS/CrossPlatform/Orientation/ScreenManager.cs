@@ -1,9 +1,9 @@
 ﻿using Foundation;
 using UIKit;
 
-namespace DustyPig.Mobile.iOS
+namespace DustyPig.Mobile.CrossPlatform.Orientation
 {
-    class PlatformDep : IPlatformDep
+    class ScreenManager : IScreen
     {
         public UIInterfaceOrientationMask CurrentOrientation { get; set; }
 

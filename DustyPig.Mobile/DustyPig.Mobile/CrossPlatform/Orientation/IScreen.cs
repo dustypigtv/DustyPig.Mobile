@@ -1,11 +1,9 @@
-﻿namespace DustyPig.Mobile
+﻿namespace DustyPig.Mobile.CrossPlatform.Orientation
 {
-    public interface IPlatformDep
+    public interface IScreen
     {
         void ForcePortrait();
         void ForceLandscape();
         void AllowAnyOrientation();
-
-
     }
 }

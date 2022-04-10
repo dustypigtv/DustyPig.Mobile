@@ -1,4 +1,5 @@
-﻿using DustyPig.Mobile.SocialLogin.FB;
+﻿using DustyPig.Mobile.CrossPlatform.Orientation;
+using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using ObjCRuntime;
@@ -24,7 +25,7 @@ namespace DustyPig.Mobile.iOS
             global::Xamarin.Forms.Forms.Init();
 
             //Make sure to set PlatformDep before creating a new App()
-            App.PlatformDep = new PlatformDep();
+            Screen.Current = new ScreenManager();
 
             //FFImageLoading
             CachedImageRenderer.Init();
@@ -43,7 +44,7 @@ namespace DustyPig.Mobile.iOS
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, [Transient] UIWindow forWindow)
         {
-            return ((PlatformDep)App.PlatformDep).CurrentOrientation;
+            return ((ScreenManager)Screen.Current).CurrentOrientation;
         }
 
         public override void OnActivated(UIApplication uiApplication)

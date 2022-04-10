@@ -1,13 +1,16 @@
-﻿using Facebook.CoreKit;
+﻿/*
+    Based largely on https://github.com/CrossGeeks/FacebookClientPlugin 
+*/
+using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
 using System;
 using System.Threading.Tasks;
 using UIKit;
 
-namespace DustyPig.Mobile.SocialLogin.FB
+namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 {
-    public class FacebookClientManager : IFacebookClient
+    public class FacebookClientManager : ISocialLoginClient
     {
         private static readonly LoginManager _loginManager = new LoginManager();
 
@@ -30,6 +33,11 @@ namespace DustyPig.Mobile.SocialLogin.FB
             return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
         }
 
+        private static bool EmailDenied => AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
+
+        private Exception EmailException => new Exception("Email is required to use Dusty Pig. Please try again and allow email access");
+
+
         public Task<string> LoginAsync()
         {
             TaskCompletionSource<string> loginTask = new TaskCompletionSource<string>();
@@ -40,17 +48,28 @@ namespace DustyPig.Mobile.SocialLogin.FB
                 vc = vc.PresentedViewController;
             }
 
-            bool reask = AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
-            _loginManager.AuthType = reask ? LoginAuthType.Rerequest : LoginAuthType.Reauthorize;
+            _loginManager.AuthType = EmailDenied ? LoginAuthType.Rerequest : LoginAuthType.Reauthorize;
 
             _loginManager.LogIn(new string[] { "email" }, vc, (result, error) =>
             {
                 if (error != null)
+                {
                     loginTask.TrySetException(new Exception(error.Description));
+                }
                 else if (result.IsCancelled)
-                    loginTask.TrySetCanceled();
+                {
+                    if (EmailDenied)
+                        loginTask.TrySetException(EmailException);
+                    else
+                        loginTask.TrySetCanceled();
+                }
                 else
-                    loginTask.TrySetResult(result.Token.TokenString);
+                {
+                    //If(result.DeclinedPermissions.Any("email"))
+                    //  loginTask.TrySetException(EmailException);
+                    //else
+                        loginTask.TrySetResult(result.Token.TokenString);
+                }
             });
 
             return loginTask.Task;

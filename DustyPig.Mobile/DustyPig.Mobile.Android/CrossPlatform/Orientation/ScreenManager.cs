@@ -1,12 +1,13 @@
-﻿using Android.Content.PM;
+﻿using Android.App;
+using Android.Content.PM;
 
-namespace DustyPig.Mobile.Droid
+namespace DustyPig.Mobile.CrossPlatform.Orientation
 {
-    class PlatformDep : IPlatformDep
+    class ScreenManager : IScreen
     {
-        private readonly MainActivity _mainActivity;
+        private readonly Activity _mainActivity;
 
-        public PlatformDep(MainActivity mainActivity)
+        public ScreenManager(Activity mainActivity)
         {
             _mainActivity = mainActivity;
         }

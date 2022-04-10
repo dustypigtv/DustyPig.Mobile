@@ -66,13 +66,14 @@
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CrossPlatform\SocialLogin\FacebookClientManager.cs" />
+    <Compile Include="CrossPlatform\SocialLogin\GoogleClientManager.cs" />
     <Compile Include="CustomButtonRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="SocialLogin\FB\FacebookClientManager.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
-    <Compile Include="PlatformDep.cs" />
+    <Compile Include="CrossPlatform\Orientation\ScreenManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <BundleResource Include="Resources\Roboto-Medium.ttf" />
   </ItemGroup>

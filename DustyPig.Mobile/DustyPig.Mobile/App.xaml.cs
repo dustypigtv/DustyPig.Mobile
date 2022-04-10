@@ -1,5 +1,4 @@
-﻿using DustyPig.Mobile.SocialLogin.FB;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace DustyPig.Mobile
 {
@@ -33,44 +32,6 @@ namespace DustyPig.Mobile
 
 
 
-        public static IPlatformDep PlatformDep { get; set; }
-
         
-
-
-        public static void SetOrientation(bool video)
-        {
-            switch (Device.Idiom)
-            {
-                case TargetIdiom.Desktop:
-                    PlatformDep.AllowAnyOrientation();
-                    break;
-
-                case TargetIdiom.Phone:
-                    if (video)
-                        PlatformDep.ForceLandscape();
-                    else
-                        PlatformDep.ForcePortrait();
-                    break;
-
-                case TargetIdiom.Tablet:
-                    if (video)
-                        PlatformDep.ForceLandscape();
-                    else
-                        PlatformDep.AllowAnyOrientation();
-                    break;
-
-                case TargetIdiom.TV:
-                    PlatformDep.ForceLandscape();
-                    break;
-
-                default:
-                    if (video)
-                        PlatformDep.ForceLandscape();
-                    else
-                        PlatformDep.ForcePortrait();
-                    break;
-            }
-        }
     }
 }

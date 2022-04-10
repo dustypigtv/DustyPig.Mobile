@@ -3,7 +3,8 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using DustyPig.Mobile.SocialLogin.FB;
+using DustyPig.Mobile.CrossPlatform.Orientation;
+using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
 using Java.Security;
 using System;
@@ -25,12 +26,14 @@ namespace DustyPig.Mobile.Droid
             FacebookClient.Current = new FacebookClientManager(this);
             Xamarin.Facebook.AppEvents.AppEventsLogger.ActivateApp(Application, Resources.GetString(Resource.String.facebook_app_id));
 
+            GoogleClient.Current = new GoogleClientManager(this);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
 
             //Make sure to set PlatformDep before creating a new App()
-            App.PlatformDep = new PlatformDep(this);
+            Screen.Current = new ScreenManager(this);
 
             //FFImageLoading
             CachedImageRenderer.Init(true);
@@ -53,6 +56,7 @@ namespace DustyPig.Mobile.Droid
         {
             base.OnActivityResult(requestCode, resultCode, intent);
             FacebookClientManager.OnActivityResult(requestCode, resultCode, intent);
+            GoogleClientManager.OnAuthCompleted(requestCode, intent);
         }
 
 #if DEBUG
