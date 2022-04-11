@@ -3,6 +3,7 @@
 	<uses-sdk android:minSdkVersion="27" android:targetSdkVersion="31" />
 	<application android:label="Dusty Pig" android:theme="@style/MainTheme">
 		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+		<meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 		<activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/facebook_app_name" />
 		<activity android:name="com.facebook.CustomTabActivity" android:exported="true">
 			<intent-filter>

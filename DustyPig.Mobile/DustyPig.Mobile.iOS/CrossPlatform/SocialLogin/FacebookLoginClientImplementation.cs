@@ -1,16 +1,19 @@
 ﻿/*
     Based largely on https://github.com/CrossGeeks/FacebookClientPlugin 
 */
+using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
 using System;
 using System.Threading.Tasks;
 using UIKit;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(GoogleLoginClientImplementation))]
 namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 {
-    public class FacebookClientManager : ISocialLoginClient
+    public class FacebookLoginClientImplementation : IFacebookLoginClient
     {
         private static readonly LoginManager _loginManager = new LoginManager();
 
@@ -23,6 +26,7 @@ namespace DustyPig.Mobile.CrossPlatform.SocialLogin
         {
             AppEvents.ActivateApp();
         }
+
         public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
             return ApplicationDelegate.SharedInstance.OpenUrl(app, url, $"{options["UIApplicationOpenURLOptionsSourceApplicationKey"]}", options["UIApplicationOpenURLOptionsAnnotationKey"]);

@@ -24,9 +24,7 @@ namespace DustyPig.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            //Make sure to set PlatformDep before creating a new App()
-            Screen.Current = new ScreenManager();
-
+            
             //FFImageLoading
             CachedImageRenderer.Init();
             
@@ -36,31 +34,32 @@ namespace DustyPig.Mobile.iOS
             UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
             UITabBar.Appearance.SelectedImageTintColor = UIColor.White;
 
-            FacebookClientManager.Init(app, options);
-            FacebookClient.Current = new FacebookClientManager();
+            FacebookLoginClientImplementation.Init(app, options);
+
+            
             
             return base.FinishedLaunching(app, options);
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations(UIApplication application, [Transient] UIWindow forWindow)
         {
-            return ((ScreenManager)Screen.Current).CurrentOrientation;
+            return ScreenImplementation.CurrentOrientation;
         }
 
         public override void OnActivated(UIApplication uiApplication)
         {
             base.OnActivated(uiApplication);
-            FacebookClientManager.OnActivated();
+            FacebookLoginClientImplementation.OnActivated();
         }
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-            return FacebookClientManager.OpenUrl(app, url, options);
+            return FacebookLoginClientImplementation.OpenUrl(app, url, options);
         }
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            return FacebookClientManager.OpenUrl(application, url, sourceApplication, annotation);
+            return FacebookLoginClientImplementation.OpenUrl(application, url, sourceApplication, annotation);
         }
     }
 }

@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DustyPig.Mobile.Views.LoginPage"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             xmlns:local="clr-namespace:DustyPig.Mobile"
+             xmlns:local="clr-namespace:DustyPig.Mobile" 
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.ViewModels" 
+             x:DataType="viewmodels:LoginViewModel"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
+
+
         <ScrollView>
             <StackLayout Margin="0,20,0,20">
 
@@ -61,7 +65,7 @@
                         Grid.Column="1" 
                         Text="Invalid Credentials" 
                         TextColor="Red" 
-                        IsVisible="False" />
+                        IsVisible="{Binding ShowError}" />
 
                     <!-- Email -->
                     <Entry 
@@ -71,7 +75,8 @@
                         ReturnType="Next" 
                         Keyboard="Email" 
                         TextTransform="Lowercase" 
-                        ClearButtonVisibility="WhileEditing" />
+                        ClearButtonVisibility="WhileEditing"
+                        Text="{Binding Email}" />
 
                     <!-- Password -->
                     <Entry 
@@ -80,13 +85,15 @@
                         Placeholder="Password" 
                         ReturnType="Go" 
                         ClearButtonVisibility="WhileEditing" 
-                        IsPassword="True" />
+                        IsPassword="True"
+                        Text="{Binding Password}" />
 
                     <!-- Login -->
                     <Button 
                         Grid.Row="3" 
                         Grid.Column="1" 
-                        Text="Login" />
+                        Text="Login"
+                        Command="{Binding LoginButtonCommand}" />
 
                     
                     <!-- Signup / Forgot Password -->
@@ -105,7 +112,8 @@
                             HorizontalTextAlignment="Start"
                             Padding="0,0,0,0"
                             BackgroundColor="Transparent"
-                            Text="Signup" />
+                            Text="Signup"
+                            Command="{Binding SignupCommand}" />
                         
                         <local:CustomButton
                             Grid.Column="1"
@@ -113,7 +121,8 @@
                             HorizontalTextAlignment="End"
                             Padding="10,0,0,0"
                             BackgroundColor="Transparent"
-                            Text="Forgot Password" />
+                            Text="Forgot Password"
+                            Command="{Binding ForgotPasswordCommand}" />
 
                     </Grid>
                     
@@ -186,9 +195,26 @@
                         TextColor="Black"
                         BackgroundColor="White"/>
 
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.RowSpan="9"
+                        Grid.Column="1"
+                        BackgroundColor="#aa000000"
+                        IsVisible="{Binding ShowSpinner}">
+
+                        <ActivityIndicator
+                            HorizontalOptions="CenterAndExpand"
+                            VerticalOptions="CenterAndExpand"
+                            IsRunning="{Binding ShowSpinner}" />
+                        
+                    </StackLayout>
+
                 </Grid>
 
             </StackLayout>
         </ScrollView>
+        
+        
+        
     </ContentPage.Content>
 </ContentPage>

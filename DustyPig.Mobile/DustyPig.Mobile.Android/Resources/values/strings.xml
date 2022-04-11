@@ -3,4 +3,5 @@
 	<string name="facebook_app_id">1082703882261587</string>
 	<string name="facebook_app_name">Dusty Pig</string>
 	<string name="fb_login_protocol_scheme">fb1082703882261587</string>
+	<string name="facebook_client_token">36860d470321d303d71840deb9c2e868</string>
 </resources>

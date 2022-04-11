@@ -2,7 +2,7 @@
 
 namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 {
-    public interface ISocialLoginClient
+    public interface IGoogleLoginClient
     {
         Task<string> LoginAsync();
     }

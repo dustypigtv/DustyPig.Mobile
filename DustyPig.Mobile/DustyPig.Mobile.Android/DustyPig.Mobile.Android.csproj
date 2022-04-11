@@ -82,12 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomButtonRenderer.cs" />
-    <Compile Include="CrossPlatform\SocialLogin\FacebookClientManager.cs" />
+    <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="MainActivity.cs" />
-    <Compile Include="CrossPlatform\Orientation\ScreenManager.cs" />
+    <Compile Include="CrossPlatform\Orientation\ScreenImplementation.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CrossPlatform\SocialLogin\GoogleClientManager.cs" />
+    <Compile Include="CrossPlatform\SocialLogin\GoogleLoginClientImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="debug.keystore" />

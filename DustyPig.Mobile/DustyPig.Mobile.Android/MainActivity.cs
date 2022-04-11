@@ -23,21 +23,18 @@ namespace DustyPig.Mobile.Droid
 
             base.OnCreate(savedInstanceState);
 
-            FacebookClient.Current = new FacebookClientManager(this);
-            Xamarin.Facebook.AppEvents.AppEventsLogger.ActivateApp(Application, Resources.GetString(Resource.String.facebook_app_id));
-
-            GoogleClient.Current = new GoogleClientManager(this);
-
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
 
-            //Make sure to set PlatformDep before creating a new App()
-            Screen.Current = new ScreenManager(this);
+            FacebookLoginClientImplementation.Init(this);
+            Xamarin.Facebook.AppEvents.AppEventsLogger.ActivateApp(Application, Resources.GetString(Resource.String.facebook_app_id));
 
-            //FFImageLoading
+            GoogleLoginClientImplementation.Init(this);
+
+            ScreenImplementation.Init(this);
+            
             CachedImageRenderer.Init(true);
-
 
             SetTheme(Resource.Style.MainTheme);
 
@@ -55,8 +52,8 @@ namespace DustyPig.Mobile.Droid
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent)
         {
             base.OnActivityResult(requestCode, resultCode, intent);
-            FacebookClientManager.OnActivityResult(requestCode, resultCode, intent);
-            GoogleClientManager.OnAuthCompleted(requestCode, intent);
+            FacebookLoginClientImplementation.OnActivityResult(requestCode, resultCode, intent);
+            GoogleLoginClientImplementation.OnAuthCompleted(requestCode, intent);
         }
 
 #if DEBUG

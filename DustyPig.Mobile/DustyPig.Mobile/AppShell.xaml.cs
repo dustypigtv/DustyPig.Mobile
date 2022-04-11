@@ -1,7 +1,5 @@
-﻿using DustyPig.Mobile.ViewModels;
+﻿using DustyPig.Mobile.CrossPlatform.Orientation;
 using DustyPig.Mobile.Views;
-using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile
@@ -11,7 +9,7 @@ namespace DustyPig.Mobile
         public AppShell()
         {
             InitializeComponent();
-            App.SetOrientation(false);
+            DependencyService.Get<IScreen>().SetOrientation(false);
 
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
 

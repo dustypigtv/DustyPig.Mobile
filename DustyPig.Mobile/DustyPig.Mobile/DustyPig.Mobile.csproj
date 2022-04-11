@@ -43,6 +43,9 @@
     <EmbeddedResource Update="Views\MoviesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\SelectProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\SeriesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

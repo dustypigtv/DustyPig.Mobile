@@ -3,25 +3,30 @@
 */
 using Android.App;
 using Android.Content;
+using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Facebook;
 using Xamarin.Facebook.Login;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(FacebookLoginClientImplementation))]
 namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 {
-    public class FacebookClientManager : ISocialLoginClient
+    public class FacebookLoginClientImplementation : IFacebookLoginClient
     {
         private static readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
         
-        private readonly Activity _activity;
+        private static Activity _activity;
+
         private readonly LoginCallback _loginCallback;
         private TaskCompletionSource<string> _loginTaskCompletionSource;
 
-        public FacebookClientManager(Activity activity)
+        public static void Init(Activity activity) => _activity = activity;
+
+        public FacebookLoginClientImplementation()
         {
-            _activity = activity;
             _loginCallback = new LoginCallback()
             {
                 CancelAction = () =>
@@ -59,7 +64,13 @@ namespace DustyPig.Mobile.CrossPlatform.SocialLogin
             _loginTaskCompletionSource = new TaskCompletionSource<string>();
 
             LoginManager.Instance.SetAuthType(EmailDenied ? "rerequest" : null);
+
+            //There is a bug in the current Xamarin bindings that makes this crash when 
+            //Attempting to use the native fb app.  Until Xamarin.Facebook.Login.Android 
+            //is updated to SDK v12.2, I have to force WebOnly
             LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
+            
+            
             LoginManager.Instance.LogInWithReadPermissions(_activity, new string[] { "email" }.ToList());
            
             return _loginTaskCompletionSource.Task;

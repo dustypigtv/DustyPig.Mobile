@@ -1,27 +1,33 @@
-﻿using Android.App;
+﻿/*
+ Based on https://github.com/CrossGeeks/GoogleClientPlugin
+*/
+
+using Android.App;
 using Android.Content;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Common.Apis;
 using Android.Gms.Tasks;
 using Android.Runtime;
+using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using System;
-/*
- Based on https://github.com/CrossGeeks/GoogleClientPlugin
-*/
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
+[assembly: Dependency(typeof(GoogleLoginClientImplementation))]
 namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 {
-    public class GoogleClientManager : Java.Lang.Object, ISocialLoginClient, IOnCompleteListener
+    public class GoogleLoginClientImplementation : Java.Lang.Object, IGoogleLoginClient, IOnCompleteListener
     {
         private const int AUTH_ACTIVITY_ID = 9637;
         private const string DUSTY_PIG_CLIENT_ID = "233400762141-fibb1sigs61v1tsf66s1u6aqdh25ddd4.apps.googleusercontent.com";
 
-        private readonly Activity _activity;
-        readonly GoogleSignInClient _googleClient;
+        private static Activity _activity;
+        private static GoogleSignInClient _googleClient;
+        private static GoogleLoginClientImplementation _instance;
+
         private TaskCompletionSource<string> _taskCompletionSource;
 
-        public GoogleClientManager(Activity activity)
+        public static void Init(Activity activity)
         {
             _activity = activity;
 
@@ -33,6 +39,8 @@ namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 
             _googleClient = GoogleSignIn.GetClient(activity, googleSignInOptions);
         }
+
+        public GoogleLoginClientImplementation() => _instance = this;
 
         public Task<string> LoginAsync()
         {
@@ -60,7 +68,7 @@ namespace DustyPig.Mobile.CrossPlatform.SocialLogin
             if (requestCode != AUTH_ACTIVITY_ID)
                 return;
             
-            GoogleSignIn.GetSignedInAccountFromIntent(intent).AddOnCompleteListener(GoogleClient.Current as IOnCompleteListener);
+            GoogleSignIn.GetSignedInAccountFromIntent(intent).AddOnCompleteListener(_instance as IOnCompleteListener);
         }
     }
 }
