@@ -1,10 +1,11 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using DustyPig.Mobile.CrossPlatform.Orientation;
+using DustyPig.Mobile.Droid.CrossPlatform.Orientation;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(ScreenImplementation))]
-namespace DustyPig.Mobile.CrossPlatform.Orientation
+namespace DustyPig.Mobile.Droid.CrossPlatform.Orientation
 {
     class ScreenImplementation : IScreen
     {

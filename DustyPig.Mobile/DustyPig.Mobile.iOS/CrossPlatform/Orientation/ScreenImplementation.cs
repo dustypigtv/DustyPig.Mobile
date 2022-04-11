@@ -1,10 +1,11 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
+using DustyPig.Mobile.iOS.CrossPlatform.Orientation;
 using Foundation;
 using UIKit;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(ScreenImplementation))]
-namespace DustyPig.Mobile.CrossPlatform.Orientation
+namespace DustyPig.Mobile.iOS.CrossPlatform.Orientation
 {
     class ScreenImplementation : IScreen
     {

@@ -1,30 +1,32 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
+using DustyPig.Mobile.Views;
+using DustyPig.REST;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : _BaseViewModel
     {
         public LoginViewModel()
         {
             LoginButtonCommand = new Command(async () => await OnLoginButtonCommand(), ValidateCredentialInput);
-            SignupCommand = new Command(async () => await OnSignupCommand());
-            ForgotPasswordCommand = new Command(async () => await OnForgotPasswordCommand());
+            SignupCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(SignupPage)));
+            ForgotPasswordCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(ForgotPasswordPage)));
             FacebookLoginCommand = new Command(async () => await OnFacebookLoginCommand());
             GoogleLoginCommand = new Command(async () => await OnGoogleLoginCommand());
         }
 
+        public bool AppleButtonVisible => Device.RuntimePlatform == Device.iOS;
 
-
-        private bool _showSpinner;
-        public bool ShowSpinner
-        {
-            get => _showSpinner;
-            set => SetProperty(ref _showSpinner, value);
-        }
+        public int AppleButtonOrder => (Device.RuntimePlatform == Device.iOS ? 0 : 2) + 6;
+        
+        public int GoogleButtonOrder => (Device.RuntimePlatform == Device.iOS ? 1 : 0) + 6;
+        
+        public int FacebookButtonOrder => (Device.RuntimePlatform == Device.iOS ? 2 : 1) + 6;
 
 
         private bool _showError;
@@ -72,38 +74,30 @@ namespace DustyPig.Mobile.ViewModels
         private async Task OnLoginButtonCommand()
         {
             ShowError = false;
-            ShowSpinner = true;
+            IsBusy = true;
             
             try
             {
-                var ret = await App.API.Auth.PasswordLoginAsync(new PasswordCredentials
+                var dpToken = await App.API.Auth.PasswordLoginAsync(new PasswordCredentials
                 {
                     Email = _email,
                     Password = _password
                 });
-
-
+                await ValidateTokenAndGoToProfiles(dpToken);
             }
-            catch (Exception ex)
+            catch
             {
-                ShowSpinner = false;
                 ShowError = true;
             }
 
+            IsBusy = false;
         }
+
+
 
         public Command SignupCommand { get; }
-        private async Task OnSignupCommand()
-        {
-            throw new NotImplementedException();
-        }
-
 
         public Command ForgotPasswordCommand { get; }
-        private async Task OnForgotPasswordCommand()
-        {
-            throw new NotImplementedException();
-        }
 
 
 
@@ -112,18 +106,17 @@ namespace DustyPig.Mobile.ViewModels
         {
             try
             {
-                ShowSpinner = true;
+                IsBusy = true;
                 var token = await DependencyService.Get<IFacebookLoginClient>().LoginAsync();
                 await OAuthLogin(OAuthCredentialProviders.Facebook, token);     
             }
             catch (OperationCanceledException)
             {
-                ShowSpinner = false;
-                //await Shell.Current.DisplayAlert("Facebook Login", "Cancelled", "OK");
+                IsBusy = false;
             }
             catch (Exception ex)
             {
-                ShowSpinner = false;
+                IsBusy = false;
                 await Shell.Current.DisplayAlert("Facebook Login", ex.Message, "OK");
             }
         }
@@ -134,40 +127,44 @@ namespace DustyPig.Mobile.ViewModels
         {
             try
             {
-                ShowSpinner = true;
+                IsBusy = true;
                 var token = await DependencyService.Get<IGoogleLoginClient>().LoginAsync();
                 await OAuthLogin(OAuthCredentialProviders.Google, token);
             }
             catch (OperationCanceledException)
             {
-                ShowSpinner = false;
-                //await Shell.Current.DisplayAlert("Google Login", "Cancelled", "OK");
+                IsBusy = false;
             }
             catch (Exception ex)
             {
-                ShowSpinner = false;
+                IsBusy = false;
                 await Shell.Current.DisplayAlert("Google Login", ex.Message, "OK");
             }
         }
 
 
+        
         private async Task OAuthLogin(OAuthCredentialProviders provider, string token)
         {
             try
             {
                 var dpToken = await App.API.Auth.OAuthLoginAsync(new OAuthCredentials { Provider = provider, Token = token });
-                dpToken.ThrowIfError();
-                await Shell.Current.DisplayAlert("Login", "Success!", "OK");
+                await ValidateTokenAndGoToProfiles(dpToken);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+                await Shell.Current.DisplayAlert("Dusty Pig Error", ex.Message, "OK");
             }
 
-            ShowSpinner = false;
+            IsBusy = false;
         }
 
 
-        
+        private async Task ValidateTokenAndGoToProfiles(Response<string> dpToken)
+        {
+            dpToken.ThrowIfError();
+            App.API.Token = dpToken.Data;
+            await Shell.Current.GoToAsync(nameof(SelectProfilePage));
+        }
     }
 }

@@ -2,6 +2,7 @@
     Based largely on https://github.com/CrossGeeks/FacebookClientPlugin 
 */
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
+using DustyPig.Mobile.iOS.CrossPlatform.SocialLogin;
 using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
@@ -10,8 +11,8 @@ using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(GoogleLoginClientImplementation))]
-namespace DustyPig.Mobile.CrossPlatform.SocialLogin
+[assembly: Dependency(typeof(FacebookLoginClientImplementation))]
+namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
 {
     public class FacebookLoginClientImplementation : IFacebookLoginClient
     {

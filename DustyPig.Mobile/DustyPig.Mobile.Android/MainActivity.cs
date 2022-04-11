@@ -3,8 +3,9 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using DustyPig.Mobile.CrossPlatform.Orientation;
-using DustyPig.Mobile.CrossPlatform.SocialLogin;
+using DustyPig.Mobile.Droid.CrossPlatform;
+using DustyPig.Mobile.Droid.CrossPlatform.Orientation;
+using DustyPig.Mobile.Droid.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
 using Java.Security;
 using System;
@@ -33,6 +34,8 @@ namespace DustyPig.Mobile.Droid
             GoogleLoginClientImplementation.Init(this);
 
             ScreenImplementation.Init(this);
+            
+            PopupImplemention.Init(this, Resource.Style.MainTheme_AlertDialog);
             
             CachedImageRenderer.Init(true);
 

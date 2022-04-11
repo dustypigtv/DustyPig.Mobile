@@ -2,23 +2,37 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.Essentials;
 
 namespace DustyPig.Mobile.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class _BaseViewModel : INotifyPropertyChanged
     {
-        bool isBusy = false;
-        public bool IsBusy
+        public _BaseViewModel()
         {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
+            NoInternet = (int)Connectivity.NetworkAccess < 3;
+            Connectivity.ConnectivityChanged += (sender, e) => NoInternet = (int)e.NetworkAccess < 3;
         }
 
-        string title = string.Empty;
+        bool _isBusy = false;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
+        string _title = string.Empty;
         public string Title
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get => _title;
+            set => SetProperty(ref _title, value);
+        }
+
+        private bool _noInternet;
+        public bool NoInternet
+        {
+            get => _noInternet;
+            set => SetProperty(ref _noInternet, value);
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,
@@ -43,7 +57,7 @@ namespace DustyPig.Mobile.ViewModels
                 return;
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        }       
         #endregion
     }
 }

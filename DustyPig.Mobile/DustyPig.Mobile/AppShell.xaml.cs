@@ -4,17 +4,16 @@ using Xamarin.Forms;
 
 namespace DustyPig.Mobile
 {
-    public partial class AppShell : Xamarin.Forms.Shell
+    public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
             DependencyService.Get<IScreen>().SetOrientation(false);
 
-            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-
-
-            CurrentItem = new ShellContent { ContentTemplate = new DataTemplate(typeof(LoginPage)) };
+            Routing.RegisterRoute(nameof(SignupPage), typeof(SignupPage));
+            Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
+            Routing.RegisterRoute(nameof(SelectProfilePage), typeof(SelectProfilePage));
         }
 
     }

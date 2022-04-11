@@ -1,10 +1,11 @@
-﻿using Xamarin.Forms;
+﻿using DustyPig.Mobile.Views;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile
 {
     public partial class App : Application
     {
-        private static readonly API.v3.Client _client = new API.v3.Client();
+        internal static readonly API.v3.Client API = new API.v3.Client();
 
         public App()
         {
@@ -23,15 +24,5 @@ namespace DustyPig.Mobile
         protected override void OnResume()
         {
         }
-
-
-
-
-
-        public static API.v3.Client API => _client;
-
-
-
-        
     }
 }

@@ -66,6 +66,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CrossPlatform\PopupImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\GoogleLoginClientImplementation.cs" />
     <Compile Include="CustomButtonRenderer.cs" />

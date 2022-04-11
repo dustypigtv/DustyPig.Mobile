@@ -18,6 +18,13 @@
 	<item name="android:textAllCaps">false</item>
   </style>
 
+	<style name="MainTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+		<item name="android:colorBackground">#333333</item>
+		<item name="android:textColor">#FFFFFF</item>
+		<item name="android:textColorPrimary">#FFFFFF</item>
+		<item name="colorAccent">#FFFFFF</item>
+	</style>
+	
 	<style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="android:windowBackground">@drawable/splash_screen</item>
 		<item name="android:windowNoTitle">true</item>

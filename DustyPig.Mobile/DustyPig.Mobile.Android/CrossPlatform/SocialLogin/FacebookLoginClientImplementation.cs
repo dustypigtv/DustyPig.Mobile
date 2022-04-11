@@ -4,6 +4,7 @@
 using Android.App;
 using Android.Content;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
+using DustyPig.Mobile.Droid.CrossPlatform.SocialLogin;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using Xamarin.Facebook.Login;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(FacebookLoginClientImplementation))]
-namespace DustyPig.Mobile.CrossPlatform.SocialLogin
+namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
 {
     public class FacebookLoginClientImplementation : IFacebookLoginClient
     {

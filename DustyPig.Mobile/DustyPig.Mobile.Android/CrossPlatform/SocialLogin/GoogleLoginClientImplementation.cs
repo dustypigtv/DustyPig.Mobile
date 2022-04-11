@@ -9,12 +9,13 @@ using Android.Gms.Common.Apis;
 using Android.Gms.Tasks;
 using Android.Runtime;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
+using DustyPig.Mobile.Droid.CrossPlatform.SocialLogin;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(GoogleLoginClientImplementation))]
-namespace DustyPig.Mobile.CrossPlatform.SocialLogin
+namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
 {
     public class GoogleLoginClientImplementation : Java.Lang.Object, IGoogleLoginClient, IOnCompleteListener
     {

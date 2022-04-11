@@ -1,5 +1,5 @@
-﻿using DustyPig.Mobile.CrossPlatform.Orientation;
-using DustyPig.Mobile.CrossPlatform.SocialLogin;
+﻿using DustyPig.Mobile.iOS.CrossPlatform.Orientation;
+using DustyPig.Mobile.iOS.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using ObjCRuntime;
