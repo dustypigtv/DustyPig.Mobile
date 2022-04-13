@@ -16,31 +16,31 @@
     <ShellContent Route="StartupPage" ContentTemplate="{DataTemplate local:StartupPage}" />
 
     <TabBar Route="Main">
-        <ShellContent ContentTemplate="{DataTemplate local:HomePage}">
+        <ShellContent Route="Home" ContentTemplate="{DataTemplate local:HomePage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.House}" />
             </ShellContent.Icon>
         </ShellContent>
         
-        <ShellContent ContentTemplate="{DataTemplate local:MoviesPage}">
+        <ShellContent Route="Movies" ContentTemplate="{DataTemplate local:MoviesPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Film}" />
             </ShellContent.Icon>
         </ShellContent>
         
-        <ShellContent ContentTemplate="{DataTemplate local:SeriesPage}">
+        <ShellContent Route="Series" ContentTemplate="{DataTemplate local:SeriesPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Tv}" />
             </ShellContent.Icon>
         </ShellContent>
         
-        <ShellContent ContentTemplate="{DataTemplate local:DownloadsPage}">
+        <ShellContent Route="Downloads" ContentTemplate="{DataTemplate local:DownloadsPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" />
             </ShellContent.Icon>
         </ShellContent>
         
-        <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}">
+        <ShellContent Route="Settings" ContentTemplate="{DataTemplate local:SettingsPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Gear}" />
             </ShellContent.Icon>
