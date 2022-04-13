@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:233400762141:android:2f0515f2849adc98c22bf4",
+        "mobilesdk_app_id": "1:233400762141:android:31157b4f732fe135c22bf4",
         "android_client_info": {
           "package_name": "tv.dustypig.dustypig"
         }
@@ -42,7 +42,7 @@
               "client_id": "233400762141-vdjlpbv4vc8fgdgbjgooga87avgev9nr.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "td.dustypig.dustypig",
+                "bundle_id": "tv.dustypig.dustypig",
                 "app_store_id": "1549161189"
               }
             }

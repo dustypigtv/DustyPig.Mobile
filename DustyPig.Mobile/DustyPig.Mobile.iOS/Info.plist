@@ -45,7 +45,6 @@
 	<array>
 		<string>Roboto-Medium.ttf</string>
 	</array>
-
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -55,6 +54,16 @@
 			<array>
 				<string>fb1082703882261587</string>
 			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Google Services</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.233400762141-vdjlpbv4vc8fgdgbjgooga87avgev9nr</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 		</dict>
 	</array>
 	<key>FacebookAppID</key>

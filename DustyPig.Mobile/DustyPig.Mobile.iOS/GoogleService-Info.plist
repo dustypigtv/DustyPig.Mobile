@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>233400762141-vdjlpbv4vc8fgdgbjgooga87avgev9nr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.233400762141-vdjlpbv4vc8fgdgbjgooga87avgev9nr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>233400762141-u56v45dmgvhvkfje6qe86rh3snot6jtp.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBwwlqCyT5Lo7tj3McqRgjpr2vk33CcLFE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>233400762141</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>tv.dustypig.dustypig</string>
+	<key>PROJECT_ID</key>
+	<string>dusty-pig</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dusty-pig.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:233400762141:ios:7aca6639c14ae7c6c22bf4</string>
+</dict>
+</plist>

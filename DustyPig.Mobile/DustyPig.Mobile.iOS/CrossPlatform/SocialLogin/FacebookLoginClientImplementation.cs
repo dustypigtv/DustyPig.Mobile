@@ -7,6 +7,7 @@ using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
@@ -16,6 +17,8 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
 {
     public class FacebookLoginClientImplementation : IFacebookLoginClient
     {
+        private const string URL_SCHEME = "fb1082703882261587:";
+
         private static readonly LoginManager _loginManager = new LoginManager();
 
         public static void Init(UIApplication app, NSDictionary options)
@@ -70,9 +73,9 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 }
                 else
                 {
-                    //If(result.DeclinedPermissions.Any("email"))
-                    //  loginTask.TrySetException(EmailException);
-                    //else
+                    if(result.DeclinedPermissions.Any(item => item.ToString() == "email"))
+                      loginTask.TrySetException(EmailException);
+                    else
                         loginTask.TrySetResult(result.Token.TokenString);
                 }
             });

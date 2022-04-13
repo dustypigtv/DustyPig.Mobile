@@ -32,7 +32,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
 
             alertController.AddAction(okAction);
 
-            var currentViewController = GetTopViewControllerWithRootViewController(UIApplication.SharedApplication.Delegate.GetWindow().RootViewController);
+            var currentViewController = Utils.GetTopViewControllerWithRootViewController();
             currentViewController.PresentViewController(alertController, true, null);
 
             return taskCompletionSource.Task;
@@ -66,35 +66,10 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
             alertController.AddAction(cancelAction);
             alertController.AddAction(okAction);
 
-            var currentViewController = GetTopViewControllerWithRootViewController(UIApplication.SharedApplication.Delegate.GetWindow().RootViewController);
+            var currentViewController = Utils.GetTopViewControllerWithRootViewController();
             currentViewController.PresentViewController(alertController, true, null);
 
             return taskCompletionSource.Task;
-        }
-
-
-
-        UIViewController GetTopViewControllerWithRootViewController(UIViewController rootViewController)
-        {
-            if (rootViewController is UITabBarController)
-            {
-                UITabBarController tabBarController = (UITabBarController)rootViewController;
-                return GetTopViewControllerWithRootViewController(tabBarController.SelectedViewController);
-            }
-            else if (rootViewController is UINavigationController)
-            {
-                UINavigationController navigationController = (UINavigationController)rootViewController;
-                return GetTopViewControllerWithRootViewController(navigationController.VisibleViewController);
-            }
-            else if (rootViewController.PresentedViewController != null)
-            {
-                UIViewController presentedViewController = rootViewController.PresentedViewController;
-                return GetTopViewControllerWithRootViewController(presentedViewController);
-            }
-            else
-            {
-                return rootViewController;
-            }
         }
     }
 }

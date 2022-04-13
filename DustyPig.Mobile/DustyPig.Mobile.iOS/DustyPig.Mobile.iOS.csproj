@@ -72,7 +72,9 @@
     <Compile Include="CustomButtonRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Utils.cs" />
     <None Include="Entitlements.plist" />
+    <BundleResource Include="GoogleService-Info.plist" />
     <None Include="Info.plist" />
     <Compile Include="CrossPlatform\Orientation\ScreenImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +165,9 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.iOS.SignIn">
+      <Version>5.0.2.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

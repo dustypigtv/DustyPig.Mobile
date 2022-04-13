@@ -36,7 +36,7 @@ namespace DustyPig.Mobile.iOS
 
             FacebookLoginClientImplementation.Init(app, options);
 
-            
+            GoogleLoginClientImplementation.Initialize();
             
             return base.FinishedLaunching(app, options);
         }
@@ -54,12 +54,21 @@ namespace DustyPig.Mobile.iOS
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-            return FacebookLoginClientImplementation.OpenUrl(app, url, options);
+            if (FacebookLoginClientImplementation.OpenUrl(app, url, options))
+                return true;
+
+            if (GoogleLoginClientImplementation.OpenUrl(app, url, options))
+                return true;
+
+            return base.OpenUrl(app, url, options);
         }
 
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
-            return FacebookLoginClientImplementation.OpenUrl(application, url, sourceApplication, annotation);
+            if (FacebookLoginClientImplementation.OpenUrl(application, url, sourceApplication, annotation))
+                return true;            
+
+            return base.OpenUrl(application, url, sourceApplication, annotation);
         }
     }
 }
