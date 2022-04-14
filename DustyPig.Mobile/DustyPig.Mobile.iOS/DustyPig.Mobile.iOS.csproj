@@ -69,9 +69,10 @@
     <Compile Include="CrossPlatform\PopupImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\GoogleLoginClientImplementation.cs" />
-    <Compile Include="CustomButtonRenderer.cs" />
+    <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Utils.cs" />
     <None Include="Entitlements.plist" />
     <BundleResource Include="GoogleService-Info.plist" />

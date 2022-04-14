@@ -35,13 +35,16 @@
                 <Setter Property="BackgroundColor" Value="Black" />
             </Style>
 
-
-
+            
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="White" />
             </Style>
 
-
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="PlaceholderColor" Value="{x:Static dpcc:Theme.Placeholder}" />
+            </Style>
 
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="Black"></Setter>

@@ -1,5 +1,5 @@
 ﻿using DustyPig.Mobile;
-using DustyPig.Mobile.iOS;
+using DustyPig.Mobile.iOS.Renderers;
 using System;
 using System.ComponentModel;
 using UIKit;
@@ -7,7 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 [assembly: ExportRenderer(typeof(CustomButton), typeof(CustomButtonRenderer))]
-namespace DustyPig.Mobile.iOS
+namespace DustyPig.Mobile.iOS.Renderers
 {
     public class CustomButtonRenderer : ButtonRenderer
     {

@@ -1,13 +1,13 @@
 ﻿using Android.Content;
 using Android.Views;
 using DustyPig.Mobile;
-using DustyPig.Mobile.Droid;
+using DustyPig.Mobile.Droid.Renderers;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android.AppCompat;
 
 [assembly: ExportRenderer(typeof(CustomButton), typeof(CustomButtonRenderer))]
-namespace DustyPig.Mobile.Droid
+namespace DustyPig.Mobile.Droid.Renderers
 {
     public class CustomButtonRenderer : ButtonRenderer
     {

@@ -85,10 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrossPlatform\PopupImplementation.cs" />
-    <Compile Include="CustomButtonRenderer.cs" />
+    <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="CrossPlatform\Orientation\ScreenImplementation.cs" />
+    <Compile Include="Renderers\MyShellRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CrossPlatform\SocialLogin\GoogleLoginClientImplementation.cs" />

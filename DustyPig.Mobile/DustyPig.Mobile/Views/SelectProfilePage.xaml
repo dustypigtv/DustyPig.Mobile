@@ -1,12 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DustyPig.Mobile.Views.SelectProfilePage">
+             x:Class="DustyPig.Mobile.Views.SelectProfilePage"
+             Title="Who's Watching?">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        
+        <StackLayout 
+            HorizontalOptions="Fill" 
+            VerticalOptions="FillAndExpand">
+
+            <ActivityIndicator 
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                IsVisible="False"
+                IsRunning="False" />
+
+            <ScrollView IsVisible="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--
+                    <Label Grid.Column="1" Grid.Row="1" VerticalTextAlignment="End" Text="Who's Watching?" FontSize="Large" HorizontalOptions="Center" FontAttributes="Bold" />
+
+                    <ListView Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Users}" ItemTapped="OnItemTapped" SelectionMode="None">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Name}" />
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    -->
+                </Grid>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

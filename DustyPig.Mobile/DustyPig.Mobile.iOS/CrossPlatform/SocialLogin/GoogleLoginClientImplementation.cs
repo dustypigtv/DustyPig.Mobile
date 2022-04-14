@@ -6,9 +6,6 @@ using DustyPig.Mobile.iOS.CrossPlatform.SocialLogin;
 using Foundation;
 using Google.SignIn;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
@@ -52,17 +49,9 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 user.Authentication.GetTokens((Authentication authentication, NSError tokenError) =>
                 {
                     if (tokenError == null)
-                    {
-
-                        //_accessToken = authentication.AccessToken;
-                        //_idToken = authentication.IdToken;
                         _taskCompletionSource.TrySetResult(authentication.IdToken);
-                    }
                     else
-                    {
                         _taskCompletionSource.TrySetException(new Exception(tokenError.Description));
-                    }
-
                 });
             }
             else

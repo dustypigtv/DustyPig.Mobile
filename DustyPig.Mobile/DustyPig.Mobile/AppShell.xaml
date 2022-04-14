@@ -4,7 +4,11 @@
        xmlns:local="clr-namespace:DustyPig.Mobile.Views"
        xmlns:dpcc="clr-namespace:DustyPig"
        Title="Dusty Pig"
-       x:Class="DustyPig.Mobile.AppShell">
+       BackgroundColor="Black"
+       TitleColor="White"
+       ForegroundColor="White"
+       x:Class="DustyPig.Mobile.AppShell"
+       >
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.

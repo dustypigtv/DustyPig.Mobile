@@ -19,14 +19,34 @@ namespace DustyPig.Mobile.Droid
         {
 
 #if DEBUG
-            PrintHashKey();
+            //Print the signing hashes
+            try
+            {
+                PackageInfo info = Application.Context.PackageManager.GetPackageInfo(Application.Context.PackageName, PackageInfoFlags.SigningCertificates);
+                foreach (var signature in info.SigningInfo.GetApkContentsSigners())
+                {
+                    MessageDigest md = MessageDigest.GetInstance("SHA");
+                    md.Update(signature.ToByteArray());
+                    System.Diagnostics.Debug.WriteLine("");
+                    System.Diagnostics.Debug.WriteLine("***** SIGNING HASH *****");
+                    System.Diagnostics.Debug.WriteLine(BitConverter.ToString(md.Digest()).Replace("-", ":"));
+                    System.Diagnostics.Debug.WriteLine("");
+                }
+            }
+            catch (NoSuchAlgorithmException e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
+            catch (System.Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
 #endif
 
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-
 
             FacebookLoginClientImplementation.Init(this);
             Xamarin.Facebook.AppEvents.AppEventsLogger.ActivateApp(Application, Resources.GetString(Resource.String.facebook_app_id));
@@ -47,7 +67,6 @@ namespace DustyPig.Mobile.Droid
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
@@ -58,35 +77,5 @@ namespace DustyPig.Mobile.Droid
             FacebookLoginClientImplementation.OnActivityResult(requestCode, resultCode, intent);
             GoogleLoginClientImplementation.OnAuthCompleted(requestCode, intent);
         }
-
-#if DEBUG
-        private static void PrintHashKey()
-        {
-            try
-            {
-                PackageInfo info = Application.Context.PackageManager.GetPackageInfo(Application.Context.PackageName, PackageInfoFlags.SigningCertificates);
-                foreach (var signature in info.SigningInfo.GetApkContentsSigners())
-                {
-                    MessageDigest md = MessageDigest.GetInstance("SHA");
-                    md.Update(signature.ToByteArray());
-
-                    System.Diagnostics.Debug.WriteLine("");
-                    System.Diagnostics.Debug.WriteLine("***** SIGNING HASH *****");
-                    System.Diagnostics.Debug.WriteLine(BitConverter.ToString(md.Digest()).Replace("-", ":"));
-                    System.Diagnostics.Debug.WriteLine("");
-
-                }
-            }
-            catch (NoSuchAlgorithmException e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-            }
-        }
-#endif
-
     }
 }

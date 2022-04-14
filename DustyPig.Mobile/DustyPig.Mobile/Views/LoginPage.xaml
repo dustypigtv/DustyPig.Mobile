@@ -101,7 +101,7 @@
 
                         <!-- Login -->
                         <Button 
-                        Grid.Row="3" 
+                            Grid.Row="3" 
                             Grid.Column="1" 
                             Text="Login"
                             Command="{Binding LoginButtonCommand}" />
@@ -123,6 +123,7 @@
                                 HorizontalTextAlignment="Start"
                                 Padding="0,0,0,0"
                                 BackgroundColor="Transparent"
+                                TextColor="White"
                                 Text="Signup"
                                 Command="{Binding SignupCommand}" />
 
@@ -133,6 +134,7 @@
                                 Padding="10,0,0,0"
                                 BackgroundColor="Transparent"
                                 Text="Forgot Password"
+                                TextColor="White"
                                 Command="{Binding ForgotPasswordCommand}" />
 
                         </Grid>
