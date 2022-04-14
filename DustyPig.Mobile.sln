@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DustyPig.Mobile.Android", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DustyPig.Mobile.iOS", "DustyPig.Mobile\DustyPig.Mobile.iOS\DustyPig.Mobile.iOS.csproj", "{7387DEB9-1870-4F77-B228-A7DA45C24507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DustyPig.Mobile", "DustyPig.Mobile\DustyPig.Mobile\DustyPig.Mobile.csproj", "{C6292328-9C1B-4538-91D6-5714B383DA2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DustyPig.Mobile", "DustyPig.Mobile\DustyPig.Mobile\DustyPig.Mobile.csproj", "{C6292328-9C1B-4538-91D6-5714B383DA2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{32947C24-C026-48E0-97F3-54737E55D3E8}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,6 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{850045D9-55D2-413E-8C3D-7194C50C3D81}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\auto_build.yml = .github\workflows\auto_build.yml
+		.github\workflows\Building CI_CD for Xamarin apps with GitHub Actions.pdf = .github\workflows\Building CI_CD for Xamarin apps with GitHub Actions.pdf
 	EndProjectSection
 EndProject
 Global
