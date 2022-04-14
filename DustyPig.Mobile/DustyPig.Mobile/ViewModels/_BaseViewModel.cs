@@ -57,7 +57,7 @@ namespace DustyPig.Mobile.ViewModels
                 return;
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }       
+        }
         #endregion
     }
 }

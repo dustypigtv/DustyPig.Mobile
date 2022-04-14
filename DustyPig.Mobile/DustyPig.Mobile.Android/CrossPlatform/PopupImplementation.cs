@@ -20,7 +20,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform
 
         public Task Alert(string title, string message)
         {
-            TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>(); 
+            TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
             var builder = new Android.Support.V7.App.AlertDialog.Builder(_activity, _themeId);
             builder
@@ -30,7 +30,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform
                 {
                     taskCompletionSource.TrySetResult(true);
                 });
-            
+
             var dialog = builder.Create();
             builder.Dispose();
 

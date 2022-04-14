@@ -23,7 +23,7 @@ namespace DustyPig.Mobile.Droid.Renderers
 
     public class MyShellToolbarTracker : ShellToolbarTracker
     {
-        public MyShellToolbarTracker(IShellContext shellContext, AndroidX.AppCompat.Widget.Toolbar toolbar, AndroidX.DrawerLayout.Widget.DrawerLayout drawerLayout) 
+        public MyShellToolbarTracker(IShellContext shellContext, AndroidX.AppCompat.Widget.Toolbar toolbar, AndroidX.DrawerLayout.Widget.DrawerLayout drawerLayout)
             : base(shellContext, toolbar, drawerLayout)
         {
         }

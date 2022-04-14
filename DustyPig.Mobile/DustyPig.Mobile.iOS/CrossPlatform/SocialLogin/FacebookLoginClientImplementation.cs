@@ -51,7 +51,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
             TaskCompletionSource<string> loginTask = new TaskCompletionSource<string>();
 
             var vc = UIApplication.SharedApplication.KeyWindow.RootViewController;
-            while(vc.PresentedViewController != null)
+            while (vc.PresentedViewController != null)
             {
                 vc = vc.PresentedViewController;
             }
@@ -73,8 +73,8 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 }
                 else
                 {
-                    if(result.DeclinedPermissions.Any(item => item.ToString() == "email"))
-                      loginTask.TrySetException(EmailException);
+                    if (result.DeclinedPermissions.Any(item => item.ToString() == "email"))
+                        loginTask.TrySetException(EmailException);
                     else
                         loginTask.TrySetResult(result.Token.TokenString);
                 }

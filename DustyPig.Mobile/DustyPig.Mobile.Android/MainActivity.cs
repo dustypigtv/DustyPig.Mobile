@@ -12,7 +12,7 @@ using System;
 
 namespace DustyPig.Mobile.Droid
 {
-    [Activity(Label = "Dusty Pig", LaunchMode = LaunchMode.SingleTop, Icon = "@mipmap/icon", Theme = "@style/SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize )]
+    [Activity(Label = "Dusty Pig", LaunchMode = LaunchMode.SingleTop, Icon = "@mipmap/icon", Theme = "@style/SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -54,9 +54,9 @@ namespace DustyPig.Mobile.Droid
             GoogleLoginClientImplementation.Init(this);
 
             ScreenImplementation.Init(this);
-            
+
             PopupImplemention.Init(this, Resource.Style.MainTheme_AlertDialog);
-            
+
             CachedImageRenderer.Init(true);
 
             SetTheme(Resource.Style.MainTheme);

@@ -55,8 +55,8 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 });
             }
             else
-            {                
-               _taskCompletionSource.TrySetException(new Exception(error.Description));
+            {
+                _taskCompletionSource.TrySetException(new Exception(error.Description));
             }
         }
     }

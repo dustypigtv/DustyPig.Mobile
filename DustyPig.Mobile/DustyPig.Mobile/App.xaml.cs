@@ -1,5 +1,4 @@
-﻿using DustyPig.Mobile.Views;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace DustyPig.Mobile
 {

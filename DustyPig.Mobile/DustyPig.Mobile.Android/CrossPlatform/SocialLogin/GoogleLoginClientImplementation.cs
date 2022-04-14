@@ -68,7 +68,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
         {
             if (requestCode != AUTH_ACTIVITY_ID)
                 return;
-            
+
             GoogleSignIn.GetSignedInAccountFromIntent(intent).AddOnCompleteListener(_instance as IOnCompleteListener);
         }
     }

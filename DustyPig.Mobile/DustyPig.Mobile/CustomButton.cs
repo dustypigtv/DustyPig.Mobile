@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace DustyPig.Mobile
 {
-    public class CustomButton : Button 
+    public class CustomButton : Button
     {
 
         public static readonly BindableProperty HorizontalTextAlignmentProperty =

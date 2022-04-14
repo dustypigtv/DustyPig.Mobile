@@ -9,7 +9,7 @@ namespace DustyPig.Mobile.Services
 
         private const string AUTO_SKIP_INTRO_KEY = "auto_skip_intro";
         private const string AUTO_PLAY_NEXT_KEY = "auto_play_next";
-        
+
         public static bool AutoPlayNext
         {
             get => Preferences.Get(AUTO_PLAY_NEXT_KEY, false);

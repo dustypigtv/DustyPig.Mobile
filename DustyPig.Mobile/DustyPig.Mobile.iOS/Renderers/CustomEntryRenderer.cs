@@ -1,9 +1,4 @@
 ﻿using DustyPig.Mobile.iOS.Renderers;
-using Foundation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
@@ -21,7 +16,6 @@ namespace DustyPig.Mobile.iOS.Renderers
             {
                 Control.Layer.BorderColor = UIColor.FromRGB(Theme.Placeholder.R, Theme.Placeholder.G, Theme.Placeholder.B).CGColor;
                 Control.Layer.BorderWidth = 1;
-                //Control.BorderStyle = UITextBorderStyle.None;
             }
         }
     }

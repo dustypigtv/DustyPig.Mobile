@@ -18,7 +18,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
     public class FacebookLoginClientImplementation : IFacebookLoginClient
     {
         private static readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
-        
+
         private static Activity _activity;
 
         private readonly LoginCallback _loginCallback;
@@ -49,7 +49,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
                 }
             };
 
-            LoginManager.Instance.RegisterCallback(_callbackManager, _loginCallback);            
+            LoginManager.Instance.RegisterCallback(_callbackManager, _loginCallback);
         }
 
         public static void OnActivityResult(int requestCode, Result resultCode, Intent intent) =>
@@ -70,10 +70,10 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
             //Attempting to use the native fb app.  Until Xamarin.Facebook.Login.Android 
             //is updated to SDK v12.2, I have to force WebOnly
             LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
-            
-            
+
+
             LoginManager.Instance.LogInWithReadPermissions(_activity, new string[] { "email" }.ToList());
-           
+
             return _loginTaskCompletionSource.Task;
         }
     }

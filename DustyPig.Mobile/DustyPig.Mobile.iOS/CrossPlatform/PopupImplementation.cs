@@ -55,9 +55,9 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
                 taskCompletionSource.TrySetResult(false);
             });
 
-            UIAlertAction okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (sender) => 
+            UIAlertAction okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (sender) =>
             {
-                taskCompletionSource.TrySetResult(true); 
+                taskCompletionSource.TrySetResult(true);
             });
 
 

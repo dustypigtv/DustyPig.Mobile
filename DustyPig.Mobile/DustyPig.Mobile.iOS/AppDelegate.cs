@@ -24,10 +24,10 @@ namespace DustyPig.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            
+
             //FFImageLoading
             CachedImageRenderer.Init();
-            
+
 
             LoadApplication(new App());
 
@@ -37,7 +37,7 @@ namespace DustyPig.Mobile.iOS
             FacebookLoginClientImplementation.Init(app, options);
 
             GoogleLoginClientImplementation.Initialize();
-            
+
             return base.FinishedLaunching(app, options);
         }
 
@@ -66,7 +66,7 @@ namespace DustyPig.Mobile.iOS
         public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
         {
             if (FacebookLoginClientImplementation.OpenUrl(application, url, sourceApplication, annotation))
-                return true;            
+                return true;
 
             return base.OpenUrl(application, url, sourceApplication, annotation);
         }

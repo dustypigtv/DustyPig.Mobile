@@ -1,5 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using DustyPig.Mobile.Views;
 using DustyPig.REST;
@@ -23,9 +22,9 @@ namespace DustyPig.Mobile.ViewModels
         public bool AppleButtonVisible => Device.RuntimePlatform == Device.iOS;
 
         public int AppleButtonOrder => (Device.RuntimePlatform == Device.iOS ? 0 : 2) + 6;
-        
+
         public int GoogleButtonOrder => (Device.RuntimePlatform == Device.iOS ? 1 : 0) + 6;
-        
+
         public int FacebookButtonOrder => (Device.RuntimePlatform == Device.iOS ? 2 : 1) + 6;
 
 
@@ -69,13 +68,13 @@ namespace DustyPig.Mobile.ViewModels
             return true;
         }
 
-        
+
         public Command LoginButtonCommand { get; }
         private async Task OnLoginButtonCommand()
         {
             ShowError = false;
             IsBusy = true;
-            
+
             try
             {
                 var dpToken = await App.API.Auth.PasswordLoginAsync(new PasswordCredentials
@@ -108,7 +107,7 @@ namespace DustyPig.Mobile.ViewModels
             {
                 IsBusy = true;
                 var token = await DependencyService.Get<IFacebookLoginClient>().LoginAsync();
-                await OAuthLogin(OAuthCredentialProviders.Facebook, token);     
+                await OAuthLogin(OAuthCredentialProviders.Facebook, token);
             }
             catch (OperationCanceledException)
             {
@@ -143,7 +142,7 @@ namespace DustyPig.Mobile.ViewModels
         }
 
 
-        
+
         private async Task OAuthLogin(OAuthCredentialProviders provider, string token)
         {
             try

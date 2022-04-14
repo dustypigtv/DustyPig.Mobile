@@ -30,7 +30,7 @@ namespace DustyPig.Mobile
             Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
             Routing.RegisterRoute(nameof(SelectProfilePage), typeof(SelectProfilePage));
 
-            
+
         }
 
         protected override void OnNavigated(ShellNavigatedEventArgs args)
@@ -80,9 +80,9 @@ namespace DustyPig.Mobile
 
         protected override bool OnBackButtonPressed()
         {
-            if(CurrentItem.Route == "Main")
+            if (CurrentItem.Route == "Main")
             {
-                if(TabPageTypes.Contains(CurrentPage.GetType()))
+                if (TabPageTypes.Contains(CurrentPage.GetType()))
                 {
                     var tabBar = CurrentItem as TabBar;
 
@@ -107,6 +107,6 @@ namespace DustyPig.Mobile
             return base.OnBackButtonPressed();
         }
 
-        
+
     }
 }
