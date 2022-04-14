@@ -21,9 +21,10 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
         {
             var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
             SignIn.SharedInstance.ClientId = googleServiceDictionary["CLIENT_ID"].ToString();
+            
         }
 
-
+        
         public Task<string> LoginAsync()
         {
             _taskCompletionSource = new TaskCompletionSource<string>();
@@ -51,7 +52,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                     if (tokenError == null)
                         _taskCompletionSource.TrySetResult(authentication.IdToken);
                     else
-                        _taskCompletionSource.TrySetException(new Exception(tokenError.Description));
+                        _taskCompletionSource.TrySetException(new Exception(tokenError.LocalizedDescription));
                 });
             }
             else
