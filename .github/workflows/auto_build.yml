@@ -9,9 +9,19 @@ jobs:
     name: Build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Set default Xamarin SDK versions
         run: $VM_ASSETS/select-xamarin-sdk-v2.sh
+
+      - name: Setup iOS Certificates
+        uses: apple-actions/import-codesign-certs@v1
+        with: 
+            p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+            p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
+            keychain: github-actions-xamarin
+            keychain-password: ''
     
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -24,6 +34,7 @@ jobs:
 
       - name: Build Android
         run: msbuild DustyPig.Mobile/DustyPig.Mobile.Android/DustyPig.Mobile.Android.csproj /t:PackageForAndroid /p:Configuration=Debug
+
 
       - name: Build iOS
         run: msbuild DustyPig.Mobile/DustyPig.Mobile.iOS/DustyPig.Mobile.iOS.csproj /p:Configuration=Debug /p:Platform=iPhoneSimulator /t:Rebuild
