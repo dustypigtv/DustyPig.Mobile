@@ -19,14 +19,9 @@ namespace DustyPig.Mobile.ViewModels
             GoogleLoginCommand = new Command(async () => await OnGoogleLoginCommand());
         }
 
-        public bool AppleButtonVisible => Device.RuntimePlatform == Device.iOS;
+        public bool ShowAppleButton => Device.RuntimePlatform == Device.iOS;
 
-        public int AppleButtonOrder => (Device.RuntimePlatform == Device.iOS ? 0 : 2) + 6;
-
-        public int GoogleButtonOrder => (Device.RuntimePlatform == Device.iOS ? 1 : 0) + 6;
-
-        public int FacebookButtonOrder => (Device.RuntimePlatform == Device.iOS ? 2 : 1) + 6;
-
+        
 
         private bool _showError;
         public bool ShowError
