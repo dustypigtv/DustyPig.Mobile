@@ -15,5 +15,10 @@ namespace DustyPig.Mobile.Views
         }
 
         public LoginViewModel VM { get; }
+
+        private void AppleSignInButton_SignIn(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

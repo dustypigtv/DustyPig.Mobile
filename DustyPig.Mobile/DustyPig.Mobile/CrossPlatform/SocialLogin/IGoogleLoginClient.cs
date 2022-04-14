@@ -1,9 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace DustyPig.Mobile.CrossPlatform.SocialLogin
+﻿namespace DustyPig.Mobile.CrossPlatform.SocialLogin
 {
-    public interface IGoogleLoginClient
-    {
-        Task<string> LoginAsync();
-    }
+    public interface IGoogleLoginClient : ISocialLoginClient { }
 }

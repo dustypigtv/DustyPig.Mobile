@@ -4,6 +4,7 @@ using DustyPig.Mobile.Views;
 using DustyPig.REST;
 using System;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.ViewModels
@@ -12,16 +13,19 @@ namespace DustyPig.Mobile.ViewModels
     {
         public LoginViewModel()
         {
-            LoginButtonCommand = new Command(async () => await OnLoginButtonCommand(), ValidateCredentialInput);
-            SignupCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(SignupPage)));
-            ForgotPasswordCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(ForgotPasswordPage)));
-            FacebookLoginCommand = new Command(async () => await OnFacebookLoginCommand());
-            GoogleLoginCommand = new Command(async () => await OnGoogleLoginCommand());
+            LoginButtonCommand = new AsyncCommand(OnLoginButtonCommand, allowsMultipleExecutions: false);
+
+            AppleLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Apple, DependencyService.Get<IAppleLoginClient>()), allowsMultipleExecutions: false);
+            GoogleLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Google, DependencyService.Get<IGoogleLoginClient>()), allowsMultipleExecutions: false);
+            FacebookLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Facebook, DependencyService.Get<IFacebookLoginClient>()), allowsMultipleExecutions: false);
         }
 
         public bool ShowAppleButton => Device.RuntimePlatform == Device.iOS;
 
-        
+        public AsyncCommand SignupCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SignupPage)), allowsMultipleExecutions: false);
+
+        public AsyncCommand ForgotPasswordCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(ForgotPasswordPage)), allowsMultipleExecutions: false);
+
 
         private bool _showError;
         public bool ShowError
@@ -64,7 +68,7 @@ namespace DustyPig.Mobile.ViewModels
         }
 
 
-        public Command LoginButtonCommand { get; }
+        public AsyncCommand LoginButtonCommand { get; }
         private async Task OnLoginButtonCommand()
         {
             ShowError = false;
@@ -89,57 +93,37 @@ namespace DustyPig.Mobile.ViewModels
 
 
 
-        public Command SignupCommand { get; }
+        
+        public AsyncCommand AppleLoginCommand { get; }
+        
+        public AsyncCommand GoogleLoginCommand { get; }
 
-        public Command ForgotPasswordCommand { get; }
+        public AsyncCommand FacebookLoginCommand { get; }
 
 
-
-        public Command FacebookLoginCommand { get; }
-        private async Task OnFacebookLoginCommand()
+        private async Task SocialProviderLogin(OAuthCredentialProviders provider, ISocialLoginClient client)
         {
+            string token;
             try
             {
                 IsBusy = true;
-                var token = await DependencyService.Get<IFacebookLoginClient>().LoginAsync();
-                await OAuthLogin(OAuthCredentialProviders.Facebook, token);
+                token = await client.LoginAsync();
+                if (string.IsNullOrEmpty(token))
+                    throw new Exception("Could not get sign in token from provider");
             }
             catch (OperationCanceledException)
             {
                 IsBusy = false;
+                return;
             }
             catch (Exception ex)
             {
                 IsBusy = false;
-                await Shell.Current.DisplayAlert("Facebook Login", ex.Message, "OK");
+                await Shell.Current.DisplayAlert(provider.ToString() + " Login", ex.Message, "OK");
+                return;
             }
-        }
 
 
-        public Command GoogleLoginCommand { get; }
-        private async Task OnGoogleLoginCommand()
-        {
-            try
-            {
-                IsBusy = true;
-                var token = await DependencyService.Get<IGoogleLoginClient>().LoginAsync();
-                await OAuthLogin(OAuthCredentialProviders.Google, token);
-            }
-            catch (OperationCanceledException)
-            {
-                IsBusy = false;
-            }
-            catch (Exception ex)
-            {
-                IsBusy = false;
-                await Shell.Current.DisplayAlert("Google Login", ex.Message, "OK");
-            }
-        }
-
-
-
-        private async Task OAuthLogin(OAuthCredentialProviders provider, string token)
-        {
             try
             {
                 var dpToken = await App.API.Auth.OAuthLoginAsync(new OAuthCredentials { Provider = provider, Token = token });

@@ -1,4 +1,4 @@
-﻿using DustyPig.Mobile;
+﻿using DustyPig.Mobile.Controls;
 using DustyPig.Mobile.iOS.Renderers;
 using System;
 using System.ComponentModel;

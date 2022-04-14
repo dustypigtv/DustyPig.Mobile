@@ -50,11 +50,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Distribution: Jason Davis (KD44CP7XXN)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
+    <CodesignProvision>Dusty Pig</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -69,8 +70,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CrossPlatform\PopupImplementation.cs" />
+    <Compile Include="CrossPlatform\SocialLogin\AppleLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\GoogleLoginClientImplementation.cs" />
+    <Compile Include="Renderers\AppleSignInButtonRenderer.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

@@ -6,7 +6,7 @@
 
 using Xamarin.Forms;
 
-namespace DustyPig.Mobile
+namespace DustyPig.Mobile.Controls
 {
     public class CustomButton : Button
     {
