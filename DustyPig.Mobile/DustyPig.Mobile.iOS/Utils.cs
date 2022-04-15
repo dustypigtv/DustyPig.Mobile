@@ -11,14 +11,12 @@ namespace DustyPig.Mobile.iOS
 
         static UIViewController GetTopViewControllerWithRootViewController(UIViewController rootViewController)
         {
-            if (rootViewController is UITabBarController)
+            if (rootViewController is UITabBarController tabBarController)
             {
-                UITabBarController tabBarController = (UITabBarController)rootViewController;
                 return GetTopViewControllerWithRootViewController(tabBarController.SelectedViewController);
             }
-            else if (rootViewController is UINavigationController)
+            else if (rootViewController is UINavigationController navigationController)
             {
-                UINavigationController navigationController = (UINavigationController)rootViewController;
                 return GetTopViewControllerWithRootViewController(navigationController.VisibleViewController);
             }
             else if (rootViewController.PresentedViewController != null)
