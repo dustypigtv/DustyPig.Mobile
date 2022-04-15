@@ -23,10 +23,12 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
             
             var req = provider.CreateRequest();
             req.RequestedScopes = new[] { ASAuthorizationScope.FullName, ASAuthorizationScope.Email };
-            
-            var controller = new ASAuthorizationController(new[] { req });
-            controller.Delegate = this;
-            controller.PresentationContextProvider = this;
+
+            var controller = new ASAuthorizationController(new[] { req })
+            {
+                Delegate = this,
+                PresentationContextProvider = this
+            };
             controller.PerformRequests();
                         
             return _taskCompletionSource.Task;
