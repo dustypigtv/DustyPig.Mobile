@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using DustyPig.Mobile.Views;
 using DustyPig.REST;
@@ -13,7 +14,7 @@ namespace DustyPig.Mobile.ViewModels
     {
         public LoginViewModel()
         {
-            LoginButtonCommand = new AsyncCommand(OnLoginButtonCommand, allowsMultipleExecutions: false);
+            LoginButtonCommand = new AsyncCommand(OnLoginButtonCommand, canExecute: ValidateCredentialInput, allowsMultipleExecutions: false);
 
             AppleLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Apple, DependencyService.Get<IAppleLoginClient>()), allowsMultipleExecutions: false);
             GoogleLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Google, DependencyService.Get<IGoogleLoginClient>()), allowsMultipleExecutions: false);
@@ -25,14 +26,6 @@ namespace DustyPig.Mobile.ViewModels
         public AsyncCommand SignupCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SignupPage)), allowsMultipleExecutions: false);
 
         public AsyncCommand ForgotPasswordCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(ForgotPasswordPage)), allowsMultipleExecutions: false);
-
-
-        private bool _showError;
-        public bool ShowError
-        {
-            get => _showError;
-            set => SetProperty(ref _showError, value);
-        }
 
         private string _email;
         public string Email
@@ -71,7 +64,6 @@ namespace DustyPig.Mobile.ViewModels
         public AsyncCommand LoginButtonCommand { get; }
         private async Task OnLoginButtonCommand()
         {
-            ShowError = false;
             IsBusy = true;
 
             try
@@ -83,9 +75,10 @@ namespace DustyPig.Mobile.ViewModels
                 });
                 await ValidateTokenAndGoToProfiles(dpToken);
             }
-            catch
+            catch (Exception ex)
             {
-                ShowError = true;
+                IsBusy = false;
+                await ShowError("Login", ex.Message);        
             }
 
             IsBusy = false;
@@ -119,7 +112,7 @@ namespace DustyPig.Mobile.ViewModels
             catch (Exception ex)
             {
                 IsBusy = false;
-                await Shell.Current.DisplayAlert(provider.ToString() + " Login", ex.Message, "OK");
+                await ShowError(provider.ToString() + " Login", ex.Message);
                 return;
             }
 
@@ -131,7 +124,7 @@ namespace DustyPig.Mobile.ViewModels
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Dusty Pig Error", ex.Message, "OK");
+                await ShowError("Dusty Pig Error", ex.Message);
             }
 
             IsBusy = false;
@@ -144,5 +137,8 @@ namespace DustyPig.Mobile.ViewModels
             App.API.Token = dpToken.Data;
             await Shell.Current.GoToAsync(nameof(SelectProfilePage));
         }
+
+        private Task ShowError(string title, string msg) => DependencyService.Get<IPopup>().Alert(title, msg);
+        
     }
 }

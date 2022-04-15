@@ -57,11 +57,36 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
         {
 
             if (task.IsSuccessful)
-                _taskCompletionSource.TrySetResult(task.Result.JavaCast<GoogleSignInAccount>().IdToken);
+            {
+                _taskCompletionSource?.TrySetResult(task.Result.JavaCast<GoogleSignInAccount>().IdToken);
+            }
             else if (task.IsCanceled)
-                _taskCompletionSource.TrySetCanceled();
+            {
+                _taskCompletionSource?.TrySetCanceled();
+            }
             else
-                _taskCompletionSource.TrySetException(new Exception(task.Exception.JavaCast<ApiException>().Message));
+            {
+                var apiEx = task.Exception.JavaCast<ApiException>();
+
+                switch (apiEx.StatusCode)
+                {
+                    case 12500:
+                        _taskCompletionSource?.TrySetException(new Exception("Unkown Error"));
+                        break;
+
+                    case 12501:
+                        _taskCompletionSource?.TrySetCanceled();
+                        break;
+
+                    case 12502:
+                        _taskCompletionSource.TrySetException(new Exception("Another sign in is in progress"));
+                        break;
+
+                    default:
+                        _taskCompletionSource?.TrySetException(new Exception(apiEx.LocalizedMessage));
+                        break;
+                }
+            }
         }
 
         public static void OnAuthCompleted(int requestCode, Intent intent)

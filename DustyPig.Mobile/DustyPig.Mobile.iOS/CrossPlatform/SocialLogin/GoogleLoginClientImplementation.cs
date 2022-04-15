@@ -50,14 +50,18 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 user.Authentication.GetTokens((Authentication authentication, NSError tokenError) =>
                 {
                     if (tokenError == null)
-                        _taskCompletionSource.TrySetResult(authentication.IdToken);
+                        _taskCompletionSource?.TrySetResult(authentication.IdToken);
                     else
-                        _taskCompletionSource.TrySetException(new Exception(tokenError.LocalizedDescription));
+                        _taskCompletionSource?.TrySetException(new Exception(tokenError.LocalizedDescription));
                 });
+            }
+            else if (error.Code == -5)
+            {
+                _taskCompletionSource?.TrySetCanceled();
             }
             else
             {
-                _taskCompletionSource.TrySetException(new Exception(error.Description));
+                _taskCompletionSource?.TrySetException(new Exception(error.LocalizedDescription));
             }
         }
     }
