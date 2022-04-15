@@ -17,8 +17,6 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
 {
     public class FacebookLoginClientImplementation : IFacebookLoginClient
     {
-        private const string URL_SCHEME = "fb1082703882261587:";
-
         private static readonly LoginManager _loginManager = new LoginManager();
 
         public static void Init(UIApplication app, NSDictionary options)
