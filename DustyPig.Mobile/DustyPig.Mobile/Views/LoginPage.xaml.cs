@@ -1,5 +1,4 @@
-﻿using DustyPig.Mobile.ViewModels;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.Views
@@ -10,15 +9,6 @@ namespace DustyPig.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
-
-            BindingContext = VM = new LoginViewModel();
-        }
-
-        public LoginViewModel VM { get; }
-
-        private void AppleSignInButton_SignIn(object sender, System.EventArgs e)
-        {
-
         }
     }
 }

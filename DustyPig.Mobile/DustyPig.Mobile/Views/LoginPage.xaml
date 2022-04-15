@@ -9,6 +9,11 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:DataType="viewmodels:LoginViewModel"
              Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LoginViewModel />
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
 
         <StackLayout
