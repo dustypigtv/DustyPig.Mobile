@@ -51,10 +51,10 @@ namespace DustyPig.Mobile.ViewModels
 
         bool ValidateCredentialInput()
         {
-            if (string.IsNullOrEmpty(_email))
+            if (string.IsNullOrWhiteSpace(_email))
                 return false;
 
-            if (string.IsNullOrEmpty(_password))
+            if (string.IsNullOrWhiteSpace(_password))
                 return false;
 
             return true;
@@ -77,8 +77,7 @@ namespace DustyPig.Mobile.ViewModels
             }
             catch (Exception ex)
             {
-                IsBusy = false;
-                await ShowError("Login", ex.FormatMessage());
+               await ShowError("Login", ex.FormatMessage());
             }
 
             IsBusy = false;
@@ -111,8 +110,8 @@ namespace DustyPig.Mobile.ViewModels
             }
             catch (Exception ex)
             {
-                IsBusy = false;
                 await ShowError(provider.ToString() + " Login", ex.Message);
+                IsBusy = false;
                 return;
             }
 

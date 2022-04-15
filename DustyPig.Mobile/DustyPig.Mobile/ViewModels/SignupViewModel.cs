@@ -45,10 +45,10 @@ namespace DustyPig.Mobile.ViewModels
 
         bool ValidateCredentialInput()
         {
-            if (string.IsNullOrEmpty(_email))
+            if (string.IsNullOrWhiteSpace(_email))
                 return false;
 
-            if (string.IsNullOrEmpty(_password))
+            if (string.IsNullOrWhiteSpace(_password))
                 return false;
 
             return true;
