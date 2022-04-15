@@ -78,7 +78,7 @@ namespace DustyPig.Mobile.ViewModels
             catch (Exception ex)
             {
                 IsBusy = false;
-                await ShowError("Login", ex.Message);        
+                await ShowError("Login", ex.FormatMessage());
             }
 
             IsBusy = false;
@@ -124,7 +124,7 @@ namespace DustyPig.Mobile.ViewModels
             }
             catch (Exception ex)
             {
-                await ShowError("Dusty Pig Error", ex.Message);
+                await ShowError("Dusty Pig Error", ex.FormatMessage());
             }
 
             IsBusy = false;

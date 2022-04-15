@@ -1,12 +1,107 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DustyPig.Mobile.Views.SignupPage">
+             x:Class="DustyPig.Mobile.Views.SignupPage"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.ViewModels" 
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="viewmodels:SignupViewModel"
+             Title="Sign Up">
+
+    <ContentPage.BindingContext>
+        <viewmodels:SignupViewModel />
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout
+            Orientation="Vertical"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill">
+
+            <Label 
+                BackgroundColor="Red" 
+                Text="NO INTERNET DETECTED"
+                HorizontalTextAlignment="Center"
+                Padding="4"
+                IsVisible="{Binding NoInternet}" />
+
+            <ffsvg:SvgCachedImage
+                WidthRequest="100" 
+                HeightRequest="100"
+                Margin="0,20,0,0"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                Source="resource://DustyPig.Mobile.Images.logo.svg" />
+
+            <Grid RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+
+                    <!-- 0: Email -->
+                    <RowDefinition Height="56" />
+
+                    <!-- 1: Email -->
+                    <RowDefinition Height="56" />
+
+                    <!-- 2: Password -->
+                    <RowDefinition Height="56" />
+
+                    <!-- 3: Login -->
+                    <RowDefinition Height="56" />
+
+                </Grid.RowDefinitions>
+
+
+                <!-- Name -->
+                <Entry 
+                    Grid.Row="0" 
+                    Grid.Column="1" 
+                    Margin="0,16,0,0"
+                    Placeholder="Name " 
+                    ReturnType="Next" 
+                    ClearButtonVisibility="WhileEditing"
+                    Text="{Binding Name}" />
+
+                <!-- Email -->
+                <Entry 
+                    Grid.Row="1" 
+                    Grid.Column="1" 
+                    Margin="0,16,0,0"
+                    Placeholder="Email" 
+                    ReturnType="Next" 
+                    Keyboard="Email" 
+                    TextTransform="Lowercase" 
+                    ClearButtonVisibility="WhileEditing"
+                    Text="{Binding Email}" />
+
+                <!-- Password -->
+                <Entry 
+                    Grid.Row="2" 
+                    Grid.Column="1" 
+                    Margin="0,16,0,0"
+                    Placeholder="Password" 
+                    ReturnType="Go" 
+                    ClearButtonVisibility="WhileEditing" 
+                    IsPassword="True"
+                    Text="{Binding Password}" />
+
+                
+                <!-- Login -->
+                <Button 
+                    Grid.Row="3" 
+                    Grid.Column="1" 
+                    Margin="0,16,0,0"
+                    Text="Sign Up"
+                    Command="{Binding SignupButtonCommand}" />
+
+            </Grid>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
