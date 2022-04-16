@@ -1,14 +1,14 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
-using DustyPig.Mobile.Views;
+using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.REST;
 using System;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace DustyPig.Mobile.ViewModels
+namespace DustyPig.Mobile.MVVM.Auth.ViewModels
 {
     public class LoginViewModel : _BaseViewModel
     {

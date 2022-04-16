@@ -1,4 +1,5 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
+using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.Mobile.Views;
 using System;
 using System.Collections.Generic;

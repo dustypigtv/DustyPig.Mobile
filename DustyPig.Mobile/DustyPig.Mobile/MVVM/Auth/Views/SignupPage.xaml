@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DustyPig.Mobile.Views.SignupPage"
-             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.ViewModels" 
+             x:Class="DustyPig.Mobile.MVVM.Auth.Views.SignupPage"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels" 
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"

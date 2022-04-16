@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace DustyPig.Mobile.ViewModels
+namespace DustyPig.Mobile.MVVM.Auth.ViewModels
 {
     public class SignupViewModel : _BaseViewModel
     {

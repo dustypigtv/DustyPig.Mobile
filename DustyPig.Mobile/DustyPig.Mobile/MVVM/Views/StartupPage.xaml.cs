@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using DustyPig.Mobile.MVVM.Auth.Views;
+using System.Linq;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

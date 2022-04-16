@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
 
-namespace DustyPig.Mobile.ViewModels
+namespace DustyPig.Mobile.MVVM
 {
     public abstract class _BaseViewModel : INotifyPropertyChanged
     {
