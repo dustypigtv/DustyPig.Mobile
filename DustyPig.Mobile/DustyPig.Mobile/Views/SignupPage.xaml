@@ -26,82 +26,110 @@
                 Padding="4"
                 IsVisible="{Binding NoInternet}" />
 
-            <ffsvg:SvgCachedImage
-                WidthRequest="100" 
-                HeightRequest="100"
-                Margin="0,20,0,0"
-                VerticalOptions="Start"
-                HorizontalOptions="Center"
-                Source="resource://DustyPig.Mobile.Images.logo.svg" />
+            <ScrollView 
+                VerticalOptions="FillAndExpand">
+                
+                <StackLayout
+                    VerticalOptions="CenterAndExpand">
+                
+                    <ffsvg:SvgCachedImage
+                        WidthRequest="100" 
+                        HeightRequest="100"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Center"
+                        Source="resource://DustyPig.Mobile.Images.logo.svg" />
 
-            <Grid RowSpacing="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                    <Grid 
+                        RowSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="250" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
 
-                    <!-- 0: Email -->
-                    <RowDefinition Height="56" />
+                            <!-- 0: Name -->
+                            <RowDefinition Height="40" />
 
-                    <!-- 1: Email -->
-                    <RowDefinition Height="56" />
+                            <!-- 1: Email -->
+                            <RowDefinition Height="40" />
 
-                    <!-- 2: Password -->
-                    <RowDefinition Height="56" />
+                            <!-- 2: Password -->
+                            <RowDefinition Height="40" />
 
-                    <!-- 3: Login -->
-                    <RowDefinition Height="56" />
+                            <!-- 3: Login -->
+                            <RowDefinition Height="40" />
 
-                </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>
 
 
-                <!-- Name -->
-                <Entry 
-                    Grid.Row="0" 
-                    Grid.Column="1" 
-                    Margin="0,16,0,0"
-                    Placeholder="Name " 
-                    ReturnType="Next" 
-                    ClearButtonVisibility="WhileEditing"
-                    Text="{Binding Name}" />
+                        <!-- Name -->
+                        <Entry 
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            Placeholder="Name" 
+                            x:Name="UserName"
+                            ReturnType="Next" 
+                            ClearButtonVisibility="WhileEditing"
+                            Completed="Name_Completed"
+                            Text="{Binding Name}" />
 
-                <!-- Email -->
-                <Entry 
-                    Grid.Row="1" 
-                    Grid.Column="1" 
-                    Margin="0,16,0,0"
-                    Placeholder="Email" 
-                    ReturnType="Next" 
-                    Keyboard="Email" 
-                    TextTransform="Lowercase" 
-                    ClearButtonVisibility="WhileEditing"
-                    Text="{Binding Email}" />
+                        <!-- Email -->
+                        <Entry 
+                            Grid.Row="1" 
+                            Grid.Column="1" 
+                            x:Name="Email"
+                            Placeholder="Email" 
+                            ReturnType="Next" 
+                            Keyboard="Email" 
+                            TextTransform="Lowercase" 
+                            ClearButtonVisibility="WhileEditing"
+                            Completed="Email_Completed"
+                            Text="{Binding Email}" />
 
-                <!-- Password -->
-                <Entry 
-                    Grid.Row="2" 
-                    Grid.Column="1" 
-                    Margin="0,16,0,0"
-                    Placeholder="Password" 
-                    ReturnType="Go" 
-                    ClearButtonVisibility="WhileEditing" 
-                    IsPassword="True"
-                    Text="{Binding Password}" />
+                        <!-- Password -->
+                        <Entry 
+                            Grid.Row="2" 
+                            Grid.Column="1"
+                            x:Name="Password"
+                            Placeholder="Password" 
+                            ReturnType="Go" 
+                            ClearButtonVisibility="WhileEditing" 
+                            IsPassword="True"
+                            Completed="Password_Completed"
+                            Text="{Binding Password}" />
 
                 
-                <!-- Login -->
-                <Button 
-                    Grid.Row="3" 
-                    Grid.Column="1" 
-                    Margin="0,16,0,0"
-                    Text="Sign Up"
-                    Command="{Binding SignupButtonCommand}" />
+                        <!-- Login -->
+                        <Button 
+                            Grid.Row="3" 
+                            Grid.Column="1"
+                            x:Name="Signup"
+                            Text="Sign Up"
+                            Command="{Binding SignupButtonCommand}" />
 
-            </Grid>
+                        <StackLayout
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="1"
+                                BackgroundColor="#aa000000"
+                                IsVisible="{Binding IsBusy}">
 
+                            <ActivityIndicator
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    IsRunning="{Binding IsBusy}" />
+
+                        </StackLayout>
+
+                    </Grid>
+               
+                
+                </StackLayout>
+
+            </ScrollView>
+        
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

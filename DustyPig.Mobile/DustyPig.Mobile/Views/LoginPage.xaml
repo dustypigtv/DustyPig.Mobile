@@ -208,23 +208,27 @@
                             Keyboard="Email" 
                             TextTransform="Lowercase" 
                             ClearButtonVisibility="WhileEditing"
+                            Completed="Email_Completed"
                             Text="{Binding Email}" />
 
                         <!-- Password -->
                         <Entry 
                             Grid.Row="5" 
                             Grid.Column="1" 
+                            x:Name="Password"
                             Margin="0,16,0,0"
                             Placeholder="Password" 
                             ReturnType="Go" 
                             ClearButtonVisibility="WhileEditing" 
                             IsPassword="True"
+                            Completed="Password_Completed"
                             Text="{Binding Password}" />
 
                         <!-- Login -->
                         <Button 
                             Grid.Row="6" 
                             Grid.Column="1" 
+                            x:Name="Login"
                             Margin="0,16,0,0"
                             Text="Login"
                             Command="{Binding LoginButtonCommand}" />
