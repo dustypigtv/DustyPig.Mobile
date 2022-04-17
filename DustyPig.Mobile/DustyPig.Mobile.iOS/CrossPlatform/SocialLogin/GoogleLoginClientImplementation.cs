@@ -20,8 +20,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
         public static void Initialize()
         {
             var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
-            SignIn.SharedInstance.ClientId = googleServiceDictionary["CLIENT_ID"].ToString();
-            
+            SignIn.SharedInstance.ClientId = googleServiceDictionary["CLIENT_ID"].ToString();            
         }
 
         
@@ -36,7 +35,9 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
             return _taskCompletionSource.Task;
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             return SignIn.SharedInstance.HandleUrl(url);
         }

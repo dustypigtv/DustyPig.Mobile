@@ -1,4 +1,4 @@
-﻿namespace DustyPig
+﻿namespace DustyPig.Mobile.Helpers
 {
     static class FontAwesome
     {

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DustyPig.Mobile.MVVM.Auth.Views.LoginPage"
-             xmlns:local="clr-namespace:DustyPig.Mobile" 
+             xmlns:local="clr-namespace:DustyPig.Mobile.Helpers" 
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
              xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels" 

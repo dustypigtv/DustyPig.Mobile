@@ -3,7 +3,7 @@ using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DustyPig.Mobile
+namespace DustyPig.Mobile.Helpers
 {
     [ContentProperty(nameof(Source))]
     class ImageResourceExtension : IMarkupExtension

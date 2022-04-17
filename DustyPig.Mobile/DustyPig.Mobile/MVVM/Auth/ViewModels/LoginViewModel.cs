@@ -1,6 +1,7 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
+using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.REST;
 using System;

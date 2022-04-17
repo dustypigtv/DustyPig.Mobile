@@ -34,7 +34,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
                 -->
-
+                <!--
                 <ListView 
                     BackgroundColor="Green"
                     ItemsSource="{Binding Profiles}"
@@ -48,7 +48,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>                            
                 </ListView>
-                
+                -->                
             </ScrollView>
         </StackLayout>
         

@@ -1,7 +1,7 @@
 ﻿using DustyPig.API.v3;
 using System;
 
-namespace DustyPig.Mobile
+namespace DustyPig.Mobile.Helpers
 {
     public static class Extensions
     {
