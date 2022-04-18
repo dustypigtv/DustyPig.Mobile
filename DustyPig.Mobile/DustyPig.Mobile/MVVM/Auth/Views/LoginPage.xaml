@@ -54,7 +54,7 @@
                         <Grid.RowDefinitions>
 
                             <!-- 0: Apple -->
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="56" />
 
                             <!-- 1: Google  -->
                             <RowDefinition Height="56" />
@@ -68,20 +68,33 @@
                         </Grid.RowDefinitions>
 
                         <!-- Apple -->
-                        <controls:AppleSignInButton
+                        <!-- 
+                            Rolling my own apple button to align the icon
+                            with the other socal login icons (left side of button)
+                        -->
+                        <Grid
                             Grid.Row="0"
                             Grid.Column="1"
-                            HeightRequest="40"
                             Margin="0,0,0,16"
                             IsVisible="{Binding ShowAppleButton}">
-                            <controls:AppleSignInButton.Behaviors>
-                                <xct:EventToCommandBehavior
-                                    EventName="SignIn"
-                                    Command="{Binding AppleLoginCommand}" />
-                            </controls:AppleSignInButton.Behaviors>
-                        </controls:AppleSignInButton>
 
-                        
+                            <controls:CustomButton 
+                                Text="Sign in with Apple" 
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="White"
+                                TextColor="Black"
+                                Command="{Binding AppleLoginCommand}">
+                                
+                            </controls:CustomButton>
+
+                            <Image
+                                HorizontalOptions="Start"
+                                Source="{local:ImageResource apple_logo.png}"
+                                InputTransparent="True" />
+                        </Grid>
+
+
+
                         <!-- Google -->
                         <!-- 
                             The G right of center on Android? Crazy, but fine, I'll draw my own.
@@ -131,7 +144,7 @@
                             Margin="0,0,0,16">
 
                             <controls:CustomButton 
-                                Text="Continue with Facebook" 
+                                Text="Sign in with Facebook" 
                                 HorizontalOptions="FillAndExpand"
                                 BackgroundColor="#1877F2"
                                 TextColor="White"

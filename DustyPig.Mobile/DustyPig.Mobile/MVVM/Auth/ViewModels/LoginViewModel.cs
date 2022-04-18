@@ -23,7 +23,6 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
 
         public AsyncCommand PasswordLoginCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(PasswordLoginPage)));
 
-
         public AsyncCommand AppleLoginCommand { get; }
 
         public AsyncCommand GoogleLoginCommand { get; }
