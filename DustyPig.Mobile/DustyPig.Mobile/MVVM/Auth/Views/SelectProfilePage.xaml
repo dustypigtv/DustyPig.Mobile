@@ -1,15 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels" 
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
              x:Class="DustyPig.Mobile.MVVM.Auth.Views.SelectProfilePage"
              x:DataType="viewmodels:SelectProfileViewModel"
              Title="Who's Watching?">
 
-    <ContentPage.BindingContext>
-        <viewmodels:SelectProfileViewModel />
-    </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <StackLayout 
             HorizontalOptions="Fill" 
@@ -18,37 +23,43 @@
             <ActivityIndicator 
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"
-                IsVisible="False"
-                IsRunning="False" />
+                IsVisible="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}" />
 
-            <ScrollView IsVisible="True">
-                
-                <!--
-                <ListView Grid.Column="1" Grid.Row="2" ItemsSource="{Binding Users}" ItemTapped="OnItemTapped" SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Label Text="{Binding Name}" />
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                -->
-                <!--
-                <ListView 
-                    BackgroundColor="Green"
-                    ItemsSource="{Binding Profiles}"
+            <ScrollView 
+                VerticalOptions="FillAndExpand"
+                IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+                                
+                 <ListView 
+                    ItemsSource="{Binding Profiles}" 
+                    ItemTapped="ListView_ItemTapped"
                     SelectionMode="None"
+                    HasUnevenRows="True"
                     Margin="20">
                     <ListView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="models:BasicProfile">
                             <ViewCell>
-                                <Label Text="{Binding Name}" />
+                                <Grid
+                                    Margin="-66,0,0,0">
+                                    <Image 
+                                        Grid.Column="0"
+                                        HeightRequest="66"
+                                        WidthRequest="66"
+                                        Margin="8"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="EndAndExpand"
+                                        Source="{Binding AvatarUrl}" />
+                                    <Label
+                                        Grid.Column="1"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalTextAlignment="Center"
+                                        Text="{Binding Name}"  />
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>                            
                 </ListView>
-                -->                
+                                
             </ScrollView>
         </StackLayout>
         

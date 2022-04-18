@@ -164,6 +164,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Plugin.FirebasePushNotification">
+      <Version>3.4.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Facebook.LoginKit.iOS">
       <Version>9.0.1.5</Version>
     </PackageReference>

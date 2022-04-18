@@ -3,6 +3,7 @@ using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.SocialLogin;
 using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Auth.Views;
+using DustyPig.Mobile.Views;
 using DustyPig.REST;
 using System;
 using System.Threading.Tasks;
@@ -72,7 +73,8 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
                 var dpToken = await App.API.Auth.PasswordLoginAsync(new PasswordCredentials
                 {
                     Email = _email,
-                    Password = _password
+                    Password = _password,
+                    //DeviceToken = Plugin.FirebasePushNotification.CrossFirebasePushNotification.Current.Token
                 });
                 await ValidateTokenAndGoToProfiles(dpToken);
             }
@@ -119,7 +121,12 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
 
             try
             {
-                var dpToken = await App.API.Auth.OAuthLoginAsync(new OAuthCredentials { Provider = provider, Token = token });
+                var dpToken = await App.API.Auth.OAuthLoginAsync(new OAuthCredentials 
+                { 
+                    Provider = provider, 
+                    Token = token,
+                    //DeviceToken = Plugin.FirebasePushNotification.CrossFirebasePushNotification.Current.Token
+                });
                 await ValidateTokenAndGoToProfiles(dpToken);
             }
             catch (Exception ex)
@@ -131,11 +138,14 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
         }
 
 
-        private async Task ValidateTokenAndGoToProfiles(Response<string> dpToken)
+        private async Task ValidateTokenAndGoToProfiles(Response<LoginResponse> dpToken)
         {
             dpToken.ThrowIfError();
-            App.API.Token = dpToken.Data;
-            await Shell.Current.GoToAsync(nameof(SelectProfilePage));
+            App.API.Token = dpToken.Data.Token;
+            if (dpToken.Data.LoginType == LoginResponseType.Account)
+                await Shell.Current.GoToAsync(nameof(SelectProfilePage));
+            else
+                await Shell.Current.GoToAsync(nameof(StartupPage));
         }
 
         private Task ShowError(string title, string msg) => DependencyService.Get<IPopup>().Alert(title, msg);

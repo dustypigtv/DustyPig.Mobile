@@ -1,6 +1,7 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
+using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.Mobile.Views;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -66,7 +67,8 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             {
                 DisplayName = _name,
                 Email = _email,
-                Password = _password
+                Password = _password,
+                //DeviceToken = Plugin.FirebasePushNotification.CrossFirebasePushNotification.Current.Token
             });
 
             if (ret.Success)
@@ -79,7 +81,10 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
                 else
                 {
                     App.API.Token = ret.Data.Token;
-                    await Shell.Current.GoToAsync(nameof(StartupPage));
+                    if (ret.Data.LoginType == LoginResponseType.Account)
+                        await Shell.Current.GoToAsync(nameof(SelectProfilePage));
+                    else
+                        await Shell.Current.GoToAsync(nameof(StartupPage));
                 }
             }
             else
