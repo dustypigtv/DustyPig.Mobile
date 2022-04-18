@@ -1,12 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DustyPig.Mobile.MVVM.StartupPage">
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="DustyPig.Mobile.MVVM.StartupPage"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Exterminate!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout 
+            Orientation="Vertical"
+            Margin="48,-200,48,48"
+            HorizontalOptions="Fill"
+            VerticalOptions="Center">
+
+            <ffsvg:SvgCachedImage
+                WidthRequest="200" 
+                HeightRequest="200"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Source="resource://DustyPig.Mobile.Images.logo.svg" />
+
+            <ActivityIndicator
+                IsRunning="True" 
+                Margin="0,16,0,0" />
+           
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

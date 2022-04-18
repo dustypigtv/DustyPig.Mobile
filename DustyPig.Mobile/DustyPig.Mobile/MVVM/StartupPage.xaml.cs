@@ -2,7 +2,6 @@
 using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.Mobile.Services;
 using System.Linq;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,18 +10,19 @@ namespace DustyPig.Mobile.MVVM
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StartupPage : ContentPage
     {
+        
         public StartupPage()
         {
             InitializeComponent();
 
             //For debugging login flow
-            Settings.DeleteProfileToken();
+            //Settings.DeleteProfileToken();
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            
+
             if (string.IsNullOrWhiteSpace(App.API.Token))
                 App.API.Token = await Settings.GetProfileTokenAsync();
 
