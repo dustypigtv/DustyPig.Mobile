@@ -28,7 +28,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
 
             alertController.AddAction(okAction);
 
-            SetBackgroundColor(alertController.View);   
+            SetBackgroundColor(alertController.View);
 
             var currentViewController = Utils.GetTopViewControllerWithRootViewController();
             currentViewController.PresentViewController(alertController, true, null);

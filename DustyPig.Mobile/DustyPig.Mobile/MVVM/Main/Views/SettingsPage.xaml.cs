@@ -2,12 +2,12 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DustyPig.Mobile.Views
+namespace DustyPig.Mobile.MVVM.Main.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DownloadsPage : ContentPage
+    public partial class SettingsPage : ContentPage
     {
-        public DownloadsPage()
+        public SettingsPage()
         {
             InitializeComponent();
         }

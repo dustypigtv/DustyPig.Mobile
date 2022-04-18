@@ -20,7 +20,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
             _taskCompletionSource = new TaskCompletionSource<string>();
 
             var provider = new ASAuthorizationAppleIdProvider();
-            
+
             var req = provider.CreateRequest();
             req.RequestedScopes = new[] { ASAuthorizationScope.FullName, ASAuthorizationScope.Email };
 
@@ -30,7 +30,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 PresentationContextProvider = this
             };
             controller.PerformRequests();
-                        
+
             return _taskCompletionSource.Task;
         }
 

@@ -3,7 +3,7 @@ using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Auth.Views;
-using DustyPig.Mobile.Views;
+using DustyPig.Mobile.Services;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -14,7 +14,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
     {
         public SignupViewModel()
         {
-            SignupButtonCommand = new AsyncCommand(OnSignupButtonCommand, canExecute: ValidateCredentialInput, allowsMultipleExecutions: false);
+            SignupButtonCommand = new AsyncCommand(OnSignupButtonCommand, canExecute: ValidateCredentialInput);
         }
 
         private string _name;
@@ -85,7 +85,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
                     if (ret.Data.LoginType == LoginResponseType.Account)
                         await Shell.Current.GoToAsync(nameof(SelectProfilePage));
                     else
-                        await Shell.Current.GoToAsync(nameof(StartupPage));
+                        Shell.Current.CurrentItem = new StartupPage();
                 }
             }
             else

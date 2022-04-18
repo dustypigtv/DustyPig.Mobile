@@ -15,7 +15,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            while(!Email.Focus())
+            while (!Email.Focus())
             {
                 await Task.Delay(100);
             }

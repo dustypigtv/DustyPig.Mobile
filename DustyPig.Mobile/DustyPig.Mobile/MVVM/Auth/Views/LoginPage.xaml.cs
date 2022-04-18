@@ -10,15 +10,5 @@ namespace DustyPig.Mobile.MVVM.Auth.Views
         {
             InitializeComponent();
         }
-
-        private void Email_Completed(object sender, System.EventArgs e)
-        {
-            Password.Focus();
-        }
-
-        private void Password_Completed(object sender, System.EventArgs e)
-        {
-            Login.Command.Execute(null);
-        }
     }
 }

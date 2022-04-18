@@ -32,7 +32,7 @@ namespace DustyPig.Mobile.iOS
             GoogleLoginClientImplementation.Initialize();
 
             DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
-            
+
             LoadApplication(new App());
 
             UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
@@ -71,6 +71,6 @@ namespace DustyPig.Mobile.iOS
             return base.OpenUrl(application, url, sourceApplication, annotation);
         }
 
-        
+
     }
 }

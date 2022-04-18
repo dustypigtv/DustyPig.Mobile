@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:DustyPig.Mobile.Views"
+       xmlns:mvvm="clr-namespace:DustyPig.Mobile.MVVM"
+       xmlns:mainpages="clr-namespace:DustyPig.Mobile.MVVM.Main.Views"
        xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
        Title="Dusty Pig"
        BackgroundColor="Black"
@@ -17,34 +18,34 @@
     -->
 
     <!-- Make sure Main Rout is first! -->
-    <ShellContent Route="StartupPage" ContentTemplate="{DataTemplate local:StartupPage}" />
+    <ShellContent Route="StartupPage" ContentTemplate="{DataTemplate mvvm:StartupPage}" />
 
     <TabBar Route="Main">
-        <ShellContent Route="Home" ContentTemplate="{DataTemplate local:HomePage}">
+        <ShellContent Route="Home" ContentTemplate="{DataTemplate mainpages:HomePage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.House}" />
             </ShellContent.Icon>
         </ShellContent>
-        
-        <ShellContent Route="Movies" ContentTemplate="{DataTemplate local:MoviesPage}">
+
+        <ShellContent Route="Movies" ContentTemplate="{DataTemplate mainpages:MoviesPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Film}" />
             </ShellContent.Icon>
         </ShellContent>
-        
-        <ShellContent Route="Series" ContentTemplate="{DataTemplate local:SeriesPage}">
+
+        <ShellContent Route="Series" ContentTemplate="{DataTemplate mainpages:SeriesPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Tv}" />
             </ShellContent.Icon>
         </ShellContent>
-        
-        <ShellContent Route="Downloads" ContentTemplate="{DataTemplate local:DownloadsPage}">
+
+        <ShellContent Route="Downloads" ContentTemplate="{DataTemplate mainpages:DownloadsPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" />
             </ShellContent.Icon>
         </ShellContent>
-        
-        <ShellContent Route="Settings" ContentTemplate="{DataTemplate local:SettingsPage}">
+
+        <ShellContent Route="Settings" ContentTemplate="{DataTemplate mainpages:SettingsPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Gear}" />
             </ShellContent.Icon>

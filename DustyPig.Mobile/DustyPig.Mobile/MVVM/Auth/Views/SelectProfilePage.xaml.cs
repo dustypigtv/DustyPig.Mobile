@@ -12,7 +12,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Views
         public SelectProfilePage()
         {
             InitializeComponent();
-            BindingContext = VM = new SelectProfileViewModel();
+            BindingContext = VM = new SelectProfileViewModel(PinEntry);
         }
 
         public SelectProfileViewModel VM { get; }
@@ -26,6 +26,11 @@ namespace DustyPig.Mobile.MVVM.Auth.Views
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             VM.OnItemTapped(e.Item as BasicProfile);
+        }
+
+        private async void PinEntry_Completed(object sender, System.EventArgs e)
+        {
+            await VM.SubmitPinCommand.ExecuteAsync();
         }
     }
 }

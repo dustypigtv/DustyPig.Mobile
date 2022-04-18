@@ -35,8 +35,17 @@ namespace DustyPig.Mobile.Services
             return ret;
         }
 
-        public static Task SaveProfileTokenAsync(string token) => SecureStorage.SetAsync(PROFILE_TOKEN, token);
+        public static Task SaveProfileTokenAsync(string token)
+        {
+            if (string.IsNullOrWhiteSpace(token))
+                return Task.FromResult(SecureStorage.Remove(PROFILE_TOKEN));
+            else
+                return SecureStorage.SetAsync(PROFILE_TOKEN, token);
+        }
+
 
         public static Task<string> GetProfileTokenAsync() => GetSecureString(PROFILE_TOKEN);
+
+        public static void DeleteProfileToken() => SecureStorage.Remove(PROFILE_TOKEN);
     }
 }

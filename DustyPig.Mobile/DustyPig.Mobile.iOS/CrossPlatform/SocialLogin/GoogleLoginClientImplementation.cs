@@ -20,10 +20,10 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
         public static void Initialize()
         {
             var googleServiceDictionary = NSDictionary.FromFile("GoogleService-Info.plist");
-            SignIn.SharedInstance.ClientId = googleServiceDictionary["CLIENT_ID"].ToString();            
+            SignIn.SharedInstance.ClientId = googleServiceDictionary["CLIENT_ID"].ToString();
         }
 
-        
+
         public Task<string> LoginAsync()
         {
             _taskCompletionSource = new TaskCompletionSource<string>();

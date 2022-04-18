@@ -29,37 +29,108 @@
             <ScrollView 
                 VerticalOptions="FillAndExpand"
                 IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
-                                
-                 <ListView 
-                    ItemsSource="{Binding Profiles}" 
-                    ItemTapped="ListView_ItemTapped"
-                    SelectionMode="None"
-                    HasUnevenRows="True"
-                    Margin="20">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="models:BasicProfile">
-                            <ViewCell>
-                                <Grid
-                                    Margin="-66,0,0,0">
-                                    <Image 
-                                        Grid.Column="0"
-                                        HeightRequest="66"
-                                        WidthRequest="66"
-                                        Margin="8"
-                                        VerticalOptions="CenterAndExpand"
-                                        HorizontalOptions="EndAndExpand"
-                                        Source="{Binding AvatarUrl}" />
-                                    <Label
-                                        Grid.Column="1"
-                                        HorizontalTextAlignment="Start"
-                                        VerticalTextAlignment="Center"
-                                        Text="{Binding Name}"  />
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>                            
-                </ListView>
-                                
+
+                <StackLayout>
+                    
+                    <ListView
+                        IsVisible="{Binding ShowPin, Converter={StaticResource InvertedBoolConverter}}"
+                        ItemsSource="{Binding Profiles}" 
+                        ItemTapped="ListView_ItemTapped"
+                        SelectionMode="None"
+                        HasUnevenRows="True"
+                        Margin="20">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:BasicProfile">
+                                <ViewCell>
+                                    <Grid>
+                                        <Frame
+                                            Grid.Column="0"
+                                            CornerRadius="33"
+                                            WidthRequest="66"
+                                            HeightRequest="66"
+                                            Padding="0"
+                                            Margin="8"
+                                            VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="EndAndExpand"
+                                            IsClippedToBounds="True">
+                                        <Image 
+                                                HeightRequest="66"
+                                                WidthRequest="66"
+                                                HorizontalOptions="Center"
+                                                Source="{Binding AvatarUrl}" />
+                                        </Frame>
+                                        <Label
+                                            Grid.Column="1"
+                                            HorizontalTextAlignment="Start"
+                                            VerticalTextAlignment="Center"
+                                            Text="{Binding Name}"  />
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackLayout 
+                        IsVisible="{Binding ShowPin}"
+                        Orientation="Vertical"
+                        Margin="20,-106,20,20"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center">
+
+                        <Frame
+                            CornerRadius="33"
+                            WidthRequest="66"
+                            HeightRequest="66"
+                            Padding="0"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True">
+
+                            <Image 
+                                HeightRequest="66"
+                                WidthRequest="66"
+                                HorizontalOptions="Center"
+                                Source="{Binding SelectedProfile.AvatarUrl}" />
+                        </Frame>
+                        
+                        <Label
+                            Margin="0,16,0,0"
+                            HorizontalOptions="Center"
+                            Text="{Binding SelectedProfile.Name}"  />
+
+                        <Entry 
+                            Margin="0,16,0,0"
+                            x:Name="PinEntry"
+                            Placeholder="Pin Number"
+                            CharacterSpacing="{Binding CharacterSpacing}"
+                            Text="{Binding Pin}"
+                            MaxLength="4"
+                            IsPassword="True"
+                            Completed="PinEntry_Completed"
+                            HorizontalTextAlignment="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="40"
+                            WidthRequest="140" />
+
+                        <Button
+                            Margin="0,16,0,0"
+                            HorizontalOptions="Center"
+                            HeightRequest="40"
+                            WidthRequest="140"
+                            Command="{Binding SubmitPinCommand}"
+                            Text="OK" />
+
+                        <Button
+                            Margin="0,16,0,0"
+                            HorizontalOptions="Center"
+                            HeightRequest="40"
+                            WidthRequest="140"
+                            Command="{Binding CancelCommand}"
+                            Text="Cancel" />
+
+                    </StackLayout>
+                
+                
+                </StackLayout>
             </ScrollView>
         </StackLayout>
         

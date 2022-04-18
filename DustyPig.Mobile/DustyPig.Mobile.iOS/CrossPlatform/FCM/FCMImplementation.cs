@@ -13,7 +13,8 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.FCM
         public FCMImplementation()
         {
             UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound,
-                (granted, error) => {
+                (granted, error) =>
+                {
                     if (!granted)
                     {
                         //Error?.Invoke(this, new FCMErrorEventArgs("User permission for remote notifications is not granted"));
@@ -21,14 +22,14 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.FCM
                 });
 
             Firebase.Core.App.Configure();
-            UNUserNotificationCenter.Current.Delegate = this;                        
+            UNUserNotificationCenter.Current.Delegate = this;
             Messaging.SharedInstance.Delegate = this;
             UIApplication.SharedApplication.RegisterForRemoteNotifications();
         }
 
         public async Task<string> GetTokenAsync()
         {
-            try 
+            try
             {
                 var ret = Messaging.SharedInstance.FcmToken;
                 if (string.IsNullOrEmpty(ret))
@@ -65,7 +66,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.FCM
             //}
         }
 
-        
+
         //public event EventHandler<FCMNotificationReceivedEventArgs> NotificationReceived;
         //public event EventHandler<FCMErrorEventArgs> Error;
 

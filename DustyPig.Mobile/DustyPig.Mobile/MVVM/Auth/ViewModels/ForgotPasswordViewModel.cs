@@ -9,7 +9,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
     {
         public ForgotPasswordViewModel()
         {
-            SubmitCommand = new AsyncCommand(OnSubmitCommand, canExecute: CanSubmit, allowsMultipleExecutions: false);
+            SubmitCommand = new AsyncCommand(OnSubmitCommand, canExecute: CanSubmit);
         }
 
         private string _email;
@@ -24,7 +24,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
         }
 
         private bool CanSubmit() => !string.IsNullOrWhiteSpace(Email);
-        
+
 
         public AsyncCommand SubmitCommand { get; }
         private async Task OnSubmitCommand()
@@ -34,7 +34,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             var popup = DependencyService.Get<IPopup>();
 
             var response = await App.API.Auth.SendPasswordResetEmailAsync(Email);
-            if(response.Success)
+            if (response.Success)
             {
                 await popup.AlertAsync("Success", "Please check your email for password reset instructions");
                 await Shell.Current.GoToAsync("..");

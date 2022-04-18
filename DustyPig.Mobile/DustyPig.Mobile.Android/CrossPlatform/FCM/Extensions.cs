@@ -18,8 +18,8 @@ namespace System.Threading.Tasks
         {
             private readonly TaskCompletionSource<Java.Lang.Object> _taskCompletionSource;
 
-            public TaskCompleteListener(TaskCompletionSource<Java.Lang.Object> tcs) =>  _taskCompletionSource = tcs;
-            
+            public TaskCompleteListener(TaskCompletionSource<Java.Lang.Object> tcs) => _taskCompletionSource = tcs;
+
             public void OnComplete(Android.Gms.Tasks.Task task)
             {
                 if (task.IsCanceled)

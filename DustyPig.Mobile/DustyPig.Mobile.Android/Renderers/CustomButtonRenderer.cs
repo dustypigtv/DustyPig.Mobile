@@ -1,6 +1,5 @@
 ﻿using Android.Content;
 using Android.Views;
-using DustyPig.Mobile;
 using DustyPig.Mobile.Controls;
 using DustyPig.Mobile.Droid.Renderers;
 using System.ComponentModel;

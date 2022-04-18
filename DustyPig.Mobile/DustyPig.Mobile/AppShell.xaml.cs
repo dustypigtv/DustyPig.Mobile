@@ -1,6 +1,6 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
 using DustyPig.Mobile.MVVM.Auth.Views;
-using DustyPig.Mobile.Views;
+using DustyPig.Mobile.MVVM.Main.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +27,11 @@ namespace DustyPig.Mobile
             InitializeComponent();
             DependencyService.Get<IScreen>().SetOrientation(false);
 
-            Routing.RegisterRoute(nameof(SignupPage), typeof(SignupPage));
+            //Auth pages
             Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
+            Routing.RegisterRoute(nameof(PasswordLoginPage), typeof(PasswordLoginPage));
             Routing.RegisterRoute(nameof(SelectProfilePage), typeof(SelectProfilePage));
-
-
+            Routing.RegisterRoute(nameof(SignupPage), typeof(SignupPage));
         }
 
         protected override void OnNavigated(ShellNavigatedEventArgs args)
