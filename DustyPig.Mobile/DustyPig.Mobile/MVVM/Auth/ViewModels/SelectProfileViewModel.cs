@@ -22,17 +22,21 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             }
             else
             {
-                await DependencyService.Get<IPopup>().Alert("Error", response.Error.Message);
+                await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
                 await Shell.Current.GoToAsync("..");
             }
         }
 
         public async void OnItemTapped(BasicProfile bp)
         {
+            //Reset token when logging in
+            var fcm = DependencyService.Get<IFCM>();
+            await fcm.ResetTokenAsync();
+
             var creds = new ProfileCredentials
             {
                 Id = bp.Id,
-                DeviceToken = await DependencyService.Get<IFCM>().GetTokenAsync()
+                DeviceToken = await fcm.GetTokenAsync()
             };
 
             var response = await App.API.Auth.ProfileLoginAsync(creds);

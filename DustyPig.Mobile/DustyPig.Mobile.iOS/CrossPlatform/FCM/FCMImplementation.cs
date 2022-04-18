@@ -26,15 +26,21 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.FCM
             UIApplication.SharedApplication.RegisterForRemoteNotifications();
         }
 
-        public Task<string> GetTokenAsync()
+        public async Task<string> GetTokenAsync()
         {
-            try { return Task.FromResult(Messaging.SharedInstance.FcmToken); }
+            try 
+            {
+                var ret = Messaging.SharedInstance.FcmToken;
+                if (string.IsNullOrEmpty(ret))
+                    ret = await Messaging.SharedInstance.RetrieveFcmTokenAsync(Firebase.Core.App.DefaultInstance.Options.GcmSenderId);
+                return ret;
+            }
             catch { return null; }
         }
 
         public Task ResetTokenAsync()
         {
-            try { return Firebase.Installations.Installations.DefaultInstance.DeleteAsync(); }
+            try { return Messaging.SharedInstance.DeleteFcmTokenAsync(Firebase.Core.App.DefaultInstance.Options.GcmSenderId); }
             catch { return Task.CompletedTask; }
         }
 

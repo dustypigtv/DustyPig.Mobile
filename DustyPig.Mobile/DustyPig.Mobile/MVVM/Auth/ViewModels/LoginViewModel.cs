@@ -71,6 +71,10 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
 
             try
             {
+                //Reset token when logging in
+                var fcm = DependencyService.Get<IFCM>();
+                await fcm.ResetTokenAsync();
+
                 var dpToken = await App.API.Auth.PasswordLoginAsync(new PasswordCredentials
                 {
                     Email = _email,
@@ -122,6 +126,10 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
 
             try
             {
+                //Reset token when logging in
+                var fcm = DependencyService.Get<IFCM>();
+                await fcm.ResetTokenAsync();
+
                 var dpToken = await App.API.Auth.OAuthLoginAsync(new OAuthCredentials 
                 { 
                     Provider = provider, 
@@ -149,7 +157,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
                 await Shell.Current.GoToAsync(nameof(StartupPage));
         }
 
-        private Task ShowError(string title, string msg) => DependencyService.Get<IPopup>().Alert(title, msg);
+        private Task ShowError(string title, string msg) => DependencyService.Get<IPopup>().AlertAsync(title, msg);
         
     }
 }

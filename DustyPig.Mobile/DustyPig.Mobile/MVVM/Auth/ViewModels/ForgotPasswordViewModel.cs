@@ -36,12 +36,12 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             var response = await App.API.Auth.SendPasswordResetEmailAsync(Email);
             if(response.Success)
             {
-                await popup.Alert("Success", "Please check your email for password reset instructions");
+                await popup.AlertAsync("Success", "Please check your email for password reset instructions");
                 await Shell.Current.GoToAsync("..");
             }
             else
             {
-                await popup.Alert("Error", response.Error.Message);
+                await popup.AlertAsync("Error", response.Error.Message);
             }
 
 

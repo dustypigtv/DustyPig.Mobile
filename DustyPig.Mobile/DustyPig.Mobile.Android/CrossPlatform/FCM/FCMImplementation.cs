@@ -16,7 +16,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.FCM
 
         public Task ResetTokenAsync()
         {
-            try { return Firebase.Installations.FirebaseInstallations.Instance.Delete().ToAwaitableTask(); }
+            try { return FirebaseMessaging.Instance.DeleteToken().ToAwaitableTask(); }
             catch { return Task.CompletedTask; }
         }
 

@@ -18,7 +18,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform
             _themeId = themeId;
         }
 
-        public Task Alert(string title, string message)
+        public Task AlertAsync(string title, string message)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
@@ -39,7 +39,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform
             return taskCompletionSource.Task;
         }
 
-        public Task<bool> OkCancel(string title, string message)
+        public Task<bool> OkCancelAsync(string title, string message)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 

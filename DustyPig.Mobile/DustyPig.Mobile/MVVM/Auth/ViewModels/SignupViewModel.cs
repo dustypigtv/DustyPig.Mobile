@@ -76,7 +76,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             {
                 if (ret.Data.EmailVerificationRequired)
                 {
-                    await popup.Alert("Success!", "Please check your email to verify your account");
+                    await popup.AlertAsync("Success!", "Please check your email to verify your account");
                     await Shell.Current.GoToAsync("..");
                 }
                 else
@@ -90,7 +90,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             }
             else
             {
-                await popup.Alert("Error", ret.Error.FormatMessage());
+                await popup.AlertAsync("Error", ret.Error.FormatMessage());
             }
 
             IsBusy = false;

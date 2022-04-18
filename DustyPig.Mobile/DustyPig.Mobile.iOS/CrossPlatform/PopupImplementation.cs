@@ -10,7 +10,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
 {
     public class PopupImplementation : IPopup
     {
-        public Task Alert(string title, string message)
+        public Task AlertAsync(string title, string message)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
@@ -46,7 +46,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
                     SetBackgroundColor(subView);
         }
 
-        public Task<bool> OkCancel(string title, string message)
+        public Task<bool> OkCancelAsync(string title, string message)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 

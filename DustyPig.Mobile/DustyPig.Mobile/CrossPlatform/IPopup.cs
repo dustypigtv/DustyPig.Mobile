@@ -7,8 +7,8 @@ namespace DustyPig.Mobile.CrossPlatform
         /// <summary>
         /// Alert with a single OK button
         /// </summary>
-        Task Alert(string title, string message);
+        Task AlertAsync(string title, string message);
 
-        Task<bool> OkCancel(string title, string message);
+        Task<bool> OkCancelAsync(string title, string message);
     }
 }
