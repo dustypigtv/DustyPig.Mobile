@@ -69,6 +69,7 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CrossPlatform\FCM\FCMImplementation.cs" />
     <Compile Include="CrossPlatform\PopupImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\AppleLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
@@ -166,6 +167,9 @@
   <ItemGroup>
     <PackageReference Include="Xamarin.Facebook.LoginKit.iOS">
       <Version>9.0.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging">
+      <Version>4.7.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />

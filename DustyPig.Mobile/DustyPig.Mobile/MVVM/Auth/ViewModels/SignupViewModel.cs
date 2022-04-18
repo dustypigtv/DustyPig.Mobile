@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.Mobile.Views;
@@ -68,7 +69,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
                 DisplayName = _name,
                 Email = _email,
                 Password = _password,
-                //DeviceToken = Plugin.FirebasePushNotification.CrossFirebasePushNotification.Current.Token
+                DeviceToken = await DependencyService.Get<IFCM>().GetTokenAsync()
             });
 
             if (ret.Success)

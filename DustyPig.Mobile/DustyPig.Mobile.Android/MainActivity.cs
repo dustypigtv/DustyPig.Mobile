@@ -3,7 +3,9 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Droid.CrossPlatform;
+using DustyPig.Mobile.Droid.CrossPlatform.FCM;
 using DustyPig.Mobile.Droid.CrossPlatform.Orientation;
 using DustyPig.Mobile.Droid.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
@@ -49,15 +51,13 @@ namespace DustyPig.Mobile.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             FacebookLoginClientImplementation.Init(this);
-            Xamarin.Facebook.AppEvents.AppEventsLogger.ActivateApp(Application, Resources.GetString(Resource.String.facebook_app_id));
-
             GoogleLoginClientImplementation.Init(this);
-
             ScreenImplementation.Init(this);
-
             PopupImplemention.Init(this, Resource.Style.MainTheme_AlertDialog);
-
             CachedImageRenderer.Init(true);
+
+            Firebase.FirebaseApp.InitializeApp(this);
+            Xamarin.Forms.DependencyService.RegisterSingleton<IFCM>(new FCMImplementation(this));
 
             SetTheme(Resource.Style.MainTheme);
 

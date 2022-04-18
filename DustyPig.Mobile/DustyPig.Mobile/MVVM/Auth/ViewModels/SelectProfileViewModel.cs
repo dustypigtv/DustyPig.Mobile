@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Helpers;
 using Xamarin.Forms;
 
@@ -31,7 +32,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             var creds = new ProfileCredentials
             {
                 Id = bp.Id,
-                //DeviceToken = Plugin.FirebasePushNotification.CrossFirebasePushNotification.Current.Token
+                DeviceToken = await DependencyService.Get<IFCM>().GetTokenAsync()
             };
 
             var response = await App.API.Auth.ProfileLoginAsync(creds);

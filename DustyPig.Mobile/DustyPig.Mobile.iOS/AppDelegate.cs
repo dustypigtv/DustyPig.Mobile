@@ -1,9 +1,12 @@
-﻿using DustyPig.Mobile.iOS.CrossPlatform.Orientation;
+﻿using DustyPig.Mobile.CrossPlatform.FCM;
+using DustyPig.Mobile.iOS.CrossPlatform.FCM;
+using DustyPig.Mobile.iOS.CrossPlatform.Orientation;
 using DustyPig.Mobile.iOS.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using ObjCRuntime;
 using UIKit;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.iOS
 {
@@ -24,16 +27,17 @@ namespace DustyPig.Mobile.iOS
         {
             global::Xamarin.Forms.Forms.Init();
 
-            UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
-            UITabBar.Appearance.SelectedImageTintColor = UIColor.White;
-
             CachedImageRenderer.Init();
             FacebookLoginClientImplementation.Init(app, options);
             GoogleLoginClientImplementation.Initialize();
+
+            DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
             
             LoadApplication(new App());
 
-            
+            UIApplication.SharedApplication.SetStatusBarStyle(UIStatusBarStyle.LightContent, false);
+            UITabBar.Appearance.SelectedImageTintColor = UIColor.White;
+
             return base.FinishedLaunching(app, options);
         }
 
