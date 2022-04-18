@@ -5,8 +5,7 @@
              xmlns:local="clr-namespace:DustyPig.Mobile.Helpers" 
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
-             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels" 
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels"
              x:DataType="viewmodels:LoginViewModel"
              Shell.NavBarIsVisible="False">
 
@@ -97,7 +96,7 @@
 
                         <!-- Google -->
                         <!-- 
-                            The G right of center on Android? Crazy, but fine, I'll draw my own.
+                            The G right of center in the default square image on Android? Crazy, but fine, I'll draw my own.
                             BUT the Xamarin fast renderes make the picture vanish when the
                             button is clicked.  Ok, I'll use a custom button renderer to 
                             disable the fast renderer on this specific control
@@ -165,6 +164,11 @@
                         </Grid>
 
                         <!-- Password -->
+                        <!-- 
+                            Again, the Xamarin fast renderes make the picture vanish when the
+                            button is clicked.  So, I'll use a custom button renderer to 
+                            disable the fast renderer on this specific control
+                        -->
                         <Grid
                             Grid.Row="3"
                             Grid.Column="1">
