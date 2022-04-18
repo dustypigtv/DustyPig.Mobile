@@ -77,7 +77,5 @@
 		<string>fbauth2</string>
 		<string>fb-messenger-share-api</string>
 	</array>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
 </dict>
 </plist>
