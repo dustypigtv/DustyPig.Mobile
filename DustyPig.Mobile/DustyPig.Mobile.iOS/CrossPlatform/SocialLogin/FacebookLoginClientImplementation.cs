@@ -7,7 +7,6 @@ using Facebook.CoreKit;
 using Facebook.LoginKit;
 using Foundation;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
@@ -39,11 +38,6 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
             return ApplicationDelegate.SharedInstance.OpenUrl(application, url, sourceApplication, annotation);
         }
 
-        private static bool EmailDenied => AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
-
-        private Exception EmailException => new Exception("Email is required to use Dusty Pig. Please try again and allow email access");
-
-
         public Task<string> LoginAsync()
         {
             TaskCompletionSource<string> loginTask = new TaskCompletionSource<string>();
@@ -54,28 +48,14 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.SocialLogin
                 vc = vc.PresentedViewController;
             }
 
-            _loginManager.AuthType = EmailDenied ? LoginAuthType.Rerequest : LoginAuthType.Reauthorize;
-
             _loginManager.LogIn(new string[] { "email" }, vc, (result, error) =>
             {
                 if (error != null)
-                {
                     loginTask.TrySetException(new Exception(error.Description));
-                }
                 else if (result.IsCancelled)
-                {
-                    if (EmailDenied)
-                        loginTask.TrySetException(EmailException);
-                    else
-                        loginTask.TrySetCanceled();
-                }
+                    loginTask.TrySetCanceled();
                 else
-                {
-                    if (result.DeclinedPermissions.Any(item => item.ToString() == "email"))
-                        loginTask.TrySetException(EmailException);
-                    else
-                        loginTask.TrySetResult(result.Token.TokenString);
-                }
+                    loginTask.TrySetResult(result.Token.TokenString);
             });
 
             return loginTask.Task;

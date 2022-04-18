@@ -30,23 +30,9 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
         {
             _loginCallback = new LoginCallback()
             {
-                CancelAction = () =>
-                {
-                    if (EmailDenied)
-                        ThrowEmailException();
-                    else
-                        _loginTaskCompletionSource.TrySetCanceled();
-                },
-
+                CancelAction = () => _loginTaskCompletionSource.TrySetCanceled(),
                 ErrorAction = error => _loginTaskCompletionSource.TrySetException(error.InnerException),
-
-                SuccessAction = success =>
-                {
-                    if (success.RecentlyDeniedPermissions.Contains("email"))
-                        ThrowEmailException();
-                    else
-                        _loginTaskCompletionSource.TrySetResult(success.AccessToken.Token);
-                }
+                SuccessAction = success =>_loginTaskCompletionSource.TrySetResult(success.AccessToken.Token)
             };
 
             LoginManager.Instance.RegisterCallback(_callbackManager, _loginCallback);
@@ -55,25 +41,16 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
         public static void OnActivityResult(int requestCode, Result resultCode, Intent intent) =>
             _callbackManager?.OnActivityResult(requestCode, (int)resultCode, intent);
 
-        private static bool EmailDenied => AccessToken.CurrentAccessToken != null && !AccessToken.CurrentAccessToken.Permissions.Contains("email");
-
-        private void ThrowEmailException() =>
-            _loginTaskCompletionSource?.TrySetException(new Exception("Email is required to use Dusty Pig. Please try again and allow email access"));
-
         public Task<string> LoginAsync()
         {
             _loginTaskCompletionSource = new TaskCompletionSource<string>();
-
-            LoginManager.Instance.SetAuthType(EmailDenied ? "rerequest" : null);
 
             //There is a bug in the current Xamarin bindings that makes this crash when 
             //Attempting to use the native fb app.  Until Xamarin.Facebook.Login.Android 
             //is updated to SDK v12.2, I have to force WebOnly
             LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
 
-
             LoginManager.Instance.LogInWithReadPermissions(_activity, new string[] { "email" }.ToList());
-
             return _loginTaskCompletionSource.Task;
         }
     }
