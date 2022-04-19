@@ -1,12 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DustyPig.Mobile.MVVM.Main.Views.HomePage">
+             x:Class="DustyPig.Mobile.MVVM.Main.Views.HomePage"
+             Shell.NavBarIsVisible="False">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Home"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+
+        <RefreshView BackgroundColor="Black" RefreshColor="White">
+            
+            <ScrollView >
+
+                <Grid
+                    x:Name="MainGrid"
+                    Margin="12,12,12,0"
+                    RowSpacing="24">
+                    
+
+                </Grid>
+        
+            </ScrollView>
+            
+        </RefreshView>
+
     </ContentPage.Content>
+
+
 </ContentPage>
