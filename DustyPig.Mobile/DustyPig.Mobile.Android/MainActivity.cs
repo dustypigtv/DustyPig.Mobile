@@ -62,6 +62,8 @@ namespace DustyPig.Mobile.Droid
             SetTheme(Resource.Style.MainTheme);
 
             LoadApplication(new App());
+
+            Window.SetStatusBarColor(Android.Graphics.Color.Black);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
