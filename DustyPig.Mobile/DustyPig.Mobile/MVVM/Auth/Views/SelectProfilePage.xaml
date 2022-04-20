@@ -4,8 +4,10 @@
              xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels" 
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              x:Class="DustyPig.Mobile.MVVM.Auth.Views.SelectProfilePage"
              x:DataType="viewmodels:SelectProfileViewModel"
+             ios:Page.UseSafeArea="true"
              Title="Who's Watching?">
 
 

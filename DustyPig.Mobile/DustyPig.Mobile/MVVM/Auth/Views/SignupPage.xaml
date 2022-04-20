@@ -4,9 +4,9 @@
              x:Class="DustyPig.Mobile.MVVM.Auth.Views.SignupPage"
              xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels" 
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
-             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              x:DataType="viewmodels:SignupViewModel"
+             ios:Page.UseSafeArea="true"
              Title="Sign Up">
 
     <ContentPage.BindingContext>

@@ -6,7 +6,9 @@
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
              xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.ViewModels"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              x:DataType="viewmodels:LoginViewModel"
+             ios:Page.UseSafeArea="true"
              Shell.NavBarIsVisible="False">
 
     <ContentPage.BindingContext>
