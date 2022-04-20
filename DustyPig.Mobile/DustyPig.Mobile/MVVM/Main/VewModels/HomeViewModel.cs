@@ -1,6 +1,10 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Controls;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -9,51 +13,48 @@ namespace DustyPig.Mobile.MVVM.Main.VewModels
 {
     public class HomeViewModel : _BaseViewModel
     {
-        public HomeViewModel()
+        private readonly Grid _mainGrid;
+
+        public HomeViewModel(Grid mainGrid)
         {
-            RefreshCommand = new AsyncCommand(Update, allowsMultipleExecutions: false);
+            _mainGrid = mainGrid;
+
             ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped);
         }
 
-        public AsyncCommand RefreshCommand { get; }
-
-        public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
-        private async Task OnItemTapped(BasicMedia item)
+        private AsyncCommand<BasicMedia> ItemTappedCommand { get; }
+        private async Task OnItemTapped(BasicMedia basicMedia)
         {
-            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+
         }
 
-        private ObservableHomePageSectionCollection _sections = new ObservableHomePageSectionCollection();
-        public ObservableHomePageSectionCollection Sections
+        public async void OnAppearing()
         {
-            get => _sections;
-            set => SetProperty(ref _sections, value);
-        }
+            //To Do: Handle re-appear, and handle occasional check for updates
+            if (_mainGrid.Children.Count > 0)
+                return;
 
-
-
-        public void OnAppearing()
-        {
-            if (App.HomePageNeedsRefresh || Sections.Count == 0)
-                IsBusy = true;
-        }
-
-
-        private async Task Update()
-        {
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
-                Sections.UpdateList(response.Data.Sections);
-                App.HomePageNeedsRefresh = false;
+                for (int i = 0; i < response.Data.Sections.Count; i++)
+                {
+                    var section = response.Data.Sections[i];
+
+                    var homePageSection = new HomePageSection(ItemTappedCommand)
+                    {
+                        ListId = section.ListId,
+                        Title = section.Title
+                    };
+                    homePageSection.MediaItems.AddRange(section.Items);
+                    
+                    _mainGrid.Children.Add(homePageSection, 0, i);
+                }
             }
             else
             {
                 await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.FormatMessage());
-            }
-
-            App.HomePageNeedsRefresh = false;
-            IsBusy = false;
+            }            
         }
     }
 }
