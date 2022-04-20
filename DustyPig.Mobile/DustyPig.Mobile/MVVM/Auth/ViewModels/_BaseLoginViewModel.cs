@@ -1,7 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.MVVM.Auth.Views;
-using DustyPig.Mobile.Services;
 using DustyPig.REST;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -20,7 +19,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             }
             else
             {
-                await Settings.SaveProfileTokenAsync(dpToken.Data.Token);
+                await Services.Settings.SaveProfileTokenAsync(dpToken.Data.Token);
                 Shell.Current.CurrentItem = new StartupPage();
             }
         }

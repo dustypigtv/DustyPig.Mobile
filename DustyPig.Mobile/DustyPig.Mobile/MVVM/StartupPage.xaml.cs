@@ -24,7 +24,7 @@ namespace DustyPig.Mobile.MVVM
             base.OnAppearing();
 
             if (string.IsNullOrWhiteSpace(App.API.Token))
-                App.API.Token = await Settings.GetProfileTokenAsync();
+                App.API.Token = await Services.Settings.GetProfileTokenAsync();
 
             if (string.IsNullOrWhiteSpace(App.API.Token))
             {

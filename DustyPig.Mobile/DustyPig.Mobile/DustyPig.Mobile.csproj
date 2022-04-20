@@ -86,4 +86,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\jason\source\repos\dustypigtv\DustyPig.Mobile\.editorconfig" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="C:\Users\jason\source\repos\dustypigtv\DustyPig.Mobile\.editorconfig" />
+  </ItemGroup>
 </Project>

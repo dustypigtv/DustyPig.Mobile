@@ -128,7 +128,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             if (response.Success)
             {
                 App.API.Token = response.Data.Token;
-                await Settings.SaveProfileTokenAsync(response.Data.Token);
+                await Services.Settings.SaveProfileTokenAsync(response.Data.Token);
                 Shell.Current.CurrentItem = new StartupPage();
             }
             else
