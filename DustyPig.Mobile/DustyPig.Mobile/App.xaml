@@ -24,12 +24,7 @@
 
 
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
-
-
-
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
-
-
 
             <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
                 <Setter Property="BackgroundColor" Value="Black" />
@@ -70,6 +65,11 @@
                 <Setter Property="BackgroundColor" Value="Black" />
                 <Setter Property="SeparatorColor" Value="Black" />
                 <Setter Property="RefreshControlColor" Value="White" />
+            </Style>
+
+            <Style TargetType="RefreshView">
+                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="RefreshColor" Value="White" />
             </Style>
             
         </ResourceDictionary>
