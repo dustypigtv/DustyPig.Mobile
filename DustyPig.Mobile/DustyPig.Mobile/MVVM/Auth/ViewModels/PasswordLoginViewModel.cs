@@ -28,6 +28,8 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             {
                 SetProperty(ref _email, value);
                 LoginButtonCommand.ChangeCanExecute();
+                if ((_email + string.Empty).ToLower().Trim() == API.v3.Clients.AuthClient.TEST_EMAIL)
+                    Password = API.v3.Clients.AuthClient.TEST_PASSWORD;
             }
         }
 
