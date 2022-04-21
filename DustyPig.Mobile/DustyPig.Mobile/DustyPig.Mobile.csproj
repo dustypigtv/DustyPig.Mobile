@@ -76,7 +76,7 @@
     <EmbeddedResource Update="MVVM\MediaDetails\Views\SeriesDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Player\Views\PlayerPage.xaml">
+    <EmbeddedResource Update="MVVM\Player\PlayerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Settings\Views\SettingsPage.xaml">

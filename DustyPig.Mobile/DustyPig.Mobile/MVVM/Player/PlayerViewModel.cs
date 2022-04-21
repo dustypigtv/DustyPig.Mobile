@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DustyPig.Mobile.MVVM.Player.ViewModels
+namespace DustyPig.Mobile.MVVM.Player
 {
     internal class PlayerViewModel
     {
