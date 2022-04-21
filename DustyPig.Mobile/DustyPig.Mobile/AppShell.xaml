@@ -27,13 +27,13 @@
             </ShellContent.Icon>
         </ShellContent>
 
-        <ShellContent Route="Movies" Title="Movies" ContentTemplate="{DataTemplate mainpages:MoviesPage}">
+        <ShellContent Route="Movies" Title="Movies" ContentTemplate="{DataTemplate mainpages:MediaPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Film}" />
             </ShellContent.Icon>
         </ShellContent>
 
-        <ShellContent Route="Series" Title="Series" ContentTemplate="{DataTemplate mainpages:SeriesPage}">
+        <ShellContent Route="TV" Title="TV" ContentTemplate="{DataTemplate mainpages:MediaPage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Tv}" />
             </ShellContent.Icon>

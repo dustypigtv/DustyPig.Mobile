@@ -1,6 +1,8 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
+using DustyPig.Mobile.MVVM.Main.Views;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -13,6 +15,18 @@ namespace DustyPig.Mobile.MVVM.Main.VewModels
         {
             RefreshCommand = new AsyncCommand(Update);
             ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped);
+
+
+            //Only do this in the home tab - since this class doesn't get destroyed
+            InternetConnectivityChanged += (sender, e) =>
+            {
+                var tabBar = Shell.Current.CurrentItem as TabBar;
+                for (int i = 0; i < 3; i++)
+                    tabBar.Items[i].IsEnabled = e;
+
+                if (!e && new string[] { "Home", "Movies", "TV" }.Contains(tabBar.CurrentItem.Title))
+                    tabBar.CurrentItem = tabBar.Items[3];
+            };
         }
 
         public AsyncCommand RefreshCommand { get; }

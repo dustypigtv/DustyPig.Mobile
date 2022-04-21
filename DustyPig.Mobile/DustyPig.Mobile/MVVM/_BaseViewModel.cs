@@ -8,10 +8,16 @@ namespace DustyPig.Mobile.MVVM
 {
     public abstract class _BaseViewModel : INotifyPropertyChanged
     {
+        public event EventHandler<bool> InternetConnectivityChanged;
+
         public _BaseViewModel()
         {
             NoInternet = (int)Connectivity.NetworkAccess < 3;
-            Connectivity.ConnectivityChanged += (sender, e) => NoInternet = (int)e.NetworkAccess < 3;
+            Connectivity.ConnectivityChanged += (sender, e) =>
+            {
+                NoInternet = (int)e.NetworkAccess < 3;
+                InternetConnectivityChanged?.Invoke(this, !NoInternet);
+            };
         }
 
         bool _isBusy = false;

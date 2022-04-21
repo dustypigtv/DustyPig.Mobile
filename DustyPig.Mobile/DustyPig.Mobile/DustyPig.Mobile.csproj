@@ -32,7 +32,7 @@
 
   
   <ItemGroup>
-    <PackageReference Include="DustyPig.API" Version="3.0.1.24" />
+    <PackageReference Include="DustyPig.API" Version="3.0.1.25" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.2" />
@@ -55,7 +55,7 @@
     <EmbeddedResource Update="MVVM\Auth\Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\Views\MoviesPage.xaml">
+    <EmbeddedResource Update="MVVM\Main\Views\MediaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Auth\Views\SelectProfilePage.xaml">
@@ -93,5 +93,11 @@
   
   <ItemGroup>
     <None Include="C:\Users\jason\source\repos\dustypigtv\DustyPig.Mobile\.editorconfig" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="MVVM\Main\Views\MediaPage.xaml.cs">
+      <DependentUpon>MediaPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

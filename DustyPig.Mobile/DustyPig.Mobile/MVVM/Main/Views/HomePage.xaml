@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.VewModels" 
+             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
              xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
@@ -12,89 +13,135 @@
              Shell.NavBarIsVisible="False">
     
     <ContentPage.Content>
+        <RelativeLayout>
 
-        <RefreshView 
-            Margin="12,12,12,0"
-            Command="{Binding RefreshCommand}"
-            IsRefreshing="{Binding IsBusy}">
+            <RefreshView 
+                Margin="12,0,12,0"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsBusy}">
 
-            <CollectionView
-                x:Name="MainCollectionView"
-                EmptyView="No media found" 
-                Scrolled="MainCollectionView_Scrolled"
-                ItemsSource="{Binding Sections}">
+                <CollectionView
+                    x:Name="MainCollectionView"
+                    EmptyView="No media found" 
+                    Scrolled="MainCollectionView_Scrolled"
+                    ItemsSource="{Binding Sections}">
 
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout
-                        Orientation="Vertical"
-                        ItemSpacing="24" />
-                </CollectionView.ItemsLayout>
-
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout
-                            x:DataType="vewmodels:HomePageSectionViewModel"
-                            Orientation="Vertical">
-
-                            <Label
-                                FontSize="16"
-                                FontAttributes="Bold"
-                                Text="{Binding Title}" />
-
-                            <controls:MyCollectionView
-                                HeightRequest="160"
-                                EmptyView="No media found"
-                                ItemSizingStrategy="MeasureFirstItem"
-                                RemainingItemsThreshold="100"
-                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
-                                ItemsSource="{Binding Items}"
-                                MyId="{Binding ListId}"
-                                Scrolled="CollectionView_Scrolled">
-
-                                <CollectionView.ItemsLayout>
-                                    <LinearItemsLayout 
-                                        Orientation="Horizontal"
-                                        ItemSpacing="16"/>
-                                </CollectionView.ItemsLayout>
-
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate
-                                        x:DataType="models:BasicMedia">
-
-                                        <ffimages:CachedImage Source="{Binding ArtworkUrl}"
-                                            HeightRequest="160"
-                                            WidthRequest="106.66"
-                                            Aspect="AspectFit"
-                                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-
-                                            <ffimages:CachedImage.GestureRecognizers>
-                                                <TapGestureRecognizer 
-                                                    Tapped="Item_Tapped" 
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
-                                                    CommandParameter="{Binding}" />
-                                            </ffimages:CachedImage.GestureRecognizers>
-
-                                        </ffimages:CachedImage>
-
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-
-                            </controls:MyCollectionView>
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                            Orientation="Vertical"
+                            ItemSpacing="0" />
+                    </CollectionView.ItemsLayout>
 
 
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout
+                                x:DataType="vewmodels:HomePageSectionViewModel"
+                                Orientation="Vertical">
 
-            </CollectionView>
+                                <Label
+                                    Margin="0,40,0,0"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    Text="{Binding Title}" />
 
-        </RefreshView>
+                                <controls:MyCollectionView
+                                    HeightRequest="160"
+                                    EmptyView="No media found"
+                                    ItemSizingStrategy="MeasureFirstItem"
+                                    RemainingItemsThreshold="100"
+                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
+                                    ItemsSource="{Binding Items}"
+                                    MyId="{Binding ListId}"
+                                    Scrolled="CollectionView_Scrolled">
+
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout 
+                                            Orientation="Horizontal"
+                                            ItemSpacing="16"/>
+                                    </CollectionView.ItemsLayout>
+
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate
+                                            x:DataType="models:BasicMedia">
+
+                                            <ffimages:CachedImage Source="{Binding ArtworkUrl}"
+                                                HeightRequest="160"
+                                                WidthRequest="106.66"
+                                                Aspect="AspectFit"
+                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
+
+                                                <ffimages:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Tapped="Poster_Tapped" 
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
+                                                        CommandParameter="{Binding}" />
+                                                </ffimages:CachedImage.GestureRecognizers>
+
+                                            </ffimages:CachedImage>
+
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+
+                                </controls:MyCollectionView>
 
 
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </RefreshView>
+
+            <StackLayout
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=40}"
+                InputTransparent="True">
+
+                <StackLayout.Background>
+                    <LinearGradientBrush 
+                        StartPoint="0,0"
+                        EndPoint="0,1">
+                        <GradientStop 
+                            Color="Black"
+                            Offset="0"/>
+                        <GradientStop 
+                            Color="Transparent"
+                            Offset="1.0"/>
+                    </LinearGradientBrush>
+                </StackLayout.Background>
+
+            </StackLayout>
+
+            <StackLayout
+                RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-36}">
 
 
+                <ImageButton
+                    HeightRequest="24"
+                    WidthRequest="24"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    BackgroundColor="Transparent"
+                    Aspect="AspectFit"
+                    Clicked="ToolButton_Clicked">
+                    <ImageButton.Source>
+
+                        <FontImageSource 
+                            FontFamily="FontAwesomeSolid"
+                            Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}"
+                            Color="White" />
+
+                    </ImageButton.Source>
+
+                </ImageButton>
+
+            </StackLayout>
+
+        </RelativeLayout>
     </ContentPage.Content>
 
 

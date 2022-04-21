@@ -13,8 +13,7 @@ namespace DustyPig.Mobile
         private static readonly Type[] TabPageTypes = new Type[]
         {
             typeof(HomePage),
-            typeof(MoviesPage),
-            typeof(SeriesPage),
+            typeof(MediaPage),
             typeof(DownloadsPage),
             typeof(SettingsPage)
         };
@@ -62,7 +61,7 @@ namespace DustyPig.Mobile
                         index = 1;
                         break;
 
-                    case "Series":
+                    case "TV":
                         index = 2;
                         break;
 

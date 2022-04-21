@@ -1,4 +1,5 @@
 ﻿using DustyPig.Mobile.Controls;
+using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Main.VewModels;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -45,12 +46,10 @@ namespace DustyPig.Mobile.MVVM.Main.Views
             }
         }
 
-        private async void Item_Tapped(object sender, System.EventArgs e)
-        {
-            View v = sender as View;
-            await v.ScaleTo(0.95, 75);
-            await v.ScaleTo(1, 75);
-        }
+        private async void Poster_Tapped(object sender, System.EventArgs e) => await sender.TapEffect();
+
+        private async void ToolButton_Clicked(object sender, System.EventArgs e) => await sender.TapEffect(0.9, 100);
+
 
         private void CollectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
@@ -111,5 +110,7 @@ namespace DustyPig.Mobile.MVVM.Main.Views
                 _watchMainScrollPosition = true;
             }
         }
+
+        
     }
 }

@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             x:Class="DustyPig.Mobile.MVVM.Main.Views.MediaPage"
+             xmlns:vewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.VewModels"
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
+             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:DataType="vewmodels:MediaViewModel"
+             Shell.NavBarIsVisible="False">
+    
+    <ContentPage.Content>
+        
+        <RelativeLayout>
+
+            
+            <RefreshView
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                IsRefreshing="{Binding IsBusy}"
+                Command="{Binding RefreshCommand}">
+
+                <CollectionView
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Margin="12,0,12,0"
+                    ItemSizingStrategy="MeasureAllItems"
+                    SelectionMode="None"
+                    ItemsSource="{Binding Items}"
+                    RemainingItemsThreshold="100"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+
+                    <!-- Stupid bug - Set spacing to zero, then put the poster inside a stacklayout with margin 8 (to create 16 spacing) -->
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            VerticalItemSpacing="0"
+                            HorizontalItemSpacing="0"
+                            Orientation="Vertical"
+                            Span="{Binding Span}" />
+                    </CollectionView.ItemsLayout>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="models:BasicMedia">
+
+                            <StackLayout Margin="8">
+                                
+                                <ffimages:CachedImage Source="{Binding ArtworkUrl}"
+                                    HeightRequest="160"
+                                    WidthRequest="106.66"
+                                    Aspect="AspectFit"
+                                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
+
+                                    <ffimages:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Tapped="Poster_Clicked"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vewmodels:MediaViewModel}}, Path=ItemTappedCommand}"
+                                            CommandParameter="{Binding}" />
+                                    </ffimages:CachedImage.GestureRecognizers>
+
+                                </ffimages:CachedImage>
+
+                            </StackLayout>
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </RefreshView>
+
+
+            <StackLayout
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=40}"
+                InputTransparent="True">
+
+                <StackLayout.Background>
+                    <LinearGradientBrush 
+                        StartPoint="0,0"
+                        EndPoint="0,1">
+                        <GradientStop 
+                            Color="Black"
+                            Offset="0"/>
+                        <GradientStop 
+                            Color="Transparent"
+                            Offset="1.0"/>
+                    </LinearGradientBrush>
+                </StackLayout.Background>
+
+            </StackLayout>
+
+
+
+            <ImageButton 
+                RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=12}"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
+                HeightRequest="24"
+                WidthRequest="24"
+                BackgroundColor="Transparent"
+                Clicked="ToolButton_Clicked"
+                Aspect="AspectFit">
+                
+                <ImageButton.Source>
+
+                    <FontImageSource 
+                        FontFamily="FontAwesomeSolid"
+                        Glyph="{x:Static dpcc:FontAwesome.Filter}"
+                        Color="White" />
+
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton 
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-36}"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
+                HeightRequest="24"
+                WidthRequest="24"
+                BackgroundColor="Transparent"
+                Clicked="ToolButton_Clicked"
+                Aspect="AspectFit">
+                
+                <ImageButton.Source>
+
+                    <FontImageSource 
+                        FontFamily="FontAwesomeSolid"
+                        Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}"
+                        Color="White" />
+
+                </ImageButton.Source>
+            </ImageButton>
+
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>
