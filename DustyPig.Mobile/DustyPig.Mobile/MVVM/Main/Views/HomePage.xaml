@@ -20,7 +20,7 @@
 
             <CollectionView
                 x:Name="MainCollectionView"
-                EmptyView="No items to display" 
+                EmptyView="No media found" 
                 Scrolled="MainCollectionView_Scrolled"
                 ItemsSource="{Binding Sections}">
 
@@ -44,6 +44,10 @@
 
                             <controls:MyCollectionView
                                 HeightRequest="160"
+                                EmptyView="No media found"
+                                ItemSizingStrategy="MeasureFirstItem"
+                                RemainingItemsThreshold="100"
+                                RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
                                 ItemsSource="{Binding Items}"
                                 MyId="{Binding ListId}"
                                 Scrolled="CollectionView_Scrolled">
