@@ -16,19 +16,5 @@ namespace DustyPig.Mobile.Controls
             get => (long)GetValue(MyIdProperty);
             set => SetValue(MyIdProperty, value);
         }
-
-
-        public static readonly BindableProperty ExactXProperty =
-        BindableProperty.Create(
-            nameof(ExactX),
-            typeof(double),
-            typeof(MyCollectionView),
-            0d);
-
-        public double ExactX
-        {
-            get => (double)GetValue(ExactXProperty);
-            set => SetValue(ExactXProperty, value);
-        }
     }
 }
