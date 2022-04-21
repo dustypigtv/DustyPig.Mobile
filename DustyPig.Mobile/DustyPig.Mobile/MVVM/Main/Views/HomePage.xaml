@@ -1,20 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.VewModels" 
-             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
-             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
-             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
-             x:Class="DustyPig.Mobile.MVVM.Main.Views.HomePage"
-             x:DataType="vewmodels:HomeViewModel"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:vewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.VewModels"
+             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
+             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             x:Class="DustyPig.Mobile.MVVM.Main.Views.HomePage"             
              ios:Page.UseSafeArea="true"
              Shell.NavBarIsVisible="False">
-    
-    <ContentPage.Content>
+
+    <ContentPage.Content 
+        x:DataType="vewmodels:HomeViewModel">
+        
         <RelativeLayout>
 
+            <!-- Media -->
             <RefreshView 
                 Margin="12,0,12,0"
                 Command="{Binding RefreshCommand}"
@@ -95,52 +97,17 @@
 
             </RefreshView>
 
-            <StackLayout
+            <!-- Gradient top button bar -->
+            <reusable:TopButtonBarGradient
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                RelativeLayout.HeightConstraint="{ConstraintExpression Type=Constant, Constant=40}"
-                InputTransparent="True">
+                InputTransparent="True" />
 
-                <StackLayout.Background>
-                    <LinearGradientBrush 
-                        StartPoint="0,0"
-                        EndPoint="0,1">
-                        <GradientStop 
-                            Color="Black"
-                            Offset="0"/>
-                        <GradientStop 
-                            Color="Transparent"
-                            Offset="1.0"/>
-                    </LinearGradientBrush>
-                </StackLayout.Background>
 
-            </StackLayout>
-
-            <StackLayout
+            <!-- Search / Cast buttons-->
+            <reusable:SearchCastButtons
                 RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-36}">
-
-
-                <ImageButton
-                    HeightRequest="24"
-                    WidthRequest="24"
-                    HorizontalOptions="End"
-                    VerticalOptions="Start"
-                    BackgroundColor="Transparent"
-                    Aspect="AspectFit"
-                    Clicked="ToolButton_Clicked">
-                    <ImageButton.Source>
-
-                        <FontImageSource 
-                            FontFamily="FontAwesomeSolid"
-                            Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}"
-                            Color="White" />
-
-                    </ImageButton.Source>
-
-                </ImageButton>
-
-            </StackLayout>
-
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant={x:Static reusable:SearchCastButtons.RIGHT_EDGE_OFFSET}}" />
+            
         </RelativeLayout>
     </ContentPage.Content>
 

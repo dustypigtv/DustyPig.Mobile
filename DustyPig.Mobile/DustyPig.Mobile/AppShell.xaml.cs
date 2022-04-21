@@ -1,6 +1,7 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
 using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.Mobile.MVVM.Main.Views;
+using DustyPig.Mobile.MVVM.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,9 @@ namespace DustyPig.Mobile
             Routing.RegisterRoute(nameof(PasswordLoginPage), typeof(PasswordLoginPage));
             Routing.RegisterRoute(nameof(SelectProfilePage), typeof(SelectProfilePage));
             Routing.RegisterRoute(nameof(SignupPage), typeof(SignupPage));
+
+            //Search
+            Routing.RegisterRoute(nameof(SearchPage), typeof(SearchPage));
         }
 
         protected override void OnNavigated(ShellNavigatedEventArgs args)

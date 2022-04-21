@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
+             x:Class="DustyPig.Mobile.MVVM.Reusable.SearchCastButtons">
+    
+  <ContentView.Content>
+
+        <Grid
+            ColumnSpacing="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <ImageButton
+                Grid.Row="0"
+                Grid.Column="0"
+                HeightRequest="40"
+                WidthRequest="40"
+                Padding="8"
+                CornerRadius="20"
+                IsVisible="{Binding SearchButtonVisible}"
+                BackgroundColor="Transparent"
+                Aspect="AspectFit"
+                x:DataType="reusable:SearchCastButtons"
+                Command="{Binding SearchButtonTapped}"
+                Pressed="ImageButton_Pressed"
+                Released="ImageButton_Released">
+
+                <ImageButton.Source>
+
+                    <FontImageSource 
+                        FontFamily="FontAwesomeSolid"
+                        Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}"
+                        Color="White" />
+
+                </ImageButton.Source>
+
+            </ImageButton>
+
+        </Grid>
+  
+  </ContentView.Content>
+</ContentView>

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DustyPig.Mobile.MVVM.Search;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM
 {
