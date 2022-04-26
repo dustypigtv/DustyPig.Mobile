@@ -17,12 +17,12 @@
         <RelativeLayout>
 
             <!-- Media -->
-            <RefreshView 
-                Margin="12,0,12,0"
+            <RefreshView
+                Margin="12,12,12,0"
                 Command="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsBusy}">
 
-                <CollectionView
+                <CollectionView 
                     x:Name="MainCollectionView"
                     EmptyView="No media found" 
                     Scrolled="MainCollectionView_Scrolled"
@@ -42,7 +42,7 @@
                                 Orientation="Vertical">
 
                                 <Label
-                                    Margin="0,40,0,0"
+                                    Margin="0,16,0,0"
                                     FontSize="16"
                                     FontAttributes="Bold"
                                     Text="{Binding Title}" />
@@ -97,17 +97,16 @@
 
             </RefreshView>
 
-            <!-- Gradient top button bar -->
+            <!-- Gradient Bar -->
             <reusable:TopButtonBarGradient
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                InputTransparent="True" />
-
-
+                InputTransparent="True"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+            
             <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
-                RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant={x:Static reusable:SearchCastButtons.RIGHT_EDGE_OFFSET}}" />
-            
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-52}" />
+
+
         </RelativeLayout>
     </ContentPage.Content>
 

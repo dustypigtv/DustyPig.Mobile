@@ -15,6 +15,16 @@ namespace DustyPig.Mobile.MVVM.Search
         public SearchPage()
         {
             InitializeComponent();
+            BindingContext = VM = new SearchViewModel();
         }
+
+        public SearchViewModel VM { get; }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+
+        private async void CustomSearchHandler_DoQuery(object sender, string e) => await VM.OnDoQuery(e);
     }
 }

@@ -20,6 +20,7 @@
             <RefreshView
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"
+                Margin="0,24,0,0"
                 IsRefreshing="{Binding IsBusy}"
                 Command="{Binding RefreshCommand}">
 
@@ -72,22 +73,26 @@
                 </CollectionView>
             </RefreshView>
 
-            <!-- Gradient top button bar -->
+
+            <!-- Gradient Bar -->
             <reusable:TopButtonBarGradient
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                InputTransparent="True" />
+                InputTransparent="True"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+
+            <!-- Search / Cast buttons-->
+            <reusable:SearchCastButtons
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-52}" />
 
 
-            <!-- Filter button on left -->
-            <ImageButton 
-                RelativeLayout.XConstraint="{ConstraintExpression Type=Constant, Constant=12}"
-                RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
-                HeightRequest="24"
-                WidthRequest="24"
+            <ImageButton
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="12,0,0,0"
+                Padding="8"
+                CornerRadius="20"
                 BackgroundColor="Transparent"
-                Clicked="ToolButton_Clicked"
                 Aspect="AspectFit">
-                
+
                 <ImageButton.Source>
 
                     <FontImageSource 
@@ -96,15 +101,8 @@
                         Color="White" />
 
                 </ImageButton.Source>
+
             </ImageButton>
-
-
-
-
-            <!-- Search / Cast buttons-->
-            <reusable:SearchCastButtons
-                RelativeLayout.YConstraint="{ConstraintExpression Type=Constant, Constant=12}"
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant={x:Static reusable:SearchCastButtons.RIGHT_EDGE_OFFSET}}" />
 
 
         </RelativeLayout>

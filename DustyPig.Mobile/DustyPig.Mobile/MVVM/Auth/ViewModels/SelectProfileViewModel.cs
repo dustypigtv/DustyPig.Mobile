@@ -83,6 +83,15 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             {
                 Profiles.AddRange(response.Data);
                 IsBusy = false;
+                if (response.Data.Count == 1)
+                {
+                    SelectedProfile = response.Data[0];
+                    ShowPin = true;
+                    while (!_pinEntry.Focus())
+                    {
+                        await Task.Delay(100);
+                    }
+                }
             }
             else
             {

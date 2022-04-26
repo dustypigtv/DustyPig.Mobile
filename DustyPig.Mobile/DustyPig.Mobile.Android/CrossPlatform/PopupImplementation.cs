@@ -9,20 +9,15 @@ namespace DustyPig.Mobile.Droid.CrossPlatform
 {
     public class PopupImplemention : IPopup
     {
-        private static Activity _activity;
         private static int _themeId;
 
-        public static void Init(Activity activity, int themeId)
-        {
-            _activity = activity;
-            _themeId = themeId;
-        }
-
+        public static void Init(int themeId) => _themeId = themeId;
+        
         public Task AlertAsync(string title, string message)
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
-            var builder = new Android.Support.V7.App.AlertDialog.Builder(_activity, _themeId);
+            var builder = new Android.Support.V7.App.AlertDialog.Builder(MainActivity.Instance, _themeId);
             builder
                 .SetTitle(title)
                 .SetMessage(message)
@@ -43,7 +38,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform
         {
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
-            var builder = new Android.Support.V7.App.AlertDialog.Builder(_activity, _themeId);
+            var builder = new Android.Support.V7.App.AlertDialog.Builder(MainActivity.Instance, _themeId);
             builder
                 .SetTitle(title)
                 .SetMessage(message)

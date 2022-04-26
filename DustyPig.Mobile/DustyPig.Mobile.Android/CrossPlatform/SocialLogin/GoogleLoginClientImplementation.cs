@@ -22,24 +22,10 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
         private const int AUTH_ACTIVITY_ID = 9637;
         private const string DUSTY_PIG_CLIENT_ID = "233400762141-fibb1sigs61v1tsf66s1u6aqdh25ddd4.apps.googleusercontent.com";
 
-        private static Activity _activity;
         private static GoogleSignInClient _googleClient;
         private static GoogleLoginClientImplementation _instance;
 
         private TaskCompletionSource<string> _taskCompletionSource;
-
-        public static void Init(Activity activity)
-        {
-            _activity = activity;
-
-            var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                .RequestEmail()
-                .RequestIdToken(DUSTY_PIG_CLIENT_ID);
-
-            GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
-
-            _googleClient = GoogleSignIn.GetClient(activity, googleSignInOptions);
-        }
 
         public GoogleLoginClientImplementation() => _instance = this;
 
@@ -47,8 +33,19 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
         {
             _taskCompletionSource = new TaskCompletionSource<string>();
 
+            if(_googleClient == null)
+            {
+                var gopBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
+                .RequestEmail()
+                .RequestIdToken(DUSTY_PIG_CLIENT_ID);
+
+                GoogleSignInOptions googleSignInOptions = gopBuilder.Build();
+
+                _googleClient = GoogleSignIn.GetClient(MainActivity.Instance, googleSignInOptions);
+            }
+
             _googleClient.SignOut();
-            _activity.StartActivityForResult(_googleClient.SignInIntent, AUTH_ACTIVITY_ID);
+            MainActivity.Instance.StartActivityForResult(_googleClient.SignInIntent, AUTH_ACTIVITY_ID);
 
             return _taskCompletionSource.Task;
         }

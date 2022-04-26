@@ -91,6 +91,7 @@ namespace DustyPig.Mobile.MVVM.Main.VewModels
 
             if (response.Success)
             {
+                
                 _listFullyLoaded = response.Data.Count < 100;
 
                 if (initial)

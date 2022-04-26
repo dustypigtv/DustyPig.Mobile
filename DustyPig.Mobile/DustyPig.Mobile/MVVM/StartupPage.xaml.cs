@@ -16,7 +16,7 @@ namespace DustyPig.Mobile.MVVM
             InitializeComponent();
 
             //For debugging login flow
-            //Settings.DeleteProfileToken();
+            //Services.Settings.DeleteProfileToken();
         }
 
         protected override async void OnAppearing()
@@ -25,6 +25,12 @@ namespace DustyPig.Mobile.MVVM
 
             if (string.IsNullOrWhiteSpace(App.API.Token))
                 App.API.Token = await Services.Settings.GetProfileTokenAsync();
+
+            //For debugging login flow
+#if DEBUG
+            string token = App.API.Token;
+            bool breakHere = true;
+#endif
 
             if (string.IsNullOrWhiteSpace(App.API.Token))
             {

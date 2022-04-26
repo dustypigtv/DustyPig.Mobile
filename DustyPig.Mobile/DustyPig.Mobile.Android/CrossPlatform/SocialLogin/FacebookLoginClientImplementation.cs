@@ -19,12 +19,8 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
     {
         private static readonly ICallbackManager _callbackManager = CallbackManagerFactory.Create();
 
-        private static Activity _activity;
-
         private readonly LoginCallback _loginCallback;
         private TaskCompletionSource<string> _loginTaskCompletionSource;
-
-        public static void Init(Activity activity) => _activity = activity;
 
         public FacebookLoginClientImplementation()
         {
@@ -50,7 +46,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.SocialLogin
             //is updated to SDK v12.2, I have to force WebOnly
             LoginManager.Instance.SetLoginBehavior(LoginBehavior.WebOnly);
 
-            LoginManager.Instance.LogInWithReadPermissions(_activity, new string[] { "email" }.ToList());
+            LoginManager.Instance.LogInWithReadPermissions(MainActivity.Instance, new string[] { "email" }.ToList());
             return _loginTaskCompletionSource.Task;
         }
     }

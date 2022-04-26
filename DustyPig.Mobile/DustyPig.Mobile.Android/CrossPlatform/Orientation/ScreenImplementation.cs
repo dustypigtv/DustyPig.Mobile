@@ -9,14 +9,10 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.Orientation
 {
     class ScreenImplementation : IScreen
     {
-        private static Activity _mainActivity;
+        public void AllowAnyOrientation() => MainActivity.Instance.RequestedOrientation = ScreenOrientation.Unspecified;
 
-        public static void Init(Activity mainActivity) => _mainActivity = mainActivity;
+        public void ForceLandscape() => MainActivity.Instance.RequestedOrientation = ScreenOrientation.SensorLandscape;
 
-        public void AllowAnyOrientation() => _mainActivity.RequestedOrientation = ScreenOrientation.Unspecified;
-
-        public void ForceLandscape() => _mainActivity.RequestedOrientation = ScreenOrientation.SensorLandscape;
-
-        public void ForcePortrait() => _mainActivity.RequestedOrientation = ScreenOrientation.SensorPortrait;
+        public void ForcePortrait() => MainActivity.Instance.RequestedOrientation = ScreenOrientation.SensorPortrait;
     }
 }

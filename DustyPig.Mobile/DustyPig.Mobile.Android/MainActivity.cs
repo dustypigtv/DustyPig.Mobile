@@ -17,6 +17,8 @@ namespace DustyPig.Mobile.Droid
     [Activity(Label = "Dusty Pig", LaunchMode = LaunchMode.SingleTop, Icon = "@mipmap/icon", Theme = "@style/SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public static MainActivity Instance { get; private set; }
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
@@ -46,18 +48,16 @@ namespace DustyPig.Mobile.Droid
 #endif
 
             base.OnCreate(savedInstanceState);
+            Instance = this;
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            FacebookLoginClientImplementation.Init(this);
-            GoogleLoginClientImplementation.Init(this);
-            ScreenImplementation.Init(this);
-            PopupImplemention.Init(this, Resource.Style.MainTheme_AlertDialog);
+            PopupImplemention.Init(Resource.Style.MainTheme_AlertDialog);
             CachedImageRenderer.Init(true);
 
             Firebase.FirebaseApp.InitializeApp(this);
-            Xamarin.Forms.DependencyService.RegisterSingleton<IFCM>(new FCMImplementation(this));
+            Xamarin.Forms.DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
 
             SetTheme(Resource.Style.MainTheme);
 

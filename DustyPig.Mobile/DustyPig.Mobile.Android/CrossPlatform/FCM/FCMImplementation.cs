@@ -7,13 +7,6 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.FCM
 {
     internal class FCMImplementation : IFCM
     {
-        private readonly Context _context;
-
-        public FCMImplementation(Context context)
-        {
-            _context = context;
-        }
-
         public Task ResetTokenAsync()
         {
             try { return FirebaseMessaging.Instance.DeleteToken().ToAwaitableTask(); }
