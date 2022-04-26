@@ -56,6 +56,7 @@ namespace DustyPig.Mobile.Helpers
                     int oldIdx = IndexOf(existingItem);
                     if (oldIdx != newIdx)
                         Move(oldIdx, newIdx);
+                    existingItem.Items.UpdateList(newItem.Items);
                 }
             }
 

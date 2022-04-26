@@ -26,6 +26,7 @@ namespace DustyPig.Mobile.Helpers
             toRemove.ForEach(item => Remove(item));
 
             //Add/Move all new items
+            //Assumption is that newLst has no duplicates
             for (int newIdx = 0; newIdx < newLst.Count; newIdx++)
             {
                 var newItem = newLst[newIdx];

@@ -2,6 +2,9 @@
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Main.Views;
+using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -55,11 +58,27 @@ namespace DustyPig.Mobile.MVVM.Main.VewModels
 
         private async Task Update()
         {
+            bool firstAppearing = Sections.Count == 0;
+            string cache_file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "home_screen_cache.json");
+
+            if (firstAppearing)
+            {
+                try
+                {
+                    var cached = JsonConvert.DeserializeObject<REST.Response<HomeScreen>>(File.ReadAllText(cache_file));
+                    Sections.UpdateList(cached.Data.Sections);
+                    if (Sections.Count > 0)
+                        IsBusy = false;
+                }
+                catch { }
+            }
+
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
                 Sections.UpdateList(response.Data.Sections);
                 App.HomePageNeedsRefresh = false;
+                File.WriteAllText(cache_file, JsonConvert.SerializeObject(response));
             }
             else
             {
