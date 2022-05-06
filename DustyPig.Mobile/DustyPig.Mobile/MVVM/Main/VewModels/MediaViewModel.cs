@@ -64,12 +64,12 @@ namespace DustyPig.Mobile.MVVM.Main.VewModels
         public void OnSizeAllocated(double width, double height)
         {
             
-            //Poster width = 106.66
+            //Poster width = 100
             //Spacing = 12
-            //Total = 118.66
+            //Total = 112
             //Remove spacing from each side of screen
             width -= 24;
-            Span = Convert.ToInt32(Math.Floor(width / 118.66));
+            Span = Convert.ToInt32(Math.Floor(width / 112));
 
         }
 

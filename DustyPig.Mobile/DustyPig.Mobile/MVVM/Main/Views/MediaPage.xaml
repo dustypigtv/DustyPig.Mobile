@@ -50,8 +50,8 @@
                             <StackLayout Margin="8">
                                 
                                 <ffimages:CachedImage Source="{Binding ArtworkUrl}"
-                                    HeightRequest="160"
-                                    WidthRequest="106.66"
+                                    HeightRequest="150"
+                                    WidthRequest="100"
                                     Aspect="AspectFit"
                                     ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                                     LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
