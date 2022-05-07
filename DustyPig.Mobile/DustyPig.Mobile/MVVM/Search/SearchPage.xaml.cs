@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DustyPig.Mobile.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,6 +25,9 @@ namespace DustyPig.Mobile.MVVM.Search
         {
             base.OnAppearing();
         }
+
+        private async void Poster_Tapped(object sender, System.EventArgs e) => await sender.TapEffect();
+
 
         private async void CustomSearchHandler_DoQuery(object sender, string e) => await VM.OnDoQuery(e);
     }

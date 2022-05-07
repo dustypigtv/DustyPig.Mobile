@@ -72,6 +72,8 @@
                 <Setter Property="BackgroundColor" Value="Black" />
                 <Setter Property="RefreshColor" Value="White" />
             </Style>
+
+            
             
         </ResourceDictionary>
     </Application.Resources>
