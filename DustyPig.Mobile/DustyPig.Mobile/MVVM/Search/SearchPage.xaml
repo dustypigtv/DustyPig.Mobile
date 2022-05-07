@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Search" xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Search" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
+             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
              x:Class="DustyPig.Mobile.MVVM.Search.SearchPage"
              x:DataType="viewmodels:SearchViewModel">
 
@@ -12,6 +15,37 @@
             Placeholder="Enter search term" />
     </Shell.SearchHandler>
 
+    <!--
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="itemTemplate">
+
+                <ffimageloading:CachedImage 
+                    x:DataType="models:BasicMedia"
+                    Source="{Binding ArtworkUrl}"
+                    HeightRequest="150"
+                    WidthRequest="100"
+                    Aspect="AspectFit"
+                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
+
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Tapped="Poster_Tapped" 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=ItemTappedCommand}"
+                            CommandParameter="{Binding}" />
+                    </ffimageloading:CachedImage.GestureRecognizers>
+
+
+                </ffimageloading:CachedImage>
+                
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    -->
+    
     <ContentPage.Content>
         <StackLayout>
             

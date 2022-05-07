@@ -1,10 +1,11 @@
 ﻿using DustyPig.API.v3.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.CommunityToolkit.ObjectModel;
 
 namespace DustyPig.Mobile.Helpers
 {
-    public class ObservableBasicMediaCollection : RangeObservableCollection<BasicMedia>
+    public class ObservableBasicMediaCollection : ObservableRangeCollection<BasicMedia>
     {
         public ObservableBasicMediaCollection() { }
 

@@ -23,6 +23,8 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _tmdbEmptyString, value);
         }
 
+        //private ObservableRangeCollection
+
         public async Task OnDoQuery(string query)
         {
             query = (query + string.Empty).Trim();

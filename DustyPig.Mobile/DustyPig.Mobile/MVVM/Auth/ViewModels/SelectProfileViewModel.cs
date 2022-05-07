@@ -25,7 +25,7 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             });
         }
 
-        public RangeObservableCollection<BasicProfile> Profiles { get; } = new RangeObservableCollection<BasicProfile>();
+        public ObservableRangeCollection<BasicProfile> Profiles { get; } = new ObservableRangeCollection<BasicProfile>();
 
         private int _characterSpacing = 0;
         public int CharacterSpacing

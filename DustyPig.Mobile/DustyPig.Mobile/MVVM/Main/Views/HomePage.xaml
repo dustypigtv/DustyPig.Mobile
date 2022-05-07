@@ -68,7 +68,8 @@
                                         <DataTemplate
                                             x:DataType="models:BasicMedia">
 
-                                            <ffimages:CachedImage Source="{Binding ArtworkUrl}"
+                                            <ffimages:CachedImage 
+                                                Source="{Binding ArtworkUrl}"
                                                 HeightRequest="150"
                                                 WidthRequest="100"
                                                 Aspect="AspectFit"
