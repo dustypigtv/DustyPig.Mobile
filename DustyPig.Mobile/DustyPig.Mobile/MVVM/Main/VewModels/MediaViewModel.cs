@@ -28,6 +28,7 @@ namespace DustyPig.Mobile.MVVM.Main.VewModels
             _mode = mode;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand= new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
+            ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped, allowsMultipleExecutions: false);
         }
 
         public AsyncCommand RefreshCommand { get; }

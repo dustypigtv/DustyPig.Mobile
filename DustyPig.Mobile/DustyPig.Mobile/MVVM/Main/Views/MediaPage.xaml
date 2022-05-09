@@ -28,7 +28,7 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
                     Margin="12,0,12,0"
-                    ItemSizingStrategy="MeasureAllItems"
+                    ItemSizingStrategy="MeasureFirstItem"
                     SelectionMode="None"
                     ItemsSource="{Binding Items}"
                     RemainingItemsThreshold="100"

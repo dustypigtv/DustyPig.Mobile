@@ -1,10 +1,12 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Search
 {
@@ -12,6 +14,33 @@ namespace DustyPig.Mobile.MVVM.Search
     {
         private string _lastQuery = null;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+        public SearchViewModel()
+        {
+            AvailableItemTappedCommand = new AsyncCommand<BasicMedia>(OnAvailableItemTapped, allowsMultipleExecutions: false);
+            OtherItemTappedCommand = new AsyncCommand<BasicTMDB>(OnOtherItemTapped, allowsMultipleExecutions: false);
+        }
+
+        public AsyncCommand<BasicMedia> AvailableItemTappedCommand { get; }
+        private async Task OnAvailableItemTapped(BasicMedia item)
+        {
+            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+        }
+
+        public AsyncCommand<BasicTMDB> OtherItemTappedCommand { get; }
+        private async Task OnOtherItemTapped(BasicTMDB item)
+        {
+            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+        }
+
+
+        private int _span = 1;
+        public int Span
+        {
+            get => _span;
+            set => SetProperty(ref _span, Math.Max(value, 1));
+        }
+
 
         private string _mediaEmptyString = "Search for title";
         public string MediaEmptyString
@@ -35,6 +64,16 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _otherItems, value);
         }
 
+        public void OnSizeAllocated(double width, double height)
+        {
+
+            //Poster width = 100
+            //Spacing = 12
+            //Total = 112
+            //Remove spacing from each side of screen
+            width -= 24;
+            Span = Convert.ToInt32(Math.Floor(width / 112));
+        }
 
         public async Task OnDoQuery(string query)
         {
@@ -74,7 +113,7 @@ namespace DustyPig.Mobile.MVVM.Search
             IsBusy = true;
             MediaEmptyString = string.Empty;
             _lastQuery = formattedQuery;
-            var response = await App.API.Media.SearchAsync(query, token);
+            var response = await App.API.Media.SearchAsync(query, true, token);
             if (response.Success)
             {
                 MediaEmptyString = "No matches";
