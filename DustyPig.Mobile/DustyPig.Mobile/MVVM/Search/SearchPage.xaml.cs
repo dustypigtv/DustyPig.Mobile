@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.Search
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SearchPage : TabbedPage
+    public partial class SearchPage : ContentPage
     {
         public SearchPage()
         {
@@ -21,17 +21,14 @@ namespace DustyPig.Mobile.MVVM.Search
 
         public SearchViewModel VM { get; }
 
-        
         private async void Poster_Tapped(object sender, System.EventArgs e) => await sender.TapEffect();
-
-        private async void CustomSearchHandler_DoQuery(object sender, string e) => await VM.OnDoQuery(e);
 
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
-
-            //HOW does this fire BEFORE the constructor?!
-            VM?.OnSizeAllocated(width, height);
+            VM.OnSizeAllocated(width, height);
         }
+
+        private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e) => await VM.DoSearch(e.NewTextValue);
     }
 }

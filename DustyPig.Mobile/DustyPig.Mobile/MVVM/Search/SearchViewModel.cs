@@ -33,7 +33,6 @@ namespace DustyPig.Mobile.MVVM.Search
             await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
         }
 
-
         private int _span = 1;
         public int Span
         {
@@ -42,7 +41,7 @@ namespace DustyPig.Mobile.MVVM.Search
         }
 
 
-        private string _mediaEmptyString = "Search for title";
+        private string _mediaEmptyString = string.Empty;
         public string MediaEmptyString
         {
             get => _mediaEmptyString;
@@ -75,7 +74,7 @@ namespace DustyPig.Mobile.MVVM.Search
             Span = Convert.ToInt32(Math.Floor(width / 112));
         }
 
-        public async Task OnDoQuery(string query)
+        public async Task DoSearch(string query)
         {
             query += string.Empty;
 
@@ -93,7 +92,7 @@ namespace DustyPig.Mobile.MVVM.Search
 
             if (query == string.Empty)
             {
-                MediaEmptyString = "Search for title";
+                MediaEmptyString = string.Empty;
                 IsBusy = false;
                 AvailableItems.Clear();
                 OtherItems.Clear();

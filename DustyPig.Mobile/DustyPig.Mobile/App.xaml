@@ -2,6 +2,7 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:dpcc="clr-namespace:DustyPig.Mobile"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              x:Class="DustyPig.Mobile.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
@@ -31,12 +32,11 @@
                 <Setter Property="BackgroundColor" Value="Black" />
             </Style>
 
-            <Style TargetType="TabbedPage" ApplyToDerivedTypes="True">
-                <Setter Property="BarBackgroundColor" Value="{x:Static dpcc:Theme.DarkGrey}" />
-                <Setter Property="Shell.TabBarIsVisible" Value="False" />
+            <Style TargetType="SearchBar" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="ios:SearchBar.SearchBarStyle" Value="Prominent" />
             </Style>
-
-                    
 
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="White" />
@@ -69,16 +69,20 @@
             </Style>
 
             <Style TargetType="ListView">
-                <Setter Property="BackgroundColor" Value="Black" />
-                <Setter Property="SeparatorColor" Value="Black" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="SeparatorColor" Value="Transparent" />
                 <Setter Property="RefreshControlColor" Value="White" />
             </Style>
 
             <Style TargetType="RefreshView">
-                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="RefreshColor" Value="White" />
             </Style>
 
+            <Style TargetType="ActivityIndicator">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="Color" Value="White" />
+            </Style>
             
             
         </ResourceDictionary>

@@ -37,7 +37,7 @@ namespace DustyPig.Mobile.MVVM.Reusable
             typeof(bool),
             typeof(SearchCastButtons),
             true);
-               
+
         public bool SearchButtonVisible
         {
             get => (bool)GetValue(SearchButtonVisibleProperty);
@@ -46,6 +46,5 @@ namespace DustyPig.Mobile.MVVM.Reusable
 
 
         public AsyncCommand SearchButtonTapped { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SearchPage)));
-
     }
 }
