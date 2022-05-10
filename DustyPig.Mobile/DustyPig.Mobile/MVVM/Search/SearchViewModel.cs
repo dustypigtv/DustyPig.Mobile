@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Search
@@ -16,11 +17,83 @@ namespace DustyPig.Mobile.MVVM.Search
         private string _lastQuery = null;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        public SearchViewModel()
+        private readonly CollectionView _availableCV;
+        private readonly CollectionView _otherCV;
+        private int _lastIndex = 0;
+        private double _width = 0;
+
+        public SearchViewModel(CollectionView availableCV, CollectionView otherCV)
         {
+            _availableCV = availableCV;
+            _otherCV = otherCV;
+
+            SlideItems(0, false);
+
+            TabHeaderTapped = new Command<int>(OnTabHeaderTapped);
+
             AvailableItemTappedCommand = new AsyncCommand<BasicMedia>(OnAvailableItemTapped, allowsMultipleExecutions: false);
             OtherItemTappedCommand = new AsyncCommand<BasicTMDB>(OnOtherItemTapped, allowsMultipleExecutions: false);
         }
+
+        public Command<int> TabHeaderTapped { get; }
+        private void OnTabHeaderTapped(int index)
+        {
+            if (index == _lastIndex)
+            {
+                if (index == 1)
+                {
+                    _otherCV.ScrollTo(0, -1, ScrollToPosition.Start, true);
+                }
+                else
+                {
+                    _availableCV.ScrollTo(0, -1, ScrollToPosition.Start, true);
+                }
+            }
+            else
+            {
+                SlideItems(index, true);
+            }
+        }
+
+        private void SlideItems(int index, bool animated)
+        {
+            //Default is 250
+            uint duration = animated ? 250u : 0u;
+
+            if (index == 1)
+            {
+                AvailableCVColor = Theme.Grey;
+                OtherCVColor = Color.White;
+
+                _availableCV.TranslateTo(-_width - 100, 0, duration);
+                _otherCV.TranslateTo(0, 0, duration);
+            }
+            else
+            {
+                AvailableCVColor = Color.White;
+                OtherCVColor = Theme.Grey;
+
+                _availableCV.TranslateTo(0, 0, duration);
+                _otherCV.TranslateTo(_width + 100, 0, duration);
+            }
+
+            _lastIndex = index;
+        }
+
+        private Color _availableCVColor = Color.White;
+        public Color AvailableCVColor
+        {
+            get => _availableCVColor;
+            set => SetProperty(ref _availableCVColor, value);
+        }
+
+        private Color _otherCVColor = Theme.Grey;
+        public Color OtherCVColor
+        {
+            get => _otherCVColor;
+            set => SetProperty(ref _otherCVColor, value);
+        }
+
 
         public AsyncCommand<BasicMedia> AvailableItemTappedCommand { get; }
         private async Task OnAvailableItemTapped(BasicMedia item)
@@ -72,33 +145,15 @@ namespace DustyPig.Mobile.MVVM.Search
             {
                 SetProperty(ref _showTabs, value);
                 if (!_showTabs)
-                    ShowAvailable = true;
+                    OnTabHeaderTapped(0);
             }
         }
 
-        private bool _showAvailable = true;
-        public bool ShowAvailable
-        {
-            get => _showAvailable;
-            set => SetProperty(ref _showAvailable, value);
-        }
-
-        private int _selectedTab = 0;
-        public int SelectedTab
-        {
-            get => _selectedTab;
-            set
-            {
-                SetProperty(ref _selectedTab, value);
-                if (ShowTabs)
-                    ShowAvailable = value < 1;
-                else
-                    ShowAvailable = true;
-            }
-        }
 
         public void OnSizeAllocated(double width, double height)
         {
+            _width = width;
+            SlideItems(_lastIndex, false);
 
             //Poster width = 100
             //Spacing = 12
@@ -151,8 +206,7 @@ namespace DustyPig.Mobile.MVVM.Search
             if (response.Success)
             {
                 ShowTabs = response.Data.OtherTitlesAllowed;
-                if (!ShowTabs)
-                    ShowAvailable = true;
+                
 
                 MediaEmptyString = "No matches";
                 if (response.Data.Available == null)

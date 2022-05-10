@@ -1,10 +1,4 @@
-﻿using DustyPig.Mobile.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,12 +10,10 @@ namespace DustyPig.Mobile.MVVM.Search
         public SearchPage()
         {
             InitializeComponent();
-            BindingContext = VM = new SearchViewModel();           
+            BindingContext = VM = new SearchViewModel(AvailableCV, OtherCV);
         }
 
         public SearchViewModel VM { get; }
-
-        private async void Poster_Tapped(object sender, System.EventArgs e) => await sender.TapEffect();
 
         protected override void OnSizeAllocated(double width, double height)
         {
@@ -33,19 +25,18 @@ namespace DustyPig.Mobile.MVVM.Search
         {
             base.OnAppearing();
 
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                if (string.IsNullOrWhiteSpace(TheSearchBar.Text))
+            if (string.IsNullOrWhiteSpace(TheSearchBar.Text))
+                Device.BeginInvokeOnMainThread(async () =>
                 {
-                    while (!TheSearchBar.Focus()) 
+                    while (!TheSearchBar.Focus())
                     {
                         await Task.Delay(100);
                     }
-                }
-            });
+                });
         }
 
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e) => await VM.DoSearch(e.NewTextValue);
+
 
     }
 }
