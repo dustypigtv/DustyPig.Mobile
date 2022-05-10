@@ -32,7 +32,7 @@
 
   
   <ItemGroup>
-    <PackageReference Include="DustyPig.API" Version="3.0.2.42" />
+    <PackageReference Include="DustyPig.API" Version="3.0.2.43" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
@@ -82,7 +82,16 @@
     <EmbeddedResource Update="MVVM\Reusable\TopButtonBarGradient.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Search\AvailableItemsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Search\OtherItemsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Search\SearchPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Search\SearchPage2.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Settings\Views\SettingsPage.xaml">
@@ -104,6 +113,9 @@
   <ItemGroup>
     <Compile Update="MVVM\Main\Views\MediaPage.xaml.cs">
       <DependentUpon>MediaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\Search\OtherItemsView.xaml.cs">
+      <DependentUpon>OtherItemsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

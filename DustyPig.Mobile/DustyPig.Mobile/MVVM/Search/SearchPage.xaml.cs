@@ -29,6 +29,23 @@ namespace DustyPig.Mobile.MVVM.Search
             VM.OnSizeAllocated(width, height);
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(TheSearchBar.Text))
+                {
+                    while (!TheSearchBar.Focus()) 
+                    {
+                        await Task.Delay(100);
+                    }
+                }
+            });
+        }
+
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e) => await VM.DoSearch(e.NewTextValue);
+
     }
 }

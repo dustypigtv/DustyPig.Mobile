@@ -7,179 +7,188 @@
 	xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
 	xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
 	xmlns:dpcc="clr-namespace:DustyPig.Mobile" 
-	xmlns:xtc="http://xamarin.com/schemas/2020/toolkit"
+	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     ios:Page.UseSafeArea="true"
+    Shell.TabBarIsVisible="False"
 	x:Class="DustyPig.Mobile.MVVM.Search.SearchPage"            
 	x:DataType="viewmodels:SearchViewModel"
     Title="Search for Title">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
 
         <StackLayout>
             <SearchBar 
+                x:Name="TheSearchBar"
                 IsSpellCheckEnabled="True"
                 TextChanged="SearchBar_TextChanged" />
 
+            <xct:TabView 
+                VerticalOptions="Start"
+                x:Name="TheTabView"
+                TabIndicatorPlacement="Top" 
+                IsSwipeEnabled="False"
+                TabStripBackgroundColor="{x:Static dpcc:Theme.DarkGrey}"
+                SelectedIndex="{Binding SelectedTab}"
+                IsVisible="{Binding ShowTabs, Mode=OneWay}">
 
+                <xct:TabViewItem 
+                    Text="Available"
+                    TextColorSelected="White">
 
-            <xtc:TabView TabIndicatorPlacement="Top" TabStripBackgroundColor="{x:Static dpcc:Theme.DarkGrey}">
-                <xtc:TabViewItem Text="Available">
+                </xct:TabViewItem>
 
-                    <xtc:TabViewItem.Content>
-                        <RelativeLayout >
+                <xct:TabViewItem 
+                    Text="TMDB"
+                    TextColorSelected="White">
 
-                            <CollectionView
-								Margin="12,12,12,0"                    
-								ItemSizingStrategy="MeasureFirstItem"
-								ItemsSource="{Binding AvailableItems}">
+                </xct:TabViewItem>
 
-                                <CollectionView.EmptyView>
-                                    <StackLayout
-										HorizontalOptions="CenterAndExpand"
-										VerticalOptions="CenterAndExpand">
-                                        
-                                        <!-- Not sure why, but the label won't use the TextColor from App.xaml when inside the EmptyView-->
-                                        <Label
-											Margin="48"
-											FontAttributes="Bold"
-											FontSize="18"
-											TextColor="White"
-											HorizontalTextAlignment="Center"
-											Text="{Binding MediaEmptyString}" />
-                                    </StackLayout>
-                                </CollectionView.EmptyView>
+            </xct:TabView>
 
-                                <!-- Stupid bug - Set spacing to zero, then put the poster inside a stacklayout with margin 8 (to create 16 spacing) -->
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout
-										VerticalItemSpacing="0"
-										HorizontalItemSpacing="0"
-										Orientation="Vertical"
-										Span="{Binding Span}" />
-                                </CollectionView.ItemsLayout>
+            <StackLayout VerticalOptions="FillAndExpand">
 
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate
-										x:DataType="models:BasicMedia">
-
-                                        <StackLayout Margin="8">
-                                            <ffimages:CachedImage 
-												Source="{Binding ArtworkUrl}"
-												HeightRequest="150"
-												WidthRequest="100"
-												Aspect="AspectFit"
-												ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-												LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-
-                                                <ffimages:CachedImage.GestureRecognizers>
-                                                    <TapGestureRecognizer 
-														Tapped="Poster_Tapped" 
-														Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=AvailableItemTappedCommand}"
-														CommandParameter="{Binding}" />
-                                                </ffimages:CachedImage.GestureRecognizers>
-
-                                            </ffimages:CachedImage>
-                                        </StackLayout>
-
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-
-                            </CollectionView>
-
-                            <ActivityIndicator
-								Margin="8"
-								RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-								HeightRequest="20"
-								HorizontalOptions="CenterAndExpand"
-								IsRunning="{Binding IsBusy}" />
-
-                        </RelativeLayout>
-
-                    </xtc:TabViewItem.Content>
-
-                </xtc:TabViewItem>
+                <RelativeLayout>
                 
-                
-                
+                    <CollectionView
+                        Margin="12,12,12,0"                    
+					    ItemSizingStrategy="MeasureFirstItem"
+					    ItemsSource="{Binding AvailableItems}"
+                        IsVisible="{Binding ShowAvailable, Mode=OneWay}">
 
-                <xtc:TabViewItem Text="TMDB">
+                        <CollectionView.EmptyView>
+                            <StackLayout
+							    HorizontalOptions="CenterAndExpand"
+							    VerticalOptions="CenterAndExpand">
 
-                    <RelativeLayout >
+                               <Label
+								    Margin="48"
+								    FontAttributes="Bold"
+								    FontSize="18"
+								    TextColor="White"
+								    HorizontalTextAlignment="Center"
+								    Text="{Binding MediaEmptyString}" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
 
-                        <CollectionView
-                            Margin="12,12,12,0"                    
-                            ItemSizingStrategy="MeasureFirstItem"
-                            ItemsSource="{Binding OtherItems}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+							    VerticalItemSpacing="0"
+							    HorizontalItemSpacing="0"
+							    Orientation="Vertical"
+							    Span="{Binding Span}" />
+                        </CollectionView.ItemsLayout>
 
-                            <CollectionView.EmptyView>
-                                <StackLayout
-                                    HorizontalOptions="CenterAndExpand"
-                                    VerticalOptions="CenterAndExpand">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate
+							    x:DataType="models:BasicMedia">
 
-                                    <!-- Not sure why, but the label won't use the TextColor from App.xaml when inside the EmptyView-->
-                                    <Label
-                                        Margin="48"
-                                        FontAttributes="Bold"
-                                        FontSize="18"
-                                        TextColor="White"
-                                        HorizontalTextAlignment="Center"
-                                        Text="{Binding MediaEmptyString}" />
+                                <StackLayout Margin="8">
+                                    <ffimages:CachedImage 
+									    Source="{Binding ArtworkUrl}"
+									    HeightRequest="150"
+									    WidthRequest="100"
+									    Aspect="AspectFit"
+									    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+									    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
+
+                                        <ffimages:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer 
+											    Tapped="Poster_Tapped" 
+											    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=AvailableItemTappedCommand}"
+											    CommandParameter="{Binding}" />
+                                        </ffimages:CachedImage.GestureRecognizers>
+
+                                    </ffimages:CachedImage>
                                 </StackLayout>
-                            </CollectionView.EmptyView>
 
-                            <!-- Stupid bug - Set spacing to zero, then put the poster inside a stacklayout with margin 8 (to create 16 spacing) -->
-                            <CollectionView.ItemsLayout>
-                                <GridItemsLayout
-                                    VerticalItemSpacing="0"
-                                    HorizontalItemSpacing="0"
-                                    Orientation="Vertical"
-                                    Span="{Binding Span}" />
-                            </CollectionView.ItemsLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
 
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate
-                                    x:DataType="models:BasicTMDB">
-
-                                    <StackLayout Margin="8">
-                                        <ffimages:CachedImage 
-                                            Source="{Binding ArtworkUrl}"
-                                            HeightRequest="150"
-                                            WidthRequest="100"
-                                            Aspect="AspectFit"
-                                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-
-                                            <ffimages:CachedImage.GestureRecognizers>
-                                                <TapGestureRecognizer 
-                                                    Tapped="Poster_Tapped" 
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=OtherItemTappedCommand}"
-                                                    CommandParameter="{Binding}" />
-                                            </ffimages:CachedImage.GestureRecognizers>
-
-                                        </ffimages:CachedImage>
-                                    </StackLayout>
-
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-
-                        </CollectionView>
-
-                        <ActivityIndicator
-                            Margin="8"
-                            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                            HeightRequest="20"
-                            HorizontalOptions="CenterAndExpand"
-                            IsRunning="{Binding IsBusy}" />
+                    </CollectionView>
 
 
 
-                    </RelativeLayout>
 
-                </xtc:TabViewItem>
 
-            </xtc:TabView>
+                    <CollectionView
+                        Margin="12,12,12,0"                    
+                        ItemSizingStrategy="MeasureFirstItem"
+                        ItemsSource="{Binding OtherItems}"
+                        IsVisible="{Binding ShowAvailable, Converter={x:StaticResource Key=InvertedBoolConverter}, Mode=OneWay}">
 
+                        <CollectionView.EmptyView>
+                            <StackLayout
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand">
+
+                                <Label
+                                    Margin="48"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    TextColor="White"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding MediaEmptyString}" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout
+                                VerticalItemSpacing="0"
+                                HorizontalItemSpacing="0"
+                                Orientation="Vertical"
+                                Span="{Binding Span}" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate
+                                x:DataType="models:BasicTMDB">
+
+                                <StackLayout Margin="8">
+                                    <ffimages:CachedImage 
+                                        Source="{Binding ArtworkUrl}"
+                                        HeightRequest="150"
+                                        WidthRequest="100"
+                                        Aspect="AspectFit"
+                                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
+
+                                        <ffimages:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Tapped="Poster_Tapped" 
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=OtherItemTappedCommand}"
+                                                CommandParameter="{Binding}" />
+                                        </ffimages:CachedImage.GestureRecognizers>
+
+                                    </ffimages:CachedImage>
+                                </StackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    
+            
+                    <ActivityIndicator
+					    Margin="8"
+					    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+					    HeightRequest="20"
+					    HorizontalOptions="CenterAndExpand"
+					    IsRunning="{Binding IsBusy}" />
+
+
+
+                </RelativeLayout>
+
+            </StackLayout>
+        
         </StackLayout>
 
     </ContentPage.Content>

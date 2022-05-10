@@ -1,11 +1,5 @@
 ﻿using DustyPig.Mobile.iOS.Renderers;
-using Foundation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
@@ -18,7 +12,10 @@ namespace DustyPig.Mobile.iOS.Renderers
         protected override void OnElementChanged(ElementChangedEventArgs<SearchBar> e)
         {
             base.OnElementChanged(e);
-            
+
+            if (Control == null || e.NewElement == null)
+                return;
+
             Control.SearchTextField.BackgroundColor = e.NewElement.BackgroundColor.ToUIColor();
             Control.BackgroundColor = Color.Transparent.ToUIColor();
             Control.SetShowsCancelButton(false, false);
@@ -27,7 +24,7 @@ namespace DustyPig.Mobile.iOS.Renderers
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             //Override needed, otherwise the original Xamarin code will force show the Cancel button
-            if (e.PropertyName == SearchBar.TextProperty.PropertyName)
+            if (Control != null && e.PropertyName == SearchBar.TextProperty.PropertyName)
                 Control.Text = Element.Text;
             
             if (e.PropertyName != SearchBar.CancelButtonColorProperty.PropertyName && e.PropertyName != SearchBar.TextProperty.PropertyName)

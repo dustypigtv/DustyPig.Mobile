@@ -2,6 +2,7 @@
 using DustyPig.Mobile.CrossPlatform;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _span, Math.Max(value, 1));
         }
 
-
+       
         private string _mediaEmptyString = string.Empty;
         public string MediaEmptyString
         {
@@ -63,6 +64,39 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _otherItems, value);
         }
 
+        private bool _showTabs = false;
+        public bool ShowTabs
+        {
+            get => _showTabs;
+            set
+            {
+                SetProperty(ref _showTabs, value);
+                if (!_showTabs)
+                    ShowAvailable = true;
+            }
+        }
+
+        private bool _showAvailable = true;
+        public bool ShowAvailable
+        {
+            get => _showAvailable;
+            set => SetProperty(ref _showAvailable, value);
+        }
+
+        private int _selectedTab = 0;
+        public int SelectedTab
+        {
+            get => _selectedTab;
+            set
+            {
+                SetProperty(ref _selectedTab, value);
+                if (ShowTabs)
+                    ShowAvailable = value < 1;
+                else
+                    ShowAvailable = true;
+            }
+        }
+
         public void OnSizeAllocated(double width, double height)
         {
 
@@ -74,6 +108,7 @@ namespace DustyPig.Mobile.MVVM.Search
             Span = Convert.ToInt32(Math.Floor(width / 112));
         }
 
+        
         public async Task DoSearch(string query)
         {
             query += string.Empty;
@@ -105,7 +140,7 @@ namespace DustyPig.Mobile.MVVM.Search
                 IsBusy = false;
                 AvailableItems.Clear();
                 OtherItems.Clear();
-                return;
+               return;
             }
 
             
@@ -115,6 +150,10 @@ namespace DustyPig.Mobile.MVVM.Search
             var response = await App.API.Media.SearchAsync(query, true, token);
             if (response.Success)
             {
+                ShowTabs = response.Data.OtherTitlesAllowed;
+                if (!ShowTabs)
+                    ShowAvailable = true;
+
                 MediaEmptyString = "No matches";
                 if (response.Data.Available == null)
                     response.Data.Available = new List<BasicMedia>();
@@ -128,7 +167,8 @@ namespace DustyPig.Mobile.MVVM.Search
             {
                 if (token.IsCancellationRequested)
                     return;
-                
+         
+
                 MediaEmptyString = "Error searching. Please try again";
                 AvailableItems.Clear();
                 OtherItems.Clear();

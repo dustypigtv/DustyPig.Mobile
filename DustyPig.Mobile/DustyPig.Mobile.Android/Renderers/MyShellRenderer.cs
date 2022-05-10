@@ -41,7 +41,7 @@ namespace DustyPig.Mobile.Droid.Renderers
                 {
                     title.LayoutParameters.Width = Android.Views.ViewGroup.LayoutParams.MatchParent;
                     title.TextAlignment = Android.Views.TextAlignment.Center;
-                    title.SetPadding(title.PaddingLeft - toolbar.CurrentContentInsetLeft, title.PaddingTop, title.PaddingRight, title.PaddingBottom);
+                    title.SetPadding(title.PaddingLeft - toolbar.ContentInsetStartWithNavigation, title.PaddingTop, title.PaddingRight, title.PaddingBottom);
                 }
             }
         }
