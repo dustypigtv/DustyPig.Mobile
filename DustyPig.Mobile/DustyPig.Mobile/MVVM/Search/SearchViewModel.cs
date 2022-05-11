@@ -166,13 +166,7 @@ namespace DustyPig.Mobile.MVVM.Search
         
         public async Task DoSearch(string query)
         {
-            query += string.Empty;
-
-            var terms = (StringUtils.NormalizedQueryString(query) + string.Empty).Tokenize();
-            if (terms == null)
-                terms = new List<string>();
-            string formattedQuery = string.Join(" ", terms);
-
+            var formattedQuery = StringUtils.NormalizedQueryString(query) + string.Empty;            
             if (formattedQuery == _lastQuery)
                 return;
 
@@ -180,22 +174,13 @@ namespace DustyPig.Mobile.MVVM.Search
             _cancellationTokenSource = new CancellationTokenSource();
             var token = _cancellationTokenSource.Token;
 
-            if (query == string.Empty)
+            if (formattedQuery == string.Empty)
             {
                 MediaEmptyString = string.Empty;
                 IsBusy = false;
                 AvailableItems.Clear();
                 OtherItems.Clear();
                 return;
-            }
-
-            if (query.Trim().Length < 3 || terms.Count < 1)
-            {
-                MediaEmptyString = "Enter more letters or words";
-                IsBusy = false;
-                AvailableItems.Clear();
-                OtherItems.Clear();
-               return;
             }
 
             
