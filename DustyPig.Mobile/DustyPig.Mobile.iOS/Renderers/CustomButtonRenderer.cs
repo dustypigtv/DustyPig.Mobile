@@ -27,7 +27,13 @@ namespace DustyPig.Mobile.iOS.Renderers
 
         private void SetTextHorizontalAlignment()
         {
+            if (Control == null)
+                return;
+
             var button = Element as CustomButton;
+            if(button == null)
+                return;
+            
             switch (button.HorizontalTextAlignment)
             {
                 case TextAlignment.Center:
