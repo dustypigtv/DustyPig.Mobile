@@ -20,7 +20,7 @@
 	xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Search" 
 	xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
 	xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
-	xmlns:dpcc="clr-namespace:DustyPig.Mobile" 
+	xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
 	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     ios:Page.UseSafeArea="true"

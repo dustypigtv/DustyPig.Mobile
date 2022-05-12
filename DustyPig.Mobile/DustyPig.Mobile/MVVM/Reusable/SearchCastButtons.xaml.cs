@@ -1,4 +1,5 @@
-﻿using DustyPig.Mobile.MVVM.Search;
+﻿using DustyPig.Mobile.Helpers;
+using DustyPig.Mobile.MVVM.Search;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,8 +14,14 @@ namespace DustyPig.Mobile.MVVM.Reusable
         public SearchCastButtons()
         {
             InitializeComponent();
+            
+            SearchButtonTapped = new AsyncCommand(() =>
+            {
+                return Navigation.PushAsync(new SearchPage());
+            });
+
+            //Make sure this comes after any properties that are not INotifyProperty
             BindingContext = this;
-            SearchButtonTapped = new AsyncCommand(() => Navigation.PushAsync(new SearchPage()));
         }
 
         private void ImageButton_Pressed(object sender, System.EventArgs e)
@@ -45,6 +52,6 @@ namespace DustyPig.Mobile.MVVM.Reusable
         }
 
 
-        public AsyncCommand SearchButtonTapped { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SearchPage)));
+        public AsyncCommand SearchButtonTapped { get; }
     }
 }

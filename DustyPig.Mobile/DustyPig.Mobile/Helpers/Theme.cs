@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace DustyPig.Mobile
+namespace DustyPig.Mobile.Helpers
 {
     public static class Theme
     {

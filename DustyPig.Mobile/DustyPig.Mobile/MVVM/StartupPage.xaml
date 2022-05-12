@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="DustyPig.Mobile.MVVM.StartupPage"
-             Shell.NavBarIsVisible="False">
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout 
             Orientation="Vertical"

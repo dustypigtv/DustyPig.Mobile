@@ -10,7 +10,7 @@
              ios:Page.UseSafeArea="true"
              x:Class="DustyPig.Mobile.MVVM.Main.Media.MediaPage"
              x:DataType="viewmodels:MediaViewModel"
-             Shell.NavBarIsVisible="False">
+             NavigationPage.HasNavigationBar="False">
     
     <ContentPage.Content>
         

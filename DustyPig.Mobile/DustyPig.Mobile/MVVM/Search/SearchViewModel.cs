@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading;
