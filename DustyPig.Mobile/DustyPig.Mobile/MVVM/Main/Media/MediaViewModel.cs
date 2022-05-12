@@ -23,9 +23,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
 
         public MediaViewModel(Mode mode)
         {
-            //var tabBar = Shell.Current.CurrentItem as TabBar;
-
-            //_mode = mode;
+            _mode = mode;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
             ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped, allowsMultipleExecutions: false);

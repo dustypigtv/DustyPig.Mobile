@@ -3,8 +3,13 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
             xmlns:home="clr-namespace:DustyPig.Mobile.MVVM.Main.Home"
-            xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+            xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+            xmlns:download="clr-namespace:DustyPig.Mobile.MVVM.Main.Downloads" 
+            xmlns:settings="clr-namespace:DustyPig.Mobile.MVVM.Main.Settings" 
+            xmlns:media="clr-namespace:DustyPig.Mobile.MVVM.Main.Media"
             android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarItemColor="{Static dpcc:Theme.LightGrey}"
+            android:TabbedPage.BarSelectedItemColor="White"
             x:Class="DustyPig.Mobile.MVVM.Main.MainPage"
             NavigationPage.HasNavigationBar="False"
             BarBackgroundColor="{Static dpcc:Theme.DarkGrey}">
@@ -15,16 +20,60 @@
             <home:HomePage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.House}" Color="White" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.House}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
 
-    <NavigationPage Title="Movies" />
 
-    <NavigationPage Title="TV" />
 
-    <NavigationPage Title="Downloads" />
+    <NavigationPage Title="Movies">
+        <x:Arguments>
+            <media:MediaPage>
+                <x:Arguments>
+                    <x:Int32>0</x:Int32>
+                </x:Arguments>
+            </media:MediaPage>
+        </x:Arguments>
+        <NavigationPage.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Film}" />
+        </NavigationPage.IconImageSource>
+    </NavigationPage>
 
-    <NavigationPage Title="Settings" />
+
+
+    <NavigationPage Title="TV">
+        <x:Arguments>
+            <media:MediaPage>
+                <x:Arguments>
+                    <x:Int32>1</x:Int32>
+                </x:Arguments>
+            </media:MediaPage>
+        </x:Arguments>
+        <NavigationPage.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Tv}" />
+        </NavigationPage.IconImageSource>
+    </NavigationPage>
+
+
+
+    <NavigationPage Title="Downloads">
+        <x:Arguments>
+            <download:DownloadsPage />
+        </x:Arguments>
+        <NavigationPage.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" />
+        </NavigationPage.IconImageSource>
+    </NavigationPage>
+
+
+
+    <NavigationPage Title="Settings">
+        <x:Arguments>
+            <settings:SettingsPage />
+        </x:Arguments>
+        <NavigationPage.IconImageSource>
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Gear}" />
+        </NavigationPage.IconImageSource>
+    </NavigationPage>
 
 </TabbedPage>

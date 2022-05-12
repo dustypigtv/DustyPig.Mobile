@@ -1,5 +1,4 @@
-﻿
-using DustyPig.Mobile.Helpers;
+﻿using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Main.Media;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -9,13 +8,12 @@ namespace DustyPig.Mobile.MVVM.Main.Media
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MediaPage : ContentPage
     {
-        public MediaPage()
+        public MediaPage(int idx)
         {
             InitializeComponent();
 
-            //var tb = Shell.Current.CurrentItem as TabBar;
-            //var mode = tb.CurrentItem.Title == "TV" ? MediaViewModel.Mode.TV : MediaViewModel.Mode.Movies;
-            //BindingContext = VM = new MediaViewModel(mode);
+            var mode = idx == 0 ? MediaViewModel.Mode.Movies : MediaViewModel.Mode.TV;
+            BindingContext = VM = new MediaViewModel(mode);
         }
 
         public MediaViewModel VM { get; }
