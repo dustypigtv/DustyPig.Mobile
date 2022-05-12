@@ -2,12 +2,12 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DustyPig.Mobile.MVVM.Player
+namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PlayerPage : ContentPage
+    public partial class MovieDetailsPage : ContentPage
     {
-        public PlayerPage()
+        public MovieDetailsPage()
         {
             InitializeComponent();
         }

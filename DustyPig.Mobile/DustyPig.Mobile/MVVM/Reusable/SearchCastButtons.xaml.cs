@@ -1,5 +1,4 @@
-﻿using DustyPig.Mobile.Helpers;
-using DustyPig.Mobile.MVVM.Search;
+﻿using DustyPig.Mobile.MVVM.Search;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

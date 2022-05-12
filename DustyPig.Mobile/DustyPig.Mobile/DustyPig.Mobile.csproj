@@ -40,40 +40,40 @@
   </ItemGroup>
   
   <ItemGroup>
-    <EmbeddedResource Update="MVVM\Auth\Views\PasswordLoginPage.xaml">
+    <EmbeddedResource Update="MVVM\Auth\PasswordLogin\PasswordLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\Views\DownloadsPage.xaml">
+    <EmbeddedResource Update="MVVM\Main\Downloads\DownloadsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Auth\Views\ForgotPasswordPage.xaml">
+    <EmbeddedResource Update="MVVM\Auth\ForgotPassword\ForgotPasswordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\Views\HomePage.xaml">
+    <EmbeddedResource Update="MVVM\Main\Home\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Auth\Views\LoginPage.xaml">
+    <EmbeddedResource Update="MVVM\Auth\Login\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\Views\MediaPage.xaml">
+    <EmbeddedResource Update="MVVM\Main\Media\MediaPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Auth\Views\SelectProfilePage.xaml">
+    <EmbeddedResource Update="MVVM\Auth\SelectProfile\SelectProfilePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\Views\SettingsPage.xaml">
+    <EmbeddedResource Update="MVVM\Main\Settings\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Auth\Views\SignupPage.xaml">
+    <EmbeddedResource Update="MVVM\Auth\Signup\SignupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\Views\MovieDetailsPage.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\Views\SeriesDetailsPage.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\Series\SeriesDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Player\PlayerPage.xaml">
@@ -97,9 +97,6 @@
     <EmbeddedResource Update="MVVM\Search\SearchPage2.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Settings\Views\SettingsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\StartupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -114,7 +111,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="MVVM\Main\Views\MediaPage.xaml.cs">
+    <Compile Update="MVVM\Main\Media\MediaPage.xaml.cs">
       <DependentUpon>MediaPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\Search\OtherItemsView.xaml.cs">

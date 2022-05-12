@@ -46,7 +46,7 @@ namespace DustyPig.Mobile.Helpers
             }
 
         }
-    
+
         public void AddNewItems(List<BasicMedia> newLst)
         {
             var existingIds = this.Select(item => item.Id);

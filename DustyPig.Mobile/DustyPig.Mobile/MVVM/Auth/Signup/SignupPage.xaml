@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DustyPig.Mobile.MVVM.Auth.Signup.SignupPage"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Auth.Signup" 
+             xmlns:ffsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms" 
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             x:DataType="viewmodels:SignupViewModel"
+             ios:Page.UseSafeArea="true"
+             Title="Sign Up">
+
+    <ContentPage.BindingContext>
+        <viewmodels:SignupViewModel />
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <StackLayout
+            Orientation="Vertical"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill">
+
+            <Label 
+                BackgroundColor="Red" 
+                Text="NO INTERNET DETECTED"
+                HorizontalTextAlignment="Center"
+                Padding="4"
+                IsVisible="{Binding NoInternet}" />
+
+            <ScrollView 
+                VerticalOptions="FillAndExpand">
+                
+                <StackLayout
+                    VerticalOptions="CenterAndExpand"
+                    Margin="20,-148,20,20">
+                
+                    <ffsvg:SvgCachedImage
+                        WidthRequest="100" 
+                        HeightRequest="100"
+                        Margin="24"
+                        VerticalOptions="Start"
+                        HorizontalOptions="Center"
+                        Source="resource://DustyPig.Mobile.Images.logo.svg" />
+
+                    <Grid 
+                        RowSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="250" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+
+                            <!-- 0: Name -->
+                            <RowDefinition Height="40" />
+
+                            <!-- 1: Email -->
+                            <RowDefinition Height="40" />
+
+                            <!-- 2: Password -->
+                            <RowDefinition Height="40" />
+
+                            <!-- 3: Login -->
+                            <RowDefinition Height="40" />
+
+                        </Grid.RowDefinitions>
+
+
+                        <!-- Name -->
+                        <Entry 
+                            Grid.Row="0" 
+                            Grid.Column="1" 
+                            Placeholder="Name" 
+                            x:Name="UserName"
+                            ReturnType="Next" 
+                            ClearButtonVisibility="WhileEditing"
+                            Completed="Name_Completed"
+                            Text="{Binding Name}" />
+
+                        <!-- Email -->
+                        <Entry 
+                            Grid.Row="1" 
+                            Grid.Column="1" 
+                            x:Name="Email"
+                            Placeholder="Email" 
+                            ReturnType="Next" 
+                            Keyboard="Email" 
+                            TextTransform="Lowercase" 
+                            ClearButtonVisibility="WhileEditing"
+                            Completed="Email_Completed"
+                            Text="{Binding Email}" />
+
+                        <!-- Password -->
+                        <Entry 
+                            Grid.Row="2" 
+                            Grid.Column="1"
+                            x:Name="Password"
+                            Placeholder="Password" 
+                            ReturnType="Go" 
+                            ClearButtonVisibility="WhileEditing" 
+                            IsPassword="True"
+                            Completed="Password_Completed"
+                            Text="{Binding Password}" />
+
+                
+                        <!-- Login -->
+                        <Button 
+                            Grid.Row="3" 
+                            Grid.Column="1"
+                            x:Name="Signup"
+                            Text="Sign Up"
+                            Command="{Binding SignupButtonCommand}" />
+
+                        <StackLayout
+                                Grid.Row="0"
+                                Grid.RowSpan="4"
+                                Grid.Column="1"
+                                BackgroundColor="#aa000000"
+                                IsVisible="{Binding IsBusy}">
+
+                            <ActivityIndicator
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="CenterAndExpand"
+                                    IsRunning="{Binding IsBusy}" />
+
+                        </StackLayout>
+
+                    </Grid>
+               
+                
+                </StackLayout>
+
+            </ScrollView>
+        
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

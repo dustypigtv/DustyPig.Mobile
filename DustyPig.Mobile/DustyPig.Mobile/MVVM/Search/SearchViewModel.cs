@@ -2,12 +2,9 @@
 using DustyPig.Mobile.CrossPlatform;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Search
@@ -114,7 +111,7 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _span, Math.Max(value, 1));
         }
 
-       
+
         private string _mediaEmptyString = string.Empty;
         public string MediaEmptyString
         {
@@ -122,7 +119,7 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _mediaEmptyString, value);
         }
 
-       
+
         private ObservableRangeCollection<BasicMedia> _availableItems = new ObservableRangeCollection<BasicMedia>();
         public ObservableRangeCollection<BasicMedia> AvailableItems
         {
@@ -163,10 +160,10 @@ namespace DustyPig.Mobile.MVVM.Search
             Span = Convert.ToInt32(Math.Floor(width / 112));
         }
 
-        
+
         public async Task DoSearch(string query)
         {
-            var formattedQuery = StringUtils.NormalizedQueryString(query) + string.Empty;            
+            var formattedQuery = StringUtils.NormalizedQueryString(query) + string.Empty;
             if (formattedQuery == _lastQuery)
                 return;
 
@@ -183,7 +180,7 @@ namespace DustyPig.Mobile.MVVM.Search
                 return;
             }
 
-            
+
             IsBusy = true;
             MediaEmptyString = string.Empty;
             _lastQuery = formattedQuery;
@@ -191,7 +188,7 @@ namespace DustyPig.Mobile.MVVM.Search
             if (response.Success)
             {
                 ShowTabs = response.Data.OtherTitlesAllowed;
-                
+
 
                 MediaEmptyString = "No matches";
                 if (response.Data.Available == null)
@@ -206,7 +203,7 @@ namespace DustyPig.Mobile.MVVM.Search
             {
                 if (token.IsCancellationRequested)
                     return;
-         
+
 
                 MediaEmptyString = "Error searching. Please try again";
                 AvailableItems.Clear();

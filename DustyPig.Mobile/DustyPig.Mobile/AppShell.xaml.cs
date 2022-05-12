@@ -1,5 +1,4 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
-using DustyPig.Mobile.MVVM.Auth.Views;
 using DustyPig.Mobile.MVVM.Main.Views;
 using DustyPig.Mobile.MVVM.Search;
 using System;
@@ -11,13 +10,13 @@ namespace DustyPig.Mobile
 {
     public partial class AppShell : Shell
     {
-        private static readonly Type[] TabPageTypes = new Type[]
-        {
-            typeof(HomePage),
-            typeof(MediaPage),
-            typeof(DownloadsPage),
-            typeof(SettingsPage)
-        };
+        //private static readonly Type[] TabPageTypes = new Type[]
+        //{
+        //    typeof(HomePage),
+        //    typeof(MediaPage),
+        //    typeof(DownloadsPage),
+        //    typeof(SettingsPage)
+        //};
 
         private static readonly Stack<int> TabPageHistory = new Stack<int>();
 
@@ -27,85 +26,85 @@ namespace DustyPig.Mobile
             InitializeComponent();
             DependencyService.Get<IScreen>().SetOrientation(false);
 
-            //Auth pages
-            Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
-            Routing.RegisterRoute(nameof(PasswordLoginPage), typeof(PasswordLoginPage));
-            Routing.RegisterRoute(nameof(SelectProfilePage), typeof(SelectProfilePage));
-            Routing.RegisterRoute(nameof(SignupPage), typeof(SignupPage));
+            ////Auth pages
+            //Routing.RegisterRoute(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
+            //Routing.RegisterRoute(nameof(PasswordLoginPage), typeof(PasswordLoginPage));
+            //Routing.RegisterRoute(nameof(SelectProfilePage), typeof(SelectProfilePage));
+            //Routing.RegisterRoute(nameof(SignupPage), typeof(SignupPage));
 
-            //Search
-            Routing.RegisterRoute(nameof(SearchPage), typeof(SearchPage));
+            ////Search
+            //Routing.RegisterRoute(nameof(SearchPage), typeof(SearchPage));
         }
 
         protected override void OnNavigated(ShellNavigatedEventArgs args)
         {
             base.OnNavigated(args);
 
-            if (CurrentItem is TabBar tb)
-            {
-                //Since I'm not using the Id attribute anywhere else
-                if (string.IsNullOrEmpty(tb.AutomationId))
-                {
-                    tb.AutomationId = "Event_Set";
-                    TabPageHistory.Clear();
-                    TabPageHistory.Push(0);
-                    tb.PropertyChanged += TabBar_PropertyChanged;
-                }
-            }
+            //if (CurrentItem is TabBar tb)
+            //{
+            //    //Since I'm not using the Id attribute anywhere else
+            //    if (string.IsNullOrEmpty(tb.AutomationId))
+            //    {
+            //        tb.AutomationId = "Event_Set";
+            //        TabPageHistory.Clear();
+            //        TabPageHistory.Push(0);
+            //        tb.PropertyChanged += TabBar_PropertyChanged;
+            //    }
+            //}
         }
 
         private void TabBar_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "CurrentItem")
-            {
-                int index = 0;
-                switch (CurrentItem.CurrentItem.CurrentItem.Route)
-                {
-                    case "Movies":
-                        index = 1;
-                        break;
+            //if (e.PropertyName == "CurrentItem")
+            //{
+            //    int index = 0;
+            //    switch (CurrentItem.CurrentItem.CurrentItem.Route)
+            //    {
+            //        case "Movies":
+            //            index = 1;
+            //            break;
 
-                    case "TV":
-                        index = 2;
-                        break;
+            //        case "TV":
+            //            index = 2;
+            //            break;
 
-                    case "Downloads":
-                        index = 3;
-                        break;
+            //        case "Downloads":
+            //            index = 3;
+            //            break;
 
-                    case "Settings":
-                        index = 4;
-                        break;
-                }
+            //        case "Settings":
+            //            index = 4;
+            //            break;
+            //    }
 
-                TabPageHistory.Push(index);
-            }
+            //    TabPageHistory.Push(index);
+            //}
         }
 
         protected override bool OnBackButtonPressed()
         {
-            if (CurrentItem.Route == "Main")
-            {
-                if (TabPageTypes.Contains(CurrentPage.GetType()))
-                {
-                    var tabBar = CurrentItem as TabBar;
+            //if (CurrentItem.Route == "Main")
+            //{
+            //    if (TabPageTypes.Contains(CurrentPage.GetType()))
+            //    {
+            //        var tabBar = CurrentItem as TabBar;
 
-                    if (TabPageHistory.Count > 1)
-                    {
-                        //Remove the current page
-                        TabPageHistory.Pop();
+            //        if (TabPageHistory.Count > 1)
+            //        {
+            //            //Remove the current page
+            //            TabPageHistory.Pop();
 
-                        //The top of the stack is now where we need to navigate to
-                        //When we do it, the PropertyChanged event will handle
-                        //putting it back on the stack
-                        int index = TabPageHistory.Pop();
+            //            //The top of the stack is now where we need to navigate to
+            //            //When we do it, the PropertyChanged event will handle
+            //            //putting it back on the stack
+            //            int index = TabPageHistory.Pop();
 
-                        tabBar.CurrentItem = tabBar.Items[index];
-                    }
+            //            tabBar.CurrentItem = tabBar.Items[index];
+            //        }
 
-                    return true;
-                }
-            }
+            //        return true;
+            //    }
+            //}
 
 
             return base.OnBackButtonPressed();

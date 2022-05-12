@@ -1,8 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.MVVM.Auth.Views;
+using DustyPig.Mobile.MVVM.Auth.Login;
 using DustyPig.Mobile.MVVM.Main;
-using DustyPig.Mobile.Services;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -11,7 +9,7 @@ namespace DustyPig.Mobile.MVVM
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class StartupPage : ContentPage
     {
-        
+
         public StartupPage()
         {
             InitializeComponent();

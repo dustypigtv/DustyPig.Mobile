@@ -1,13 +1,12 @@
-﻿
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DustyPig.Mobile.MVVM.Player
+namespace DustyPig.Mobile.MVVM.Auth.Login
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PlayerPage : ContentPage
+    public partial class LoginPage : ContentPage
     {
-        public PlayerPage()
+        public LoginPage()
         {
             InitializeComponent();
         }

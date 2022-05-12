@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Media"
+             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
+             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             x:Class="DustyPig.Mobile.MVVM.Main.Media.MediaPage"
+             x:DataType="viewmodels:MediaViewModel"
+             Shell.NavBarIsVisible="False">
+    
+    <ContentPage.Content>
+        
+        <RelativeLayout>
+
+            <!-- Media -->
+            <RefreshView
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="0,24,0,0"
+                IsRefreshing="{Binding IsBusy}"
+                Command="{Binding RefreshCommand}">
+
+                <CollectionView
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Margin="12,0,12,0"
+                    ItemSizingStrategy="MeasureFirstItem"
+                    SelectionMode="None"
+                    ItemsSource="{Binding Items}"
+                    RemainingItemsThreshold="100"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+
+                    <!-- Stupid bug - Set spacing to zero, then put the poster inside a stacklayout with margin 8 (to create 16 spacing) -->
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            VerticalItemSpacing="0"
+                            HorizontalItemSpacing="0"
+                            Orientation="Vertical"
+                            Span="{Binding Span}" />
+                    </CollectionView.ItemsLayout>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate
+                            x:DataType="models:BasicMedia">
+
+                            <StackLayout Margin="8">
+                                
+                                <ffimages:CachedImage Source="{Binding ArtworkUrl}"
+                                    HeightRequest="150"
+                                    WidthRequest="100"
+                                    Aspect="AspectFit"
+                                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
+
+                                    <ffimages:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Tapped="Poster_Clicked"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MediaViewModel}}, Path=ItemTappedCommand}"
+                                            CommandParameter="{Binding}" />
+                                    </ffimages:CachedImage.GestureRecognizers>
+
+                                </ffimages:CachedImage>
+
+                            </StackLayout>
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </RefreshView>
+
+
+            <!-- Gradient Bar -->
+            <reusable:TopButtonBarGradient
+                InputTransparent="True"
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+
+            <!-- Search / Cast buttons-->
+            <reusable:SearchCastButtons
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-52}" />
+
+
+            <ImageButton
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="12,0,0,0"
+                Padding="8"
+                CornerRadius="20"
+                BackgroundColor="Transparent"
+                Aspect="AspectFit">
+
+                <ImageButton.Source>
+
+                    <FontImageSource 
+                        FontFamily="FontAwesomeSolid"
+                        Glyph="{x:Static dpcc:FontAwesome.Filter}"
+                        Color="White" />
+
+                </ImageButton.Source>
+
+            </ImageButton>
+
+
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

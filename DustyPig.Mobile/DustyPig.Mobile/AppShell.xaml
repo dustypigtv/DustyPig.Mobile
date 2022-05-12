@@ -21,6 +21,7 @@
     <ShellContent Route="StartupPage" ContentTemplate="{DataTemplate mvvm:StartupPage}" />
 
     <TabBar Route="Main">
+        <!--
         <ShellContent Route="Home" Title="Home" ContentTemplate="{DataTemplate mainpages:HomePage}">
             <ShellContent.Icon>
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.House}" />
@@ -50,7 +51,7 @@
                 <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Gear}" />
             </ShellContent.Icon>
         </ShellContent>
-        
+        -->        
     </TabBar>
 
     
