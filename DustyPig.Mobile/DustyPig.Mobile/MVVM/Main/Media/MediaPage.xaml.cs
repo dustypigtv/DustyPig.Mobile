@@ -17,11 +17,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
         }
 
         public MediaViewModel VM { get; }
-
-        private async void ToolButton_Clicked(object sender, System.EventArgs e) => await sender.TapEffect(0.9, 100);
-
-        private async void Poster_Clicked(object sender, System.EventArgs e) => await sender.TapEffect();
-
+       
         protected override void OnAppearing()
         {
             base.OnAppearing();

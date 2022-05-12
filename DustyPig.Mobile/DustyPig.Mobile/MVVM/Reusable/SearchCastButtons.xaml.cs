@@ -15,28 +15,18 @@ namespace DustyPig.Mobile.MVVM.Reusable
         {
             InitializeComponent();
             
-            SearchButtonTapped = new AsyncCommand(() =>
-            {
-                return Navigation.PushAsync(new SearchPage());
-            });
+            /*
+                Important!!!
+                
+                Application.Current.MainPage.Navigation is somehow different from Navigation.
+                Calling it from the root is how to hide the tab bar while the search page is shown
+             */
+            SearchButtonTapped = new AsyncCommand(() => Application.Current.MainPage.Navigation.PushAsync(new SearchPage()));
 
             //Make sure this comes after any properties that are not INotifyProperty
             BindingContext = this;
         }
-
-        private void ImageButton_Pressed(object sender, System.EventArgs e)
-        {
-            var ib = sender as ImageButton;
-            ib.BackgroundColor = Theme.LightGrey;
-        }
-
-        private void ImageButton_Released(object sender, System.EventArgs e)
-        {
-            var ib = sender as ImageButton;
-            ib.BackgroundColor = Color.Transparent;
-
-        }
-
+        
 
         //Because want to hide the search button on the search page, but keep other buttons visible
         public static readonly BindableProperty SearchButtonVisibleProperty = BindableProperty.Create(

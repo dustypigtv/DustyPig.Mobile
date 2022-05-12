@@ -7,6 +7,7 @@
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePage"             
              ios:Page.UseSafeArea="true"
              NavigationPage.HasNavigationBar="False">
@@ -74,16 +75,10 @@
                                                 WidthRequest="100"
                                                 Aspect="AspectFit"
                                                 ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-
-                                                <ffimages:CachedImage.GestureRecognizers>
-                                                    <TapGestureRecognizer 
-                                                        Tapped="Poster_Tapped" 
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
-                                                        CommandParameter="{Binding}" />
-                                                </ffimages:CachedImage.GestureRecognizers>
-
-                                            </ffimages:CachedImage>
+                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
+                                                xct:TouchEffect.NativeAnimation="True"
+                                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
+                                                xct:TouchEffect.CommandParameter="{Binding}" />
 
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>

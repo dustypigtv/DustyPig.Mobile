@@ -46,11 +46,6 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             }
         }
 
-        private async void Poster_Tapped(object sender, System.EventArgs e) => await sender.TapEffect();
-
-        private async void ToolButton_Clicked(object sender, System.EventArgs e) => await sender.TapEffect(0.9, 100);
-
-
         private void CollectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
         {
             if (!IsAndroid)

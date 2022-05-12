@@ -24,31 +24,37 @@
 	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     ios:Page.UseSafeArea="true"
-    Shell.TabBarIsVisible="False"
+    
 	x:Class="DustyPig.Mobile.MVVM.Search.SearchPage"            
 	x:DataType="viewmodels:SearchViewModel"
     Title="Search for Title">
 
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+
+    <NavigationPage.TitleView>
+        
+        <SearchBar 
+            x:Name="TheSearchBar"
+            IsSpellCheckEnabled="True"
+            TextTransform="Lowercase"
+            xct:CornerRadiusEffect.CornerRadius="8"
+            Margin="0,0,12,0"
+            Placeholder="Search for title"
+            TextChanged="SearchBar_TextChanged" />
+    </NavigationPage.TitleView>
     
     <ContentPage.Content>
 
-        <StackLayout>
-            <SearchBar 
-                x:Name="TheSearchBar"
-                IsSpellCheckEnabled="True"
-                TextTransform="Lowercase"
-                xct:CornerRadiusEffect.CornerRadius="8"
-                Margin="12,0,12,0"
-                TextChanged="SearchBar_TextChanged" />
+        <StackLayout Margin="12">
+            
 
             <Grid 
                 BackgroundColor="{Static dpcc:Theme.DarkGrey}"
-                Margin="12,0,12,0"
                 HeightRequest="48"
                 IsVisible="{Binding ShowTabs}">
                 <Grid.ColumnDefinitions>
@@ -98,8 +104,7 @@
                 
                 <CollectionView
                     x:Name="AvailableCV"
-                    Margin="12"                    
-					ItemSizingStrategy="MeasureFirstItem"
+                    ItemSizingStrategy="MeasureFirstItem"
 					ItemsSource="{Binding AvailableItems}">
                         
                     <CollectionView.EmptyView>
@@ -136,9 +141,7 @@
 									WidthRequest="100"
 									Aspect="AspectFit"
 									ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-									LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-
-                                </ffimages:CachedImage>
+									LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
                             </StackLayout>
 
                         </DataTemplate>
@@ -149,7 +152,6 @@
 
                 <CollectionView
                     x:Name="OtherCV"
-                    Margin="12"                    
                     ItemSizingStrategy="MeasureFirstItem"
                     ItemsSource="{Binding OtherItems}">
                         
@@ -187,8 +189,7 @@
                                     WidthRequest="100"
                                     Aspect="AspectFit"
                                     ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-                                </ffimages:CachedImage>
+                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
                             </StackLayout>
 
                         </DataTemplate>

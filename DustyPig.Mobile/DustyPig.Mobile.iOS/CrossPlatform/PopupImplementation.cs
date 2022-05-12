@@ -1,4 +1,5 @@
 ﻿using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.iOS.CrossPlatform;
 using Foundation;
 using System.Threading.Tasks;

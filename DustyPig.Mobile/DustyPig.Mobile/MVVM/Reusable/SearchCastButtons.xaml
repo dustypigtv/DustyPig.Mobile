@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="DustyPig.Mobile.MVVM.Reusable.SearchCastButtons"
              x:DataType="reusable:SearchCastButtons">
     
@@ -32,8 +33,7 @@
                 Aspect="AspectFit"
                 x:DataType="reusable:SearchCastButtons"
                 Command="{Binding SearchButtonTapped}"
-                Pressed="ImageButton_Pressed"
-                Released="ImageButton_Released">
+                xct:TouchEffect.NativeAnimation="True">
 
                 <ImageButton.Source>
 

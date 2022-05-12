@@ -7,6 +7,7 @@
             xmlns:download="clr-namespace:DustyPig.Mobile.MVVM.Main.Downloads" 
             xmlns:settings="clr-namespace:DustyPig.Mobile.MVVM.Main.Settings" 
             xmlns:media="clr-namespace:DustyPig.Mobile.MVVM.Main.Media"
+            xmlns:effect="clr-namespace:DustyPig.Mobile.Effects"
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarItemColor="{Static dpcc:Theme.LightGrey}"
             android:TabbedPage.BarSelectedItemColor="White"
@@ -14,6 +15,9 @@
             NavigationPage.HasNavigationBar="False"
             BarBackgroundColor="{Static dpcc:Theme.DarkGrey}">
 
+    <TabbedPage.Effects>
+        <effect:UnselectedTabColorEffect />
+    </TabbedPage.Effects>
 
     <NavigationPage Title="Home">
         <x:Arguments>

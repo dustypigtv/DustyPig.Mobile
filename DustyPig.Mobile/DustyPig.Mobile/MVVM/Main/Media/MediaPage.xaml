@@ -7,6 +7,7 @@
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              ios:Page.UseSafeArea="true"
              x:Class="DustyPig.Mobile.MVVM.Main.Media.MediaPage"
              x:DataType="viewmodels:MediaViewModel"
@@ -48,23 +49,17 @@
                             x:DataType="models:BasicMedia">
 
                             <StackLayout Margin="8">
-                                
+
                                 <ffimages:CachedImage Source="{Binding ArtworkUrl}"
                                     HeightRequest="150"
                                     WidthRequest="100"
                                     Aspect="AspectFit"
                                     ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png">
-
-                                    <ffimages:CachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer 
-                                            Tapped="Poster_Clicked"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MediaViewModel}}, Path=ItemTappedCommand}"
-                                            CommandParameter="{Binding}" />
-                                    </ffimages:CachedImage.GestureRecognizers>
-
-                                </ffimages:CachedImage>
-
+                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
+                                    xct:TouchEffect.NativeAnimation="True"
+                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MediaViewModel}}, Path=ItemTappedCommand}"
+                                    xct:TouchEffect.CommandParameter="{Binding}" />
+                                
                             </StackLayout>
                             
                         </DataTemplate>
@@ -91,7 +86,8 @@
                 Padding="8"
                 CornerRadius="20"
                 BackgroundColor="Transparent"
-                Aspect="AspectFit">
+                Aspect="AspectFit"
+                xct:TouchEffect.NativeAnimation="True">
 
                 <ImageButton.Source>
 

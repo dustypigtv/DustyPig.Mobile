@@ -1,4 +1,5 @@
-﻿using DustyPig.Mobile.iOS.Renderers;
+﻿using DustyPig.Mobile.Helpers;
+using DustyPig.Mobile.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;

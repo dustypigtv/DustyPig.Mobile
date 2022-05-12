@@ -75,6 +75,7 @@
     <Compile Include="CrossPlatform\SocialLogin\AppleLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="CrossPlatform\SocialLogin\GoogleLoginClientImplementation.cs" />
+    <Compile Include="Effects\UnselectedTabColorEffect.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />

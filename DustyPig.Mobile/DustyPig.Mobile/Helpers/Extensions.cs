@@ -21,14 +21,5 @@ namespace DustyPig.Mobile.Helpers
 
             return message.Trim();
         }
-
-        public static async Task TapEffect(this object view, double size = 0.95, uint milliseconds = 75)
-        {
-            var v = view as View;
-            if (v == null)
-                return;
-            await v.ScaleTo(size, milliseconds);
-            await v.ScaleTo(1, 75);
-        }
     }
 }
