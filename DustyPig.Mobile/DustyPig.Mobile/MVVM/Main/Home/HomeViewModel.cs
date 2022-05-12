@@ -1,12 +1,10 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
@@ -35,7 +33,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
         private async Task OnItemTapped(BasicMedia item)
         {
-            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+            await ShowAlertAsync("Tapped", item.Title);
         }
 
         private ObservableHomePageSectionCollection _sections = new ObservableHomePageSectionCollection();
@@ -80,7 +78,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             }
             else
             {
-                await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.FormatMessage());
+                await ShowAlertAsync("Error", response.Error.FormatMessage());
             }
 
             App.HomePageNeedsRefresh = false;

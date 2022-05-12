@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DustyPig.Mobile.CrossPlatform;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -22,6 +24,10 @@ namespace DustyPig.Mobile.MVVM
         }
 
         public INavigation Navigation => Application.Current.MainPage.Navigation;
+
+
+        public Task ShowAlertAsync(string title, string msg) => DependencyService.Get<IPopup>().AlertAsync(title, msg);
+
 
         bool _isBusy = false;
         public bool IsBusy

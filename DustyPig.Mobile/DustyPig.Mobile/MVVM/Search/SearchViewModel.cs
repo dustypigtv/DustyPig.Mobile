@@ -1,5 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
@@ -96,13 +95,13 @@ namespace DustyPig.Mobile.MVVM.Search
         public AsyncCommand<BasicMedia> AvailableItemTappedCommand { get; }
         private async Task OnAvailableItemTapped(BasicMedia item)
         {
-            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+            await ShowAlertAsync("Tapped", item.Title);
         }
 
         public AsyncCommand<BasicTMDB> OtherItemTappedCommand { get; }
         private async Task OnOtherItemTapped(BasicTMDB item)
         {
-            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+            await ShowAlertAsync("Tapped", item.Title);
         }
 
         private int _span = 1;

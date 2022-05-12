@@ -80,7 +80,7 @@ namespace DustyPig.Mobile.MVVM.Auth.PasswordLogin
             }
             catch (Exception ex)
             {
-                await ShowError("Login", ex.FormatMessage());
+                await ShowAlertAsync("Login", ex.FormatMessage());
             }
 
             IsBusy = false;

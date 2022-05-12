@@ -1,6 +1,4 @@
 ﻿using DustyPig.Mobile.Controls;
-using DustyPig.Mobile.Helpers;
-using DustyPig.Mobile.MVVM.Main.Home;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

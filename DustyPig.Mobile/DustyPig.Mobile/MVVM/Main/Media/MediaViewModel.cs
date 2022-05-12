@@ -1,11 +1,9 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Main.Media
 {
@@ -36,7 +34,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
         public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
         private async Task OnItemTapped(BasicMedia item)
         {
-            await DependencyService.Get<IPopup>().AlertAsync("Tapped", item.Title);
+            await ShowAlertAsync("Tapped", item.Title);
         }
 
 
@@ -100,7 +98,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
             }
             else
             {
-                await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.FormatMessage());
+                await ShowAlertAsync("Error", response.Error.FormatMessage());
             }
 
             IsBusy = false;

@@ -1,5 +1,4 @@
-﻿using DustyPig.Mobile.Helpers;
-using DustyPig.Mobile.MVVM.Search;
+﻿using DustyPig.Mobile.MVVM.Search;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -14,7 +13,7 @@ namespace DustyPig.Mobile.MVVM.Reusable
         public SearchCastButtons()
         {
             InitializeComponent();
-            
+
             /*
                 Important!!!
                 
@@ -26,7 +25,7 @@ namespace DustyPig.Mobile.MVVM.Reusable
             //Make sure this comes after any properties that are not INotifyProperty
             BindingContext = this;
         }
-        
+
 
         //Because want to hide the search button on the search page, but keep other buttons visible
         public static readonly BindableProperty SearchButtonVisibleProperty = BindableProperty.Create(

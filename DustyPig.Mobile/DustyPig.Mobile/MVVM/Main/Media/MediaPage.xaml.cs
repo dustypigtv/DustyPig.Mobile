@@ -1,6 +1,4 @@
-﻿using DustyPig.Mobile.Helpers;
-using DustyPig.Mobile.MVVM.Main.Media;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.MVVM.Main.Media
@@ -17,7 +15,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
         }
 
         public MediaViewModel VM { get; }
-       
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

@@ -1,7 +1,5 @@
 ﻿using DustyPig.API.v3;
 using System;
-using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Helpers
 {

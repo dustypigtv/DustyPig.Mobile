@@ -1,10 +1,8 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
@@ -35,7 +33,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             else
             {
                 _listFullyLoaded = true;
-                await DependencyService.Get<IPopup>().AlertAsync("Error loading media", response.Error.FormatMessage());
+                await ShowAlertAsync("Error loading media", response.Error.FormatMessage());
             }
         }
 

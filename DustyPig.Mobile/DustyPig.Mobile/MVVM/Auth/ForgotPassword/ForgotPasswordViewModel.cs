@@ -1,7 +1,5 @@
-﻿using DustyPig.Mobile.CrossPlatform;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Auth.ForgotPassword
 {
@@ -31,17 +29,15 @@ namespace DustyPig.Mobile.MVVM.Auth.ForgotPassword
         {
             IsBusy = true;
 
-            var popup = DependencyService.Get<IPopup>();
-
             var response = await App.API.Auth.SendPasswordResetEmailAsync(Email);
             if (response.Success)
             {
-                await popup.AlertAsync("Success", "Please check your email for password reset instructions");
+                await ShowAlertAsync("Success", "Please check your email for password reset instructions");
                 await Navigation.PopAsync();
             }
             else
             {
-                await popup.AlertAsync("Error", response.Error.Message);
+                await ShowAlertAsync("Error", response.Error.Message);
             }
 
 

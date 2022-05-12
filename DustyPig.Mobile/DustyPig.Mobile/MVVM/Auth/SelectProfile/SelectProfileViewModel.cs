@@ -1,5 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Helpers;
 using System.Threading.Tasks;
@@ -94,7 +93,7 @@ namespace DustyPig.Mobile.MVVM.Auth.SelectProfile
             }
             else
             {
-                await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
+                await ShowAlertAsync("Error", response.Error.Message);
                 await Navigation.PopAsync();
             }
         }
@@ -141,7 +140,7 @@ namespace DustyPig.Mobile.MVVM.Auth.SelectProfile
             }
             else
             {
-                await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.FormatMessage());
+                await ShowAlertAsync("Error", response.Error.FormatMessage());
                 ShowPin = false;
                 IsBusy = false;
             }

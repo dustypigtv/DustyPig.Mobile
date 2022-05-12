@@ -48,7 +48,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Login
             }
             catch (Exception ex)
             {
-                await ShowError(provider.ToString() + " Login", ex.Message);
+                await ShowAlertAsync(provider.ToString() + " Login", ex.Message);
                 IsBusy = false;
                 return;
             }
@@ -70,7 +70,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Login
             }
             catch (Exception ex)
             {
-                await ShowError("Dusty Pig Error", ex.FormatMessage());
+                await ShowAlertAsync("Dusty Pig Error", ex.FormatMessage());
             }
 
             IsBusy = false;

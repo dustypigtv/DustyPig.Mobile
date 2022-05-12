@@ -1,5 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.MVVM.Auth.SelectProfile;
 using DustyPig.REST;
 using System.Threading.Tasks;
@@ -23,8 +22,6 @@ namespace DustyPig.Mobile.MVVM.Auth
                 Application.Current.MainPage = new StartupPage();
             }
         }
-
-        public Task ShowError(string title, string msg) => DependencyService.Get<IPopup>().AlertAsync(title, msg);
 
     }
 }

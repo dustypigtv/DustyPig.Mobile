@@ -1,5 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Auth.SelectProfile;
@@ -61,7 +60,6 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
         private async Task OnSignupButtonCommand()
         {
             IsBusy = true;
-            var popup = DependencyService.Get<IPopup>();
 
             var ret = await App.API.Account.CreateAsync(new CreateAccount
             {
@@ -75,7 +73,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
             {
                 if (ret.Data.EmailVerificationRequired)
                 {
-                    await popup.AlertAsync("Success!", "Please check your email to verify your account");
+                    await ShowAlertAsync("Success!", "Please check your email to verify your account");
                     await Navigation.PopAsync();
                 }
                 else
@@ -89,7 +87,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
             }
             else
             {
-                await popup.AlertAsync("Error", ret.Error.FormatMessage());
+                await ShowAlertAsync("Error", ret.Error.FormatMessage());
             }
 
             IsBusy = false;
