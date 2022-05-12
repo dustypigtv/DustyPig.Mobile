@@ -19,9 +19,9 @@ namespace DustyPig.Mobile.MVVM.Auth.PasswordLogin
             ForgotPasswordCommand = new AsyncCommand(() => Navigation.PushAsync(new ForgotPasswordPage()));
         }
 
-        public AsyncCommand SignupCommand { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SignupPage)));
+        public AsyncCommand SignupCommand { get; }
 
-        public AsyncCommand ForgotPasswordCommand { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(ForgotPasswordPage)));
+        public AsyncCommand ForgotPasswordCommand { get; }
 
         private string _email;
         public string Email

@@ -22,7 +22,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Login
 
         public bool ShowAppleButton => Device.RuntimePlatform == Device.iOS;
 
-        public AsyncCommand PasswordLoginCommand { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(PasswordLoginPage)));
+        public AsyncCommand PasswordLoginCommand { get; }
 
         public AsyncCommand AppleLoginCommand { get; }
 

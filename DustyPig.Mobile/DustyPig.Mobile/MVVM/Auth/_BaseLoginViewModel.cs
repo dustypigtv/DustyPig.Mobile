@@ -15,13 +15,11 @@ namespace DustyPig.Mobile.MVVM.Auth
             App.API.Token = dpToken.Data.Token;
             if (dpToken.Data.LoginType == LoginResponseType.Account)
             {
-                //await Shell.Current.GoToAsync(nameof(SelectProfilePage));
                 await Navigation.PushAsync(new SelectProfilePage());
             }
             else
             {
                 await Services.Settings.SaveProfileTokenAsync(dpToken.Data.Token);
-                //Shell.Current.CurrentItem = new StartupPage();
                 Application.Current.MainPage = new StartupPage();
             }
         }
