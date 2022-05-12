@@ -1,9 +1,5 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
-using DustyPig.Mobile.MVVM.Main.Views;
-using DustyPig.Mobile.MVVM.Search;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile
