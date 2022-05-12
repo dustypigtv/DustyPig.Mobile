@@ -23,6 +23,8 @@ namespace DustyPig.Mobile.MVVM
             };
         }
 
+        public INavigation Navigation => Application.Current.MainPage.Navigation;
+
         bool _isBusy = false;
         public bool IsBusy
         {

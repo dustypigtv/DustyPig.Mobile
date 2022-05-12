@@ -43,6 +43,9 @@
     <EmbeddedResource Update="MVVM\Auth\Views\PasswordLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Main\MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\Views\DownloadsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

@@ -9,7 +9,7 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              x:DataType="viewmodels:LoginViewModel"
              ios:Page.UseSafeArea="true"
-             Shell.NavBarIsVisible="False">
+             NavigationPage.HasNavigationBar="False">
 
     <ContentPage.BindingContext>
         <viewmodels:LoginViewModel />

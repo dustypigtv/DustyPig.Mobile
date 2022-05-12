@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using DustyPig.Mobile.MVVM;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile
 {
@@ -12,7 +13,8 @@ namespace DustyPig.Mobile
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            //MainPage = new AppShell();
+            MainPage = new StartupPage();
         }
 
         protected override void OnStart()

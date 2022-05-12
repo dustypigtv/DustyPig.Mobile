@@ -4,7 +4,7 @@ using Firebase.Messaging;
 
 namespace DustyPig.Mobile.Droid.CrossPlatform.FCM
 {
-    [Service]
+    [Service(Exported = true)]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     [Preserve(AllMembers = true)]
     public class FCMService : FirebaseMessagingService

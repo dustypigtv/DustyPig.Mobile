@@ -77,15 +77,18 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
                 if (ret.Data.EmailVerificationRequired)
                 {
                     await popup.AlertAsync("Success!", "Please check your email to verify your account");
-                    await Shell.Current.GoToAsync("..");
+                    //await Shell.Current.GoToAsync("..");
+                    await Navigation.PopAsync();
                 }
                 else
                 {
                     App.API.Token = ret.Data.Token;
                     if (ret.Data.LoginType == LoginResponseType.Account)
-                        await Shell.Current.GoToAsync(nameof(SelectProfilePage));
+                        //await Shell.Current.GoToAsync(nameof(SelectProfilePage));
+                        await Navigation.PushAsync(new SelectProfilePage());
                     else
-                        Shell.Current.CurrentItem = new StartupPage();
+                        //Shell.Current.CurrentItem = new StartupPage();
+                        Application.Current.MainPage = new StartupPage();
                 }
             }
             else

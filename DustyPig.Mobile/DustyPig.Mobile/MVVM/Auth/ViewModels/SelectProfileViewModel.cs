@@ -96,7 +96,8 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             else
             {
                 await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
-                await Shell.Current.GoToAsync("..");
+                //await Shell.Current.GoToAsync("..");
+                await Navigation.PopAsync();
             }
         }
 
@@ -138,7 +139,8 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             {
                 App.API.Token = response.Data.Token;
                 await Services.Settings.SaveProfileTokenAsync(response.Data.Token);
-                Shell.Current.CurrentItem = new StartupPage();
+                //Shell.Current.CurrentItem = new StartupPage();
+                Application.Current.MainPage = new StartupPage();
             }
             else
             {

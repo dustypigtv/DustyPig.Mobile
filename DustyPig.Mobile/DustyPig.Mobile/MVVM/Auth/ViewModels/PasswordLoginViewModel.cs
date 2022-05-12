@@ -14,11 +14,13 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
         public PasswordLoginViewModel()
         {
             LoginButtonCommand = new AsyncCommand(OnLoginButtonCommand, canExecute: ValidateCredentialInput);
+            SignupCommand = new AsyncCommand(() => Navigation.PushAsync(new SignupPage()));
+            ForgotPasswordCommand = new AsyncCommand(() => Navigation.PushAsync(new ForgotPasswordPage()));
         }
 
-        public AsyncCommand SignupCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SignupPage)));
+        public AsyncCommand SignupCommand { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SignupPage)));
 
-        public AsyncCommand ForgotPasswordCommand { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(ForgotPasswordPage)));
+        public AsyncCommand ForgotPasswordCommand { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(ForgotPasswordPage)));
 
         private string _email;
         public string Email

@@ -37,7 +37,8 @@ namespace DustyPig.Mobile.MVVM.Auth.ViewModels
             if (response.Success)
             {
                 await popup.AlertAsync("Success", "Please check your email for password reset instructions");
-                await Shell.Current.GoToAsync("..");
+                //await Shell.Current.GoToAsync("..");
+                await Navigation.PopAsync();
             }
             else
             {

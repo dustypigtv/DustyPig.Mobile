@@ -15,6 +15,7 @@ namespace DustyPig.Mobile.MVVM.Reusable
         {
             InitializeComponent();
             BindingContext = this;
+            SearchButtonTapped = new AsyncCommand(() => Navigation.PushAsync(new SearchPage()));
         }
 
         private void ImageButton_Pressed(object sender, System.EventArgs e)
@@ -45,6 +46,6 @@ namespace DustyPig.Mobile.MVVM.Reusable
         }
 
 
-        public AsyncCommand SearchButtonTapped { get; } = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SearchPage)));
+        public AsyncCommand SearchButtonTapped { get; }// = new AsyncCommand(() => Shell.Current.GoToAsync(nameof(SearchPage)));
     }
 }

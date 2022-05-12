@@ -13,9 +13,9 @@ namespace DustyPig.Mobile.MVVM.Main.Views
         {
             InitializeComponent();
 
-            var tb = Shell.Current.CurrentItem as TabBar;
-            var mode = tb.CurrentItem.Title == "TV" ? MediaViewModel.Mode.TV : MediaViewModel.Mode.Movies;
-            BindingContext = VM = new MediaViewModel(mode);
+            //var tb = Shell.Current.CurrentItem as TabBar;
+            //var mode = tb.CurrentItem.Title == "TV" ? MediaViewModel.Mode.TV : MediaViewModel.Mode.Movies;
+            //BindingContext = VM = new MediaViewModel(mode);
         }
 
         public MediaViewModel VM { get; }
