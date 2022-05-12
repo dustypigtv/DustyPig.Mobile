@@ -27,9 +27,6 @@ namespace DustyPig.Mobile.MVVM.Search
             SlideItems(0, false);
 
             TabHeaderTapped = new Command<int>(OnTabHeaderTapped);
-
-            AvailableItemTappedCommand = new AsyncCommand<BasicMedia>(OnAvailableItemTapped, allowsMultipleExecutions: false);
-            OtherItemTappedCommand = new AsyncCommand<BasicTMDB>(OnOtherItemTapped, allowsMultipleExecutions: false);
         }
 
         public Command<int> TabHeaderTapped { get; }
@@ -91,18 +88,6 @@ namespace DustyPig.Mobile.MVVM.Search
             set => SetProperty(ref _otherCVColor, value);
         }
 
-
-        public AsyncCommand<BasicMedia> AvailableItemTappedCommand { get; }
-        private async Task OnAvailableItemTapped(BasicMedia item)
-        {
-            await ShowAlertAsync("Tapped", item.Title);
-        }
-
-        public AsyncCommand<BasicTMDB> OtherItemTappedCommand { get; }
-        private async Task OnOtherItemTapped(BasicTMDB item)
-        {
-            await ShowAlertAsync("Tapped", item.Title);
-        }
 
         private int _span = 1;
         public int Span

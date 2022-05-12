@@ -13,8 +13,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         public HomeViewModel()
         {
             RefreshCommand = new AsyncCommand(Update);
-            ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped);
-
+            
 
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
@@ -29,12 +28,6 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         }
 
         public AsyncCommand RefreshCommand { get; }
-
-        public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
-        private async Task OnItemTapped(BasicMedia item)
-        {
-            await ShowAlertAsync("Tapped", item.Title);
-        }
 
         private ObservableHomePageSectionCollection _sections = new ObservableHomePageSectionCollection();
         public ObservableHomePageSectionCollection Sections

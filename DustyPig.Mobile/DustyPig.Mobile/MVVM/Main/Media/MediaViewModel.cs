@@ -24,20 +24,13 @@ namespace DustyPig.Mobile.MVVM.Main.Media
             _mode = mode;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
-            ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped, allowsMultipleExecutions: false);
         }
 
         public AsyncCommand RefreshCommand { get; }
 
         public AsyncCommand LoadMoreCommand { get; }
 
-        public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
-        private async Task OnItemTapped(BasicMedia item)
-        {
-            await ShowAlertAsync("Tapped", item.Title);
-        }
-
-
+        
         private ObservableBasicMediaCollection _items = new ObservableBasicMediaCollection();
         public ObservableBasicMediaCollection Items
         {

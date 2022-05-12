@@ -1,9 +1,12 @@
-﻿using DustyPig.Mobile.CrossPlatform;
+﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.MVVM.MediaDetails.Movie;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -21,6 +24,9 @@ namespace DustyPig.Mobile.MVVM
                 NoInternet = (int)e.NetworkAccess < 3;
                 InternetConnectivityChanged?.Invoke(this, !NoInternet);
             };
+
+            ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped);
+            TMDBItemTappedCommand = new AsyncCommand<BasicTMDB>(OnTMDBItemTapped);
         }
 
         public INavigation Navigation => Application.Current.MainPage.Navigation;
@@ -49,6 +55,32 @@ namespace DustyPig.Mobile.MVVM
             get => _noInternet;
             set => SetProperty(ref _noInternet, value);
         }
+
+        public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
+        private async Task OnItemTapped(BasicMedia item)
+        {
+            //Make sure to use the root Navigation to hide the tabbar
+            var nav = Application.Current.MainPage.Navigation;
+
+            switch (item.MediaType)
+            {
+                case MediaTypes.Movie:
+                    await nav.PushModalAsync(new MovieDetailsPage(item));
+                    break;
+
+                default:
+                    await ShowAlertAsync("Tapped", item.Title);
+                    break;
+            }            
+        }
+
+        public AsyncCommand<BasicTMDB> TMDBItemTappedCommand { get; }
+        private async Task OnTMDBItemTapped(BasicTMDB item)
+        {
+            await ShowAlertAsync("Tapped", item.Title);
+        }
+
+
 
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",

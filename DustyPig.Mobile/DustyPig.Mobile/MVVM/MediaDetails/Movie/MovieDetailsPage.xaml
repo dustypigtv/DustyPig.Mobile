@@ -1,14 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             xmlns:movie="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Movie"
+             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              ios:Page.UseSafeArea="true"
-             x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage">
+             x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage"
+             x:DataType="movie:MovieDetailsViewModel"
+             NavigationPage.HasNavigationBar="False"
+             Title="{Binding Basic.Title}"
+             BackgroundColor="{x:Static dpcc:Theme.DarkGrey}">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid
+            WidthRequest="{Binding Width}"
+            HorizontalOptions="Center"
+            VerticalOptions="FillAndExpand"
+            BackgroundColor="Black">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <ScrollView 
+                Grid.RowSpan="2">
+
+                <StackLayout>
+                    <ffimages:CachedImage Source="{Binding BackdropUrl}"
+                        HeightRequest="{Binding ImageHeight}"
+                        WidthRequest="{Binding Width}"
+                        Aspect="AspectFill"
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                    
+                    
+                    
+                </StackLayout>
+                
+            </ScrollView>
+
+
+            <!-- Gradient Bar -->
+            <reusable:TopButtonBarGradient
+                InputTransparent="True" />
+
+            <!-- Search / Cast buttons-->
+            <reusable:SearchCastButtons
+                Margin="0,0,-52,0"
+                SearchButtonVisible="False" />
+
+
+
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

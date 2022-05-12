@@ -134,7 +134,7 @@
                             <StackLayout Margin="8">
                                 <ffimages:CachedImage 
                                     xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=AvailableItemTappedCommand}"
+                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=ItemTappedCommand}"
                                     xct:TouchEffect.CommandParameter="{Binding}"
 									Source="{Binding ArtworkUrl}"
 									HeightRequest="150"
@@ -182,7 +182,7 @@
                             <StackLayout Margin="8">
                                 <ffimages:CachedImage 
                                     xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=OtherItemTappedCommand}"
+                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=TMDBItemTappedCommand}"
                                     xct:TouchEffect.CommandParameter="{Binding}"
                                     Source="{Binding ArtworkUrl}"
                                     HeightRequest="150"
