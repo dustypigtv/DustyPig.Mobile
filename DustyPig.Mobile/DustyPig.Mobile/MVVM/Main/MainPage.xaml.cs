@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.Main
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPageOld : TabbedPage
+    public partial class MainPage : TabbedPage
     {
-        public MainPageOld()
+        public MainPage()
         {
             InitializeComponent();
         }

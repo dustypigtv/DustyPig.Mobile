@@ -39,7 +39,7 @@ namespace DustyPig.Mobile.MVVM
             {
                 var response = await App.API.Auth.VerifyTokenAsync();
                 if (response.Success && response.Data.LoginType == LoginResponseType.Profile)
-                    Application.Current.MainPage = new NavigationPage(new MainPageOld());
+                    Application.Current.MainPage = new NavigationPage(new MainPage());
                 else
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
             }

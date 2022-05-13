@@ -43,7 +43,7 @@
     <EmbeddedResource Update="MVVM\Auth\PasswordLogin\PasswordLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\MainPageOld.xaml">
+    <EmbeddedResource Update="MVVM\Main\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\Downloads\DownloadsPage.xaml">
@@ -114,8 +114,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Update="MVVM\Main\MainPageOld.xaml.cs">
-      <DependentUpon>MainPageOld.xaml</DependentUpon>
+    <Compile Update="MVVM\Main\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\Main\Media\MediaPage.xaml.cs">
       <DependentUpon>MediaPage.xaml</DependentUpon>
