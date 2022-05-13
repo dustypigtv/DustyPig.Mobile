@@ -20,7 +20,9 @@ namespace DustyPig.Mobile.MVVM.Reusable
                 Application.Current.MainPage.Navigation is somehow different from Navigation.
                 Calling it from the root is how to hide the tab bar while the search page is shown
              */
-            SearchButtonTapped = new AsyncCommand(() => Application.Current.MainPage.Navigation.PushAsync(new SearchPage()));
+            SearchButtonTapped = new AsyncCommand(() => Application.Current.MainPage.Navigation.PushAsync(new NavigationPage(new SearchPage())));
+            CloseButtonTapped = new AsyncCommand(() =>Navigation.PopModalAsync());
+
 
             //Make sure this comes after any properties that are not INotifyProperty
             BindingContext = this;
@@ -40,7 +42,20 @@ namespace DustyPig.Mobile.MVVM.Reusable
             set => SetValue(SearchButtonVisibleProperty, value);
         }
 
+        public static readonly BindableProperty CloseButtonVisibleProperty = BindableProperty.Create(
+            nameof(CloseButtonVisible),
+            typeof(bool),
+            typeof(SearchCastButtons),
+            false);
+
+        public bool CloseButtonVisible
+        {
+            get => (bool)GetValue(CloseButtonVisibleProperty);
+            set => SetValue(CloseButtonVisibleProperty, value);
+        }
 
         public AsyncCommand SearchButtonTapped { get; }
+
+        public AsyncCommand CloseButtonTapped { get; }
     }
 }

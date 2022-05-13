@@ -11,7 +11,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         public MovieDetailsPage(BasicMedia basicMedia)
         {
             InitializeComponent();
-            BindingContext = VM = new MovieDetailsViewModel(basicMedia);
+            BindingContext = VM = new MovieDetailsViewModel(basicMedia, Navigation);
         }
 
         public MovieDetailsViewModel VM { get; }

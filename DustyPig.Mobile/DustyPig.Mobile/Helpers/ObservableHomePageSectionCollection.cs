@@ -3,20 +3,27 @@ using DustyPig.Mobile.MVVM.Main.Home;
 using System.Collections.Generic;
 using System.Linq;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Helpers
 {
     public class ObservableHomePageSectionCollection : ObservableRangeCollection<HomePageSectionViewModel>
     {
-        public ObservableHomePageSectionCollection() { }
-
-        public ObservableHomePageSectionCollection(List<HomeScreenList> items)
+        public ObservableHomePageSectionCollection(INavigation navigation)
         {
+            Navigation = navigation;
+        }
+
+        public ObservableHomePageSectionCollection(List<HomeScreenList> items, INavigation navigation)
+        {
+            Navigation = navigation;
             AddRange(items);
         }
 
+        private INavigation Navigation { get; }
+
         private HomePageSectionViewModel ConvertToViewModel(HomeScreenList item) =>
-            new HomePageSectionViewModel(item.Items)
+            new HomePageSectionViewModel(item.Items, Navigation)
             {
                 ListId = item.ListId,
                 Title = item.Title

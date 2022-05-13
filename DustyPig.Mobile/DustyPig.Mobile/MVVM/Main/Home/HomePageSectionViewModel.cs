@@ -3,6 +3,7 @@ using DustyPig.Mobile.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
@@ -11,7 +12,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         private bool _listFullyLoaded = false;
 
 
-        public HomePageSectionViewModel(List<BasicMedia> lst)
+        public HomePageSectionViewModel(List<BasicMedia> lst, INavigation navigation) : base(navigation)
         {
             _listFullyLoaded = lst.Count < 100;
             LoadMoreItemsCommand = new AsyncCommand(OnLoadMoreItems, canExecute: (obj) => !_listFullyLoaded, allowsMultipleExecutions: false);

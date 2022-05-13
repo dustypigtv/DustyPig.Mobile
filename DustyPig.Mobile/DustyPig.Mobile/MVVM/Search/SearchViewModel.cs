@@ -19,7 +19,7 @@ namespace DustyPig.Mobile.MVVM.Search
         private int _lastIndex = 0;
         private double _width = 0;
 
-        public SearchViewModel(CollectionView availableCV, CollectionView otherCV)
+        public SearchViewModel(CollectionView availableCV, CollectionView otherCV, INavigation navigation) : base(navigation)
         {
             _availableCV = availableCV;
             _otherCV = otherCV;

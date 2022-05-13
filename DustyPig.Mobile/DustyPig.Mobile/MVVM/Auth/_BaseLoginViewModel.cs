@@ -8,13 +8,18 @@ namespace DustyPig.Mobile.MVVM.Auth
 {
     public class _BaseLoginViewModel : _BaseViewModel
     {
+        //public _BaseLoginViewModel() : base() { }
+
+        public _BaseLoginViewModel(INavigation navigation) : base(navigation) { }
+
+
         public async Task ValidateTokenAndGoToProfiles(Response<LoginResponse> dpToken)
         {
             dpToken.ThrowIfError();
             App.API.Token = dpToken.Data.Token;
             if (dpToken.Data.LoginType == LoginResponseType.Account)
             {
-                await Navigation.PushAsync(new SelectProfilePage());
+                await Navigation.PushAsync(new NavigationPage(new SelectProfilePage()));
             }
             else
             {

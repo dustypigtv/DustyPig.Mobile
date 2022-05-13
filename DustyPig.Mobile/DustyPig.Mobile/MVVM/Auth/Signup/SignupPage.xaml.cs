@@ -10,7 +10,10 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
         public SignupPage()
         {
             InitializeComponent();
+            BindingContext = VM = new SignupViewModel(Navigation);
         }
+
+        public SignupViewModel VM { get; }
 
         protected async override void OnAppearing()
         {

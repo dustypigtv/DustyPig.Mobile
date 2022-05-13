@@ -38,6 +38,7 @@
 
                 <StackLayout>
 
+                    <!-- Backdrop -->
                     <Grid 
                         Margin="0,12,0,0">
 
@@ -53,15 +54,18 @@
 
                     </Grid>
 
+                    <!-- Everything else -->
                     <StackLayout
                         Margin="12,0,12,0">
 
+                        <!-- Title -->
                         <Label 
                             Text="{Binding Title}"
                             FontSize="Medium"
                             FontAttributes="Bold"
-                            LineBreakMode="TailTruncation" />
+                            LineBreakMode="WordWrap" />
 
+                        
                         <Grid
                             Margin="0,4,0,0">
                             
@@ -71,13 +75,15 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            
+
+                            <!-- Year -->
                             <Label
                                 Grid.Column="0"
                                 VerticalOptions="Center"
                                 Text="{Binding Year}"
                                 FontSize="Small" />
 
+                            <!-- Rating -->
                             <Frame
                                 Grid.Column="1"
                                 VerticalOptions="Center"
@@ -92,6 +98,7 @@
                                     FontSize="Caption" />
                             </Frame>
 
+                            <!-- Duration -->
                             <Label
                                 Grid.Column="2"
                                 VerticalOptions="Center"
@@ -100,7 +107,7 @@
                             
                         </Grid>
 
-                        
+                        <!-- Play button -->
                         <Frame
                             Margin="0,12,0,0"
                             Padding="0"
@@ -137,6 +144,7 @@
                         </Frame>
 
 
+                        <!-- Download button -->
                         <Frame
                             Margin="0,6,0,0"
                             Padding="0"
@@ -173,7 +181,7 @@
                         </Frame>
 
 
-
+                        <!-- Playback progress -->
                         <Grid
                             Margin="0,6,0,0"
                             IsVisible="{Binding ShowPlayedBar}">
@@ -192,16 +200,194 @@
                                 FontSize="Micro" />
 
                         </Grid>
-                        
-                        
-                        
-                        
 
+
+                        <Grid
+                            Margin="0,12,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Frame
+                                Grid.Column="0"                              
+                                CornerRadius="124"
+                                BackgroundColor="Transparent"
+                                Padding="12"
+                                xct:TouchEffect.NativeAnimation="True">
+
+                                <StackLayout>
+
+                                    <Image 
+                                        WidthRequest="24"
+                                        HeightRequest="24">
+                                            
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Binding WatchlistIcon}" Color="White" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label Text="Watchlist" FontSize="Small" />
+
+                                </StackLayout>
+
+                            </Frame>
+
+                            <Frame
+                                Grid.Column="2"                              
+                                CornerRadius="124"
+                                BackgroundColor="Transparent"
+                                Padding="12"
+                                xct:TouchEffect.NativeAnimation="True">
+
+                                <StackLayout>
+
+                                    <Image 
+                                        WidthRequest="24"
+                                        HeightRequest="24">
+
+                                        <Image.Source>
+                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label Text="Options" FontSize="Small" />
+
+                                </StackLayout>
+
+                            </Frame>
+                        </Grid>
+
+
+                        <!-- Description -->
                         <Label
                             Margin="0,12,0,0"
                             Text="{Binding Description}"
-                            FontSize="Small"
+                            FontSize="Medium"
                             LineBreakMode="WordWrap" />
+
+                        <Grid
+                            RowSpacing="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <!-- Genres -->
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Genres: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowGenres}" />
+                            
+                            <Label 
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Genres}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowGenres}" />
+
+
+                            <!-- Cast -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Cast: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowCast}" />
+
+                            <Label 
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Cast}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowCast}" />
+
+                            <!-- Directors -->
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Directors: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowDirectors}" />
+
+                            <Label 
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Directors}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowDirectors}" />
+
+                            <!-- Producers -->
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Producers: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowProducers}" />
+
+                            <Label 
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Producers}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowProducers}" />
+
+                            <!-- Writers -->
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Writers: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowWriters}" />
+
+                            <Label 
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Writers}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowWriters}" />
+
+                        </Grid>
+                        
 
                     </StackLayout>
                     
@@ -216,8 +402,9 @@
 
             <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
-                Margin="0,0,-52,0"
-                SearchButtonVisible="True" />
+                HorizontalOptions="FillAndExpand"
+                CloseButtonVisible="True"
+                SearchButtonVisible="True"/>
 
 
 

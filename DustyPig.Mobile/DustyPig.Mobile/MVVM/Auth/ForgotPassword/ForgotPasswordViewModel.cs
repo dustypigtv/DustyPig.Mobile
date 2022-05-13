@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Auth.ForgotPassword
 {
     public class ForgotPasswordViewModel : _BaseViewModel
     {
-        public ForgotPasswordViewModel()
+        public ForgotPasswordViewModel(INavigation navigation) : base(navigation)
         {
             SubmitCommand = new AsyncCommand(OnSubmitCommand, canExecute: CanSubmit);
         }

@@ -11,7 +11,7 @@ namespace DustyPig.Mobile.MVVM.Auth.SelectProfile
         public SelectProfilePage()
         {
             InitializeComponent();
-            BindingContext = VM = new SelectProfileViewModel(PinEntry);
+            BindingContext = VM = new SelectProfileViewModel(PinEntry, Navigation);
         }
 
         public SelectProfileViewModel VM { get; }

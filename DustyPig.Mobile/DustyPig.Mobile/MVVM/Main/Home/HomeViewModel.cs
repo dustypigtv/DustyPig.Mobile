@@ -5,15 +5,16 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
     public class HomeViewModel : _BaseViewModel
     {
-        public HomeViewModel()
+        public HomeViewModel(INavigation navigation) : base(navigation)
         {
             RefreshCommand = new AsyncCommand(Update);
-            
+            Sections = new ObservableHomePageSectionCollection(Navigation);
 
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
@@ -29,7 +30,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         public AsyncCommand RefreshCommand { get; }
 
-        private ObservableHomePageSectionCollection _sections = new ObservableHomePageSectionCollection();
+        private ObservableHomePageSectionCollection _sections;
         public ObservableHomePageSectionCollection Sections
         {
             get => _sections;

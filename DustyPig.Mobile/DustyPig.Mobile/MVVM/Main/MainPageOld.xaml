@@ -11,7 +11,7 @@
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarItemColor="{Static dpcc:Theme.LightGrey}"
             android:TabbedPage.BarSelectedItemColor="White"
-            x:Class="DustyPig.Mobile.MVVM.Main.MainPage"
+            x:Class="DustyPig.Mobile.MVVM.Main.MainPageOld"
             NavigationPage.HasNavigationBar="False"
             BarBackgroundColor="{Static dpcc:Theme.DarkGrey}">
 

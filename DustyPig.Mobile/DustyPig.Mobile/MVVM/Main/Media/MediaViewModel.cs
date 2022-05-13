@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.Main.Media
 {
@@ -19,7 +20,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
 
         private bool _listFullyLoaded = false;
 
-        public MediaViewModel(Mode mode)
+        public MediaViewModel(Mode mode, INavigation navigation) : base(navigation)
         {
             _mode = mode;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);

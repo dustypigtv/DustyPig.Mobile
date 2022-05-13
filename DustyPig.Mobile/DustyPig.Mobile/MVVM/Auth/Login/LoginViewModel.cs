@@ -12,12 +12,12 @@ namespace DustyPig.Mobile.MVVM.Auth.Login
 {
     public class LoginViewModel : _BaseLoginViewModel
     {
-        public LoginViewModel()
+        public LoginViewModel(INavigation navigation) : base(navigation)
         {
             AppleLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Apple, DependencyService.Get<IAppleLoginClient>()));
             GoogleLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Google, DependencyService.Get<IGoogleLoginClient>()));
             FacebookLoginCommand = new AsyncCommand(() => SocialProviderLogin(OAuthCredentialProviders.Facebook, DependencyService.Get<IFacebookLoginClient>()));
-            PasswordLoginCommand = new AsyncCommand(() => Navigation.PushAsync(new PasswordLoginPage()));
+            PasswordLoginCommand = new AsyncCommand(() => Navigation.PushAsync(new NavigationPage(new PasswordLoginPage())));
         }
 
         public bool ShowAppleButton => Device.RuntimePlatform == Device.iOS;

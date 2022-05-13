@@ -10,7 +10,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
 {
     public class SignupViewModel : _BaseViewModel
     {
-        public SignupViewModel()
+        public SignupViewModel(INavigation navigation) : base(navigation)
         {
             SignupButtonCommand = new AsyncCommand(OnSignupButtonCommand, canExecute: ValidateCredentialInput);
         }
@@ -80,7 +80,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
                 {
                     App.API.Token = ret.Data.Token;
                     if (ret.Data.LoginType == LoginResponseType.Account)
-                        await Navigation.PushAsync(new SelectProfilePage());
+                        await Navigation.PushAsync(new NavigationPage(new SelectProfilePage()));
                     else
                         Application.Current.MainPage = new StartupPage();
                 }

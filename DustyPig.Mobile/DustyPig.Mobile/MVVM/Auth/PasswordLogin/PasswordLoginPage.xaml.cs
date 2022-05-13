@@ -12,7 +12,10 @@ namespace DustyPig.Mobile.MVVM.Auth.PasswordLogin
         public PasswordLoginPage()
         {
             InitializeComponent();
+            BindingContext = VM = new PasswordLoginViewModel(Navigation);
         }
+
+        public PasswordLoginViewModel VM { get; }
 
         protected async override void OnAppearing()
         {

@@ -14,12 +14,24 @@
             ColumnSpacing="0">
 
             <Grid.ColumnDefinitions>
+                
+                <!-- spacer -->
                 <ColumnDefinition Width="*" />
+                
+                <!-- Search -->
                 <ColumnDefinition Width="Auto" />
+                
+                <!-- AirPlay -->
                 <ColumnDefinition Width="Auto" />
+                
+                <!-- Chromecast -->
+                <ColumnDefinition Width="Auto" />
+                
+                <!-- Close Dialog -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
+            <!-- Search -->
             <ImageButton
                 Grid.Row="0"
                 Grid.Column="1"
@@ -46,7 +58,35 @@
 
             </ImageButton>
 
-            
+
+
+            <!-- Close Dialog -->
+            <ImageButton
+                Grid.Row="0"
+                Grid.Column="4"
+                HeightRequest="40"
+                WidthRequest="40"
+                Margin="0,0,12,0"
+                Padding="8"
+                CornerRadius="20"
+                IsVisible="{Binding CloseButtonVisible}"
+                BackgroundColor="Transparent"
+                Aspect="AspectFit"
+                x:DataType="reusable:SearchCastButtons"
+                Command="{Binding CloseButtonTapped}"
+                xct:TouchEffect.NativeAnimation="True">
+
+                <ImageButton.Source>
+
+                    <FontImageSource 
+                        FontFamily="FontAwesomeSolid"
+                        Glyph="{x:Static dpcc:FontAwesome.CircleXmark}"
+                        Color="White" />
+
+                </ImageButton.Source>
+
+            </ImageButton>
+
         </Grid>
   
   </ContentView.Content>

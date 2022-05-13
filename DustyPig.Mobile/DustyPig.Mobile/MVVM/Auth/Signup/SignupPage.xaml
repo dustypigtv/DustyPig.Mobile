@@ -9,10 +9,6 @@
              ios:Page.UseSafeArea="true"
              Title="Sign Up">
 
-    <ContentPage.BindingContext>
-        <viewmodels:SignupViewModel />
-    </ContentPage.BindingContext>
-    
     <ContentPage.Content>
         <StackLayout
             Orientation="Vertical"

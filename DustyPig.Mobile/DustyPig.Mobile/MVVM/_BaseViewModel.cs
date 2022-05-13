@@ -16,8 +16,10 @@ namespace DustyPig.Mobile.MVVM
     {
         public event EventHandler<bool> InternetConnectivityChanged;
 
-        public _BaseViewModel()
+        public _BaseViewModel(INavigation navigation)
         {
+            Navigation = navigation;
+
             NoInternet = (int)Connectivity.NetworkAccess < 3;
             Connectivity.ConnectivityChanged += (sender, e) =>
             {
@@ -29,8 +31,7 @@ namespace DustyPig.Mobile.MVVM
             TMDBItemTappedCommand = new AsyncCommand<BasicTMDB>(OnTMDBItemTapped);
         }
 
-        public INavigation Navigation => Application.Current.MainPage.Navigation;
-
+        public INavigation Navigation { get; }
 
         public Task ShowAlertAsync(string title, string msg) => DependencyService.Get<IPopup>().AlertAsync(title, msg);
 
@@ -59,13 +60,10 @@ namespace DustyPig.Mobile.MVVM
         public AsyncCommand<BasicMedia> ItemTappedCommand { get; }
         private async Task OnItemTapped(BasicMedia item)
         {
-            //Make sure to use the root Navigation to hide the tabbar
-            var nav = Application.Current.MainPage.Navigation;
-
             switch (item.MediaType)
             {
                 case MediaTypes.Movie:
-                    await nav.PushModalAsync(new MovieDetailsPage(item));
+                    await Navigation.PushModalAsync(new NavigationPage(new MovieDetailsPage(item)));
                     break;
 
                 default:

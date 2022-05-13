@@ -10,7 +10,7 @@ namespace DustyPig.Mobile.MVVM.Search
         public SearchPage()
         {
             InitializeComponent();
-            BindingContext = VM = new SearchViewModel(AvailableCV, OtherCV);
+            BindingContext = VM = new SearchViewModel(AvailableCV, OtherCV, Navigation);
         }
 
         public SearchViewModel VM { get; }

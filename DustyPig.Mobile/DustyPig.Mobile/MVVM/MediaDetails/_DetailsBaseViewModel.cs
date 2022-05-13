@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -8,6 +9,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 {
     public abstract class _DetailsBaseViewModel : _BaseViewModel
     {
+        public _DetailsBaseViewModel(INavigation navigation) : base(navigation) 
+        {
+
+        }
+
+
+
 
         private double _width;
         public double Width
@@ -79,18 +87,74 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             set => SetProperty(ref _played, value);
         }
 
-        private string _castString;
-        public string CastString
+        private string _genres;
+        public string Genres
         {
-            get => _castString;
-            set => SetProperty(ref _castString, value);
+            get => _genres;
+            set => SetProperty(ref _genres, value);
         }
 
-        private string _directorsString;
-        public string DirectorsString
+        private bool _showGenres;
+        public bool ShowGenres
         {
-            get => _directorsString;
-            set => SetProperty(ref _directorsString, value);
+            get => _showGenres;
+            set => SetProperty(ref _showGenres, value);
+        }
+
+        private string _cast;
+        public string Cast
+        {
+            get => _cast;
+            set => SetProperty(ref _cast, value);
+        }
+
+        private bool _showCast;
+        public bool ShowCast
+        {
+            get => _showCast;
+            set => SetProperty(ref _showCast, value);
+        }
+
+        private string _directors;
+        public string Directors
+        {
+            get => _directors;
+            set => SetProperty(ref _directors, value);
+        }
+
+        private bool _showDirectors;
+        public bool ShowDirectors
+        {
+            get => _showDirectors;
+            set => SetProperty(ref _showDirectors, value);
+        }
+
+        private string _producers;
+        public string Producers
+        {
+            get => _producers;
+            set => SetProperty(ref _producers, value);
+        }
+
+        private bool _showProducers;
+        public bool ShowProducers
+        {
+            get => _showProducers;
+            set => SetProperty(ref _showProducers, value);
+        }
+
+        private string _writers;
+        public string Writers
+        {
+            get => _writers;
+            set => SetProperty(ref _writers, value);
+        }
+
+        private bool _showWriters;
+        public bool ShowWriters
+        {
+            get => _showWriters;
+            set => SetProperty(ref _showWriters, value);
         }
 
         private bool _showPlayedBar = false;
@@ -106,6 +170,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             get => _playButtonText;
             set => SetProperty(ref _playButtonText, value);
         }
+
+        private string _watchlistIcon;
+        public string WatchlistIcon
+        {
+            get => _watchlistIcon;
+            set => SetProperty(ref _watchlistIcon, value);
+        }       
 
         public void OnSizeAllocated(double width, double height)
         {

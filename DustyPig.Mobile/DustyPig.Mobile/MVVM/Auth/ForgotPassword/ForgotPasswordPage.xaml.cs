@@ -10,7 +10,10 @@ namespace DustyPig.Mobile.MVVM.Auth.ForgotPassword
         public ForgotPasswordPage()
         {
             InitializeComponent();
+            BindingContext = VM = new ForgotPasswordViewModel(Navigation);
         }
+
+        public ForgotPasswordViewModel VM { get; }
 
         protected override async void OnAppearing()
         {

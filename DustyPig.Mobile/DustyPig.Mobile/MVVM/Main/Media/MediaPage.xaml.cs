@@ -11,7 +11,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
             InitializeComponent();
 
             var mode = idx == 0 ? MediaViewModel.Mode.Movies : MediaViewModel.Mode.TV;
-            BindingContext = VM = new MediaViewModel(mode);
+            BindingContext = VM = new MediaViewModel(mode, Navigation);
         }
 
         public MediaViewModel VM { get; }

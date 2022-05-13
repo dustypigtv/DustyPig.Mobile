@@ -11,9 +11,6 @@
              ios:Page.UseSafeArea="true"
              NavigationPage.HasNavigationBar="False">
 
-    <ContentPage.BindingContext>
-        <viewmodels:LoginViewModel />
-    </ContentPage.BindingContext>
     
     <ContentPage.Content>
 

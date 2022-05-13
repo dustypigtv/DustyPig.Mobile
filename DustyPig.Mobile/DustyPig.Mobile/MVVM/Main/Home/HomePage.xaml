@@ -26,7 +26,6 @@
                 <CollectionView 
                     x:Name="MainCollectionView"
                     EmptyView="No media found" 
-                    Scrolled="MainCollectionView_Scrolled"
                     ItemsSource="{Binding Sections}">
 
                     <CollectionView.ItemsLayout>
@@ -56,8 +55,7 @@
                                     RemainingItemsThreshold="100"
                                     RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
                                     ItemsSource="{Binding Items}"
-                                    MyId="{Binding ListId}"
-                                    Scrolled="CollectionView_Scrolled">
+                                    MyId="{Binding ListId}">
 
                                     <CollectionView.ItemsLayout>
                                         <LinearItemsLayout 

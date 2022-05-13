@@ -9,6 +9,10 @@ namespace DustyPig.Mobile.MVVM.Auth.Login
         public LoginPage()
         {
             InitializeComponent();
+            BindingContext = VM = new LoginViewModel(Navigation);
         }
+
+        public LoginViewModel VM { get; }
+
     }
 }

@@ -11,7 +11,7 @@ namespace DustyPig.Mobile.MVVM.Auth.SelectProfile
     {
         private readonly Entry _pinEntry;
 
-        public SelectProfileViewModel(Entry PinEntry)
+        public SelectProfileViewModel(Entry PinEntry, INavigation navigation) : base(navigation)
         {
             _pinEntry = PinEntry;
 
