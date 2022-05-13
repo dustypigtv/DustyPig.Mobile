@@ -9,11 +9,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
     {
         public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(navigation)
         {
-            Basic = basicMedia;
-         
+            Id = basicMedia.Id;
         }
-
-        public BasicMedia Basic { get; }
 
         private string _year;
         public string Year
@@ -28,7 +25,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         {
             IsBusy = true;
 
-            var response = await App.API.Movies.GetDetailsAsync(Basic.Id);
+            var response = await App.API.Movies.GetDetailsAsync(Id);
             if (response.Success)
             {
                 BackdropUrl = string.IsNullOrWhiteSpace(response.Data.BackdropUrl) ?

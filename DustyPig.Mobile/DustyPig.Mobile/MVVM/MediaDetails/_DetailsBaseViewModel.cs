@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DustyPig.API.v3.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -15,7 +16,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
-
+        private int _id;
+        public int Id
+        {
+            get => _id;
+            set => SetProperty(ref _id, value);
+        }
+        
 
         private double _width;
         public double Width

@@ -406,6 +406,12 @@
                 CloseButtonVisible="True"
                 SearchButtonVisible="False"/>
 
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Margin="60"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                IsRunning="{Binding IsBusy}" />
 
 
         </Grid>
