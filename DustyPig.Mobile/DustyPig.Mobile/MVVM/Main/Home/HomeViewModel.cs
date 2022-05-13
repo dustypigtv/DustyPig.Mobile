@@ -1,8 +1,4 @@
-﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.Helpers;
-using Newtonsoft.Json;
-using System;
-using System.IO;
+﻿using DustyPig.Mobile.Helpers;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -37,7 +33,12 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             set => SetProperty(ref _sections, value);
         }
 
-
+        private string _emptyView = "Loading";
+        public string EmptyView
+        {
+            get => _emptyView;
+            set => SetProperty(ref _emptyView, value);
+        }
 
         public void OnAppearing()
         {
@@ -47,34 +48,19 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
 
         private async Task Update()
-        {
-            bool firstAppearing = Sections.Count == 0;
-            string cache_file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "home_screen_cache.json");
-
-            if (firstAppearing)
-            {
-                try
-                {
-                    var cached = JsonConvert.DeserializeObject<REST.Response<HomeScreen>>(File.ReadAllText(cache_file));
-                    Sections.UpdateList(cached.Data.Sections);
-                    if (Sections.Count > 0)
-                        IsBusy = false;
-                }
-                catch { }
-            }
-
+        {            
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
                 Sections.UpdateList(response.Data.Sections);
                 App.HomePageNeedsRefresh = false;
-                File.WriteAllText(cache_file, JsonConvert.SerializeObject(response));
             }
             else
             {
                 await ShowAlertAsync("Error", response.Error.FormatMessage());
             }
 
+            EmptyView = "No media found";
             App.HomePageNeedsRefresh = false;
             IsBusy = false;
         }

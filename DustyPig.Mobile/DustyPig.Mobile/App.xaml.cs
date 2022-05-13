@@ -1,4 +1,5 @@
-﻿using DustyPig.Mobile.MVVM;
+﻿using DustyPig.Mobile.CrossPlatform.Orientation;
+using DustyPig.Mobile.MVVM;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile
@@ -13,8 +14,8 @@ namespace DustyPig.Mobile
         public App()
         {
             InitializeComponent();
-            //MainPage = new AppShell();
             MainPage = new StartupPage();
+            DependencyService.Get<IScreen>().SetOrientation(false);
         }
 
         protected override void OnStart()

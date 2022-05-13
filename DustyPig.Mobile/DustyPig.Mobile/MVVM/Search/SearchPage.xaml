@@ -34,7 +34,7 @@
         
         <SearchBar 
             x:Name="TheSearchBar"
-            IsSpellCheckEnabled="True"
+            IsSpellCheckEnabled="false"
             TextTransform="Lowercase"
             xct:CornerRadiusEffect.CornerRadius="8"
             Margin="0,0,12,0"

@@ -24,13 +24,19 @@ namespace DustyPig.Mobile.MVVM.Main.Media
         {
             _mode = mode;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
-            LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
+            LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);            
         }
 
         public AsyncCommand RefreshCommand { get; }
 
         public AsyncCommand LoadMoreCommand { get; }
 
+        private string _emptyMessage = "Loading";
+        public string EmptyMessage
+        {
+            get => _emptyMessage;
+            set => SetProperty(ref _emptyMessage, value);
+        }
         
         private ObservableBasicMediaCollection _items = new ObservableBasicMediaCollection();
         public ObservableBasicMediaCollection Items
@@ -74,11 +80,10 @@ namespace DustyPig.Mobile.MVVM.Main.Media
 
             REST.Response<List<BasicMedia>> response;
 
-            //TO DO: Add Sorting
             if (_mode == Mode.Movies)
-                response = await App.API.Movies.ListAsync(start);
+                response = await App.API.Movies.ListAsync(start, SortOrder.Popularity_Descending);
             else
-                response = await App.API.Series.ListAsync(start);
+                response = await App.API.Series.ListAsync(start, SortOrder.Popularity_Descending);
 
             if (response.Success)
             {
@@ -89,6 +94,14 @@ namespace DustyPig.Mobile.MVVM.Main.Media
                     Items.UpdateList(response.Data);
                 else
                     Items.AddNewItems(response.Data);
+
+                if(Items.Count == 0)
+                {
+                    if (_mode == Mode.Movies)
+                        EmptyMessage = "No movies found";
+                    else
+                        EmptyMessage = "No series found";
+                }
             }
             else
             {
