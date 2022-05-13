@@ -88,7 +88,18 @@
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="Color" Value="White" />
             </Style>
-            
+
+            <Style TargetType="Slider">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="ThumbColor" Value="White" />
+                <Setter Property="MinimumTrackColor" Value="White" />
+                <Setter Property="MaximumTrackColor" Value="{x:Static dpcc:Theme.Grey}" />
+            </Style>
+
+            <Style TargetType="ProgressBar">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="ProgressColor" Value="White" />
+            </Style>
             
         </ResourceDictionary>
     </Application.Resources>

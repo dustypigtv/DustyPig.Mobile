@@ -3,15 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:movie="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Movie"
-             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
+             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
              ios:Page.UseSafeArea="true"
              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage"
              x:DataType="movie:MovieDetailsViewModel"
              NavigationPage.HasNavigationBar="False"
-             Title="{Binding Basic.Title}"
              BackgroundColor="{x:Static dpcc:Theme.DarkGrey}">
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
+        
         <Grid
             WidthRequest="{Binding Width}"
             HorizontalOptions="Center"
@@ -27,14 +37,173 @@
                 Grid.RowSpan="2">
 
                 <StackLayout>
-                    <ffimages:CachedImage Source="{Binding BackdropUrl}"
-                        HeightRequest="{Binding ImageHeight}"
-                        WidthRequest="{Binding Width}"
-                        Aspect="AspectFill"
-                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
-                    
-                    
+
+                    <Grid 
+                        Margin="0,12,0,0">
+
+                        <ffimages:CachedImage Source="{Binding BackdropUrl}"
+                            HeightRequest="{Binding ImageHeight}"
+                            WidthRequest="{Binding Width}"
+                            Aspect="AspectFill"
+                            Margin="0"                      
+                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                        <reusable:BottomImageGradient Margin="0" Padding="0" VerticalOptions="End" />
+
+                    </Grid>
+
+                    <StackLayout
+                        Margin="12,0,12,0">
+
+                        <Label 
+                            Text="{Binding Title}"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            LineBreakMode="TailTruncation" />
+
+                        <Grid
+                            Margin="0,4,0,0">
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label
+                                Grid.Column="0"
+                                VerticalOptions="Center"
+                                Text="{Binding Year}"
+                                FontSize="Small" />
+
+                            <Frame
+                                Grid.Column="1"
+                                VerticalOptions="Center"
+                                Margin="0"
+                                Padding="0"
+                                BorderColor="White"
+                                BackgroundColor="Black"
+                                IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+                                <Label
+                                    Padding="4"
+                                    Text="{Binding Rating}"
+                                    FontSize="Caption" />
+                            </Frame>
+
+                            <Label
+                                Grid.Column="2"
+                                VerticalOptions="Center"
+                                Text="{Binding DurationString}"
+                                FontSize="Small" />
+                            
+                        </Grid>
+
+                        
+                        <Frame
+                            Margin="0,12,0,0"
+                            Padding="0"
+                            HeightRequest="32" 
+                            CornerRadius="4" 
+                            HasShadow="false" 
+                            BackgroundColor="White" 
+                            BorderColor="#White" 
+                            HorizontalOptions="Fill"
+                            xct:TouchEffect.NativeAnimation="True">
+
+                            <StackLayout
+                                Orientation="Horizontal"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                InputTransparent="True">
+                                <Image
+                                    HeightRequest="16"
+                                    WidthRequest="16"
+                                    HorizontalOptions="End" 
+                                    VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Play}" Color="Black" />
+                                    </Image.Source>
+                                </Image>
+                                
+                                <Label 
+                                    Text="{Binding PlayButtonText}" 
+                                    TextColor="Black"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Start" 
+                                    VerticalOptions="Center"/>
+                            </StackLayout>
+                        </Frame>
+
+
+                        <Frame
+                            Margin="0,6,0,0"
+                            Padding="0"
+                            HeightRequest="32" 
+                            CornerRadius="4" 
+                            HasShadow="false" 
+                            BackgroundColor="{Static dpcc:Theme.DarkGrey}" 
+                            BorderColor="{Static dpcc:Theme.DarkGrey}" 
+                            HorizontalOptions="Fill"
+                            xct:TouchEffect.NativeAnimation="True">
+
+                            <StackLayout 
+                                Orientation="Horizontal"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                InputTransparent="True">
+                                <Image
+                                    HeightRequest="16"
+                                    WidthRequest="16"
+                                    HorizontalOptions="End" 
+                                    VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" Color="White" />
+                                    </Image.Source>
+                                </Image>
+
+                                <Label 
+                                    Text="Download" 
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Start" 
+                                    VerticalOptions="Center"/>
+                            </StackLayout>
+                        </Frame>
+
+
+
+                        <Grid
+                            Margin="0,6,0,0"
+                            IsVisible="{Binding ShowPlayedBar}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ProgressBar
+                                Progress="{Binding Progress}" />
+
+                            <Label
+                                Grid.Column="1"
+                                VerticalOptions="Center"
+                                Text="{Binding RemainingString}"
+                                FontSize="Micro" />
+
+                        </Grid>
+                        
+                        
+                        
+                        
+
+                        <Label
+                            Margin="0,12,0,0"
+                            Text="{Binding Description}"
+                            FontSize="Small"
+                            LineBreakMode="WordWrap" />
+
+                    </StackLayout>
                     
                 </StackLayout>
                 
@@ -48,10 +217,11 @@
             <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
                 Margin="0,0,-52,0"
-                SearchButtonVisible="False" />
+                SearchButtonVisible="True" />
 
 
 
         </Grid>
+    
     </ContentPage.Content>
 </ContentPage>

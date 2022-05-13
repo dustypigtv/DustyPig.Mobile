@@ -30,12 +30,6 @@
     Title="Search for Title">
 
     
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <NavigationPage.TitleView>
         
         <SearchBar 
