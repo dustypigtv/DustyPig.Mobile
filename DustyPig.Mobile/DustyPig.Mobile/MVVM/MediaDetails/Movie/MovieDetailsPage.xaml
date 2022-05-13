@@ -34,6 +34,7 @@
             </Grid.RowDefinitions>
             
             <ScrollView 
+                Margin="0,8,0,0"
                 Grid.RowSpan="2">
 
                 <StackLayout>
@@ -399,6 +400,7 @@
             <!-- Gradient Bar -->
             <reusable:TopButtonBarGradient
                 InputTransparent="True" />
+            
 
             <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
