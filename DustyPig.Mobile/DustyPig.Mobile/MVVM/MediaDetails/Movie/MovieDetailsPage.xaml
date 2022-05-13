@@ -404,7 +404,7 @@
             <reusable:SearchCastButtons
                 HorizontalOptions="FillAndExpand"
                 CloseButtonVisible="True"
-                SearchButtonVisible="True"/>
+                SearchButtonVisible="False"/>
 
 
 

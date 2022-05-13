@@ -15,8 +15,8 @@ namespace DustyPig.Mobile.MVVM.Auth.PasswordLogin
         public PasswordLoginViewModel(INavigation navigation) : base(navigation)
         {
             LoginButtonCommand = new AsyncCommand(OnLoginButtonCommand, canExecute: ValidateCredentialInput);
-            SignupCommand = new AsyncCommand(() => Navigation.PushAsync(new NavigationPage(new SignupPage())));
-            ForgotPasswordCommand = new AsyncCommand(() => Navigation.PushAsync(new NavigationPage(new ForgotPasswordPage())));
+            SignupCommand = new AsyncCommand(() => Navigation.PushAsync(new SignupPage()));
+            ForgotPasswordCommand = new AsyncCommand(() => Navigation.PushAsync(new ForgotPasswordPage()));
         }
 
         public AsyncCommand SignupCommand { get; }

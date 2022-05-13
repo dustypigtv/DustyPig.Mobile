@@ -63,7 +63,7 @@ namespace DustyPig.Mobile.MVVM
             switch (item.MediaType)
             {
                 case MediaTypes.Movie:
-                    await Navigation.PushModalAsync(new NavigationPage(new MovieDetailsPage(item)));
+                    await Navigation.PushModalAsync(new MovieDetailsPage(item));
                     break;
 
                 default:

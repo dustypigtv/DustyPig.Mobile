@@ -80,7 +80,7 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
                 {
                     App.API.Token = ret.Data.Token;
                     if (ret.Data.LoginType == LoginResponseType.Account)
-                        await Navigation.PushAsync(new NavigationPage(new SelectProfilePage()));
+                        await Navigation.PushAsync(new SelectProfilePage());
                     else
                         Application.Current.MainPage = new StartupPage();
                 }

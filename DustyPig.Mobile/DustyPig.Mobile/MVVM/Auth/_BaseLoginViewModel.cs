@@ -19,7 +19,7 @@ namespace DustyPig.Mobile.MVVM.Auth
             App.API.Token = dpToken.Data.Token;
             if (dpToken.Data.LoginType == LoginResponseType.Account)
             {
-                await Navigation.PushAsync(new NavigationPage(new SelectProfilePage()));
+                await Navigation.PushAsync(new SelectProfilePage());
             }
             else
             {
