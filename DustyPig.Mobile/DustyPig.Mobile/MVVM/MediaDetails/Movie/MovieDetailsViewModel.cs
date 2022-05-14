@@ -37,6 +37,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 Played = response.Data.Played ?? 0;
                 ShowPlayedBar = Played > 0;
                 Duration = response.Data.Length;
+                Owner = response.Data.Owner;
+
 
                 switch(response.Data.Rated)
                 {
@@ -100,7 +102,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 {
                     Writers = string.Join(", ", response.Data.Writers);
                     ShowWriters = true;
-                }               
+                }
+
+              
 
             }
             else

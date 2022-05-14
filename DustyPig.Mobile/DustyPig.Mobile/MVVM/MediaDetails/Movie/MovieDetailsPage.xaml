@@ -283,6 +283,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
 
@@ -386,6 +387,24 @@
                                 FontSize="Small"
                                 TextColor="{Static dpcc:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
+
+                            <!-- Owner -->
+                            <Label
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Owner: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}" />
+
+                            <Label 
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Owner}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}" />
 
                         </Grid>
                         

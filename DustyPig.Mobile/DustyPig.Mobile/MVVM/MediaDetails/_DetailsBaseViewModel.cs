@@ -23,6 +23,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             set => SetProperty(ref _id, value);
         }
         
+        private string _owner;
+        public string Owner
+        {
+            get => _owner;
+            set => SetProperty(ref _owner, value);
+        }
 
         private double _width;
         public double Width
