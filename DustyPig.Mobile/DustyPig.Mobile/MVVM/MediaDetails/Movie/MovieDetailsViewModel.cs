@@ -38,7 +38,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 ShowPlayedBar = Played > 0;
                 Duration = response.Data.Length;
                 Owner = response.Data.Owner;
-
+                InWatchlist = response.Data.InWatchlist;
 
                 switch(response.Data.Rated)
                 {
@@ -69,9 +69,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     RemainingString = $"{Math.Max(dur.Minutes, 1)}m remaining";
 
 
-                WatchlistIcon = response.Data.InWatchlist ?
-                    Helpers.FontAwesome.Check :
-                    Helpers.FontAwesome.Plus;
 
                 var genres = response.Data.Genres.AsString();
                 if (!string.IsNullOrWhiteSpace(genres))

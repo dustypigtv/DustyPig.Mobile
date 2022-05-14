@@ -94,7 +94,7 @@
                                 BackgroundColor="Black"
                                 IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
                                 <Label
-                                    Padding="4"
+                                    Margin="8,4,8,4"
                                     Text="{Binding Rating}"
                                     FontSize="Caption" />
                             </Frame>
@@ -217,7 +217,9 @@
                                 CornerRadius="124"
                                 BackgroundColor="Transparent"
                                 Padding="12"
-                                xct:TouchEffect.NativeAnimation="True">
+                                xct:TouchEffect.NativeAnimation="True"
+                                xct:TouchEffect.Command="{Binding ToggleWatchlistCommand}"
+                                xct:TouchEffect.CommandParameter="{Binding Id}">
 
                                 <StackLayout>
 

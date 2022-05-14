@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -12,9 +13,24 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
     {
         public _DetailsBaseViewModel(INavigation navigation) : base(navigation) 
         {
-
+            ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
         }
 
+
+        public AsyncCommand<int> ToggleWatchlistCommand { get; }
+        private async Task OnToggleWatchlist(int id)
+        {
+            REST.Response response = null;
+            if (InWatchlist)
+                response = await App.API.Media.DeleteFromWatchlistAsync(id);
+            else
+                response = await App.API.Media.AddToWatchlistAsync(Id);
+
+            if (response.Success)
+                InWatchlist = !InWatchlist;
+            else
+                await ShowAlertAsync("Error", response.Error.Message);
+        }
 
         private int _id;
         public int Id
@@ -22,7 +38,20 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             get => _id;
             set => SetProperty(ref _id, value);
         }
-        
+
+        private bool _inWatchlist;
+        public bool InWatchlist
+        {
+            get => _inWatchlist;
+            set
+            {
+                _inWatchlist = value;
+                WatchlistIcon = value ?
+                   Helpers.FontAwesome.Check :
+                   Helpers.FontAwesome.Plus;
+            }
+        }
+
         private string _owner;
         public string Owner
         {

@@ -17,7 +17,7 @@ namespace DustyPig.Mobile.Helpers
         public ObservableHomePageSectionCollection(List<HomeScreenList> items, INavigation navigation)
         {
             Navigation = navigation;
-            ReplaceRange(items);
+            AddRange(items);
         }
 
         private INavigation Navigation { get; }
@@ -29,10 +29,45 @@ namespace DustyPig.Mobile.Helpers
                 Title = item.Title
             };
 
-        public void ReplaceRange(List<HomeScreenList> newLst)
+        public void AddRange(List<HomeScreenList> lst)
         {
-            Clear();
-            AddRange(newLst.Select(item => ConvertToViewModel(item)));
+            AddRange(lst.Select(item => ConvertToViewModel(item)));
+        }
+
+        public void UpdateList(List<HomeScreenList> newLst)
+        {
+            if (Count == 0)
+            {
+                AddRange(newLst);
+                return;
+            }
+
+            //Remove all from here that aren't in newLst
+            var newIds = newLst.Select(item => item.ListId);
+            var toRemove = this
+                .Where(item => !newIds.Contains(item.ListId))
+                .ToList();
+            toRemove.ForEach(item => Remove(item));
+
+            //Add/Move all new items
+            for (int newIdx = 0; newIdx < newLst.Count; newIdx++)
+            {
+                var newItem = newLst[newIdx];
+
+                var existingItem = this.FirstOrDefault(item => item.ListId == newItem.ListId);
+                if (existingItem == null)
+                {
+                    Insert(newIdx, ConvertToViewModel(newItem));
+                }
+                else
+                {
+                    int oldIdx = IndexOf(existingItem);
+                    if (oldIdx != newIdx)
+                        Move(oldIdx, newIdx);
+                    existingItem.Items.UpdateList(newItem.Items);
+                }
+            }
+
         }
     }
 }
