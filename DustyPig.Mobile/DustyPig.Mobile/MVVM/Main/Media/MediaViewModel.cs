@@ -91,7 +91,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
                 _listFullyLoaded = response.Data.Count < 100;
 
                 if (initial)
-                    Items.UpdateList(response.Data);
+                    Items.ReplaceRange(response.Data);
                 else
                     Items.AddNewItems(response.Data);
 

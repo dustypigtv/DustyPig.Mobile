@@ -52,7 +52,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
-                Sections.UpdateList(response.Data.Sections);
+                Sections.ReplaceRange(response.Data.Sections);
                 App.HomePageNeedsRefresh = false;
             }
             else
