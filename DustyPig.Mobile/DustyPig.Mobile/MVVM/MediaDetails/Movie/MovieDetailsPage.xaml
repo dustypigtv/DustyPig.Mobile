@@ -163,6 +163,7 @@
                                 VerticalOptions="Center"
                                 InputTransparent="True">
                                 <Image
+                                    IsVisible="{Binding ShowDownloadIcon}"
                                     HeightRequest="16"
                                     WidthRequest="16"
                                     HorizontalOptions="End" 
@@ -173,7 +174,7 @@
                                 </Image>
 
                                 <Label 
-                                    Text="Download" 
+                                    Text="{Binding DownloadButtonText}" 
                                     TextColor="White"
                                     FontAttributes="Bold"
                                     HorizontalOptions="Start" 

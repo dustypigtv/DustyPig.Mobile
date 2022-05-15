@@ -13,10 +13,29 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
     {
         private BasicMedia _basicMedia;
 
-        public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation) => _basicMedia = basicMedia;
+        public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation)
+        {
+            _basicMedia = basicMedia;
+        
+            switch(Services.Downloads.DownloadManager.GetStatus(_basicMedia.Id))
+            {
+                case Services.Downloads.DownloadStatus.Downloading:
+                    DownloadButtonText = "Downloading";
+                    ShowDownloadIcon = false;
+                    break;
 
+                case Services.Downloads.DownloadStatus.Downloaded:
+                    DownloadButtonText = "Downloaded";
+                    ShowDownloadIcon = false;
+                    break;
 
-        public _DetailsBaseViewModel(INavigation navigation) : base(navigation) 
+                default:
+                    DownloadButtonText = "Download";
+                    break;
+            }
+        }
+
+        public _DetailsBaseViewModel(INavigation navigation) : base(navigation)
         {
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
         }
@@ -232,7 +251,22 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             get => _watchlistIcon;
             set => SetProperty(ref _watchlistIcon, value);
-        }       
+        }
+
+        private string _downloadButtonText = "Download";
+        public string DownloadButtonText
+        {
+            get => _downloadButtonText;
+            set => SetProperty(ref _downloadButtonText, value);
+        }
+
+        private bool _showDownloadIcon = true;
+        public bool ShowDownloadIcon
+        {
+            get => _showDownloadIcon;
+            set => SetProperty(ref _showDownloadIcon, value);
+        }
+        
 
         public void OnSizeAllocated(double width, double height)
         {
