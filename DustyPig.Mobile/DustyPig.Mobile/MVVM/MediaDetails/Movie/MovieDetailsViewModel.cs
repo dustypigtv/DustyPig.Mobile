@@ -7,7 +7,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 {
     public class MovieDetailsViewModel : _DetailsBaseViewModel
     {
-        public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(navigation)
+        public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
             Id = basicMedia.Id;
         }

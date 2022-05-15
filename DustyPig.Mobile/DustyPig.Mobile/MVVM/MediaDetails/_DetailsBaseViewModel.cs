@@ -11,6 +11,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 {
     public abstract class _DetailsBaseViewModel : _BaseViewModel
     {
+        private BasicMedia _basicMedia;
+
+        public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation) => _basicMedia = basicMedia;
+
+
         public _DetailsBaseViewModel(INavigation navigation) : base(navigation) 
         {
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
@@ -27,9 +32,18 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                 response = await App.API.Media.AddToWatchlistAsync(Id);
 
             if (response.Success)
+            {
+                if (InWatchlist)
+                    Main.Home.HomeViewModel.InvokeRemovedFromWatchlist(_basicMedia);
+                else
+                    Main.Home.HomeViewModel.InvokeAddedToWatchlist(_basicMedia);
+
                 InWatchlist = !InWatchlist;
+            }
             else
+            {
                 await ShowAlertAsync("Error", response.Error.Message);
+            }
         }
 
         private int _id;

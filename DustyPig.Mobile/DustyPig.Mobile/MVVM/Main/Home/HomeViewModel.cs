@@ -4,17 +4,25 @@ using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using System.Linq;
 using System.Collections.Generic;
+using System;
+using DustyPig.API.v3.Models;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
     public class HomeViewModel : _BaseViewModel
     {
+        private static event EventHandler<BasicMedia> AddedToWatchlist;
+        private static event EventHandler<BasicMedia> RemovedFromWatchlist;
+       
         public HomeViewModel(StackLayout mainStack, Label emptyLabel, INavigation navigation) : base(navigation)
         {
             MainStack = mainStack;
             EmptyLabel = emptyLabel;
 
             RefreshCommand = new AsyncCommand(Update);
+
+            AddedToWatchlist += ItemAddedToWatchlist;
+            RemovedFromWatchlist += ItemRemovedFromWatchlist;
             
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
@@ -27,6 +35,56 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             //        tabBar.CurrentItem = tabBar.Items[3];
             //};
         }
+
+
+        private void ItemAddedToWatchlist(object sender, BasicMedia e)
+        {
+            try
+            {
+                HomePageSectionView section = MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == API.v3.Clients.MediaClient.ID_WATCHLIST) as HomePageSectionView;
+                if(section == null)
+                {
+                    section = new HomePageSectionView(new HomeScreenList
+                    {
+                        ListId = API.v3.Clients.MediaClient.ID_WATCHLIST,
+                        Title = API.v3.Clients.MediaClient.ID_WATCHLIST_TITLE,
+                        Items = new List<BasicMedia>()
+                    });
+
+                    var ids = new List<long>();
+                    ids.Add(API.v3.Clients.MediaClient.ID_WATCHLIST);
+                    foreach (HomePageSectionView v in MainStack.Children)
+                        ids.Add(v.VM.ListId);
+                    ids.Sort();
+                    int idx = ids.IndexOf(API.v3.Clients.MediaClient.ID_WATCHLIST);
+                    MainStack.Children.Insert(idx, section);
+                }
+
+                section.VM.Items.Add(e);
+            }
+            catch { }
+        }
+
+        public static void InvokeAddedToWatchlist(BasicMedia basicMedia) => AddedToWatchlist?.Invoke(null, basicMedia);
+
+        private void ItemRemovedFromWatchlist(object sender, BasicMedia e)
+        {
+            try
+            {
+                HomePageSectionView section = MainStack.Children.First(item => ((HomePageSectionView)item).VM.ListId == API.v3.Clients.MediaClient.ID_WATCHLIST) as HomePageSectionView;
+                section.VM.Items.Remove(e);
+                if (section.VM.Items.Count == 0)
+                    MainStack.Children.Remove(section);
+            }
+            catch { }
+        }
+
+        public static void InvokeRemovedFromWatchlist(BasicMedia basicMedia) => RemovedFromWatchlist?.Invoke(null, basicMedia);
+
+
+
+
+        
 
         public AsyncCommand RefreshCommand { get; }
 
