@@ -15,94 +15,41 @@
 
     <ContentPage.Content >
         
-        <RelativeLayout>
+        <Grid>
 
             <!-- Media -->
             <RefreshView
                 Margin="12,12,12,0"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
                 Command="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsBusy}">
 
-                <CollectionView 
-                    x:Name="MainCollectionView"
-                    EmptyView="{Binding EmptyView}" 
-                    ItemsSource="{Binding Sections}">
+                <ScrollView>
+                
+                    <StackLayout 
+                        x:Name="MainStack">
+                        
+                        <Label 
+                            x:Name="EmptyLabel"
+                            VerticalOptions="CenterAndExpand" 
+                            HorizontalOptions="CenterAndExpand" 
+                            Text="Loading" />
+                    </StackLayout>
 
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout
-                            Orientation="Vertical"
-                            ItemSpacing="0" />
-                    </CollectionView.ItemsLayout>
-
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout
-                                x:DataType="viewmodels:HomePageSectionViewModel"
-                                Orientation="Vertical">
-
-                                <Label
-                                    Margin="0,20,0,0"
-                                    FontSize="16"
-                                    FontAttributes="Bold"
-                                    Text="{Binding Title}" />
-
-                                <controls:MyCollectionView
-                                    Margin="0,0,0,8"
-                                    HeightRequest="160"
-                                    EmptyView="No media found"
-                                    ItemSizingStrategy="MeasureFirstItem"
-                                    RemainingItemsThreshold="100"
-                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
-                                    ItemsSource="{Binding Items}"
-                                    MyId="{Binding ListId}">
-
-                                    <CollectionView.ItemsLayout>
-                                        <LinearItemsLayout 
-                                            Orientation="Horizontal"
-                                            ItemSpacing="16"/>
-                                    </CollectionView.ItemsLayout>
-
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate
-                                            x:DataType="models:BasicMedia">
-
-                                            <ffimages:CachedImage 
-                                                Source="{Binding ArtworkUrl}"
-                                                HeightRequest="150"
-                                                WidthRequest="100"
-                                                Aspect="AspectFit"
-                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
-                                                xct:TouchEffect.NativeAnimation="True"
-                                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
-                                                xct:TouchEffect.CommandParameter="{Binding}" />
-
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-
-                                </controls:MyCollectionView>
-
-
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-
-                </CollectionView>
-
+                </ScrollView>
+                
             </RefreshView>
 
-            <!-- Gradient Bar -->
-            <reusable:TopButtonBarGradient
+            <!--<reusable:TopButtonBarGradient
                 InputTransparent="True"
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
             
-            <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-52}" />
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-52}" />-->
 
 
-        </RelativeLayout>
+        </Grid>
     </ContentPage.Content>
 
 

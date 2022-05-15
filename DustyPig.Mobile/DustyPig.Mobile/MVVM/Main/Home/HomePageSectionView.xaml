@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView
+        xmlns="http://xamarin.com/schemas/2014/forms" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Home" 
+        xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
+        xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+        xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+        xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+        x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePageSectionView"
+        x:DataType="viewmodels:HomePageSectionViewModel">
+    
+    <ContentView.Content>
+        <StackLayout
+                x:DataType="viewmodels:HomePageSectionViewModel"
+                Orientation="Vertical">
+
+            <Label
+                    Margin="0,20,0,0"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    Text="{Binding Title}" />
+
+            <controls:MyCollectionView
+                    Margin="0,0,0,8"
+                    HeightRequest="160"
+                    EmptyView="No media found"
+                    ItemSizingStrategy="MeasureFirstItem"
+                    RemainingItemsThreshold="100"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
+                    ItemsSource="{Binding Items}"
+                    MyId="{Binding ListId}">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout 
+                            Orientation="Horizontal"
+                            ItemSpacing="16"/>
+                    
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                            x:DataType="models:BasicMedia">
+
+                        <ffimages:CachedImage 
+                            Source="{Binding ArtworkUrl}"
+                            HeightRequest="150"
+                            WidthRequest="100"
+                            Aspect="AspectFit"
+                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
+                            xct:TouchEffect.NativeAnimation="True"
+                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
+                            xct:TouchEffect.CommandParameter="{Binding}" />
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </controls:MyCollectionView>
+
+
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

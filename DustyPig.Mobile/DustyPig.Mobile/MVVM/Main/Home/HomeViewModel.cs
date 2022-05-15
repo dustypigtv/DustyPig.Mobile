@@ -2,16 +2,20 @@
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
     public class HomeViewModel : _BaseViewModel
     {
-        public HomeViewModel(INavigation navigation) : base(navigation)
+        public HomeViewModel(StackLayout mainStack, Label emptyLabel, INavigation navigation) : base(navigation)
         {
-            RefreshCommand = new AsyncCommand(Update);
-            Sections = new ObservableHomePageSectionCollection(Navigation);
+            MainStack = mainStack;
+            EmptyLabel = emptyLabel;
 
+            RefreshCommand = new AsyncCommand(Update);
+            
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
             //{
@@ -26,12 +30,9 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         public AsyncCommand RefreshCommand { get; }
 
-        private ObservableHomePageSectionCollection _sections;
-        public ObservableHomePageSectionCollection Sections
-        {
-            get => _sections;
-            set => SetProperty(ref _sections, value);
-        }
+        public StackLayout MainStack { get; }
+
+        public Label EmptyLabel { get; }
 
         private string _emptyView = "Loading";
         public string EmptyView
@@ -42,7 +43,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         public void OnAppearing()
         {
-            if (App.HomePageNeedsRefresh || Sections.Count == 0)
+            if (App.HomePageNeedsRefresh)
                 IsBusy = true;
         }
 
@@ -52,7 +53,48 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
-                Sections.UpdateList(response.Data.Sections);
+                if (response.Data.Sections.Count == 0)
+                {
+                    EmptyLabel.Text = "No media found";
+                    if (!MainStack.Children.Contains(EmptyLabel))
+                    {
+                        MainStack.Children.Clear();
+                        MainStack.Children.Add(EmptyLabel);
+                    }
+                }
+                else
+                {
+                    if (MainStack.Children.Contains(EmptyLabel))
+                        MainStack.Children.Clear();
+
+                    //Remove any from MainStack that isn't in Sections
+                    List<HomePageSectionView> toRemove = new List<HomePageSectionView>();
+                    foreach (HomePageSectionView v in MainStack.Children)
+                        if (!response.Data.Sections.Select(item => item.ListId).Contains(v.VM.ListId))
+                            toRemove.Add(v);
+                    toRemove.ForEach(v => MainStack.Children.Remove(v));
+
+                    //Add new and move around existing
+                    for(int i = 0; i < response.Data.Sections.Count; i++)
+                    {
+                        HomePageSectionView existing = MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == response.Data.Sections[i].ListId) as HomePageSectionView;
+                        if (existing == null)
+                        {
+                            MainStack.Children.Insert(i, new HomePageSectionView(response.Data.Sections[i]));
+                        }
+                        else
+                        {
+                            if (MainStack.Children.IndexOf(existing) != i)
+                            {
+                                MainStack.Children.Remove(existing);
+                                MainStack.Children.Insert(i, existing);                                
+                            }
+                            existing.VM.Items.ReplaceRange(response.Data.Sections[i].Items);
+                            
+                        }
+                    }
+                }
+                               
                 App.HomePageNeedsRefresh = false;
             }
             else

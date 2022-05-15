@@ -11,13 +11,15 @@ namespace DustyPig.Mobile.MVVM.Main.Home
     {
         private bool _listFullyLoaded = false;
 
-
-        public HomePageSectionViewModel(List<BasicMedia> lst, INavigation navigation) : base(navigation)
+        public HomePageSectionViewModel(HomeScreenList hsl, INavigation navigation) : base(navigation)
         {
-            _listFullyLoaded = lst.Count < 100;
+            ListId = hsl.ListId;
+            Title = hsl.Title;
+            _listFullyLoaded = hsl.Items.Count < 100;
             LoadMoreItemsCommand = new AsyncCommand(OnLoadMoreItems, canExecute: (obj) => !_listFullyLoaded, allowsMultipleExecutions: false);
-            Items.AddRange(lst);
+            Items.AddRange(hsl.Items);
         }
+
 
         public AsyncCommand LoadMoreItemsCommand { get; }
         private async Task OnLoadMoreItems()

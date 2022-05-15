@@ -23,7 +23,7 @@ namespace DustyPig.Mobile.Helpers
         private INavigation Navigation { get; }
 
         private HomePageSectionViewModel ConvertToViewModel(HomeScreenList item) =>
-            new HomePageSectionViewModel(item.Items, Navigation)
+            new HomePageSectionViewModel(item, Navigation)
             {
                 ListId = item.ListId,
                 Title = item.Title

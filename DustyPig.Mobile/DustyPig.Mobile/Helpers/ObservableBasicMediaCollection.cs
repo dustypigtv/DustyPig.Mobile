@@ -36,7 +36,7 @@ namespace DustyPig.Mobile.Helpers
                 var existingItem = this.FirstOrDefault(item => item.Id == newItem.Id);
                 if (existingItem == null)
                 {
-                    Insert(newIdx, newItem);
+                    Insert(newIdx, newItem);                    
                 }
                 else
                 {
