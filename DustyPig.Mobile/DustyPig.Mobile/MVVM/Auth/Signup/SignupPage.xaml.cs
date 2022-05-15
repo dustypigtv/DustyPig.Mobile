@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using DustyPig.Mobile.CrossPlatform;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,6 +23,12 @@ namespace DustyPig.Mobile.MVVM.Auth.Signup
             {
                 await Task.Delay(100);
             }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DependencyService.Get<IKeyboardHelper>().HideKeyboard();
         }
 
         private void Name_Completed(object sender, System.EventArgs e)

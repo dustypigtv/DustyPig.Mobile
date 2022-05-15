@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using DustyPig.Mobile.CrossPlatform;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,6 +34,12 @@ namespace DustyPig.Mobile.MVVM.Search
                         await Task.Delay(100);
                     }
                 });
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DependencyService.Get<IKeyboardHelper>().HideKeyboard();
         }
 
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e) => await VM.DoSearch(e.NewTextValue);
