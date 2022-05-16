@@ -32,7 +32,7 @@
 
   
   <ItemGroup>
-    <PackageReference Include="DustyPig.API" Version="3.0.2.53" />
+    <PackageReference Include="DustyPig.API" Version="3.0.2.56" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
@@ -122,6 +122,9 @@
     </Compile>
     <Compile Update="MVVM\Main\Media\MediaPage.xaml.cs">
       <DependentUpon>MediaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\MediaDetails\TMDB\TMDBDetailsPage.xaml.cs">
+      <DependentUpon>TMDBDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\Search\OtherItemsView.xaml.cs">
       <DependentUpon>OtherItemsView.xaml</DependentUpon>

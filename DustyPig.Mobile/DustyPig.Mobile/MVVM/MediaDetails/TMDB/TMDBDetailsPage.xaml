@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.TMDB" 
+    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+    xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.TMDB.TMDBDetailsPage"
+    x:DataType="viewmodels:TMDBDetailsViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+
+        <Grid
+            WidthRequest="{Binding Width}"
+            HorizontalOptions="Center"
+            VerticalOptions="FillAndExpand"
+            BackgroundColor="Black">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <ScrollView 
+                Margin="0,11,0,0"
+                Grid.RowSpan="2">
+
+                <StackLayout>
+
+                    <!-- Backdrop -->
+                    <Grid 
+                        Margin="0,12,0,0">
+
+                        <ffimages:CachedImage Source="{Binding BackdropUrl}"
+                            HeightRequest="{Binding ImageHeight}"
+                            WidthRequest="{Binding Width}"
+                            Aspect="AspectFill"
+                            Margin="0"                      
+                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                        <reusable:BottomImageGradient Margin="0" Padding="0" VerticalOptions="End" />
+
+                    </Grid>
+
+                    <!-- Everything else -->
+                    <StackLayout
+                        Margin="12,0,12,0"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+
+                        <!-- Title -->
+                        <Label 
+                            Text="{Binding Title}"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            LineBreakMode="WordWrap" />
+
+
+                        <Grid
+                            Margin="0,4,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Year -->
+                            <Label
+                                Grid.Column="0"
+                                VerticalOptions="Center"
+                                Text="{Binding Year}"
+                                FontSize="Small" />
+
+                            <!-- Rating -->
+                            <Frame
+                                Grid.Column="1"
+                                VerticalOptions="Center"
+                                Margin="0"
+                                Padding="0"
+                                BorderColor="White"
+                                BackgroundColor="Black">
+                                <Label
+                                    Margin="8,4,8,4"
+                                    Text="{Binding Rating}"
+                                    FontSize="Caption" />
+                            </Frame>
+
+                        </Grid>
+
+                        <!-- Available Now -->
+                        <Label
+                            Margin="0,16,0,0"
+                            Text="Available now"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            IsVisible="{Binding ShowAvailable}" />
+
+                        <CollectionView
+                            Margin="0,4,0,12"
+                            HeightRequest="160"
+                            EmptyView="No media found"
+                            ItemSizingStrategy="MeasureFirstItem"
+                            IsVisible="{Binding ShowAvailable}"
+                            ItemsSource="{Binding Available}">
+
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout 
+                                    Orientation="Horizontal"
+                                    ItemSpacing="16"/>  
+                            </CollectionView.ItemsLayout>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate
+                                    x:DataType="models:BasicMedia">
+
+                                    <ffimages:CachedImage 
+                                        Source="{Binding ArtworkUrl}"
+                                        HeightRequest="150"
+                                        WidthRequest="100"
+                                        Aspect="AspectFit"
+                                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
+                                        xct:TouchEffect.NativeAnimation="True"
+                                        xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:TMDBDetailsViewModel}}, Path=ItemTappedCommand}"
+                                        xct:TouchEffect.CommandParameter="{Binding}" />
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+
+                        </CollectionView>
+
+
+                        <!-- Request -->
+                        <Button
+                            Margin="0,12,0,0"
+                            Padding="0"
+                            HeightRequest="32" 
+                            Text="Request">
+                        </Button>
+                        
+                        
+                        <!-- Description -->
+                        <Label
+                            Margin="0,12,0,0"
+                            Text="{Binding Description}"
+                            FontSize="Medium"
+                            LineBreakMode="WordWrap" />
+
+                        <Grid
+                            RowSpacing="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <!-- Genres -->
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Genres: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowGenres}" />
+
+                            <Label 
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Genres}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowGenres}" />
+
+
+                            <!-- Cast -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Cast: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowCast}" />
+
+                            <Label 
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Cast}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowCast}" />
+
+                            <!-- Directors -->
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Directors: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowDirectors}" />
+
+                            <Label 
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Directors}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowDirectors}" />
+
+                            <!-- Producers -->
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Producers: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowProducers}" />
+
+                            <Label 
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Producers}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowProducers}" />
+
+                            <!-- Writers -->
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Margin="0,12,0,0"
+                                Text="Writers: "
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowWriters}" />
+
+                            <Label 
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Margin="0,12,0,0"
+                                Text="{Binding Writers}"
+                                LineBreakMode="WordWrap"
+                                FontSize="Small"
+                                TextColor="{Static dpcc:Theme.Grey}"
+                                IsVisible="{Binding ShowWriters}" />
+
+
+                        </Grid>
+
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ScrollView>
+
+
+            <!-- Gradient Bar -->
+            <reusable:TopButtonBarGradient
+                InputTransparent="True" />
+
+
+            <!-- Search / Cast buttons-->
+            <reusable:SearchCastButtons
+                HorizontalOptions="FillAndExpand"
+                CloseButtonVisible="True"
+                SearchButtonVisible="False"/>
+
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Margin="60"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                IsRunning="{Binding IsBusy}" />
+
+
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>
