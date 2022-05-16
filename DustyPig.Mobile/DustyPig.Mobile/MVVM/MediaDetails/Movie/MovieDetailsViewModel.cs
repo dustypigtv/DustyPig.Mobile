@@ -12,14 +12,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             Id = basicMedia.Id;
         }
 
-        private string _year;
-        public string Year
-        {
-            get => _year;
-            set => SetProperty(ref _year, value);
-        }
-
-        
         
         public async void OnAppearing()
         {
@@ -35,12 +27,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 Year = response.Data.Date.Year.ToString();
                 Description = response.Data.Description;
                 Played = response.Data.Played ?? 0;
-                ShowPlayedBar = Played > 0;
+                ShowPlayedBar = response.Data.CanPlay && Played > 0;
                 Duration = response.Data.Length;
                 Owner = response.Data.Owner;
                 InWatchlist = response.Data.InWatchlist;
 
-                switch(response.Data.Rated)
+
+                switch (response.Data.Rated)
                 {
                     case API.v3.MPAA.Ratings.None:
                     case API.v3.MPAA.Ratings.NR:
@@ -54,7 +47,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
                 Progress = Math.Min(Math.Max(Played / Duration, 0), 1);
                 PlayButtonText = Played > 0 ? "Resume" : "Play";
-               
+                ShowPlayButton = response.Data.CanPlay;
+
                 var dur = TimeSpan.FromSeconds(response.Data.Length);
                 if (dur.Hours > 0)
                     DurationString = $"{dur.Hours}h {dur.Minutes}m";
@@ -100,14 +94,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     Writers = string.Join(", ", response.Data.Writers);
                     ShowWriters = true;
                 }
-
-              
-
             }
             else
             {
                 await ShowAlertAsync("Error", "Unable to retrieve movie info");
-                await Navigation.PopAsync();
+                await Navigation.PopModalAsync();
             }
 
             IsBusy = false;

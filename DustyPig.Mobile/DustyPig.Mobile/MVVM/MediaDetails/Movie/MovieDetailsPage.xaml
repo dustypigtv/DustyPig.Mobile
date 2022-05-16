@@ -8,7 +8,6 @@
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
-             ios:Page.UseSafeArea="true"
              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage"
              x:DataType="movie:MovieDetailsViewModel"
              NavigationPage.HasNavigationBar="False"
@@ -57,7 +56,8 @@
 
                     <!-- Everything else -->
                     <StackLayout
-                        Margin="12,0,12,0">
+                        IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                        Margin="12,0,12,24">
 
                         <!-- Title -->
                         <Label 
@@ -91,8 +91,7 @@
                                 Margin="0"
                                 Padding="0"
                                 BorderColor="White"
-                                BackgroundColor="Black"
-                                IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
+                                BackgroundColor="Black">
                                 <Label
                                     Margin="8,4,8,4"
                                     Text="{Binding Rating}"
@@ -118,6 +117,7 @@
                             BackgroundColor="White" 
                             BorderColor="#White" 
                             HorizontalOptions="Fill"
+                            IsVisible="{Binding ShowPlayButton}"
                             xct:TouchEffect.NativeAnimation="True">
 
                             <StackLayout
@@ -155,6 +155,7 @@
                             BackgroundColor="{Static dpcc:Theme.DarkGrey}" 
                             BorderColor="{Static dpcc:Theme.DarkGrey}" 
                             HorizontalOptions="Fill"
+                            IsVisible="{Binding ShowPlayButton}"
                             xct:TouchEffect.NativeAnimation="True">
 
                             <StackLayout 

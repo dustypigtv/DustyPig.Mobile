@@ -75,14 +75,14 @@ namespace DustyPig.Mobile.MVVM
         public AsyncCommand<BasicTMDB> TMDBItemTappedCommand { get; }
         private async Task OnTMDBItemTapped(BasicTMDB item)
         {
-            await ShowAlertAsync("Tapped", item.Title);
+            await Navigation.PushModalAsync(new MediaDetails.TMDB.TMDBDetailsPage(item));
         }
 
 
 
         protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName] string propertyName = "",
-            Action onChanged = null)
+        [CallerMemberName] string propertyName = "",
+        Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;

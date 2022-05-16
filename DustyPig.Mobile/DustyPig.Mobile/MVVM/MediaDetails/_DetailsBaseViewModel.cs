@@ -12,12 +12,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
     public abstract class _DetailsBaseViewModel : _BaseViewModel
     {
         private BasicMedia _basicMedia;
+        private BasicTMDB _basicTMDB;
 
         public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation)
         {
             _basicMedia = basicMedia;
-        
-            switch(Services.Downloads.DownloadManager.GetStatus(_basicMedia.Id))
+
+            switch (Services.Downloads.DownloadManager.GetStatus(_basicMedia.Id))
             {
                 case Services.Downloads.DownloadStatus.Downloading:
                     DownloadButtonText = "Downloading";
@@ -34,6 +35,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     break;
             }
         }
+
+        public _DetailsBaseViewModel(BasicTMDB basicTMDB, INavigation navigation) : this(navigation)
+        {
+            _basicTMDB = basicTMDB;
+        }
+
 
         public _DetailsBaseViewModel(INavigation navigation) : base(navigation)
         {
@@ -246,6 +253,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             set => SetProperty(ref _playButtonText, value);
         }
 
+        private bool _showPlayButton;
+        public bool ShowPlayButton
+        {
+            get => _showPlayButton;
+            set => SetProperty(ref _showPlayButton, value);
+        }
+
         private string _watchlistIcon;
         public string WatchlistIcon
         {
@@ -266,7 +280,17 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             get => _showDownloadIcon;
             set => SetProperty(ref _showDownloadIcon, value);
         }
-        
+
+        private string _year;
+        public string Year
+        {
+            get => _year;
+            set => SetProperty(ref _year, value);
+        }
+
+
+
+
 
         public void OnSizeAllocated(double width, double height)
         {
