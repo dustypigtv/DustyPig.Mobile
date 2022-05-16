@@ -10,6 +10,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
             Id = basicMedia.Id;
+            IsBusy = true;
         }
 
         
@@ -94,6 +95,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     Writers = string.Join(", ", response.Data.Writers);
                     ShowWriters = true;
                 }
+
+                IsBusy = false;
             }
             else
             {

@@ -17,6 +17,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         {
             Id = basicTMDB.TMDB_ID;
             _basicTMDB = basicTMDB;
+            IsBusy = true;
         }
 
         private ObservableBasicMediaCollection _available = new ObservableBasicMediaCollection();
@@ -106,6 +107,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                     ShowAvailable = true;
                 }
 
+                IsBusy = false;
             }
             else
             {
