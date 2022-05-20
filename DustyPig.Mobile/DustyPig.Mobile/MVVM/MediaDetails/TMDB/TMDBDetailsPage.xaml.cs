@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
@@ -16,6 +18,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         public TMDBDetailsPage(BasicTMDB basicTMDB)
         {
             InitializeComponent();
+            SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
+            
+            On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
+            
             BindingContext = VM = new TMDBDetailsViewModel(basicTMDB, Navigation);
         }
 
@@ -31,6 +37,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         {
             base.OnAppearing();
             VM.OnAppearing();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                //Default modal animation is 250 secs
+                await Task.Delay(250);
+                BackgroundColor = Color.FromRgba(0, 0, 0, 0.5);
+            });
         }
     }
 }

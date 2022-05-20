@@ -11,14 +11,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 {
     public abstract class _DetailsBaseViewModel : _BaseViewModel
     {
-        private BasicMedia _basicMedia;
-        private BasicTMDB _basicTMDB;
-
         public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation)
         {
-            _basicMedia = basicMedia;
+            Basic_Media = basicMedia;
 
-            switch (Services.Downloads.DownloadManager.GetStatus(_basicMedia.Id))
+            switch (Services.Downloads.DownloadManager.GetStatus(Basic_Media.Id))
             {
                 case Services.Downloads.DownloadStatus.Downloading:
                     DownloadButtonText = "Downloading";
@@ -38,7 +35,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
         public _DetailsBaseViewModel(BasicTMDB basicTMDB, INavigation navigation) : this(navigation)
         {
-            _basicTMDB = basicTMDB;
+            Basic_TMDB = basicTMDB;
         }
 
 
@@ -46,6 +43,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
         }
+
+
+        public BasicMedia Basic_Media { get; }
+
+        public BasicTMDB Basic_TMDB { get; }
 
 
         public AsyncCommand<int> ToggleWatchlistCommand { get; }
@@ -57,12 +59,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             else
                 response = await App.API.Media.AddToWatchlistAsync(Id);
 
+            
             if (response.Success)
             {
                 if (InWatchlist)
-                    Main.Home.HomeViewModel.InvokeRemovedFromWatchlist(_basicMedia);
+                    Main.Home.HomeViewModel.InvokeRemovedFromWatchlist(Basic_Media);
                 else
-                    Main.Home.HomeViewModel.InvokeAddedToWatchlist(_basicMedia);
+                    Main.Home.HomeViewModel.InvokeAddedToWatchlist(Basic_Media);
 
                 InWatchlist = !InWatchlist;
             }
@@ -71,6 +74,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                 await ShowAlertAsync("Error", response.Error.Message);
             }
         }
+
+
 
         private int _id;
         public int Id
@@ -253,11 +258,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             set => SetProperty(ref _playButtonText, value);
         }
 
-        private bool _showPlayButton;
-        public bool ShowPlayButton
+        private bool _canPlay;
+        public bool CanPlay
         {
-            get => _showPlayButton;
-            set => SetProperty(ref _showPlayButton, value);
+            get => _canPlay;
+            set => SetProperty(ref _canPlay, value);
         }
 
         private string _watchlistIcon;
@@ -304,15 +309,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                 switch (DeviceDisplay.MainDisplayInfo.Orientation)
                 {
                     case DisplayOrientation.Landscape:
-                        newWidth = width * 0.5;
+                        newWidth = width * 0.33;
                         break;
 
                     case DisplayOrientation.Portrait:
-                        newWidth = width * 0.8;
+                        newWidth = height * 0.33;
                         break;
                 }
-                if (newWidth < 400)
-                    newWidth = width;
+                newWidth = Math.Max(newWidth, 400);
 
                 Width = (int)Math.Min(width, newWidth);
             }

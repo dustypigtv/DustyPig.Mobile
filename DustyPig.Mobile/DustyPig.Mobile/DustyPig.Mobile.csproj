@@ -73,7 +73,13 @@
     <EmbeddedResource Update="MVVM\Auth\Signup\SignupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Series\SeriesDetailsPage.xaml">
@@ -89,6 +95,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Reusable\TopButtonBarGradient.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Reusable\TopImageGradient.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Search\AvailableItemsView.xaml">
@@ -122,6 +131,9 @@
     </Compile>
     <Compile Update="MVVM\Main\Media\MediaPage.xaml.cs">
       <DependentUpon>MediaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml.cs">
+      <DependentUpon>MovieDetailsPopup.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\MediaDetails\TMDB\TMDBDetailsPage.xaml.cs">
       <DependentUpon>TMDBDetailsPage.xaml</DependentUpon>

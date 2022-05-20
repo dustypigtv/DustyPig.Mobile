@@ -1,4 +1,6 @@
 ﻿using DustyPig.Mobile.MVVM.Search;
+using System;
+using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -21,12 +23,19 @@ namespace DustyPig.Mobile.MVVM.Reusable
                 Calling it from the root is how to hide the tab bar while the search page is shown
              */
             SearchButtonTapped = new AsyncCommand(() => Application.Current.MainPage.Navigation.PushAsync(new SearchPage()));
-            CloseButtonTapped = new AsyncCommand(() =>Navigation.PopModalAsync());
+
+            CloseButtonTapped = new AsyncCommand(async ()=>
+            {
+                CloseTapped?.Invoke(this, EventArgs.Empty);
+                await Navigation.PopModalAsync();
+            }, allowsMultipleExecutions: false);
 
 
             //Make sure this comes after any properties that are not INotifyProperty
             BindingContext = this;
         }
+
+        public event EventHandler CloseTapped;
 
 
         //Because want to hide the search button on the search page, but keep other buttons visible

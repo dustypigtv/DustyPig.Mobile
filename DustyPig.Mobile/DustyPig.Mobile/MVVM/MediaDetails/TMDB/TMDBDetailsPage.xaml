@@ -8,8 +8,11 @@
     xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="true"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.TMDB.TMDBDetailsPage"
-    x:DataType="viewmodels:TMDBDetailsViewModel">
+    x:DataType="viewmodels:TMDBDetailsViewModel"
+    BackgroundColor="Transparent">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -48,6 +51,7 @@
                             ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                             LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
 
+                        <reusable:TopImageGradient Margin="0" Padding="0" VerticalOptions="Start" />
                         <reusable:BottomImageGradient Margin="0" Padding="0" VerticalOptions="End" />
 
                     </Grid>
@@ -293,6 +297,7 @@
 
             <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
+                x:Name="SCButtons"
                 HorizontalOptions="FillAndExpand"
                 CloseButtonVisible="True"
                 SearchButtonVisible="False"/>

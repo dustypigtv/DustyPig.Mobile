@@ -10,8 +10,9 @@
              xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage"
              x:DataType="movie:MovieDetailsViewModel"
+             ios:Page.UseSafeArea="true"             
              NavigationPage.HasNavigationBar="False"
-             BackgroundColor="{x:Static dpcc:Theme.DarkGrey}">
+             BackgroundColor="Transparent">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -42,7 +43,8 @@
                     <Grid 
                         Margin="0,12,0,0">
 
-                        <ffimages:CachedImage Source="{Binding BackdropUrl}"
+                        <ffimages:CachedImage
+                            Source="{Binding BackdropUrl}"
                             HeightRequest="{Binding ImageHeight}"
                             WidthRequest="{Binding Width}"
                             Aspect="AspectFill"
@@ -50,6 +52,7 @@
                             ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                             LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
 
+                        <reusable:TopImageGradient Margin="0" Padding="0" VerticalOptions="Start" />
                         <reusable:BottomImageGradient Margin="0" Padding="0" VerticalOptions="End" />
 
                     </Grid>
@@ -57,7 +60,7 @@
                     <!-- Everything else -->
                     <StackLayout
                         IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
-                        Margin="12,0,12,24">
+                        Margin="24,0,24,24">
 
                         <!-- Title -->
                         <Label 
@@ -117,7 +120,7 @@
                             BackgroundColor="White" 
                             BorderColor="#White" 
                             HorizontalOptions="Fill"
-                            IsVisible="{Binding ShowPlayButton}"
+                            IsVisible="{Binding CanPlay}"
                             xct:TouchEffect.NativeAnimation="True">
 
                             <StackLayout
@@ -155,7 +158,7 @@
                             BackgroundColor="{Static dpcc:Theme.DarkGrey}" 
                             BorderColor="{Static dpcc:Theme.DarkGrey}" 
                             HorizontalOptions="Fill"
-                            IsVisible="{Binding ShowPlayButton}"
+                            IsVisible="{Binding CanPlay}"
                             xct:TouchEffect.NativeAnimation="True">
 
                             <StackLayout 
@@ -264,6 +267,9 @@
 
                             </Frame>
                         </Grid>
+                        
+                        
+                        
 
 
                         <!-- Description -->
@@ -427,6 +433,7 @@
 
             <!-- Search / Cast buttons-->
             <reusable:SearchCastButtons
+                x:Name="SCButtons"
                 HorizontalOptions="FillAndExpand"
                 CloseButtonVisible="True"
                 SearchButtonVisible="False"/>

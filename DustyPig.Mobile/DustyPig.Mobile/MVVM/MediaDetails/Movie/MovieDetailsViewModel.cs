@@ -1,6 +1,8 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
 using System;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
@@ -9,11 +11,56 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
     {
         public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
-            Id = basicMedia.Id;
             IsBusy = true;
+
+            Id = basicMedia.Id;
+
+            PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
+            DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
+            RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
+            MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
         }
 
-        
+
+        private DetailedMovie Movie { get; set; }
+
+        public AsyncCommand PlayCommand { get; }
+        private async Task OnPlay()
+        {
+            await ShowAlertAsync("TO DO:", "Play");
+        }
+
+        public AsyncCommand DownloadCommand { get; }
+        private async Task OnDownload()
+        {
+            await ShowAlertAsync("TO DO:", "Download");
+        }
+
+        public AsyncCommand RequestPermissionCommand { get; }
+        private async Task OnRequestPermission()
+        {
+            await ShowAlertAsync("TO DO:", "Request Permission");
+        }
+
+
+        public AsyncCommand MarkWatchedCommand { get; }
+        private async Task OnMarkWatched()
+        {
+            var response = await App.API.Movies.UpdatePlaybackProgressAsync(Id, 0);
+            if (response.Success)
+            {
+                Main.Home.HomeViewModel.InvokeMarkWatched(Basic_Media);
+                ShowPlayedBar = false;
+            }
+            else
+            {
+                await ShowAlertAsync("Error", response.Error.Message);
+            }
+        }
+
+
+
+
         public async void OnAppearing()
         {
             IsBusy = true;
@@ -21,18 +68,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             var response = await App.API.Movies.GetDetailsAsync(Id);
             if (response.Success)
             {
+                Movie = response.Data;
+
                 BackdropUrl = string.IsNullOrWhiteSpace(response.Data.BackdropUrl) ?
                     response.Data.ArtworkUrl :
                     response.Data.BackdropUrl;
                 Title = response.Data.Title;
                 Year = response.Data.Date.Year.ToString();
                 Description = response.Data.Description;
-                Played = response.Data.Played ?? 0;
-                ShowPlayedBar = response.Data.CanPlay && Played > 0;
                 Duration = response.Data.Length;
                 Owner = response.Data.Owner;
-                InWatchlist = response.Data.InWatchlist;
-
 
                 switch (response.Data.Rated)
                 {
@@ -46,22 +91,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                         break;
                 }
 
-                Progress = Math.Min(Math.Max(Played / Duration, 0), 1);
-                PlayButtonText = Played > 0 ? "Resume" : "Play";
-                ShowPlayButton = response.Data.CanPlay;
-
                 var dur = TimeSpan.FromSeconds(response.Data.Length);
                 if (dur.Hours > 0)
                     DurationString = $"{dur.Hours}h {dur.Minutes}m";
                 else
                     DurationString = $"{Math.Max(dur.Minutes, 1)}m";
-
-
-                dur = TimeSpan.FromMinutes(response.Data.Length - (response.Data.Played ?? 0));
-                if (dur.Hours > 0)
-                    RemainingString = $"{dur.Hours}h {dur.Minutes}m remaining";
-                else
-                    RemainingString = $"{Math.Max(dur.Minutes, 1)}m remaining";
 
 
 
@@ -96,6 +130,30 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     ShowWriters = true;
                 }
 
+
+
+
+
+                // These all are based on whether the user CAN play content, or needs permission
+
+                CanPlay = response.Data.CanPlay;
+                InWatchlist = response.Data.InWatchlist;
+                Played = response.Data.Played ?? 0;
+                ShowPlayedBar = CanPlay && Played > 0;
+                Progress = Math.Min(Math.Max(Played / Duration, 0), 1);
+                PlayButtonText = Played > 0 ? "Resume" : "Play";
+                
+                dur = TimeSpan.FromMinutes(response.Data.Length - (response.Data.Played ?? 0));
+                if (dur.Hours > 0)
+                    RemainingString = $"{dur.Hours}h {dur.Minutes}m remaining";
+                else
+                    RemainingString = $"{Math.Max(dur.Minutes, 1)}m remaining";
+
+
+
+
+
+
                 IsBusy = false;
             }
             else
@@ -103,8 +161,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 await ShowAlertAsync("Error", "Unable to retrieve movie info");
                 await Navigation.PopModalAsync();
             }
-
-            IsBusy = false;
         }
     }
 }
