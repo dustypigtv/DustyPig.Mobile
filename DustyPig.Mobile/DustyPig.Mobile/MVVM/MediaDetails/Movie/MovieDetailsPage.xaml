@@ -7,8 +7,6 @@
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
-             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage"
              x:DataType="movie:MovieDetailsViewModel"
              ios:Page.UseSafeArea="true"             
