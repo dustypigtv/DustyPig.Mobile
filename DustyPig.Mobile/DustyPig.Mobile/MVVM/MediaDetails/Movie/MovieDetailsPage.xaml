@@ -7,7 +7,8 @@
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
+             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieDetailsPage"
              x:DataType="movie:MovieDetailsViewModel"
              ios:Page.UseSafeArea="true"             
@@ -40,41 +41,17 @@
                 <StackLayout>
 
                     <!-- Backdrop -->
-                    <Grid>
-
-                        <ffimages:CachedImage
-                            Source="{Binding BackdropUrl}"
-                            HeightRequest="{Binding ImageHeight}"
-                            WidthRequest="{Binding Width}"
-                            Aspect="AspectFill"
-                            Margin="0"                      
-                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
-                        
-                        <StackLayout>
-                            <StackLayout.Background>
-                                <LinearGradientBrush 
-                                    StartPoint="0,0"
-                                    EndPoint="0,1">
-                                    <GradientStop 
-                                        Color="Black"
-                                        Offset="0"/>
-                                    <GradientStop 
-                                        Color="Transparent"
-                                        Offset="0.05"/>
-                                    <GradientStop
-                                        Color="Transparent"
-                                        Offset="0.95" />
-                                    <GradientStop
-                                        Color="Black"
-                                        Offset="1" />
-                                </LinearGradientBrush>
-                            </StackLayout.Background>
-                        </StackLayout>
-                    </Grid>
-
                     
-
+                    <ffimages:CachedImage
+                        Source="{Binding BackdropUrl}"
+                        HeightRequest="{Binding ImageHeight}"
+                        WidthRequest="{Binding Width}"
+                        Aspect="AspectFill"
+                        Margin="0"                      
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                        
+                    
 
                     <!-- Everything else -->
                     <StackLayout
