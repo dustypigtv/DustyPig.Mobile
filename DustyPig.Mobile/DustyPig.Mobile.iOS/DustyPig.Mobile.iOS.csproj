@@ -178,6 +178,9 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Forms.PancakeView">
+      <Version>2.3.0.759</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Google.iOS.SignIn">
       <Version>5.0.2.2</Version>
     </PackageReference>

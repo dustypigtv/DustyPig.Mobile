@@ -53,13 +53,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public AsyncCommand<int> ToggleWatchlistCommand { get; }
         private async Task OnToggleWatchlist(int id)
         {
+            IsBusy2 = true;
+
             REST.Response response = null;
             if (InWatchlist)
                 response = await App.API.Media.DeleteFromWatchlistAsync(id);
             else
                 response = await App.API.Media.AddToWatchlistAsync(Id);
 
-            
+            IsBusy2 = false;
+
             if (response.Success)
             {
                 if (InWatchlist)
@@ -82,6 +85,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             get => _id;
             set => SetProperty(ref _id, value);
+        }
+
+        private bool _isBusy2;
+        public bool IsBusy2
+        {
+            get => _isBusy2;
+            set => SetProperty(ref _isBusy2, value);
         }
 
         private bool _inWatchlist;

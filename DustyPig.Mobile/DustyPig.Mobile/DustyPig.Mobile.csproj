@@ -37,6 +37,7 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
   </ItemGroup>
   
   <ItemGroup>
@@ -88,16 +89,10 @@
     <EmbeddedResource Update="MVVM\Player\PlayerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Reusable\BottomImageGradient.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Reusable\SearchCastButtons.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Reusable\TopButtonBarGradient.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Reusable\TopImageGradient.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Search\AvailableItemsView.xaml">

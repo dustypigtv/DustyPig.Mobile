@@ -34,14 +34,13 @@
             </Grid.RowDefinitions>
 
             <ScrollView 
-                Margin="0,11,0,0"
+                Margin="0,24,0,0"
                 Grid.RowSpan="2">
 
                 <StackLayout>
 
                     <!-- Backdrop -->
-                    <Grid 
-                        Margin="0,12,0,0">
+                    <Grid>
 
                         <ffimages:CachedImage Source="{Binding BackdropUrl}"
                             HeightRequest="{Binding ImageHeight}"
@@ -51,14 +50,32 @@
                             ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                             LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
 
-                        <reusable:TopImageGradient Margin="0" Padding="0" VerticalOptions="Start" />
-                        <reusable:BottomImageGradient Margin="0" Padding="0" VerticalOptions="End" />
+                        <StackLayout>
+                            <StackLayout.Background>
+                                <LinearGradientBrush 
+                                    StartPoint="0,0"
+                                    EndPoint="0,1">
+                                    <GradientStop 
+                                        Color="Black"
+                                        Offset="0"/>
+                                    <GradientStop 
+                                        Color="Transparent"
+                                        Offset="0.05"/>
+                                    <GradientStop
+                                        Color="Transparent"
+                                        Offset="0.95" />
+                                    <GradientStop
+                                        Color="Black"
+                                        Offset="1" />
+                                </LinearGradientBrush>
+                            </StackLayout.Background>
+                        </StackLayout>
 
                     </Grid>
 
                     <!-- Everything else -->
                     <StackLayout
-                        Margin="12,0,12,0"
+                        Margin="24,0,24,24"
                         IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
 
                         <!-- Title -->

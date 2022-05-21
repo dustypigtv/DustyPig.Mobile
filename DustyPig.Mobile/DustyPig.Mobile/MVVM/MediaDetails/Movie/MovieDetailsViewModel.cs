@@ -46,16 +46,20 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
         {
+            IsBusy2 = true;
+
             var response = await App.API.Movies.UpdatePlaybackProgressAsync(Id, 0);
             if (response.Success)
             {
-                Main.Home.HomeViewModel.InvokeMarkWatched(Basic_Media);
+                Main.Home.HomeViewModel.InvokeMarkWatched(Id);
                 ShowPlayedBar = false;
             }
             else
             {
                 await ShowAlertAsync("Error", response.Error.Message);
             }
+
+            IsBusy2 = false;
         }
 
 

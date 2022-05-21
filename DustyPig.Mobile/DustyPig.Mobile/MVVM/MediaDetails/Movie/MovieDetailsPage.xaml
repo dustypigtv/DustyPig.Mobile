@@ -34,14 +34,13 @@
             </Grid.RowDefinitions>
             
             <ScrollView 
-                Margin="0,11,0,0"
+                Margin="0,24,0,0"
                 Grid.RowSpan="2">
 
                 <StackLayout>
 
                     <!-- Backdrop -->
-                    <Grid 
-                        Margin="0,12,0,0">
+                    <Grid>
 
                         <ffimages:CachedImage
                             Source="{Binding BackdropUrl}"
@@ -51,11 +50,31 @@
                             Margin="0"                      
                             ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                             LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
-
-                        <reusable:TopImageGradient Margin="0" Padding="0" VerticalOptions="Start" />
-                        <reusable:BottomImageGradient Margin="0" Padding="0" VerticalOptions="End" />
-
+                        
+                        <StackLayout>
+                            <StackLayout.Background>
+                                <LinearGradientBrush 
+                                    StartPoint="0,0"
+                                    EndPoint="0,1">
+                                    <GradientStop 
+                                        Color="Black"
+                                        Offset="0"/>
+                                    <GradientStop 
+                                        Color="Transparent"
+                                        Offset="0.05"/>
+                                    <GradientStop
+                                        Color="Transparent"
+                                        Offset="0.95" />
+                                    <GradientStop
+                                        Color="Black"
+                                        Offset="1" />
+                                </LinearGradientBrush>
+                            </StackLayout.Background>
+                        </StackLayout>
                     </Grid>
+
+                    
+
 
                     <!-- Everything else -->
                     <StackLayout
@@ -208,8 +227,10 @@
                         </Grid>
 
 
+                        <!-- Action buttons-->
                         <Grid
-                            Margin="0,12,0,0">
+                            RowSpacing="0"
+                            Margin="24,12,24,0">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -217,55 +238,104 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
+                            <!-- Toggle Watchlist -->
                             <Frame
-                                Grid.Column="0"                              
-                                CornerRadius="124"
+                                Grid.Column="0"  
+                                Grid.Row="0"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                CornerRadius="96"
                                 BackgroundColor="Transparent"
                                 Padding="12"
                                 xct:TouchEffect.NativeAnimation="True"
                                 xct:TouchEffect.Command="{Binding ToggleWatchlistCommand}"
                                 xct:TouchEffect.CommandParameter="{Binding Id}">
 
-                                <StackLayout>
-
-                                    <Image 
-                                        WidthRequest="24"
-                                        HeightRequest="24">
+                                <Image 
+                                    WidthRequest="24"
+                                    HeightRequest="24">
                                             
-                                        <Image.Source>
-                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Binding WatchlistIcon}" Color="White" />
-                                        </Image.Source>
-                                    </Image>
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Binding WatchlistIcon}" Color="White" />
+                                    </Image.Source>
+                                </Image>
 
-                                    <Label Text="Watchlist" FontSize="Small" />
-
-                                </StackLayout>
 
                             </Frame>
 
+                            <Label 
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                HorizontalOptions="Center"
+                                Text="Watchlist" 
+                                FontSize="Small" />
+
+
+                            <!-- Watched button -->
                             <Frame
-                                Grid.Column="2"                              
-                                CornerRadius="124"
+                                Grid.Column="1"  
+                                Grid.Row="0"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                CornerRadius="96"
+                                BackgroundColor="Transparent"
+                                Padding="12"
+                                IsVisible="{Binding ShowPlayedBar}"
+                                xct:TouchEffect.NativeAnimation="True"
+                                xct:TouchEffect.Command="{Binding MarkWatchedCommand}"
+                                xct:TouchEffect.CommandParameter="{Binding Id}">
+
+                                <Image 
+                                    WidthRequest="24"
+                                    HeightRequest="24">
+
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
+                                    </Image.Source>
+                                </Image>
+
+
+                            </Frame>
+
+                            <Label 
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                IsVisible="{Binding ShowPlayedBar}"
+                                HorizontalOptions="Center"
+                                Text="Mark Watched" 
+                                FontSize="Small" />
+
+
+                            <!-- Options button -->
+                            <Frame
+                                Grid.Column="2"  
+                                Grid.Row="0"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                CornerRadius="96"
                                 BackgroundColor="Transparent"
                                 Padding="12"
                                 xct:TouchEffect.NativeAnimation="True">
 
-                                <StackLayout>
+                                <Image 
+                                    WidthRequest="24"
+                                    HeightRequest="24">
 
-                                    <Image 
-                                        WidthRequest="24"
-                                        HeightRequest="24">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Ellipsis}" Color="White" />
+                                    </Image.Source>
+                                </Image>
 
-                                        <Image.Source>
-                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
-                                        </Image.Source>
-                                    </Image>
-
-                                    <Label Text="Options" FontSize="Small" />
-
-                                </StackLayout>
 
                             </Frame>
+
+                            <Label 
+                                Grid.Column="2"
+                                Grid.Row="1"
+                                HorizontalOptions="Center"
+                                Text="Options" 
+                                FontSize="Small" />
+                            
                         </Grid>
                         
                         
@@ -444,6 +514,13 @@
                 HorizontalOptions="Center"
                 VerticalOptions="Start"
                 IsRunning="{Binding IsBusy}" />
+
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Margin="60"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy2}" />
 
 
         </Grid>

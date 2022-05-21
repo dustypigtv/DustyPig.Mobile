@@ -14,7 +14,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         private static event EventHandler<BasicMedia> AddedToWatchlist;
         private static event EventHandler<BasicMedia> RemovedFromWatchlist;
 
-        private static event EventHandler<BasicMedia> MarkWatched;
+        private static event EventHandler<int> MarkWatched;
 
         public HomeViewModel(StackLayout mainStack, Label emptyLabel, INavigation navigation) : base(navigation)
         {
@@ -26,6 +26,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             AddedToWatchlist += ItemAddedToWatchlist;
             RemovedFromWatchlist += ItemRemovedFromWatchlist;
             MarkWatched += HomeViewModel_MarkWatched;
+
+
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
             //{
@@ -40,19 +42,19 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
 
 
-        private void HomeViewModel_MarkWatched(object sender, BasicMedia e)
+        private void HomeViewModel_MarkWatched(object sender, int e)
         {
             try
             {
                 HomePageSectionView section = MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == API.v3.Clients.MediaClient.ID_CONTINUE_WATCHING) as HomePageSectionView;
-                section.VM.Items.Remove(e);
+                section.VM.Items.Remove(section.VM.Items.First(item => item.Id == e));
                 if (section.VM.Items.Count == 0)
                     MainStack.Children.Remove(section);
             }
             catch { }
         }
 
-        public static void InvokeMarkWatched(BasicMedia basicMedia) => MarkWatched?.Invoke(null, basicMedia);
+        public static void InvokeMarkWatched(int id) => MarkWatched?.Invoke(null, id);
 
         private void ItemAddedToWatchlist(object sender, BasicMedia e)
         {
