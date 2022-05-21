@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Movie"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieOptionsPopup"  
+    x:DataType="local:MovieOptionsPopup"
+    x:TypeArguments="local:MovieOptions"
+    Size="200,300">
+
+    <StackLayout
+        Margin="24"
+        BackgroundColor="{Static dpcc:Theme.DarkGrey}">
+
+        <Label
+            Margin="24"
+            HorizontalOptions="CenterAndExpand"
+            Text="Options"
+            FontAttributes="Bold" />
+        
+        <Grid 
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160" />
+            </Grid.ColumnDefinitions>
+                
+            <Grid
+                Grid.Row="0"
+                HeightRequest="40"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding PlaylistCommand}">
+
+                <Label
+                    Padding="48,0,0,0"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Text="Add to Playlist" />
+
+                <Image
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand"
+                    HeightRequest="24"
+                    WidthRequest="24"
+                    Margin="12,0,0,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.List}" Color="White" />
+                    </Image.Source>
+                </Image>
+                    
+
+            </Grid>
+
+
+            <Grid
+                Grid.Row="1"
+                HeightRequest="40"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding ParentalControlsCommand}">
+
+                <Label
+                    Padding="48,0,0,0"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand"
+                    Text="Parental Controls" />
+
+                <Image
+                    HorizontalOptions="Start"
+                    VerticalOptions="CenterAndExpand"
+                    HeightRequest="24"
+                    WidthRequest="24"
+                    Margin="12,0,0,0">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.UserLock}" Color="White" />
+                    </Image.Source>
+                </Image>
+
+
+            </Grid>
+
+
+            <Button 
+                Grid.Row="2"
+                Margin="0,24,0,0"
+                HeightRequest="40" 
+                Text="Cancel" 
+                Command="{Binding CancelCommand}" />
+
+        </Grid>
+
+
+    </StackLayout>
+    
+</xct:Popup>

@@ -306,7 +306,7 @@
                                 FontSize="Small" />
 
 
-                            <!-- Options button -->
+                            <!-- Options button (If CanManage)-->
                             <Frame
                                 Grid.Column="2"  
                                 Grid.Row="0"
@@ -315,7 +315,9 @@
                                 CornerRadius="96"
                                 BackgroundColor="Transparent"
                                 Padding="12"
-                                xct:TouchEffect.NativeAnimation="True">
+                                IsVisible="{Binding CanManage}"
+                                xct:TouchEffect.NativeAnimation="True"
+                                xct:TouchEffect.Command="{Binding OptionsCommand}">
 
                                 <Image 
                                     WidthRequest="24"
@@ -332,10 +334,45 @@
                             <Label 
                                 Grid.Column="2"
                                 Grid.Row="1"
+                                IsVisible="{Binding CanManage}"
                                 HorizontalOptions="Center"
                                 Text="Options" 
                                 FontSize="Small" />
-                            
+
+
+                            <!-- Playlist button (If not CanManage) -->
+                            <Frame
+                                Grid.Column="2"  
+                                Grid.Row="0"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"
+                                CornerRadius="96"
+                                BackgroundColor="Transparent"
+                                Padding="12"
+                                IsVisible="{Binding CanManage, Converter={StaticResource InvertedBoolConverter}}"
+                                xct:TouchEffect.NativeAnimation="True"
+                                xct:TouchEffect.Command="{Binding PlaylistCommand}">
+
+                                <Image 
+                                    WidthRequest="24"
+                                    HeightRequest="24">
+
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.List}" Color="White" />
+                                    </Image.Source>
+                                </Image>
+
+
+                            </Frame>
+
+                            <Label 
+                                Grid.Column="2"
+                                Grid.Row="1"
+                                IsVisible="{Binding CanManage, Converter={StaticResource InvertedBoolConverter}}"
+                                HorizontalOptions="Center"
+                                Text="Options" 
+                                FontSize="Small" />
+
                         </Grid>
                         
                         

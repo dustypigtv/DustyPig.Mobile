@@ -79,6 +79,19 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
+        public async Task AddToPlaylist()
+        {
+
+        }
+
+
+        public async Task ManageParentalControls()
+        {
+
+        }
+
+
+
 
         private int _id;
         public int Id

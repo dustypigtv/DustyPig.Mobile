@@ -2,6 +2,7 @@
 using DustyPig.API.v3.MPAA;
 using System;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -19,10 +20,19 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
+            OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
+            PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
         }
 
 
         private DetailedMovie Movie { get; set; }
+
+        private bool _canManage;
+        public bool CanManage
+        {
+            get => _canManage;
+            set => SetProperty(ref _canManage, value);
+        }
 
         public AsyncCommand PlayCommand { get; }
         private async Task OnPlay()
@@ -63,8 +73,27 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         }
 
 
+        public AsyncCommand OptionsCommand { get; }
+        private async Task OnOptionsCommand()
+        {
+            var ret = await Navigation.ShowPopupAsync<MovieOptions>(new MovieOptionsPopup());
+            
+            switch(ret)
+            {
+                case MovieOptions.AddToPlaylist:
+                    await AddToPlaylist();
+                    break;
 
+                case MovieOptions.ParentalControls:
+                    await ManageParentalControls();
+                    break;
+            }
+        }
 
+        public AsyncCommand PlaylistCommand { get; }
+        
+        
+        
         public async void OnAppearing()
         {
             IsBusy = true;
@@ -155,7 +184,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
 
 
-
+                CanManage = response.Data.CanManage;
 
 
                 IsBusy = false;
