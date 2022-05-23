@@ -58,7 +58,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         {
             IsBusy2 = true;
 
-            var response = await App.API.Movies.UpdatePlaybackProgressAsync(Id, 0);
+            var response = await App.API.Media.UpdatePlaybackProgressAsync(Id, 0);
             if (response.Success)
             {
                 Main.Home.HomeViewModel.InvokeMarkWatched(Id);
@@ -176,7 +176,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 Progress = Math.Min(Math.Max(Played / Duration, 0), 1);
                 PlayButtonText = Played > 0 ? "Resume" : "Play";
                 
-                dur = TimeSpan.FromMinutes(response.Data.Length - (response.Data.Played ?? 0));
+                dur = TimeSpan.FromSeconds(response.Data.Length - (response.Data.Played ?? 0));
                 if (dur.Hours > 0)
                     RemainingString = $"{dur.Hours}h {dur.Minutes}m remaining";
                 else
