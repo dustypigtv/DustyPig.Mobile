@@ -263,7 +263,7 @@
                                 CornerRadius="96"
                                 BackgroundColor="Transparent"
                                 Padding="12"
-                                IsVisible="{Binding ShowPlayedBar}"
+                                IsVisible="{Binding ShowWatchButton}"
                                 xct:TouchEffect.NativeAnimation="True"
                                 xct:TouchEffect.Command="{Binding MarkWatchedCommand}"
                                 xct:TouchEffect.CommandParameter="{Binding Id}">
@@ -404,6 +404,7 @@
 
                         <!-- Episodes -->
                         <StackLayout
+                            Margin="0,12,0,0"
                             BindableLayout.ItemsSource="{Binding Episodes}">
 
                             <BindableLayout.ItemTemplate>

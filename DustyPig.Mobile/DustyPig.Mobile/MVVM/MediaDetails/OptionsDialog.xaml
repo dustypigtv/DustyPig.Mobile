@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xct:Popup 
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
-    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Movie"
-    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Movie.MovieOptionsPopup"  
-    x:DataType="local:MovieOptionsPopup"
-    x:TypeArguments="local:MovieOptions"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.OptionsDialog"
+    x:TypeArguments="local:DetailsOptions"
+    x:DataType="local:OptionsDialog"
     Size="200,300">
 
     <StackLayout
@@ -18,8 +18,9 @@
             Margin="24"
             HorizontalOptions="CenterAndExpand"
             Text="Options"
+            FontSize="Large"
             FontAttributes="Bold" />
-        
+
         <Grid 
             HorizontalOptions="Center"
             VerticalOptions="Center">
@@ -27,7 +28,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160" />
             </Grid.ColumnDefinitions>
-                
+
             <Grid
                 Grid.Row="0"
                 HeightRequest="40"
@@ -50,7 +51,7 @@
                         <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.List}" Color="White" />
                     </Image.Source>
                 </Image>
-                    
+
 
             </Grid>
 
@@ -82,16 +83,22 @@
             </Grid>
 
 
-            <Button 
+            <ImageButton 
                 Grid.Row="2"
                 Margin="0,24,0,0"
-                HeightRequest="40" 
-                Text="Cancel" 
-                Command="{Binding CancelCommand}" />
+                HeightRequest="32" 
+                WidthRequest="32"
+                HorizontalOptions="Center"
+                BackgroundColor="Transparent"
+                Command="{Binding CancelCommand}">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
+                </ImageButton.Source>
+            </ImageButton>
 
         </Grid>
 
 
     </StackLayout>
-    
+
 </xct:Popup>

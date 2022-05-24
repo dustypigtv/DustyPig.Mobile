@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -14,6 +15,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation)
         {
             Basic_Media = basicMedia;
+
+            OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
+            PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
 
             switch (Services.Downloads.DownloadManager.GetStatus(Basic_Media.Id))
             {
@@ -78,6 +82,24 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
         }
 
+        public AsyncCommand OptionsCommand { get; }
+        private async Task OnOptionsCommand()
+        {
+            var ret = await Navigation.ShowPopupAsync<DetailsOptions>(new OptionsDialog());
+
+            switch (ret)
+            {
+                case DetailsOptions.AddToPlaylist:
+                    await AddToPlaylist();
+                    break;
+
+                case DetailsOptions.ParentalControls:
+                    await ManageParentalControls();
+                    break;
+            }
+        }
+
+        public AsyncCommand PlaylistCommand { get; }
 
         public async Task AddToPlaylist()
         {

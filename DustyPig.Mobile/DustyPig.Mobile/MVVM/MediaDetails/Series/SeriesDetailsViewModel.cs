@@ -21,8 +21,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
-            OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
-            PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
         }
 
         public DetailedSeries Series { get; set; }
@@ -32,6 +30,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         {
             get => _canManage;
             set => SetProperty(ref _canManage, value);
+        }
+
+        private bool _showWatchButton;
+        public bool ShowWatchButton
+        {
+            get => _showWatchButton;
+            set => SetProperty(ref _showWatchButton, value);
         }
 
         public AsyncCommand MarkWatchedCommand { get; }
@@ -60,13 +65,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         }
         
 
-        public AsyncCommand OptionsCommand { get; }
-        private async Task OnOptionsCommand()
-        {
-            
-        }
-
-        public AsyncCommand PlaylistCommand { get; }
+        
 
         private string _seasonCount;
         public string SeasonCount
@@ -176,9 +175,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                         RemainingString = $"{Math.Max(dur.Minutes, 1)}m remaining";
                 }
 
-
-                
-               
+                ShowWatchButton = CanPlay && upNext != null;
 
 
 

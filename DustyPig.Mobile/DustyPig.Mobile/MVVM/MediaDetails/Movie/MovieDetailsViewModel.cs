@@ -20,8 +20,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
-            OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
-            PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
         }
 
 
@@ -73,24 +71,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         }
 
 
-        public AsyncCommand OptionsCommand { get; }
-        private async Task OnOptionsCommand()
-        {
-            var ret = await Navigation.ShowPopupAsync<MovieOptions>(new MovieOptionsPopup());
-            
-            switch(ret)
-            {
-                case MovieOptions.AddToPlaylist:
-                    await AddToPlaylist();
-                    break;
-
-                case MovieOptions.ParentalControls:
-                    await ManageParentalControls();
-                    break;
-            }
-        }
-
-        public AsyncCommand PlaylistCommand { get; }
         
         
         
