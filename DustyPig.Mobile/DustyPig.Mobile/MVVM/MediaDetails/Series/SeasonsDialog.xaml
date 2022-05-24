@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeasonsDialog"
+    x:TypeArguments="x:Int32"
+    x:DataType="local:SeasonsDialog"
+    Size="200,400">
+
+    <StackLayout
+        BackgroundColor="{Static dpcc:Theme.DarkGrey}">
+
+        <CollectionView
+            ItemsSource="{Binding Seasons}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="local:SeasonInfo">
+                    <Label
+                        Margin="12"
+                        Text="{Binding Text}"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        xct:TouchEffect.NativeAnimation="True"
+                        xct:TouchEffect.Command="{Binding SeasonTapped}"
+                        xct:TouchEffect.CommandParameter="{Binding Number}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <Frame
+            Padding="0"
+            Margin="12"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            BackgroundColor="Transparent"
+            CornerRadius="64"
+            xct:TouchEffect.NativeAnimation="True"
+            xct:TouchEffect.Command="{Binding CancelCommand}">
+
+            <Image 
+                HeightRequest="32" 
+                WidthRequest="32">
+                <Image.Source>
+                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
+                </Image.Source>
+            </Image>
+        </Frame>
+
+    </StackLayout>
+    
+</xct:Popup>

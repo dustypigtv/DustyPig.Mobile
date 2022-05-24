@@ -21,6 +21,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
+            ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
         }
 
         public DetailedSeries Series { get; set; }
@@ -65,7 +66,18 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         }
         
 
-        
+        public AsyncCommand ChangeSeasonCommand { get; }
+        private async Task OnChangeSeason()
+        {
+            var ret = await Navigation.ShowPopupAsync(new SeasonsDialog(Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList()));
+            if (ret < 0)
+                return;
+
+            CurrentSeason = $"Season {ret}";
+            Episodes.Clear();
+            Episodes.AddRange(Series.Episodes.Where(item => item.SeasonNumber == ret).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
+        }
+
 
         private string _seasonCount;
         public string SeasonCount

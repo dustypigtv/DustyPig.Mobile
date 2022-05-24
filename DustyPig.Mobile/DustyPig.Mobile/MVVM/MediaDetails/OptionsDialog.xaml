@@ -83,18 +83,24 @@
             </Grid>
 
 
-            <ImageButton 
+            <Frame
                 Grid.Row="2"
-                Margin="0,24,0,0"
-                HeightRequest="32" 
-                WidthRequest="32"
+                Padding="0"
+                Margin="12"
                 HorizontalOptions="Center"
                 BackgroundColor="Transparent"
-                Command="{Binding CancelCommand}">
-                <ImageButton.Source>
-                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
-                </ImageButton.Source>
-            </ImageButton>
+                CornerRadius="64"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding CancelCommand}">
+
+                <Image 
+                    HeightRequest="32" 
+                    WidthRequest="32">
+                    <Image.Source>
+                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
+                    </Image.Source>
+                </Image>
+            </Frame>
 
         </Grid>
 
