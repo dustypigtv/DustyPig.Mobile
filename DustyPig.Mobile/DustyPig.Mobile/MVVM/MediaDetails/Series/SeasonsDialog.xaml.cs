@@ -19,7 +19,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             //No idea why I can't bind to a relative source in a popup dialog, so just pass in the desired action
             foreach (var season in seasons)
                 Seasons.Add(new SeasonInfo(season, $"Season {season}", Dismiss));
-                      
+            
+            
             //All seasons are >= 0, so use -1 for cancel
             CancelCommand = new Command(() => Dismiss(-1));
 

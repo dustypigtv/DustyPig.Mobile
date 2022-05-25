@@ -14,6 +14,7 @@
         BackgroundColor="{Static dpcc:Theme.DarkGrey}">
 
         <CollectionView
+            x:Name="TheCV"
             ItemsSource="{Binding Seasons}">
 
             <CollectionView.ItemTemplate>

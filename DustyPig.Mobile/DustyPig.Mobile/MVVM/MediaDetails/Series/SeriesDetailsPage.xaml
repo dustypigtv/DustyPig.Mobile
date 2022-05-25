@@ -46,8 +46,8 @@
                         WidthRequest="{Binding Width}"
                         Aspect="AspectFill"
                         Margin="0"                      
-                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
 
                         
 
@@ -283,7 +283,7 @@
                             <Label 
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                IsVisible="{Binding ShowPlayedBar}"
+                                IsVisible="{Binding ShowWatchButton}"
                                 HorizontalOptions="Center"
                                 Text="Mark Watched" 
                                 FontSize="Small" />
@@ -436,8 +436,8 @@
                                                 WidthRequest="100"
                                                 Aspect="AspectFit"
                                                 HorizontalOptions="Start"
-                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
+                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
 
                                             <!-- Play button -->
                                             <Frame
