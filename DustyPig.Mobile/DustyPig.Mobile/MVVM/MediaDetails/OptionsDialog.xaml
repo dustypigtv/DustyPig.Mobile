@@ -8,10 +8,9 @@
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.OptionsDialog"
     x:TypeArguments="local:DetailsOptions"
     x:DataType="local:OptionsDialog"
-    Size="200,300">
+    Size="200,260">
 
     <StackLayout
-        Margin="24"
         BackgroundColor="{Static dpcc:Theme.DarkGrey}">
 
         <Label
@@ -21,9 +20,8 @@
             FontSize="Large"
             FontAttributes="Bold" />
 
-        <Grid 
-            HorizontalOptions="Center"
-            VerticalOptions="Center">
+        <Grid
+            Margin="24,0,24,0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160" />
@@ -81,29 +79,27 @@
 
 
             </Grid>
-
-
-            <Frame
-                Grid.Row="2"
-                Padding="0"
-                Margin="12"
-                HorizontalOptions="Center"
-                BackgroundColor="Transparent"
-                CornerRadius="64"
-                xct:TouchEffect.NativeAnimation="True"
-                xct:TouchEffect.Command="{Binding CancelCommand}">
-
-                <Image 
-                    HeightRequest="32" 
-                    WidthRequest="32">
-                    <Image.Source>
-                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
-                    </Image.Source>
-                </Image>
-            </Frame>
-
+            
         </Grid>
 
+        <Frame
+            Padding="0"
+            Margin="24"
+            HorizontalOptions="Center"
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="Transparent"
+            CornerRadius="64"
+            xct:TouchEffect.NativeAnimation="True"
+            xct:TouchEffect.Command="{Binding CancelCommand}">
+
+            <Image 
+                HeightRequest="32" 
+                WidthRequest="32">
+                <Image.Source>
+                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
+                </Image.Source>
+            </Image>
+        </Frame>
 
     </StackLayout>
 

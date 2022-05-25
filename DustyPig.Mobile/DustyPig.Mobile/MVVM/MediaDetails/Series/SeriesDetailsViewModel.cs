@@ -165,7 +165,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                     Episodes.AddRange(response.Data.Episodes.Where(item => item.SeasonNumber == ep.SeasonNumber).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
                     CurrentSeason = $"Season {ep.SeasonNumber}";
                     CurrentEpisode = $"S{ep.SeasonNumber}:E{ep.EpisodeNumber} {ep.Title}";
-                    Description = StringUtils.Coalesce(ep.Description, response.Data.Description);
+                    Description = StringUtils.Coalesce(response.Data.Description, ep.Description);
                     PlayButtonText = "Play";
                 }
                 else
