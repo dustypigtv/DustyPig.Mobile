@@ -18,7 +18,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
-            RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
         }
 
@@ -44,13 +43,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             await ShowAlertAsync("TO DO:", "Download");
         }
 
-        public AsyncCommand RequestPermissionCommand { get; }
-        private async Task OnRequestPermission()
-        {
-            await ShowAlertAsync("TO DO:", "Request Permission");
-        }
-
-
+        
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
         {

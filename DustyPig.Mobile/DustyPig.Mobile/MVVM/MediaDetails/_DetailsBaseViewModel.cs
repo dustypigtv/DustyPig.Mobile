@@ -18,6 +18,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
             OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
             PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
+            RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
 
             switch (Services.Downloads.DownloadManager.GetStatus(Basic_Media.Id))
             {
@@ -52,6 +53,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public BasicMedia Basic_Media { get; }
 
         public BasicTMDB Basic_TMDB { get; }
+
+
+        public AsyncCommand RequestPermissionCommand { get; }
+        private async Task OnRequestPermission()
+        {
+            await ShowAlertAsync("TO DO:", "Request Permission");
+        }
+
 
 
         public AsyncCommand<int> ToggleWatchlistCommand { get; }

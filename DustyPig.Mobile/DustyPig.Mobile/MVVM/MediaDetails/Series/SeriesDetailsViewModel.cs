@@ -18,8 +18,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             Id = basicMedia.Id;
 
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
+            PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
-            RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
             ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
         }
@@ -84,11 +84,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             IsBusy2 = false;
         }
 
-
         public AsyncCommand PlayCommand { get; }
         private async Task OnPlay()
         {
-            await ShowAlertAsync("TO DO:", "Play");
+            await ShowAlertAsync("TO DO:", "Play Next");
+        }
+
+        public AsyncCommand<int> PlayEpisodeCommand { get; }
+        private async Task OnPlayEpisode(int id)
+        {
+            await ShowAlertAsync("TO DO:", $"Play {id}");
         }
 
         public AsyncCommand DownloadCommand { get; }
@@ -97,16 +102,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             await ShowAlertAsync("TO DO:", "Download");
         }
 
-        public AsyncCommand RequestPermissionCommand { get; }
-        private async Task OnRequestPermission()
-        {
-            await ShowAlertAsync("TO DO:", "Request Permission");
-        }
         
-
         public AsyncCommand ChangeSeasonCommand { get; }
         private async Task OnChangeSeason()
         {
+            if (!MultipleSeasons)
+                return;
+
             var ret = await Navigation.ShowPopupAsync(new SeasonsDialog(Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason));
             if (ret < 0)
                 return;
