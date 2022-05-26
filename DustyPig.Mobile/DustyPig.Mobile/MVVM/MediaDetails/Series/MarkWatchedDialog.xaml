@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xct:Popup 
     xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
-    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="DustyPig.Mobile.MVVM.MediaDetails.OptionsDialog"
-    x:TypeArguments="local:DetailsOptions"
-    x:DataType="local:OptionsDialog"
-    Size="240,260">
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedDialog"
+    x:TypeArguments="local:MarkWatchedOptions"
+    x:DataType="local:MarkWatchedDialog"
+    Size="300,260">
 
     <StackLayout
         BackgroundColor="{Static dpcc:Theme.DarkGrey}">
@@ -16,25 +16,27 @@
         <Label
             Margin="24"
             HorizontalOptions="CenterAndExpand"
-            Text="Options"
+            Text="Mark Watched Options"
             FontSize="Large"
             FontAttributes="Bold" />
 
         <Grid
             Margin="24,0,24,0">
-          
+
+            
 
             <Grid
                 Grid.Row="0"
                 HeightRequest="40"
                 xct:TouchEffect.NativeAnimation="True"
-                xct:TouchEffect.Command="{Binding PlaylistCommand}">
+                xct:TouchEffect.Command="{Binding ItemTappedCommand}"
+                xct:TouchEffect.CommandParameter="{Static local:MarkWatchedOptions.MarkSeriesWatched}">
 
                 <Label
                     Padding="48,0,0,0"
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="CenterAndExpand"
-                    Text="Add to Playlist" />
+                    Text="Mark Series Watched" />
 
                 <Image
                     HorizontalOptions="Start"
@@ -43,7 +45,7 @@
                     WidthRequest="24"
                     Margin="12,0,0,0">
                     <Image.Source>
-                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.List}" Color="White" />
+                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
                     </Image.Source>
                 </Image>
 
@@ -55,13 +57,14 @@
                 Grid.Row="1"
                 HeightRequest="40"
                 xct:TouchEffect.NativeAnimation="True"
-                xct:TouchEffect.Command="{Binding ParentalControlsCommand}">
+                xct:TouchEffect.Command="{Binding ItemTappedCommand}"
+                xct:TouchEffect.CommandParameter="{Static local:MarkWatchedOptions.RemoveFromContinueWatching}">
 
                 <Label
                     Padding="48,0,0,0"
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="CenterAndExpand"
-                    Text="Parental Controls" />
+                    Text="Remove From Continue Watching" />
 
                 <Image
                     HorizontalOptions="Start"
@@ -70,13 +73,13 @@
                     WidthRequest="24"
                     Margin="12,0,0,0">
                     <Image.Source>
-                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.UserLock}" Color="White" />
+                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleMinus}" Color="White" />
                     </Image.Source>
                 </Image>
 
 
             </Grid>
-            
+
         </Grid>
 
         <Frame
@@ -87,7 +90,8 @@
             BackgroundColor="Transparent"
             CornerRadius="64"
             xct:TouchEffect.NativeAnimation="True"
-            xct:TouchEffect.Command="{Binding CancelCommand}">
+            xct:TouchEffect.Command="{Binding ItemTappedCommand}"
+            xct:TouchEffect.CommandParameter="{Static local:MarkWatchedOptions.Cancel}">
 
             <Image 
                 HeightRequest="32" 
@@ -99,5 +103,5 @@
         </Frame>
 
     </StackLayout>
-
+    
 </xct:Popup>

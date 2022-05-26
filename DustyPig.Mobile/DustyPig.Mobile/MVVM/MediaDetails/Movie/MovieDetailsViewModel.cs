@@ -108,7 +108,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 if (dur.Hours > 0)
                     DurationString = $"{dur.Hours}h {dur.Minutes}m";
                 else
-                    DurationString = $"{Math.Max(dur.Minutes, 1)}m";
+                    DurationString = $"{Math.Max(dur.Minutes, 0)}m";
 
 
 
@@ -160,7 +160,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 if (dur.Hours > 0)
                     RemainingString = $"{dur.Hours}h {dur.Minutes}m remaining";
                 else
-                    RemainingString = $"{Math.Max(dur.Minutes, 1)}m remaining";
+                    RemainingString = $"{Math.Max(dur.Minutes, 0)}m remaining";
 
 
 
