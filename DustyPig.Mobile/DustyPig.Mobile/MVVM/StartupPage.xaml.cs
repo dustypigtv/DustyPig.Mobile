@@ -27,8 +27,8 @@ namespace DustyPig.Mobile.MVVM
 
             //For debugging login flow
 #if DEBUG
-            string token = App.API.Token;
-            bool breakHere = true;
+            //string token = App.API.Token;
+            //bool breakHere = true;
 #endif
 
             if (string.IsNullOrWhiteSpace(App.API.Token))

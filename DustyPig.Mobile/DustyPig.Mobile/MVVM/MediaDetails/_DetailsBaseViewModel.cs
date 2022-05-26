@@ -109,16 +109,15 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
         public AsyncCommand PlaylistCommand { get; }
-
         public async Task AddToPlaylist()
         {
-
+            await ShowAlertAsync("TO DO:", "Add to playlist");
         }
 
 
         public async Task ManageParentalControls()
         {
-
+            await ShowAlertAsync("TO DO:", "Manage");
         }
 
 
