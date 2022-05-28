@@ -67,11 +67,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                     upnext.Played = null;
                 }
 
-                var last = Series.Episodes.LastOrDefault();
-                if(last != null)
+                if (ret == MarkWatchedOptions.MarkSeriesWatched)
                 {
-                    last.UpNext = true;
-                    last.Played = last.Length;
+                    var last = Series.Episodes.LastOrDefault();
+                    if (last != null)
+                    {
+                        last.UpNext = true;
+                        last.Played = last.Length;
+                    }
                 }
 
                 UpdateElements();
