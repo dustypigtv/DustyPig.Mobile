@@ -34,8 +34,14 @@ namespace DustyPig.Mobile.MVVM
 
         public INavigation Navigation { get; }
 
-        public Task ShowAlertAsync(string title, string msg) => DependencyService.Get<IPopup>().AlertAsync(title, msg);
+        public Task ShowAlertAsync(string title, string msg)
+        {
+            msg += string.Empty;
+            if (msg.StartsWith("\"") && msg.EndsWith("\""))
+                msg = msg.Trim('"');
 
+            return DependencyService.Get<IPopup>().AlertAsync(title, msg);
+        }
 
         bool _isBusy = false;
         public bool IsBusy
