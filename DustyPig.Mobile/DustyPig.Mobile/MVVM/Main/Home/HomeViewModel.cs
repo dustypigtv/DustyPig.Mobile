@@ -16,6 +16,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         private static event EventHandler<int> MarkWatched;
 
+        private static event EventHandler<BasicMedia> AddedToPlaylists;
+
         public HomeViewModel(StackLayout mainStack, Label emptyLabel, INavigation navigation) : base(navigation)
         {
             MainStack = mainStack;
@@ -26,7 +28,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             AddedToWatchlist += ItemAddedToWatchlist;
             RemovedFromWatchlist += ItemRemovedFromWatchlist;
             MarkWatched += HomeViewModel_MarkWatched;
-
+            AddedToPlaylists += HomeViewModel_AddedToPlaylists;
 
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
@@ -40,13 +42,56 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             //};
         }
 
+        private HomePageSectionView GetSection(long id)
+        {
+            return MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == id) as HomePageSectionView;
+        }
+
+        private HomePageSectionView GetOrAddSection(long id, string title)
+        {
+            var section = GetSection(id);
+            if (section == null)
+            {
+                section = new HomePageSectionView(new HomeScreenList
+                {
+                    ListId = id,
+                    Title = title,
+                    Items = new List<BasicMedia>()
+                });
+
+                var ids = new List<long>();
+                ids.Add(id);
+                foreach (HomePageSectionView v in MainStack.Children)
+                    ids.Add(v.VM.ListId);
+                ids.Sort();
+                int idx = ids.IndexOf(id);
+                MainStack.Children.Insert(idx, section);
+            }
+
+            return section;
+        }
+
+
+        private void HomeViewModel_AddedToPlaylists(object sender, BasicMedia e)
+        {
+            try
+            {
+                var section = GetOrAddSection(API.v3.Clients.MediaClient.ID_PLAYLISTS, API.v3.Clients.MediaClient.ID_PLAYLISTS_TITLE);
+                section.VM.Items.Add(e);
+            }
+            catch { }
+        }
+
+        public static void InvokeAddToPlaylists(BasicMedia basicMedia) => AddedToPlaylists?.Invoke(null, basicMedia);
 
 
         private void HomeViewModel_MarkWatched(object sender, int e)
         {
             try
             {
-                HomePageSectionView section = MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == API.v3.Clients.MediaClient.ID_CONTINUE_WATCHING) as HomePageSectionView;
+                var section = GetSection(API.v3.Clients.MediaClient.ID_CONTINUE_WATCHING);
+                if (section == null)
+                    return;
                 section.VM.Items.Remove(section.VM.Items.First(item => item.Id == e));
                 if (section.VM.Items.Count == 0)
                     MainStack.Children.Remove(section);
@@ -60,25 +105,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         {
             try
             {
-                HomePageSectionView section = MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == API.v3.Clients.MediaClient.ID_WATCHLIST) as HomePageSectionView;
-                if(section == null)
-                {
-                    section = new HomePageSectionView(new HomeScreenList
-                    {
-                        ListId = API.v3.Clients.MediaClient.ID_WATCHLIST,
-                        Title = API.v3.Clients.MediaClient.ID_WATCHLIST_TITLE,
-                        Items = new List<BasicMedia>()
-                    });
-
-                    var ids = new List<long>();
-                    ids.Add(API.v3.Clients.MediaClient.ID_WATCHLIST);
-                    foreach (HomePageSectionView v in MainStack.Children)
-                        ids.Add(v.VM.ListId);
-                    ids.Sort();
-                    int idx = ids.IndexOf(API.v3.Clients.MediaClient.ID_WATCHLIST);
-                    MainStack.Children.Insert(idx, section);
-                }
-
+                var section = GetOrAddSection(API.v3.Clients.MediaClient.ID_WATCHLIST, API.v3.Clients.MediaClient.ID_WATCHLIST_TITLE);
                 section.VM.Items.Add(e);
             }
             catch { }
@@ -90,7 +117,9 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         {
             try
             {
-                HomePageSectionView section = MainStack.Children.First(item => ((HomePageSectionView)item).VM.ListId == API.v3.Clients.MediaClient.ID_WATCHLIST) as HomePageSectionView;
+                var section = GetSection(API.v3.Clients.MediaClient.ID_WATCHLIST);
+                if (section == null)
+                    return;
                 section.VM.Items.Remove(e);
                 if (section.VM.Items.Count == 0)
                     MainStack.Children.Remove(section);
