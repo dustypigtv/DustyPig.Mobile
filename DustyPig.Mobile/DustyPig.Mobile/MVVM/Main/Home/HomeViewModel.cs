@@ -82,7 +82,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             catch { }
         }
 
-        public static void InvokeAddToPlaylists(BasicMedia basicMedia) => AddedToPlaylists?.Invoke(null, basicMedia);
+        public static void InvokeAddedToPlaylists(BasicMedia basicMedia) => AddedToPlaylists?.Invoke(null, basicMedia);
 
 
         private void HomeViewModel_MarkWatched(object sender, int e)
