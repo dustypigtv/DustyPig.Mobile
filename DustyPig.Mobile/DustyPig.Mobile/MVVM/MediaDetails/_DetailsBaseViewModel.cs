@@ -17,7 +17,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             Basic_Media = basicMedia;
 
             OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
-            PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
+            PlaylistCommand = new Command(AddToPlaylist);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
 
             switch (Services.Downloads.DownloadManager.GetStatus(Basic_Media.Id))
@@ -99,7 +99,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             switch (ret)
             {
                 case DetailsOptions.AddToPlaylist:
-                    await AddToPlaylist();
+                    AddToPlaylist();
                     break;
 
                 case DetailsOptions.ParentalControls:
@@ -108,10 +108,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
         }
 
-        public AsyncCommand PlaylistCommand { get; }
-        public async Task AddToPlaylist()
+        public Command PlaylistCommand { get; }
+        public void AddToPlaylist()
         {
-            await ShowAlertAsync("TO DO:", "Add to playlist");
+            Navigation.ShowPopup(new AddToPlaylistDialog(Basic_Media));
         }
 
 

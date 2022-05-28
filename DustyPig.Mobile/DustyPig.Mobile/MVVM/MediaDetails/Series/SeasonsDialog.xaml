@@ -13,12 +13,18 @@
         BackgroundColor="{Static dpcc:Theme.DarkGrey}">
 
         <Label
-            Margin="24"
+            Margin="24,24,24,0"
             HorizontalOptions="CenterAndExpand"
             Text="Select Season"
             FontSize="Large"
             FontAttributes="Bold" />
-        
+
+        <BoxView 
+            Margin="24,0,24,12"
+            HeightRequest="1"
+            Color="LightGray"/>
+
+
         <CollectionView
             x:Name="TheCV"
             Margin="24,0,24,0"
@@ -40,24 +46,26 @@
 
         </CollectionView>
 
-        <Frame
-            Padding="0"
+        <ImageButton
             Margin="24"
+            HeightRequest="48"
+            WidthRequest="48"
+            Padding="8"
+            CornerRadius="24"
             HorizontalOptions="Center"
-            VerticalOptions="End"
+            VerticalOptions="EndAndExpand"
             BackgroundColor="Transparent"
-            CornerRadius="64"
+            Aspect="AspectFit"
             xct:TouchEffect.NativeAnimation="True"
-            xct:TouchEffect.Command="{Binding CancelCommand}">
+            Command="{Binding CancelCommand}">
 
-            <Image 
-                HeightRequest="32" 
-                WidthRequest="32">
-                <Image.Source>
-                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.CircleXmark}" Color="White" />
-                </Image.Source>
-            </Image>
-        </Frame>
+            <ImageButton.Source>
+                <FontImageSource
+                    FontFamily="FontAwesomeSolid"
+                    Glyph="{Static dpcc:FontAwesome.CircleXmark}"
+                    Color="White" />
+            </ImageButton.Source>
+        </ImageButton>
 
     </StackLayout>
     
