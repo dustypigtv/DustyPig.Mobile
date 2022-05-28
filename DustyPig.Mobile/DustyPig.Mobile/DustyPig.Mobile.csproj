@@ -77,6 +77,9 @@
     <EmbeddedResource Update="MVVM\Auth\Signup\SignupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\MediaDetails\AddToPlaylistDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsContentView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -148,5 +151,9 @@
     <Compile Update="MVVM\Search\OtherItemsView.xaml.cs">
       <DependentUpon>OtherItemsView.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="MVVM\Playlists\" />
   </ItemGroup>
 </Project>

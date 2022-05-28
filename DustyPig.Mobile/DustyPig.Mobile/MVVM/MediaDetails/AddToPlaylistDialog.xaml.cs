@@ -1,0 +1,26 @@
+﻿using DustyPig.API.v3.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
+using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace DustyPig.Mobile.MVVM.MediaDetails
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class AddToPlaylistDialog : Popup
+    {
+        public AddToPlaylistDialog(BasicMedia bm)
+        {
+            InitializeComponent();
+
+            BindingContext = VM = new AddToPlaylistViewModel(Navigation, bm, () => Dismiss(null));
+        }
+
+        public AddToPlaylistViewModel VM { get; }     
+    }
+}
