@@ -10,5 +10,7 @@ namespace DustyPig.Mobile.CrossPlatform
         Task AlertAsync(string title, string message);
 
         Task<bool> OkCancelAsync(string title, string message);
+
+        Task<bool> YesNoAsync(string title, string message);
     }
 }
