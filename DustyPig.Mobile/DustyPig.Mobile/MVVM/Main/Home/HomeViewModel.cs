@@ -18,6 +18,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         private static event EventHandler<BasicMedia> AddedToPlaylists;
 
+        private static event EventHandler<BasicMedia> PlaylistArtworkUpdated;
+
         public HomeViewModel(StackLayout mainStack, Label emptyLabel, INavigation navigation) : base(navigation)
         {
             MainStack = mainStack;
@@ -29,6 +31,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             RemovedFromWatchlist += ItemRemovedFromWatchlist;
             MarkWatched += HomeViewModel_MarkWatched;
             AddedToPlaylists += HomeViewModel_AddedToPlaylists;
+            PlaylistArtworkUpdated += HomeViewModel_PlaylistArtworkUpdated;
 
             ////Only do this in the home tab - since this class doesn't get destroyed
             //InternetConnectivityChanged += (sender, e) =>
@@ -41,6 +44,29 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             //        tabBar.CurrentItem = tabBar.Items[3];
             //};
         }
+
+        private void HomeViewModel_PlaylistArtworkUpdated(object sender, BasicMedia e)
+        {
+            try
+            {
+                var items = GetOrAddSection(DustyPig.API.v3.Clients.MediaClient.ID_PLAYLISTS, DustyPig.API.v3.Clients.MediaClient.ID_PLAYLISTS_TITLE).VM.Items;
+                int idx = -1;
+                for(int i = 0; i < items.Count; i++)
+                    if (items[i].Id == e.Id)
+                    {
+                        idx = i;
+                        break;
+                    }
+                if (idx < 0)
+                    return;
+                items.RemoveAt(idx);
+                items.Insert(idx, e);
+            }
+            catch { }
+        }
+
+        public static void InvokePlaylistArtworkUpdated(BasicMedia e) => PlaylistArtworkUpdated?.Invoke(null, e);
+
 
         private HomePageSectionView GetSection(long id)
         {
