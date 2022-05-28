@@ -205,7 +205,8 @@
                         <!-- Action buttons-->
                         <Grid
                             RowSpacing="0"
-                            Margin="24,12,24,0">
+                            Margin="24,12,24,0"
+                            IsVisible="{Binding CanPlay}">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
