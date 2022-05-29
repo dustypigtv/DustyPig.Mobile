@@ -14,11 +14,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddToPlaylistDialog : Popup
     {
-        public AddToPlaylistDialog(BasicMedia bm)
+        public AddToPlaylistDialog(BasicMedia basicMedia)
         {
             InitializeComponent();
 
-            BindingContext = VM = new AddToPlaylistViewModel(Navigation, bm, () => Dismiss(null));
+            BindingContext = VM = new AddToPlaylistViewModel(Navigation, basicMedia, () => Dismiss(null));
         }
 
         public AddToPlaylistViewModel VM { get; }     

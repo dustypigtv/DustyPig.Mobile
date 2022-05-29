@@ -5,90 +5,164 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
     xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails"
+    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylistDialog"
     x:DataType="local:AddToPlaylistViewModel">
 
-    <StackLayout
-       BackgroundColor="{Static dpcc:Theme.DarkGrey}">
+    <Grid>
+        <StackLayout
+           BackgroundColor="{Static dpcc:Theme.DarkGrey}">
 
-        <Label
-            Margin="24,24,24,0"
-            HorizontalOptions="CenterAndExpand"
-            Text="Add To Playlist"
-            FontSize="Large"
-            FontAttributes="Bold" />
+            <Label
+                Margin="24,24,24,0"
+                HorizontalOptions="CenterAndExpand"
+                Text="Add To Playlist"
+                FontSize="Large"
+                FontAttributes="Bold" />
 
-        <BoxView 
-            Margin="24,0,24,12"
-            HeightRequest="1"
-            Color="LightGray"/>
+            <BoxView 
+                Margin="24,0,24,12"
+                HeightRequest="1"
+                Color="LightGray"/>
 
-        <Grid
-            Margin="24,0,24,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <Grid
+                Margin="24,0,24,0">
 
-            <Label 
-                Grid.Column="0"
-                Grid.Row="0"
-                Text="New Playlist Name:" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <Entry
-                Grid.Column="0"
-                Grid.Row="1"
-                HeightRequest="40"
-                ClearButtonVisibility="WhileEditing"
-                IsSpellCheckEnabled="True"
-                IsTextPredictionEnabled="True"
-                Text="{Binding NewPlaylistText}"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Label 
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="New Playlist Name:" />
+
+                <Entry
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    HeightRequest="40"
+                    ClearButtonVisibility="WhileEditing"
+                    IsSpellCheckEnabled="True"
+                    IsTextPredictionEnabled="True"
+                    Text="{Binding NewPlaylistText}"/>
+
+                <ImageButton
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Padding="8"
+                    CornerRadius="20"
+                    BackgroundColor="Transparent"
+                    Aspect="AspectFit"
+                    xct:TouchEffect.NativeAnimation="True"
+                    Command="{Binding NewPlaylistCommand}">
+
+                    <ImageButton.Source>
+                        <FontImageSource
+                            FontFamily="FontAwesomeSolid"
+                            Glyph="{Static dpcc:FontAwesome.Plus}"
+                            Color="White" />
+                    </ImageButton.Source>
+                </ImageButton>
+
+
+            </Grid>
+
+            <Label
+                Margin="24,24,24,0"
+                Text="Or add to an existing playlist:" 
+                IsVisible="{Binding ShowExistingPlaylists}" />
+
+            <CollectionView
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="24,0,24,0"
+                ItemSizingStrategy="MeasureAllItems"
+                SelectionMode="None"
+                ItemsSource="{Binding Playlists}"
+                IsVisible="{Binding ShowExistingPlaylists}" >
+
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="models:BasicPlaylist">
+
+                        <Grid 
+                            Margin="8"
+                            xct:TouchEffect.NativeAnimation="True"
+                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:AddToPlaylistViewModel}}, Path=PlaylistTappedCommand}"
+                            xct:TouchEffect.CommandParameter="{Binding Id}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ffimages:CachedImage 
+                                Grid.Column="0"
+                                Source="{Binding ArtworkUrl}"
+                                HeightRequest="150"
+                                WidthRequest="100"
+                                Aspect="AspectFit"
+                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                            <Label
+                                Grid.Column="1"
+                                Margin="12,0,0,0"
+                                Text="{Binding Name}"
+                                LineBreakMode="WordWrap"
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="CenterAndExpand" />
+
+                        </Grid>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+
 
             <ImageButton
-                Grid.Column="1"
-                Grid.Row="1"
-                HeightRequest="40"
-                WidthRequest="40"
+                Margin="24"
+                HeightRequest="48"
+                WidthRequest="48"
                 Padding="8"
-                CornerRadius="20"
+                CornerRadius="24"
+                HorizontalOptions="Center"
+                VerticalOptions="EndAndExpand"
                 BackgroundColor="Transparent"
                 Aspect="AspectFit"
                 xct:TouchEffect.NativeAnimation="True"
-                Command="{Binding NewPlaylistCommand}">
+                Command="{Binding CancelCommand}">
 
                 <ImageButton.Source>
                     <FontImageSource
                         FontFamily="FontAwesomeSolid"
-                        Glyph="{Static dpcc:FontAwesome.Plus}"
+                        Glyph="{Static dpcc:FontAwesome.CircleXmark}"
                         Color="White" />
                 </ImageButton.Source>
             </ImageButton>
-            
 
-        </Grid>
+        </StackLayout>
 
+        <ActivityIndicator
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}" />
 
-        <ImageButton
-            Margin="24"
-            HeightRequest="48"
-            WidthRequest="48"
-            Padding="8"
-            CornerRadius="24"
-            HorizontalOptions="Center"
-            VerticalOptions="EndAndExpand"
-            BackgroundColor="Transparent"
-            Aspect="AspectFit"
-            xct:TouchEffect.NativeAnimation="True"
-            Command="{Binding CancelCommand}">
-
-            <ImageButton.Source>
-                <FontImageSource
-                    FontFamily="FontAwesomeSolid"
-                    Glyph="{Static dpcc:FontAwesome.CircleXmark}"
-                    Color="White" />
-            </ImageButton.Source>
-        </ImageButton>
-
-    </StackLayout>
-   
+    </Grid>
+    
 </xct:Popup>
