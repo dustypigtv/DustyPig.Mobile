@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:series="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
-             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
-             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
-             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
-             ios:Page.UseSafeArea="true"
-             x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeriesDetailsPage"             
-             x:DataType="series:SeriesDetailsViewModel"
-             NavigationPage.HasNavigationBar="False"
-             BackgroundColor="Transparent">
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:series="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
+    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+    ios:Page.UseSafeArea="true"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeriesDetailsPage"             
+    x:DataType="series:SeriesDetailsViewModel"
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="Transparent">
 
     <ContentPage.Resources>
         <ResourceDictionary>
