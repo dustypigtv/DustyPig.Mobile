@@ -497,8 +497,9 @@
                                                 HorizontalOptions="Center"
                                                 VerticalOptions="Center"
                                                 xct:TouchEffect.NativeAnimation="True"
-                                                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
-                                                xct:TouchEffect.CommandParameter="{Binding Id}">
+                                                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=CanPlay}"                                                
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
+                                                CommandParameter="{Binding Id}">
                                                 <ImageButton.Source>
                                                     <FontImageSource 
                                                         FontFamily="FontAwesomeRegular" 
