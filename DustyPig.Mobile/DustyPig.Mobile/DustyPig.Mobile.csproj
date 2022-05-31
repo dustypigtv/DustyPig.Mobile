@@ -14,6 +14,7 @@
     <None Remove="Images\placeholder_wide.png" />
     <None Remove="Images\poster_error.png" />
     <None Remove="Images\poster_placeholder.png" />
+    <None Remove="Resources\font_awesome_6_regular.otf" />
     <None Remove="Resources\font_awesome_6_solid.otf" />
     <None Remove="Images\" />
     <None Remove="Images\logo.svg" />
@@ -29,6 +30,7 @@
     <EmbeddedResource Include="Images\placeholder_wide.png" />
     <EmbeddedResource Include="Images\poster_error.png" />
     <EmbeddedResource Include="Images\poster_placeholder.png" />
+    <EmbeddedResource Include="Resources\font_awesome_6_regular.otf" />
     <EmbeddedResource Include="Resources\font_awesome_6_solid.otf" />
     <EmbeddedResource Include="Images\logo.svg" />  
   </ItemGroup>

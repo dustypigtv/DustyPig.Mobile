@@ -487,30 +487,25 @@
                                                 LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
 
                                             <!-- Play button -->
-                                            <Frame
+                                            <ImageButton
                                                 Grid.Column="0"
                                                 Grid.Row="0"
+                                                HeightRequest="24"
+                                                WidthRequest="24"
+                                                CornerRadius="12"
+                                                BackgroundColor="#88000000"
                                                 HorizontalOptions="Center"
                                                 VerticalOptions="Center"
-                                                BackgroundColor="#C0000000"
-                                                BorderColor="White"
-                                                CornerRadius="56"
-                                                Padding="9,8,7,8"
                                                 xct:TouchEffect.NativeAnimation="True"
                                                 xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
                                                 xct:TouchEffect.CommandParameter="{Binding Id}">
-                                                
-                                                <Image
-                                                    HeightRequest="12"
-                                                    WidthRequest="12"
-                                                    HorizontalOptions="Center"
-                                                    VerticalOptions="Center">
-                                                    <Image.Source>
-                                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Play}" Color="White" />
-                                                    </Image.Source>
-                                                </Image>
-                                                
-                                            </Frame>
+                                                <ImageButton.Source>
+                                                    <FontImageSource 
+                                                        FontFamily="FontAwesomeRegular" 
+                                                        Glyph="{x:Static dpcc:FontAwesome.CirclePlay}" 
+                                                        Color="White" />
+                                                </ImageButton.Source>
+                                            </ImageButton>
 
                                             <StackLayout
                                                 Grid.Column="1"
