@@ -1,14 +1,105 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView
-        xmlns="http://xamarin.com/schemas/2014/forms" 
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-        xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Home" 
-        xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
-        xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-        xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-        xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
-        x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePageSectionView"
-        x:DataType="viewmodels:HomePageSectionViewModel">
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Home" 
+    xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
+    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
+    x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePageSectionView"
+    x:DataType="viewmodels:HomePageSectionViewModel">
+
+    <ContentView.Resources>
+        <DataTemplate
+            x:Key="DefaultBasicMediaTemplate"
+            x:DataType="models:BasicMedia">
+
+            <ffimages:CachedImage 
+                Source="{Binding ArtworkUrl}"
+                HeightRequest="150"
+                WidthRequest="100"
+                Aspect="AspectFit"
+                ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
+                xct:TouchEffect.CommandParameter="{Binding}" />
+
+        </DataTemplate>
+
+        <DataTemplate
+            x:Key="PlaylistBasicMediaTemplate"
+            x:DataType="models:BasicMedia">
+
+           <Grid
+                RowSpacing="0"
+                ColumnSpacing="0"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
+                xct:TouchEffect.CommandParameter="{Binding}">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75" />
+                    <RowDefinition Height="75" />
+                </Grid.RowDefinitions>
+
+                <ffimages:CachedImage 
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Source="{Binding ArtworkUrl}"
+                    HeightRequest="75"
+                    WidthRequest="50"
+                    Aspect="AspectFill"
+                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                <ffimages:CachedImage 
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Source="{Binding ArtworkUrl2}"
+                    HeightRequest="75"
+                    WidthRequest="50"
+                    Aspect="AspectFill"
+                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                <ffimages:CachedImage 
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Source="{Binding ArtworkUrl3}"
+                    HeightRequest="75"
+                    WidthRequest="50"
+                    Aspect="AspectFill"
+                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                <ffimages:CachedImage 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Source="{Binding ArtworkUrl4}"
+                    HeightRequest="75"
+                    WidthRequest="50"
+                    Aspect="AspectFill"
+                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+            </Grid>
+
+        </DataTemplate>
+
+        <viewmodels:BasicMediaPosterTemplateSelector 
+            x:Key="TemplateSelector"
+            Default="{StaticResource DefaultBasicMediaTemplate}"
+            Playlist="{StaticResource PlaylistBasicMediaTemplate}" />
+        
+    </ContentView.Resources>
+    
     
     <ContentView.Content>
         <StackLayout
@@ -29,33 +120,15 @@
                     RemainingItemsThreshold="100"
                     RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
                     ItemsSource="{Binding Items}"
+                    ItemTemplate="{StaticResource TemplateSelector}"
                     MyId="{Binding ListId}">
 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout 
                             Orientation="Horizontal"
                             ItemSpacing="16"/>
-                    
                 </CollectionView.ItemsLayout>
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate
-                            x:DataType="models:BasicMedia">
-
-                        <ffimages:CachedImage 
-                            Source="{Binding ArtworkUrl}"
-                            HeightRequest="150"
-                            WidthRequest="100"
-                            Aspect="AspectFit"
-                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
-                            xct:TouchEffect.NativeAnimation="True"
-                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:HomeViewModel}}, Path=ItemTappedCommand}"
-                            xct:TouchEffect.CommandParameter="{Binding}" />
-
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-
+                
             </controls:MyCollectionView>
 
 

@@ -20,6 +20,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             _basicMedia = basicMedia;
 
+            _newPlaylistText = _basicMedia.Title;
+            if (_basicMedia.MediaType == MediaTypes.Movie)
+                _newPlaylistText = _newPlaylistText.Substring(0, _newPlaylistText.Length - 7);
+
             CancelCommand = new Command(dismiss);
             NewPlaylistCommand = new AsyncCommand(OnNewPlaylist, canExecute: CanTapNewPlaylist, allowsMultipleExecutions: false);
             PlaylistTappedCommand = new AsyncCommand<int>(OnPlaylistTapped, allowsMultipleExecutions: false);
@@ -51,11 +55,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             IsBusy = true;
 
-            var playlist = new CreatePlaylist
-            {
-                ArtworkUrl = _basicMedia.ArtworkUrl,
-                Name = NewPlaylistText
-            };
+            var playlist = new CreatePlaylist { Name = NewPlaylistText };
 
             var createResponse = await App.API.Playlists.CreateAsync(playlist);
             if (!createResponse.Success)
@@ -132,18 +132,19 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     addResponse.ThrowIfError();
                 }
 
-                string currentArtworkUrl = playlistDetailsResponse.Data.ArtworkUrl;
                 playlistDetailsResponse = await App.API.Playlists.GetDetailsAsync(id);
                 playlistDetailsResponse.ThrowIfError();
 
-                if (currentArtworkUrl != playlistDetailsResponse.Data.ArtworkUrl)
-                    HomeViewModel.InvokePlaylistArtworkUpdated(new BasicMedia
-                    {
-                        Id = _basicMedia.Id,
-                        ArtworkUrl = playlistDetailsResponse.Data.ArtworkUrl,
-                        MediaType = MediaTypes.Playlist,
-                        Title = playlistDetailsResponse.Data.Name
-                    });
+                HomeViewModel.InvokePlaylistArtworkUpdated(new BasicMedia
+                {
+                    Id = id,
+                    ArtworkUrl = playlistDetailsResponse.Data.ArtworkUrl1,
+                    ArtworkUrl2 = playlistDetailsResponse.Data.ArtworkUrl2,
+                    ArtworkUrl3 = playlistDetailsResponse.Data.ArtworkUrl3,
+                    ArtworkUrl4 = playlistDetailsResponse.Data.ArtworkUrl4,
+                    MediaType = MediaTypes.Playlist,
+                    Title = playlistDetailsResponse.Data.Name
+                });
 
                 CancelCommand.Execute(null);
             }

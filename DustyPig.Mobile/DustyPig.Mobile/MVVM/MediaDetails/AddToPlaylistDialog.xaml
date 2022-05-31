@@ -10,6 +10,139 @@
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylistDialog"
     x:DataType="local:AddToPlaylistViewModel">
 
+    <xct:Popup.Resources>
+        <DataTemplate
+            x:Key="SinglePosterTemplate"
+            x:DataType="models:BasicPlaylist">
+
+            <Grid 
+                Margin="8"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:AddToPlaylistViewModel}}, Path=PlaylistTappedCommand}"
+                xct:TouchEffect.CommandParameter="{Binding Id}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ffimages:CachedImage 
+                    Grid.Column="0"
+                    Source="{Binding ArtworkUrl1}"
+                    HeightRequest="150"
+                    WidthRequest="100"
+                    Aspect="AspectFit"
+                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                <Label
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    Text="{Binding Name}"
+                    LineBreakMode="WordWrap"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+
+            </Grid>
+
+        </DataTemplate>
+
+        <DataTemplate
+            x:Key="MultiPosterTemplate"
+            x:DataType="models:BasicPlaylist">
+
+            <Grid 
+                Margin="8"
+                xct:TouchEffect.NativeAnimation="True"
+                xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:AddToPlaylistViewModel}}, Path=PlaylistTappedCommand}"
+                xct:TouchEffect.CommandParameter="{Binding Id}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Grid.Column="0"
+                    RowSpacing="0"
+                    ColumnSpacing="0"
+                    xct:TouchEffect.NativeAnimation="True"
+                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:AddToPlaylistViewModel}}, Path=PlaylistTappedCommand}"
+                    xct:TouchEffect.CommandParameter="{Binding Id}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="75" />
+                        <RowDefinition Height="75" />
+                    </Grid.RowDefinitions>
+
+                    <ffimages:CachedImage 
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Source="{Binding ArtworkUrl1}"
+                        HeightRequest="75"
+                        WidthRequest="50"
+                        Aspect="AspectFill"
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                    <ffimages:CachedImage 
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Source="{Binding ArtworkUrl2}"
+                        HeightRequest="75"
+                        WidthRequest="50"
+                        Aspect="AspectFill"
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                    <ffimages:CachedImage 
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Source="{Binding ArtworkUrl3}"
+                        HeightRequest="75"
+                        WidthRequest="50"
+                        Aspect="AspectFill"
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                    <ffimages:CachedImage 
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Source="{Binding ArtworkUrl4}"
+                        HeightRequest="75"
+                        WidthRequest="50"
+                        Aspect="AspectFill"
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+
+                </Grid>
+
+                <Label
+                    Grid.Column="1"
+                    Margin="12,0,0,0"
+                    Text="{Binding Name}"
+                    LineBreakMode="WordWrap"
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+
+            </Grid>
+            
+            
+
+        </DataTemplate>
+
+        <local:PlaylistPosterTemplateSelector 
+            x:Key="TemplateSelector"
+            Single="{StaticResource SinglePosterTemplate}"
+            Multi="{StaticResource MultiPosterTemplate}" />
+        
+    </xct:Popup.Resources>
+    
     <Grid>
         <StackLayout
            BackgroundColor="{Static dpcc:Theme.DarkGrey}">
@@ -51,6 +184,7 @@
                     ClearButtonVisibility="WhileEditing"
                     IsSpellCheckEnabled="True"
                     IsTextPredictionEnabled="True"
+                    BackgroundColor="{Static dpcc:Theme.DarkGrey}"
                     Text="{Binding NewPlaylistText}"/>
 
                 <ImageButton
@@ -90,49 +224,8 @@
                 ItemSizingStrategy="MeasureAllItems"
                 SelectionMode="None"
                 ItemsSource="{Binding Playlists}"
-                IsVisible="{Binding ShowExistingPlaylists}" >
-
-
-                <CollectionView.ItemTemplate>
-                    <DataTemplate
-                        x:DataType="models:BasicPlaylist">
-
-                        <Grid 
-                            Margin="8"
-                            xct:TouchEffect.NativeAnimation="True"
-                            xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:AddToPlaylistViewModel}}, Path=PlaylistTappedCommand}"
-                            xct:TouchEffect.CommandParameter="{Binding Id}">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <ffimages:CachedImage 
-                                Grid.Column="0"
-                                Source="{Binding ArtworkUrl}"
-                                HeightRequest="150"
-                                WidthRequest="100"
-                                Aspect="AspectFit"
-                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
-
-                            <Label
-                                Grid.Column="1"
-                                Margin="12,0,0,0"
-                                Text="{Binding Name}"
-                                LineBreakMode="WordWrap"
-                                HorizontalOptions="StartAndExpand"
-                                VerticalOptions="CenterAndExpand" />
-
-                        </Grid>
-
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-
-
+                ItemTemplate="{StaticResource TemplateSelector}"
+                IsVisible="{Binding ShowExistingPlaylists}" />
 
             <ImageButton
                 Margin="24"
