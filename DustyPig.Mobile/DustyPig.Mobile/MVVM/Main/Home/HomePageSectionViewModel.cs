@@ -15,7 +15,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         {
             ListId = hsl.ListId;
             Title = hsl.Title;
-            _listFullyLoaded = hsl.Items.Count < 100;
+            _listFullyLoaded = hsl.Items.Count  == 0;
             LoadMoreItemsCommand = new AsyncCommand(OnLoadMoreItems, canExecute: (obj) => !_listFullyLoaded, allowsMultipleExecutions: false);
             Items.AddRange(hsl.Items);
         }
@@ -30,7 +30,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             var response = await App.API.Media.LoadMoreHomeScreenItemsAsync(ListId, Items.Count);
             if (response.Success)
             {
-                _listFullyLoaded = response.Data.Count < 100;
+                _listFullyLoaded = response.Data.Count == 0;
                 Items.AddNewItems(response.Data);
             }
             else
