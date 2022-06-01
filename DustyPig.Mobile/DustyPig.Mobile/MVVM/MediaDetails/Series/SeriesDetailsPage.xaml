@@ -702,11 +702,10 @@
 
 
             <!-- Search / Cast buttons-->
-            <reusable:SearchCastButtons
+            <reusable:CastButtons
                 x:Name="SCButtons"
                 HorizontalOptions="FillAndExpand"
-                CloseButtonVisible="True"
-                SearchButtonVisible="False"/>
+                CloseButtonVisible="True" />
 
             <ActivityIndicator
                 Grid.RowSpan="2"

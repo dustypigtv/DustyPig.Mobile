@@ -1,31 +1,27 @@
 ﻿using DustyPig.Mobile.CrossPlatform;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DustyPig.Mobile.MVVM.Search
+namespace DustyPig.Mobile.MVVM.Main.Search
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SearchPage : ContentPage
     {
+        public event EventHandler PageShown;
+
         public SearchPage()
         {
             InitializeComponent();
+            PageShown += SearchPage_PageShown;
             BindingContext = VM = new SearchViewModel(AvailableCV, OtherCV, Navigation);
         }
 
         public SearchViewModel VM { get; }
 
-        protected override void OnSizeAllocated(double width, double height)
+        private void SearchPage_PageShown(object sender, EventArgs e)
         {
-            base.OnSizeAllocated(width, height);
-            VM.OnSizeAllocated(width, height);
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
             if (string.IsNullOrWhiteSpace(TheSearchBar.Text))
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -36,6 +32,16 @@ namespace DustyPig.Mobile.MVVM.Search
                 });
         }
 
+        public void InvokePageShown() => PageShown?.Invoke(null, EventArgs.Empty);
+
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            VM.OnSizeAllocated(width, height);
+        }
+
+       
         protected override void OnDisappearing()
         {
             base.OnDisappearing();

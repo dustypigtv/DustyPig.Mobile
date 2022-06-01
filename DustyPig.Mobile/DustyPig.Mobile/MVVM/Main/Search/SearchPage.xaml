@@ -1,37 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
-<!-- 
-    I want the search bar above the tabs, but NOT in the nav bar. So tabbed page is out.
-    
-    I tried the Xamarin Community Toolkit TabView, BUT:
-        
-        It uses a carousel view for content
-        I'm using collection views as content
-        On iOS, the collection view doesn't get the right size (on the 2nd tab) until it's filled, shown, cleared and shown againg. I couldn't find a way around it
-    
-        On Android, the headers are all caps, and it took almost as much code as I have now to fix that.
-    
-    So I just created what behaves like a TabView.  Annoying, but it works as desired
--->
-    
 <ContentPage 
-	xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-	xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Search" 
+	xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.Main.Search" 
 	xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
 	xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
 	xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
 	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    ios:Page.UseSafeArea="true"
-    
-	x:Class="DustyPig.Mobile.MVVM.Search.SearchPage"            
-	x:DataType="viewmodels:SearchViewModel"
+    ios:Page.UseSafeArea="true"    
+    x:Class="DustyPig.Mobile.MVVM.Main.Search.SearchPage"
+    x:DataType="local:SearchViewModel"
     Title="Search for Title">
 
-    
     <NavigationPage.TitleView>
-        
+
         <SearchBar 
             x:Name="TheSearchBar"
             IsSpellCheckEnabled="false"
@@ -40,13 +23,13 @@
             Margin="0,0,12,0"
             Placeholder="Search for title"
             TextChanged="SearchBar_TextChanged" />
-        
+
     </NavigationPage.TitleView>
-    
+
     <ContentPage.Content>
 
         <StackLayout Margin="12">
-            
+
 
             <Grid 
                 BackgroundColor="{Static dpcc:Theme.DarkGrey}"
@@ -94,15 +77,15 @@
                 </StackLayout>
             </Grid>
 
-            
+
             <Grid
                 Margin="0,12,0,0">
-                
+
                 <CollectionView
                     x:Name="AvailableCV"
                     ItemSizingStrategy="MeasureFirstItem"
 					ItemsSource="{Binding AvailableItems}">
-                        
+
                     <CollectionView.EmptyView>
                         <StackLayout>
                             <Label
@@ -130,7 +113,7 @@
                             <StackLayout Margin="8">
                                 <ffimages:CachedImage 
                                     xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=ItemTappedCommand}"
+                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, Path=ItemTappedCommand}"
                                     xct:TouchEffect.CommandParameter="{Binding}"
 									Source="{Binding ArtworkUrl}"
 									HeightRequest="150"
@@ -150,7 +133,7 @@
                     x:Name="OtherCV"
                     ItemSizingStrategy="MeasureFirstItem"
                     ItemsSource="{Binding OtherItems}">
-                        
+
                     <CollectionView.EmptyView>
                         <StackLayout>
                             <Label
@@ -178,7 +161,7 @@
                             <StackLayout Margin="8">
                                 <ffimages:CachedImage 
                                     xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:SearchViewModel}}, Path=TMDBItemTappedCommand}"
+                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, Path=TMDBItemTappedCommand}"
                                     xct:TouchEffect.CommandParameter="{Binding}"
                                     Source="{Binding ArtworkUrl}"
                                     HeightRequest="150"
@@ -193,8 +176,8 @@
 
                 </CollectionView>
 
-                    
-            
+
+
                 <ActivityIndicator
 					Margin="8"
 					RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
@@ -202,11 +185,11 @@
 					HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Start"
 					IsRunning="{Binding IsBusy}" />
-                
+
             </Grid>
 
-          
-        
+
+
         </StackLayout>
 
     </ContentPage.Content>

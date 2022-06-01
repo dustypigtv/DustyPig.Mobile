@@ -39,39 +39,15 @@
 
                 <StackLayout>
 
-                    <!-- Backdrop -->
-                    <Grid>
+                    <!-- Backdrop -->                    
+                    <ffimages:CachedImage Source="{Binding BackdropUrl}"
+                        HeightRequest="{Binding ImageHeight}"
+                        WidthRequest="{Binding Width}"
+                        Aspect="AspectFill"
+                        Margin="0"                      
+                        ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                        LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
 
-                        <ffimages:CachedImage Source="{Binding BackdropUrl}"
-                            HeightRequest="{Binding ImageHeight}"
-                            WidthRequest="{Binding Width}"
-                            Aspect="AspectFill"
-                            Margin="0"                      
-                            ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                            LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
-
-                        <StackLayout>
-                            <StackLayout.Background>
-                                <LinearGradientBrush 
-                                    StartPoint="0,0"
-                                    EndPoint="0,1">
-                                    <GradientStop 
-                                        Color="Black"
-                                        Offset="0"/>
-                                    <GradientStop 
-                                        Color="Transparent"
-                                        Offset="0.05"/>
-                                    <GradientStop
-                                        Color="Transparent"
-                                        Offset="0.95" />
-                                    <GradientStop
-                                        Color="Black"
-                                        Offset="1" />
-                                </LinearGradientBrush>
-                            </StackLayout.Background>
-                        </StackLayout>
-
-                    </Grid>
 
                     <!-- Everything else -->
                     <StackLayout
@@ -313,11 +289,10 @@
 
 
             <!-- Search / Cast buttons-->
-            <reusable:SearchCastButtons
+            <reusable:CastButtons
                 x:Name="SCButtons"
                 HorizontalOptions="FillAndExpand"
-                CloseButtonVisible="True"
-                SearchButtonVisible="False"/>
+                CloseButtonVisible="True" />
 
             <ActivityIndicator
                 Grid.RowSpan="2"

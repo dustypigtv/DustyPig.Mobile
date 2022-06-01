@@ -1,20 +1,18 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace DustyPig.Mobile.MVVM.Main.Media
+namespace DustyPig.Mobile.MVVM.Main.Explore
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MediaPage : ContentPage
+    public partial class ExplorePage : ContentPage
     {
-        public MediaPage(int idx)
+        public ExplorePage()
         {
             InitializeComponent();
-
-            var mode = idx == 0 ? MediaViewModel.Mode.Movies : MediaViewModel.Mode.TV;
-            BindingContext = VM = new MediaViewModel(mode, Navigation);
+            BindingContext = VM = new ExploreViewModel(Navigation);
         }
 
-        public MediaViewModel VM { get; }
+        public ExploreViewModel VM { get; }
 
         protected override void OnAppearing()
         {

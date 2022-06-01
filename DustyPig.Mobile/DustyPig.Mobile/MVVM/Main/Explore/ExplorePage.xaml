@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
-             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
-             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Media"
-             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
-             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             ios:Page.UseSafeArea="true"
-             x:Class="DustyPig.Mobile.MVVM.Main.Media.MediaPage"
-             x:DataType="viewmodels:MediaViewModel"
-             NavigationPage.HasNavigationBar="False">
-    
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+    xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.Main.Explore"
+    xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
+    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    ios:Page.UseSafeArea="true"
+    x:Class="DustyPig.Mobile.MVVM.Main.Explore.ExplorePage"
+    x:DataType="local:ExploreViewModel"
+    NavigationPage.HasNavigationBar="False">
+
     <ContentPage.Content>
-        
+
         <RelativeLayout>
 
             <!-- Media -->
@@ -43,7 +44,7 @@
                             Orientation="Vertical"
                             Span="{Binding Span}" />
                     </CollectionView.ItemsLayout>
-                    
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate
                             x:DataType="models:BasicMedia">
@@ -57,11 +58,11 @@
                                     ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                                     LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
                                     xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MediaViewModel}}, Path=ItemTappedCommand}"
+                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:ExploreViewModel}}, Path=ItemTappedCommand}"
                                     xct:TouchEffect.CommandParameter="{Binding}" />
-                                
+
                             </StackLayout>
-                            
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
 
@@ -73,11 +74,6 @@
             <reusable:TopButtonBarGradient
                 InputTransparent="True"
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-
-            <!-- Search / Cast buttons-->
-            <reusable:SearchCastButtons
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Constant=-52}" />
-
 
             <ImageButton
                 HeightRequest="40"
@@ -93,7 +89,7 @@
 
                     <FontImageSource 
                         FontFamily="FontAwesomeSolid"
-                        Glyph="{x:Static dpcc:FontAwesome.Filter}"
+                        Glyph="{x:Static helpers:FontAwesome.Filter}"
                         Color="White" />
 
                 </ImageButton.Source>
@@ -103,4 +99,5 @@
 
         </RelativeLayout>
     </ContentPage.Content>
+    
 </ContentPage>

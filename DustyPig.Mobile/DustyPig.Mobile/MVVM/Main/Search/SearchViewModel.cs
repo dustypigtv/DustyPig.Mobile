@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace DustyPig.Mobile.MVVM.Search
+namespace DustyPig.Mobile.MVVM.Main.Search
 {
     public class SearchViewModel : _BaseViewModel
     {
@@ -23,8 +23,7 @@ namespace DustyPig.Mobile.MVVM.Search
         {
             _availableCV = availableCV;
             _otherCV = otherCV;
-
-            SlideItems(0, false);
+            _otherCV.TranslationX = 0;
 
             TabHeaderTapped = new Command<int>(OnTabHeaderTapped);
         }
@@ -49,10 +48,15 @@ namespace DustyPig.Mobile.MVVM.Search
             }
         }
 
+
         private void SlideItems(int index, bool animated)
         {
+            if (!_showTabs)
+                return;
+
             //Default is 250
             uint duration = animated ? 250u : 0u;
+
 
             if (index == 1)
             {
@@ -70,7 +74,7 @@ namespace DustyPig.Mobile.MVVM.Search
                 _availableCV.TranslateTo(0, 0, duration);
                 _otherCV.TranslateTo(_width + 100, 0, duration);
             }
-
+            
             _lastIndex = index;
         }
 
@@ -135,7 +139,7 @@ namespace DustyPig.Mobile.MVVM.Search
         public void OnSizeAllocated(double width, double height)
         {
             _width = width;
-            SlideItems(_lastIndex, false);
+            SlideItems(_lastIndex, false);            
 
             //Poster width = 100
             //Spacing = 12

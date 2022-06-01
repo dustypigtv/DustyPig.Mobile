@@ -6,8 +6,9 @@
             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
             xmlns:download="clr-namespace:DustyPig.Mobile.MVVM.Main.Downloads" 
             xmlns:settings="clr-namespace:DustyPig.Mobile.MVVM.Main.Settings" 
-            xmlns:media="clr-namespace:DustyPig.Mobile.MVVM.Main.Media"
-            xmlns:effect="clr-namespace:DustyPig.Mobile.Effects"
+            xmlns:search="clr-namespace:DustyPig.Mobile.MVVM.Main.Search"
+            xmlns:effect="clr-namespace:DustyPig.Mobile.Effects" 
+            xmlns:explore="clr-namespace:DustyPig.Mobile.MVVM.Main.Explore"
             android:TabbedPage.ToolbarPlacement="Bottom"
             android:TabbedPage.BarItemColor="{Static dpcc:Theme.LightGrey}"
             android:TabbedPage.BarSelectedItemColor="White"
@@ -30,34 +31,20 @@
 
 
 
-    <NavigationPage Title="Movies">
+    <NavigationPage Title="Explore" IconImageSource="{dpcc:ImageResource Source=explore.png}">
         <x:Arguments>
-            <media:MediaPage>
-                <x:Arguments>
-                    <x:Int32>0</x:Int32>
-                </x:Arguments>
-            </media:MediaPage>
+            <explore:ExplorePage />
         </x:Arguments>
-        <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Film}" />
-        </NavigationPage.IconImageSource>
     </NavigationPage>
 
-
-
-    <NavigationPage Title="TV">
+    <NavigationPage Title="Search">
         <x:Arguments>
-            <media:MediaPage>
-                <x:Arguments>
-                    <x:Int32>1</x:Int32>
-                </x:Arguments>
-            </media:MediaPage>
+            <search:SearchPage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Tv}" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
-
 
 
     <NavigationPage Title="Downloads">

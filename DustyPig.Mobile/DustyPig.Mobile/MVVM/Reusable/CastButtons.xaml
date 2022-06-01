@@ -4,8 +4,8 @@
              xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             x:Class="DustyPig.Mobile.MVVM.Reusable.SearchCastButtons"
-             x:DataType="reusable:SearchCastButtons">
+             x:Class="DustyPig.Mobile.MVVM.Reusable.CastButtons"
+             x:DataType="reusable:CastButtons">
     
   <ContentView.Content>
 
@@ -18,9 +18,6 @@
                 <!-- spacer -->
                 <ColumnDefinition Width="*" />
                 
-                <!-- Search -->
-                <ColumnDefinition Width="Auto" />
-                
                 <!-- AirPlay -->
                 <ColumnDefinition Width="Auto" />
                 
@@ -31,39 +28,11 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Search -->
-            <ImageButton
-                Grid.Row="0"
-                Grid.Column="1"
-                HeightRequest="40"
-                WidthRequest="40"
-                Margin="0,0,12,0"
-                Padding="8"
-                CornerRadius="20"
-                IsVisible="{Binding SearchButtonVisible}"
-                BackgroundColor="Transparent"
-                Aspect="AspectFit"
-                x:DataType="reusable:SearchCastButtons"
-                Command="{Binding SearchButtonTapped}"
-                xct:TouchEffect.NativeAnimation="True">
-
-                <ImageButton.Source>
-
-                    <FontImageSource 
-                        FontFamily="FontAwesomeSolid"
-                        Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}"
-                        Color="White" />
-
-                </ImageButton.Source>
-
-            </ImageButton>
-
-
-
+           
             <!-- Close Dialog -->
             <ImageButton
                 Grid.Row="0"
-                Grid.Column="4"
+                Grid.Column="3"
                 HeightRequest="40"
                 WidthRequest="40"
                 Margin="0,0,12,0"
@@ -72,7 +41,7 @@
                 IsVisible="{Binding CloseButtonVisible}"
                 BackgroundColor="Transparent"
                 Aspect="AspectFit"
-                x:DataType="reusable:SearchCastButtons"
+                x:DataType="reusable:CastButtons"
                 Command="{Binding CloseButtonTapped}"
                 xct:TouchEffect.NativeAnimation="True">
 

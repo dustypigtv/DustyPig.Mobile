@@ -9,7 +9,7 @@
     <None Remove="Images\apple_logo.png" />
     <None Remove="Images\email_icon.svg" />
     <None Remove="Images\errorimage_wide.png" />
-    <None Remove="Images\explore.svg" />
+    <None Remove="Images\explore.png" />
     <None Remove="Images\facebook_logo.png" />
     <None Remove="Images\google_logo.png" />
     <None Remove="Images\placeholder_wide.png" />
@@ -26,7 +26,9 @@
     <EmbeddedResource Include="Images\apple_logo.png" />
     <EmbeddedResource Include="Images\email_icon.svg" />
     <EmbeddedResource Include="Images\errorimage_wide.png" />
-    <EmbeddedResource Include="Images\explore.svg" />
+    <EmbeddedResource Include="Images\explore.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Images\facebook_logo.png" />
     <EmbeddedResource Include="Images\google_logo.png" />
     <EmbeddedResource Include="Images\placeholder_wide.png" />
@@ -40,7 +42,7 @@
 
   
   <ItemGroup>
-    <PackageReference Include="DustyPig.API" Version="3.0.2.66" />
+    <PackageReference Include="DustyPig.API" Version="3.0.2.68" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.2" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
@@ -49,6 +51,9 @@
   
   <ItemGroup>
     <EmbeddedResource Update="MVVM\Auth\PasswordLogin\PasswordLoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Main\Explore\ExplorePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\Home\HomePageSectionView.xaml">
@@ -69,10 +74,10 @@
     <EmbeddedResource Update="MVVM\Auth\Login\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Main\Media\MediaPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Auth\SelectProfile\SelectProfilePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Main\Search\SearchPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\Settings\SettingsPage.xaml">
@@ -108,22 +113,10 @@
     <EmbeddedResource Update="MVVM\Player\PlayerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Reusable\SearchCastButtons.xaml">
+    <EmbeddedResource Update="MVVM\Reusable\CastButtons.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Reusable\TopButtonBarGradient.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Search\AvailableItemsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Search\OtherItemsView.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Search\SearchPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\Search\SearchPage2.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\StartupPage.xaml">
@@ -143,17 +136,14 @@
     <Compile Update="MVVM\Main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="MVVM\Main\Media\MediaPage.xaml.cs">
-      <DependentUpon>MediaPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml.cs">
       <DependentUpon>MovieDetailsPopup.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\MediaDetails\TMDB\TMDBDetailsPage.xaml.cs">
       <DependentUpon>TMDBDetailsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="MVVM\Search\OtherItemsView.xaml.cs">
-      <DependentUpon>OtherItemsView.xaml</DependentUpon>
+    <Compile Update="MVVM\Reusable\CastButtons.xaml.cs">
+      <DependentUpon>CastButtons.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   

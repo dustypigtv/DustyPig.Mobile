@@ -47,12 +47,6 @@
                 
             </RefreshView>
 
-            <reusable:TopButtonBarGradient
-                InputTransparent="True" />
-            
-            <reusable:SearchCastButtons  />
-
-
         </Grid>
     </ContentPage.Content>
 

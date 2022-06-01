@@ -6,25 +6,16 @@ using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
-namespace DustyPig.Mobile.MVVM.Main.Media
+namespace DustyPig.Mobile.MVVM.Main.Explore
 {
-    public class MediaViewModel : _BaseViewModel
+    public class ExploreViewModel : _BaseViewModel
     {
-        public enum Mode
-        {
-            Movies,
-            TV
-        }
-
-        private readonly Mode _mode;
-
         private bool _listFullyLoaded = false;
 
-        public MediaViewModel(Mode mode, INavigation navigation) : base(navigation)
+        public ExploreViewModel(INavigation navigation) : base(navigation)
         {
-            _mode = mode;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
-            LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);            
+            LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
         }
 
         public AsyncCommand RefreshCommand { get; }
@@ -37,7 +28,7 @@ namespace DustyPig.Mobile.MVVM.Main.Media
             get => _emptyMessage;
             set => SetProperty(ref _emptyMessage, value);
         }
-        
+
         private ObservableBasicMediaCollection _items = new ObservableBasicMediaCollection();
         public ObservableBasicMediaCollection Items
         {
@@ -78,30 +69,23 @@ namespace DustyPig.Mobile.MVVM.Main.Media
         {
             int start = initial ? 0 : Items.Count;
 
-            REST.Response<List<BasicMedia>> response;
-
-            if (_mode == Mode.Movies)
-                response = await App.API.Movies.ListAsync(start, SortOrder.Popularity_Descending);
-            else
-                response = await App.API.Series.ListAsync(start, SortOrder.Popularity_Descending);
+            REST.Response<List<BasicMedia>> response = await App.API.Media.LoadExploreResultsAsync(new ExploreRequest
+            {
+                 Start = start
+            });
 
             if (response.Success)
             {
 
-                _listFullyLoaded = response.Data.Count < 100;
+                _listFullyLoaded = response.Data.Count == 0;
 
                 if (initial)
                     Items.ReplaceRange(response.Data);
                 else
                     Items.AddNewItems(response.Data);
 
-                if(Items.Count == 0)
-                {
-                    if (_mode == Mode.Movies)
-                        EmptyMessage = "No movies found";
-                    else
-                        EmptyMessage = "No series found";
-                }
+                if (Items.Count == 0)
+                    EmptyMessage = "No media found";
             }
             else
             {
