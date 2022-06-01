@@ -34,6 +34,12 @@ namespace DustyPig.Mobile.MVVM.Main.Search
 
         public void PageShown(bool reselected)
         {
+            if (reselected)
+            {
+                AvailableCV.ScrollTo(0, -1, ScrollToPosition.Start, true);
+                OtherCV.ScrollTo(0, -1, ScrollToPosition.Start, true);
+            }
+
             if (reselected || string.IsNullOrWhiteSpace(TheSearchBar.Text))
                 Device.BeginInvokeOnMainThread(async () =>
                 {

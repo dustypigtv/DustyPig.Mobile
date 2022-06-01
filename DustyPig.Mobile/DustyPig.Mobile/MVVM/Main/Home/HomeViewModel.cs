@@ -180,8 +180,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             if (App.HomePageNeedsRefresh)
                 IsBusy = true;
         }
-
-
+       
         private async Task Update()
         {
             string cache_file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "home_screen_cache.json");

@@ -14,5 +14,10 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         }
 
         public HomePageSectionViewModel VM { get; set; }
+
+        public void ResetScrollPosition()
+        {
+            MyCV.ScrollTo(0, -1, ScrollToPosition.Start, true);
+        }
     }
 }

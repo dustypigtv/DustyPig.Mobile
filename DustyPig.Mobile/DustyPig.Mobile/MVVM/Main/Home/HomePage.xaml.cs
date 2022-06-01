@@ -19,7 +19,12 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         public void PageShown(bool reselected)
         {
-            
+            if(reselected)
+                MainSV.ScrollToAsync(0, 0, true);
+
+            foreach (var child in MainStack.Children)
+                if (child is HomePageSectionView hpsv)
+                    hpsv.ResetScrollPosition();
         }
 
         protected override void OnAppearing()

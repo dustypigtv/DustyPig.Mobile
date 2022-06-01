@@ -27,6 +27,7 @@
                 Command="{Binding RefreshCommand}">
 
                 <CollectionView
+                    x:Name="MainCV"
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
                     Margin="12,0,12,0"

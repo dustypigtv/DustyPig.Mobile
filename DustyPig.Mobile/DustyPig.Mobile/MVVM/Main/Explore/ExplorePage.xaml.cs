@@ -16,7 +16,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
 
         public void PageShown(bool reselected)
         {
-            
+            MainCV.ScrollTo(0, -1, ScrollToPosition.Start, true);
         }
 
         protected override void OnAppearing()
