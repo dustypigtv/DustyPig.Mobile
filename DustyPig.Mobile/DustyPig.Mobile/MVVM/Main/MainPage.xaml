@@ -32,7 +32,7 @@
 
 
 
-    <NavigationPage Title="Explore">
+    <NavigationPage Title="Discover">
         <x:Arguments>
             <explore:ExplorePage />
         </x:Arguments>
