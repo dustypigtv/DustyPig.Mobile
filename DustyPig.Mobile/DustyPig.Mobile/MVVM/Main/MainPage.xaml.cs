@@ -30,7 +30,7 @@ namespace DustyPig.Mobile.MVVM.Main
                 return;
 
             if (cp.RootPage is Search.SearchPage sp)
-                sp.InvokePageShown();
+                sp.PageShown(false);
         }
 
         protected override bool OnBackButtonPressed()
@@ -46,5 +46,17 @@ namespace DustyPig.Mobile.MVVM.Main
             return true;
         }
 
+        public void OnTabReselected()
+        {
+            var navPage = CurrentPage as NavigationPage;
+            if (navPage == null)
+                return;
+
+            var ips = navPage.RootPage as IPageShown;
+            if (ips == null)
+                return;
+
+            ips.PageShown(true);
+        }
     }
 }

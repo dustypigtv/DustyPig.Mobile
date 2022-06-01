@@ -80,6 +80,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
+    <Compile Include="Renderers\CustomTabbedPageRenderer.cs" />
     <Compile Include="Renderers\FixedSearchBarRenderer.cs" />
     <Compile Include="Utils.cs" />
     <None Include="Entitlements.plist" />

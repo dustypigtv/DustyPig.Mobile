@@ -4,7 +4,7 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.Main.Explore
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ExplorePage : ContentPage
+    public partial class ExplorePage : ContentPage, IPageShown
     {
         public ExplorePage()
         {
@@ -13,6 +13,11 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
         }
 
         public ExploreViewModel VM { get; }
+
+        public void PageShown(bool reselected)
+        {
+            
+        }
 
         protected override void OnAppearing()
         {
