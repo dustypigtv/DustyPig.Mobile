@@ -9,7 +9,6 @@
     <None Remove="Images\apple_logo.png" />
     <None Remove="Images\email_icon.svg" />
     <None Remove="Images\errorimage_wide.png" />
-    <None Remove="Images\explore.png" />
     <None Remove="Images\facebook_logo.png" />
     <None Remove="Images\google_logo.png" />
     <None Remove="Images\placeholder_wide.png" />
@@ -26,9 +25,6 @@
     <EmbeddedResource Include="Images\apple_logo.png" />
     <EmbeddedResource Include="Images\email_icon.svg" />
     <EmbeddedResource Include="Images\errorimage_wide.png" />
-    <EmbeddedResource Include="Images\explore.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Images\facebook_logo.png" />
     <EmbeddedResource Include="Images\google_logo.png" />
     <EmbeddedResource Include="Images\placeholder_wide.png" />
