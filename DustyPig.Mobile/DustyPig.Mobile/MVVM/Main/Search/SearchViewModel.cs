@@ -173,6 +173,11 @@ namespace DustyPig.Mobile.MVVM.Main.Search
             IsBusy = true;
             MediaEmptyString = string.Empty;
             _lastQuery = formattedQuery;
+            
+            //Less load on the server
+            try { await Task.Delay(500, token); }
+            catch { return; }
+            
             var response = await App.API.Media.SearchAsync(query, true, token);
             if (response.Success)
             {
@@ -189,7 +194,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                 OtherItems.ReplaceRange(response.Data.OtherTitles);
             }
             else
-            {
+            {              
                 if (token.IsCancellationRequested)
                     return;
 
