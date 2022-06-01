@@ -107,26 +107,26 @@
                 Orientation="Vertical">
 
             <Label
-                    Margin="0,20,0,0"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    Text="{Binding Title}" />
+                Margin="0,8,0,0"
+                FontSize="16"
+                FontAttributes="Bold"
+                Text="{Binding Title}" />
 
             <controls:MyCollectionView
-                    Margin="0,0,0,8"
-                    HeightRequest="160"
-                    EmptyView="No media found"
-                    ItemSizingStrategy="MeasureFirstItem"
-                    RemainingItemsThreshold="100"
-                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
-                    ItemsSource="{Binding Items}"
-                    ItemTemplate="{StaticResource TemplateSelector}"
-                    MyId="{Binding ListId}">
+                Margin="0,0,0,24"
+                HeightRequest="160"
+                EmptyView="No media found"
+                ItemSizingStrategy="MeasureFirstItem"
+                RemainingItemsThreshold="100"
+                RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
+                ItemsSource="{Binding Items}"
+                ItemTemplate="{StaticResource TemplateSelector}"
+                MyId="{Binding ListId}">
 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout 
-                            Orientation="Horizontal"
-                            ItemSpacing="16"/>
+                        Orientation="Horizontal"
+                        ItemSpacing="16"/>
                 </CollectionView.ItemsLayout>
                 
             </controls:MyCollectionView>
