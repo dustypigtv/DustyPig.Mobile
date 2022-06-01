@@ -38,10 +38,15 @@ namespace DustyPig.Mobile.MVVM
             else
             {
                 var response = await App.API.Auth.VerifyTokenAsync();
-                if (response.Success && response.Data.LoginType == LoginResponseType.Profile)
+                if (response.Success && response.Data.LoginType != LoginResponseType.Account)
+                {
+                    App.IsMainProfile = response.Data.LoginType == LoginResponseType.MainProfile;
                     Application.Current.MainPage = new NavigationPage(new MainPage());
+                }
                 else
+                {
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
+                }
             }
         }
     }

@@ -8,6 +8,8 @@ namespace DustyPig.Mobile
     {
         internal static readonly API.v3.Client API = new API.v3.Client();
 
+        internal static bool IsMainProfile { get; set; }
+
         internal static bool HomePageNeedsRefresh { get; set; } = true;
 
 

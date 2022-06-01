@@ -63,8 +63,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             IsBusy2 = false;
         }
 
-
-        
         
         
         public async void OnAppearing()
@@ -157,9 +155,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
 
 
-                CanManage = response.Data.CanManage;
-
-
+                CanManage = App.IsMainProfile;
                 IsBusy = false;
             }
             else
