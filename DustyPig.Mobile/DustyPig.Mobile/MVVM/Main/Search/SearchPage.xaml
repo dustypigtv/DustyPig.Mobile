@@ -22,6 +22,7 @@
             xct:CornerRadiusEffect.CornerRadius="8"
             Margin="0"
             Placeholder="Search for title"
+            PlaceholderColor="{Static dpcc:Theme.Grey}"            
             TextChanged="SearchBar_TextChanged"
             SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
 
@@ -88,13 +89,15 @@
 					ItemsSource="{Binding AvailableItems}">
 
                     <CollectionView.EmptyView>
-                        <StackLayout>
+                        <StackLayout 
+                            xct:TouchEffect.Command="{Binding HideKeyboard}">
                             <Label
 								Margin="48"
 								FontAttributes="Bold"
 								FontSize="18"
 								TextColor="White"
 								HorizontalTextAlignment="Center"
+                                InputTransparent="True"
 								Text="{Binding MediaEmptyString}" />
                         </StackLayout>
                     </CollectionView.EmptyView>
@@ -136,13 +139,15 @@
                     ItemsSource="{Binding OtherItems}">
 
                     <CollectionView.EmptyView>
-                        <StackLayout>
+                        <StackLayout
+                            xct:TouchEffect.Command="{Binding HideKeyboard}">
                             <Label
                                 Margin="48"
                                 FontAttributes="Bold"
                                 FontSize="18"
                                 TextColor="White"
                                 HorizontalTextAlignment="Center"
+                                InputTransparent="True"
                                 Text="{Binding MediaEmptyString}" />
                         </StackLayout>
                     </CollectionView.EmptyView>
@@ -185,6 +190,7 @@
 					HeightRequest="20"
 					HorizontalOptions="CenterAndExpand"
                     VerticalOptions="Start"
+                    InputTransparent="True"
 					IsRunning="{Binding IsBusy}" />
 
             </Grid>

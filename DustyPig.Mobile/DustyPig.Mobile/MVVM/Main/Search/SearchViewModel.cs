@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace DustyPig.Mobile.MVVM.Main.Search
 
             TabHeaderTapped = new Command<int>(OnTabHeaderTapped);
         }
+
+        public Command HideKeyboard { get; } = new Command(() => DependencyService.Get<IKeyboardHelper>().HideKeyboard());
 
         public Command<int> TabHeaderTapped { get; }
         private void OnTabHeaderTapped(int index)
@@ -162,6 +165,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
 
             if (formattedQuery == string.Empty)
             {
+                ShowTabs = false;
                 MediaEmptyString = string.Empty;
                 IsBusy = false;
                 AvailableItems.Clear();
@@ -183,7 +187,6 @@ namespace DustyPig.Mobile.MVVM.Main.Search
             if (response.Success)
             {
                 ShowTabs = response.Data.OtherTitlesAllowed;
-
 
                 MediaEmptyString = "No matches";
                 if (response.Data.Available == null)
