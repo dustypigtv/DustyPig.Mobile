@@ -10,24 +10,6 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <Style x:Key="BaseStyle" TargetType="Element">
-                <!--<Setter Property="Shell.BackgroundColor" Value="{x:Static dpcc:Theme.DarkGrey}" /> -->
-                <Setter Property="Shell.BackgroundColor" Value="Black" />
-                <Setter Property="Shell.ForegroundColor" Value="White" />
-                <Setter Property="Shell.TitleColor" Value="White" />
-                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
-                <Setter Property="Shell.UnselectedColor" Value="{x:Static dpcc:Theme.LightGrey}" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{x:Static dpcc:Theme.DarkGrey}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{x:Static dpcc:Theme.LightGrey}"/>
-                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
-            </Style>
-
-
-
-            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
-            <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
-
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="Black" />
                 <Setter Property="BarTextColor" Value="White" />

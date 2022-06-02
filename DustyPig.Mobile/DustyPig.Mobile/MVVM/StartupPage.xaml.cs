@@ -15,7 +15,7 @@ namespace DustyPig.Mobile.MVVM
             InitializeComponent();
 
             //For debugging login flow
-            //Services.Settings.DeleteProfileToken();
+            Services.Settings.DeleteProfileToken();
         }
 
         protected override async void OnAppearing()
