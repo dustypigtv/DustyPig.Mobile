@@ -96,8 +96,13 @@
                 <Setter Property="MaximumTrackColor" Value="{x:Static dpcc:Theme.Grey}" />
             </Style>
 
+            <OnPlatform 
+                x:Key="ProgressBackgroundColor" 
+                x:TypeArguments="Color" 
+                Android="Transparent" 
+                iOS="{Static dpcc:Theme.DarkGrey}"  />
             <Style TargetType="ProgressBar">
-                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BackgroundColor" Value="{StaticResource ProgressBackgroundColor}" />
                 <Setter Property="ProgressColor" Value="White" />
             </Style>
             
