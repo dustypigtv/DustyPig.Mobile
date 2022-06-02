@@ -8,7 +8,8 @@
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedDialog"
     x:TypeArguments="local:MarkWatchedOptions"
     x:DataType="local:MarkWatchedDialog"
-    Size="300,260">
+    Size="300,260"
+    IsLightDismissEnabled="False">
 
     <StackLayout
         BackgroundColor="{Static dpcc:Theme.DarkGrey}">

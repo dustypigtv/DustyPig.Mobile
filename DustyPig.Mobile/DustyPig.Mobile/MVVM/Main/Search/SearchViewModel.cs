@@ -150,7 +150,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
         }
 
 
-        public async Task DoSearch(string query)
+        public async Task DoSearch(string query, bool delay)
         {
             var formattedQuery = StringUtils.NormalizedQueryString(query) + string.Empty;
             if (formattedQuery == _lastQuery)
@@ -175,8 +175,9 @@ namespace DustyPig.Mobile.MVVM.Main.Search
             _lastQuery = formattedQuery;
             
             //Less load on the server
-            try { await Task.Delay(500, token); }
-            catch { return; }
+            if(delay)
+                try { await Task.Delay(500, token); }
+                catch { return; }
             
             var response = await App.API.Media.SearchAsync(query, true, token);
             if (response.Success)

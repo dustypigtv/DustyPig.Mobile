@@ -30,7 +30,9 @@ namespace DustyPig.Mobile.MVVM.Main.Search
             DependencyService.Get<IKeyboardHelper>().HideKeyboard();
         }
 
-        private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e) => await VM.DoSearch(e.NewTextValue);
+        private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e) => await VM.DoSearch(e.NewTextValue, true);
+
+        private async void TheSearchBar_SearchButtonPressed(object sender, EventArgs e) => await VM.DoSearch(TheSearchBar.Text, false);
 
         public void PageShown(bool reselected)
         {
@@ -49,5 +51,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                     }
                 });
         }
+
+        
     }
 }
