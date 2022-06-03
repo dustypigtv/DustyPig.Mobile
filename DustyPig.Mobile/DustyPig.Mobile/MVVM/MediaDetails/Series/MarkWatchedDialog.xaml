@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xct:Popup 
+<xctViews:Popup 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
     xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
     xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedDialog"
@@ -115,4 +116,4 @@
 
     </StackLayout>
     
-</xct:Popup>
+</xctViews:Popup>
