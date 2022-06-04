@@ -13,9 +13,6 @@ namespace DustyPig.Mobile.MVVM
         public StartupPage()
         {
             InitializeComponent();
-
-            //For debugging login flow
-            //Services.Settings.DeleteProfileToken();
         }
 
         protected override async void OnAppearing()
@@ -39,6 +36,7 @@ namespace DustyPig.Mobile.MVVM
                 var response = await App.API.Auth.VerifyTokenAsync();
                 if (response.Success && response.Data.LoginType != LoginResponseType.Account)
                 {
+                    App.HomePageNeedsRefresh = true;
                     App.IsMainProfile = response.Data.LoginType == LoginResponseType.MainProfile;
                     Application.Current.MainPage = new NavigationPage(new MainPage());
                 }
