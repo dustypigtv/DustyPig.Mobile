@@ -16,5 +16,11 @@ namespace DustyPig.Mobile.MVVM.Main.Settings
         {
             
         }
+
+        private void Button_Clicked(object sender, System.EventArgs e)
+        {
+            Services.Settings.DeleteProfileToken();
+            Application.Current.MainPage = new StartupPage();
+        }
     }
 }

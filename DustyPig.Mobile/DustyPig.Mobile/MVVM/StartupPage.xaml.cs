@@ -22,8 +22,7 @@ namespace DustyPig.Mobile.MVVM
         {
             base.OnAppearing();
 
-            if (string.IsNullOrWhiteSpace(App.API.Token))
-                App.API.Token = await Services.Settings.GetProfileTokenAsync();
+            App.API.Token = await Services.Settings.GetProfileTokenAsync();
 
             //For debugging login flow
 #if DEBUG

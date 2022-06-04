@@ -6,9 +6,8 @@
              x:Class="DustyPig.Mobile.MVVM.Main.Settings.SettingsPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Settings"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+            <Button Text="LOG OUT" Clicked="Button_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
