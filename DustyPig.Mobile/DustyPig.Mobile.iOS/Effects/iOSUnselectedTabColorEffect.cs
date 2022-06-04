@@ -4,7 +4,6 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ResolutionGroupName("AppEffects")]
 [assembly: ExportEffect(typeof(DustyPig.Mobile.iOS.Effects.iOSUnselectedTabColorEffect), nameof(UnselectedTabColorEffect))]
 namespace DustyPig.Mobile.iOS.Effects
 {

@@ -7,31 +7,27 @@
 	xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
 	xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
 	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+    xmlns:effect="clr-namespace:DustyPig.Mobile.Effects"
     ios:Page.UseSafeArea="true"    
     x:Class="DustyPig.Mobile.MVVM.Main.Search.SearchPage"
     x:DataType="local:SearchViewModel"
-    Title="Search for Title">
-
-    <NavigationPage.TitleView>
-
-        <SearchBar 
-            x:Name="TheSearchBar"            
-            IsSpellCheckEnabled="false"
-            TextTransform="Lowercase"
-            xct:CornerRadiusEffect.CornerRadius="8"
-            Margin="0"
-            Placeholder="Search for title"
-            PlaceholderColor="{Static dpcc:Theme.Grey}"            
-            TextChanged="SearchBar_TextChanged"
-            SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
-
-    </NavigationPage.TitleView>
+    NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Content>
 
         <StackLayout Margin="12">
 
+            <SearchBar 
+                x:Name="TheSearchBar"            
+                IsSpellCheckEnabled="false"
+                TextTransform="Lowercase"
+                xct:CornerRadiusEffect.CornerRadius="8"
+                Margin="0"
+                Placeholder="Search for title"
+                PlaceholderColor="{Static dpcc:Theme.Grey}"            
+                TextChanged="SearchBar_TextChanged"
+                SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
 
             <Grid 
                 BackgroundColor="{Static dpcc:Theme.DarkGrey}"

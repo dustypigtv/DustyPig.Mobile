@@ -8,7 +8,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ResolutionGroupName("AppEffects")]
+
 [assembly: ExportEffect(typeof(iOSAutofillEffect), nameof(AutofillEffect))]
 namespace DustyPig.Mobile.iOS.Effects
 {
@@ -16,11 +16,8 @@ namespace DustyPig.Mobile.iOS.Effects
     {
         protected override void OnAttached()
         {
-            var effect = (AutofillEffect)Element.Effects
-                .FirstOrDefault(e => e is Mobile.Effects.AutofillEffect);
-            if (effect != null
-                && UIDevice.CurrentDevice.CheckSystemVersion(11, 0)
-                && Control is UITextField textField)
+            var effect = (AutofillEffect)Element.Effects.FirstOrDefault(e => e is Mobile.Effects.AutofillEffect);
+            if (effect != null  && UIDevice.CurrentDevice.CheckSystemVersion(11, 0) && Control is UITextField textField)
             {
                 switch (effect.Type)
                 {
