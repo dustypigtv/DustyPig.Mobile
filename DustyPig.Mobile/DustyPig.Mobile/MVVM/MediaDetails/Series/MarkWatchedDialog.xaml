@@ -73,7 +73,7 @@
                     Padding="48,0,0,0"
                     HorizontalOptions="StartAndExpand"
                     VerticalOptions="CenterAndExpand"
-                    Text="Remove From Continue Watching" />
+                    Text="Stop Watching" />
 
                 <Image
                     HorizontalOptions="Start"
