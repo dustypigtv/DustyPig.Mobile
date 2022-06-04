@@ -14,14 +14,26 @@ using System;
 
 namespace DustyPig.Mobile.Droid
 {
-    [Activity(Label = "Dusty Pig", LaunchMode = LaunchMode.SingleTop, Icon = "@mipmap/icon", Theme = "@style/SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    [Activity(Label = "Dusty Pig", 
+        LaunchMode = LaunchMode.SingleTop, 
+        Icon = "@mipmap/icon", 
+        Theme = "@style/SplashTheme", 
+        MainLauncher = true, 
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
+    
+    [IntentFilter(new[] { Intent.ActionView },
+              Categories = new[] { Intent.CategoryBrowsable, Intent.CategoryDefault },
+              DataScheme = "https",
+              DataHost = "service.dustypig.tv",
+              AutoVerify = true)]
+    
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public static MainActivity Instance { get; private set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-
+            
 #if DEBUG
             //Print the signing hashes
             try
