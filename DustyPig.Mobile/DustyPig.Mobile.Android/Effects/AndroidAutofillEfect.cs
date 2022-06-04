@@ -8,6 +8,7 @@ using DustyPig.Mobile.Effects;
 using System.Linq;
 using Xamarin.Forms.Platform.Android;
 
+[assembly: ResolutionGroupName("AppEffects")]
 [assembly: Xamarin.Forms.ExportEffect(typeof(AndroidAutofillEffect), nameof(AutofillEffect))]
 namespace DustyPig.Mobile.Droid.Effects
 {

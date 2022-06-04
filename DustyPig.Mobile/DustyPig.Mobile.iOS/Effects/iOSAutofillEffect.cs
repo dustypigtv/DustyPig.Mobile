@@ -8,6 +8,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
+[assembly: ResolutionGroupName("AppEffects")]
 [assembly: ExportEffect(typeof(iOSAutofillEffect), nameof(AutofillEffect))]
 namespace DustyPig.Mobile.iOS.Effects
 {
