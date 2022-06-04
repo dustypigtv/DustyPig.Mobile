@@ -4,10 +4,10 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportEffect(typeof(DustyPig.Mobile.iOS.Effects.UnselectedTabColorEffect), nameof(UnselectedTabColorEffect))]
+[assembly: ExportEffect(typeof(DustyPig.Mobile.iOS.Effects.iOSUnselectedTabColorEffect), nameof(UnselectedTabColorEffect))]
 namespace DustyPig.Mobile.iOS.Effects
 {
-    public class UnselectedTabColorEffect : PlatformEffect
+    public class iOSUnselectedTabColorEffect : PlatformEffect
     {
         protected override void OnAttached()
         {

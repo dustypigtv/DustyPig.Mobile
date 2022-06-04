@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Auth.ForgotPassword;
@@ -76,6 +77,9 @@ namespace DustyPig.Mobile.MVVM.Auth.PasswordLogin
                     Password = _password,
                     DeviceToken = await DependencyService.Get<IFCM>().GetTokenAsync()
                 });
+
+                Xamarin.Forms.DependencyService.Get<IAutofillManager>()?.Commit();
+
                 await ValidateTokenAndGoToProfiles(dpToken);
             }
             catch (Exception ex)

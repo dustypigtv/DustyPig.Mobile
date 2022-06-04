@@ -87,11 +87,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CrossPlatform\AutofillManagerImplementation.cs" />
     <Compile Include="CrossPlatform\FCM\Extensions.cs" />
     <Compile Include="CrossPlatform\FCM\FCMImplementation.cs" />
     <Compile Include="CrossPlatform\FCM\FCMService.cs" />
     <Compile Include="CrossPlatform\KeyboardHelperImplementation.cs" />
     <Compile Include="CrossPlatform\PopupImplementation.cs" />
+    <Compile Include="Effects\AndroidAutofillEfect.cs" />
     <Compile Include="Renderers\CustomButtonRenderer.cs" />
     <Compile Include="CrossPlatform\SocialLogin\FacebookLoginClientImplementation.cs" />
     <Compile Include="MainActivity.cs" />

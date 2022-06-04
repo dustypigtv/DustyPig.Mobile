@@ -32,7 +32,14 @@ namespace DustyPig.Mobile.Droid
                     MessageDigest md = MessageDigest.GetInstance("SHA");
                     md.Update(signature.ToByteArray());
                     System.Diagnostics.Debug.WriteLine("");
-                    System.Diagnostics.Debug.WriteLine("***** SIGNING HASH *****");
+                    System.Diagnostics.Debug.WriteLine("***** SHA-1 HASH *****");
+                    System.Diagnostics.Debug.WriteLine(BitConverter.ToString(md.Digest()).Replace("-", ":"));
+                    System.Diagnostics.Debug.WriteLine("");
+
+                    md = MessageDigest.GetInstance("SHA-256");
+                    md.Update(signature.ToByteArray());
+                    System.Diagnostics.Debug.WriteLine("");
+                    System.Diagnostics.Debug.WriteLine("***** SHA-256 HASH *****");
                     System.Diagnostics.Debug.WriteLine(BitConverter.ToString(md.Digest()).Replace("-", ":"));
                     System.Diagnostics.Debug.WriteLine("");
                 }

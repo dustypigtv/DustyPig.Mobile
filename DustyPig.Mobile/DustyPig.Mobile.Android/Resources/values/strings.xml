@@ -4,4 +4,9 @@
 	<string name="facebook_app_name">Dusty Pig</string>
 	<string name="fb_login_protocol_scheme">fb1082703882261587</string>
 	<string name="facebook_client_token">36860d470321d303d71840deb9c2e868</string>
+	<string name="asset_statements" translatable="false">
+		[{
+			\"include\": \"https://service.dustypig.tv/.well-known/assetlinks.json\"
+		}]
+	</string>
 </resources>
