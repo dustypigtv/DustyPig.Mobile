@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.MediaDetails
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class OptionsDialog : Popup<DetailsOptions>
+    public partial class OptionsPopup : Popup<DetailsOptions>
     {
-        public OptionsDialog()
+        public OptionsPopup()
         {
             InitializeComponent();
 

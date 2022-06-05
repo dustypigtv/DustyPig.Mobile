@@ -82,7 +82,7 @@
     <EmbeddedResource Update="MVVM\Auth\Signup\SignupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\AddToPlaylistDialog.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\AddToPlaylistPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsContentView.xaml">
@@ -94,13 +94,13 @@
     <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\OptionsDialog.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\OptionsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\Series\MarkWatchedDialog.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\Series\MarkWatchedPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\Series\SeasonsDialog.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\Series\SeasonsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Series\SeriesDetailsPage.xaml">
@@ -132,8 +132,20 @@
     <Compile Update="MVVM\Main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="MVVM\MediaDetails\AddToPlaylistPopup.xaml.cs">
+      <DependentUpon>AddToPlaylistPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml.cs">
       <DependentUpon>MovieDetailsPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\MediaDetails\OptionsPopup.xaml.cs">
+      <DependentUpon>OptionsPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\MediaDetails\Series\MarkWatchedPopup.xaml.cs">
+      <DependentUpon>MarkWatchedPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\MediaDetails\Series\SeasonsPopup.xaml.cs">
+      <DependentUpon>SeasonsPopup.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\MediaDetails\TMDB\TMDBDetailsPage.xaml.cs">
       <DependentUpon>TMDBDetailsPage.xaml</DependentUpon>

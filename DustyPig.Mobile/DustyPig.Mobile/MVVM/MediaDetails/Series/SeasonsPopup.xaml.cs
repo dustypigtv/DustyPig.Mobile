@@ -8,9 +8,9 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SeasonsDialog : Popup<int>
+    public partial class SeasonsPopup : Popup<int>
     {
-        public SeasonsDialog(List<ushort> seasons, ushort current)
+        public SeasonsPopup(List<ushort> seasons, ushort current)
         {
             InitializeComponent();
                      

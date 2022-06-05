@@ -6,9 +6,9 @@
     xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
     xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
     xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
-    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedDialog"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedPopup"
     x:TypeArguments="local:MarkWatchedOptions"
-    x:DataType="local:MarkWatchedDialog"
+    x:DataType="local:MarkWatchedPopup"
     Size="300,260"
     IsLightDismissEnabled="False">
 

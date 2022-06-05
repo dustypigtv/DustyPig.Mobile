@@ -94,7 +94,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public AsyncCommand OptionsCommand { get; }
         private async Task OnOptionsCommand()
         {
-            var ret = await Navigation.ShowPopupAsync<DetailsOptions>(new OptionsDialog());
+            var ret = await Navigation.ShowPopupAsync<DetailsOptions>(new OptionsPopup());
 
             switch (ret)
             {
@@ -111,7 +111,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public Command PlaylistCommand { get; }
         public void AddToPlaylist()
         {
-            Navigation.ShowPopup(new AddToPlaylistDialog(Basic_Media));
+            Navigation.ShowPopup(new AddToPlaylistPopup(Basic_Media));
         }
 
 

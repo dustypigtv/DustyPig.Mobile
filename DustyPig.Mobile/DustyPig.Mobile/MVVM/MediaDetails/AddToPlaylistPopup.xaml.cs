@@ -12,9 +12,9 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.MediaDetails
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddToPlaylistDialog : Popup
+    public partial class AddToPlaylistPopup : Popup
     {
-        public AddToPlaylistDialog(BasicMedia basicMedia)
+        public AddToPlaylistPopup(BasicMedia basicMedia)
         {
             InitializeComponent();
 

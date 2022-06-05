@@ -43,7 +43,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
         {
-            var ret = await Navigation.ShowPopupAsync(new MarkWatchedDialog());
+            var ret = await Navigation.ShowPopupAsync(new MarkWatchedPopup());
             if (ret == MarkWatchedOptions.Cancel)
                 return;
 
@@ -112,7 +112,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             if (!MultipleSeasons)
                 return;
 
-            var ret = await Navigation.ShowPopupAsync(new SeasonsDialog(Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason));
+            var ret = await Navigation.ShowPopupAsync(new SeasonsPopup(Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason));
             if (ret < 0)
                 return;
 

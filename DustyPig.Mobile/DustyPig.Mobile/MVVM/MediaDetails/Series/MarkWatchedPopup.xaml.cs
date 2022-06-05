@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MarkWatchedDialog : Popup<MarkWatchedOptions>
+    public partial class MarkWatchedPopup : Popup<MarkWatchedOptions>
     {
-        public MarkWatchedDialog()
+        public MarkWatchedPopup()
         {
             InitializeComponent();
 

@@ -6,9 +6,9 @@
     xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
     xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="DustyPig.Mobile.MVVM.MediaDetails.OptionsDialog"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.OptionsPopup"
     x:TypeArguments="local:DetailsOptions"
-    x:DataType="local:OptionsDialog"
+    x:DataType="local:OptionsPopup"
     Size="240,260"
     IsLightDismissEnabled="False">
 
