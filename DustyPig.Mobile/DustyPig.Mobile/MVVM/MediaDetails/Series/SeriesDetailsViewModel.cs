@@ -204,7 +204,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                     break;
             }
 
-            CanManage = App.IsMainProfile;
+            CanManage = Series.CanManage;
 
 
             // These all are based on whether the user CAN play content, or needs permission

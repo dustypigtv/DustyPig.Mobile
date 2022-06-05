@@ -140,6 +140,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
                 // These all are based on whether the user CAN play content, or needs permission
 
+                CanManage = response.Data.CanManage;
                 CanPlay = response.Data.CanPlay;
                 InWatchlist = response.Data.InWatchlist;
                 Played = response.Data.Played ?? 0;
@@ -154,8 +155,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     RemainingString = $"{Math.Max(dur.Minutes, 0)}m remaining";
 
 
-
-                CanManage = App.IsMainProfile;
                 IsBusy = false;
             }
             else
