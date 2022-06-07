@@ -112,7 +112,6 @@
                                 WidthRequest="40"
                                 Padding="8"
                                 CornerRadius="20"
-                                BackgroundColor="Transparent"
                                 xct:TouchEffect.NativeAnimation="True"
                                 IsVisible="{Binding CanManage}"
                                 Command="{Binding ManageParentalControlsCommand}">
@@ -274,30 +273,23 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Toggle Watchlist -->
-                            <Frame
-                                Grid.Column="0"  
+                            <!-- Toggle Watchlist -->                            
+                            <ImageButton
+                                Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"
-                                CornerRadius="96"
-                                BackgroundColor="Transparent"
-                                Padding="12"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                CornerRadius="20"
+                                Padding="8"
                                 xct:TouchEffect.NativeAnimation="True"
-                                xct:TouchEffect.Command="{Binding ToggleWatchlistCommand}"
-                                xct:TouchEffect.CommandParameter="{Binding Id}">
-
-                                <Image 
-                                    WidthRequest="24"
-                                    HeightRequest="24">
-                                            
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Binding WatchlistIcon}" Color="White" />
-                                    </Image.Source>
-                                </Image>
-
-
-                            </Frame>
+                                Command="{Binding ToggleWatchlistCommand}"
+                                CommandParameter="{Binding Id}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Binding WatchlistIcon}" Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
 
                             <Label 
                                 Grid.Column="0"
@@ -308,30 +300,23 @@
 
 
                             <!-- Watched button -->
-                            <Frame
-                                Grid.Column="1"  
+                            <ImageButton
+                                Grid.Column="1"
                                 Grid.Row="0"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"
-                                CornerRadius="96"
-                                BackgroundColor="Transparent"
-                                Padding="12"
-                                IsVisible="{Binding ShowPlayedBar}"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                CornerRadius="20"
+                                Padding="8"
                                 xct:TouchEffect.NativeAnimation="True"
-                                xct:TouchEffect.Command="{Binding MarkWatchedCommand}"
-                                xct:TouchEffect.CommandParameter="{Binding Id}">
-
-                                <Image 
-                                    WidthRequest="24"
-                                    HeightRequest="24">
-
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
-                                    </Image.Source>
-                                </Image>
-
-
-                            </Frame>
+                                IsVisible="{Binding ShowPlayedBar}"
+                                Command="{Binding MarkWatchedCommand}"
+                                CommandParameter="{Binding Id}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
 
                             <Label 
                                 Grid.Column="1"
@@ -343,28 +328,21 @@
 
                            
                             <!-- Playlist button -->
-                            <Frame
-                                Grid.Column="2"  
+                            <ImageButton
+                                Grid.Column="2"
                                 Grid.Row="0"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"
-                                CornerRadius="96"
-                                BackgroundColor="Transparent"
-                                Padding="12"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                CornerRadius="20"
+                                Padding="8"
                                 xct:TouchEffect.NativeAnimation="True"
-                                xct:TouchEffect.Command="{Binding PlaylistCommand}">
-
-                                <Image 
-                                    WidthRequest="24"
-                                    HeightRequest="24">
-
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Indent}" Color="White" />
-                                    </Image.Source>
-                                </Image>
-
-
-                            </Frame>
+                                Command="{Binding PlaylistCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Indent}" Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
 
                             <Label 
                                 Grid.Column="2"

@@ -55,6 +55,10 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="ImageButton">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            
             <Style TargetType="ListView">
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="SeparatorColor" Value="Transparent" />
