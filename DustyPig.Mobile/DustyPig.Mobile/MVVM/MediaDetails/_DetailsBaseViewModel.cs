@@ -54,6 +54,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
         public BasicTMDB Basic_TMDB { get; }
 
+        public int LibraryId { get; set; }
 
         public AsyncCommand RequestPermissionCommand { get; }
         private async Task OnRequestPermission()
@@ -103,7 +104,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     break;
 
                 case DetailsOptions.ParentalControls:
-                    await ManageParentalControls();
+                    ManageParentalControls();
                     break;
             }
         }
@@ -115,9 +116,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
-        public async Task ManageParentalControls()
+        public void ManageParentalControls()
         {
-            await ShowAlertAsync("TO DO:", "Manage");
+            Navigation.ShowPopup(new ParentalControlsPopup(Basic_Media.Id, LibraryId));
         }
 
 
