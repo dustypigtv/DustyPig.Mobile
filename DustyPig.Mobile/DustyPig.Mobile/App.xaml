@@ -78,6 +78,11 @@
                 <Setter Property="MaximumTrackColor" Value="{x:Static dpcc:Theme.Grey}" />
             </Style>
 
+            <Style TargetType="Switch">
+                <Setter Property="OnColor" Value="{Static dpcc:Theme.LightGrey}" />
+                <Setter Property="ThumbColor" Value="White" />
+            </Style>
+
             <OnPlatform 
                 x:Key="ProgressBackgroundColor" 
                 x:TypeArguments="Color" 
