@@ -12,13 +12,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 {
     public abstract class _DetailsBaseViewModel : _BaseViewModel
     {
-        public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : this(navigation)
+        public _DetailsBaseViewModel(BasicMedia basicMedia, INavigation navigation) : base(navigation)
         {
             Basic_Media = basicMedia;
 
-            OptionsCommand = new AsyncCommand(OnOptionsCommand, allowsMultipleExecutions: false);
             PlaylistCommand = new Command(AddToPlaylist);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
+            ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
+            ManageParentalControlsCommand = new Command(ManageParentalControls);
 
             switch (Services.Downloads.DownloadManager.GetStatus(Basic_Media.Id))
             {
@@ -38,16 +39,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
         }
 
-        public _DetailsBaseViewModel(BasicTMDB basicTMDB, INavigation navigation) : this(navigation)
+        public _DetailsBaseViewModel(BasicTMDB basicTMDB, INavigation navigation) : base(navigation)
         {
             Basic_TMDB = basicTMDB;
         }
 
 
-        public _DetailsBaseViewModel(INavigation navigation) : base(navigation)
-        {
-            ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
-        }
 
 
         public BasicMedia Basic_Media { get; }
@@ -92,23 +89,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
         }
 
-        public AsyncCommand OptionsCommand { get; }
-        private async Task OnOptionsCommand()
-        {
-            var ret = await Navigation.ShowPopupAsync<DetailsOptions>(new OptionsPopup());
-
-            switch (ret)
-            {
-                case DetailsOptions.AddToPlaylist:
-                    AddToPlaylist();
-                    break;
-
-                case DetailsOptions.ParentalControls:
-                    ManageParentalControls();
-                    break;
-            }
-        }
-
+        
         public Command PlaylistCommand { get; }
         public void AddToPlaylist()
         {
@@ -116,6 +97,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
+        public Command ManageParentalControlsCommand { get; }
         public void ManageParentalControls()
         {
             Navigation.ShowPopup(new ParentalControlsPopup(Basic_Media.Id, LibraryId));

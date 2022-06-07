@@ -98,6 +98,24 @@
                                 Text="{Binding SeasonCount}"
                                 FontSize="Small" />
 
+                            <!-- Parental Controls -->
+                            <ImageButton
+                                Grid.Column="2"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                HeightRequest="40"
+                                WidthRequest="40"
+                                Padding="8"
+                                CornerRadius="20"
+                                BackgroundColor="Transparent"
+                                xct:TouchEffect.NativeAnimation="True"
+                                IsVisible="{Binding CanManage}"
+                                Command="{Binding ManageParentalControlsCommand}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.UserLock}" Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
+
                         </Grid>
 
                         <!-- Request Access button -->
@@ -330,9 +348,8 @@
                                 HorizontalOptions="Center"
                                 Text="Mark Watched" 
                                 FontSize="Small" />
-
-
-                            <!-- Options button (If CanManage)-->
+                            
+                            <!-- Playlist button -->
                             <Frame
                                 Grid.Column="2"  
                                 Grid.Row="0"
@@ -341,41 +358,6 @@
                                 CornerRadius="96"
                                 BackgroundColor="Transparent"
                                 Padding="12"
-                                IsVisible="{Binding CanManage}"
-                                xct:TouchEffect.NativeAnimation="True"
-                                xct:TouchEffect.Command="{Binding OptionsCommand}">
-
-                                <Image 
-                                    WidthRequest="24"
-                                    HeightRequest="24">
-
-                                    <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Ellipsis}" Color="White" />
-                                    </Image.Source>
-                                </Image>
-
-
-                            </Frame>
-
-                            <Label 
-                                Grid.Column="2"
-                                Grid.Row="1"
-                                IsVisible="{Binding CanManage}"
-                                HorizontalOptions="Center"
-                                Text="Options" 
-                                FontSize="Small" />
-
-
-                            <!-- Playlist button (If not CanManage) -->
-                            <Frame
-                                Grid.Column="2"  
-                                Grid.Row="0"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
-                                CornerRadius="96"
-                                BackgroundColor="Transparent"
-                                Padding="12"
-                                IsVisible="{Binding CanManage, Converter={StaticResource InvertedBoolConverter}}"
                                 xct:TouchEffect.NativeAnimation="True"
                                 xct:TouchEffect.Command="{Binding PlaylistCommand}">
 
@@ -394,9 +376,8 @@
                             <Label 
                                 Grid.Column="2"
                                 Grid.Row="1"
-                                IsVisible="{Binding CanManage, Converter={StaticResource InvertedBoolConverter}}"
                                 HorizontalOptions="Center"
-                                Text="Options" 
+                                Text="Add to playlist" 
                                 FontSize="Small" />
 
                         </Grid>
