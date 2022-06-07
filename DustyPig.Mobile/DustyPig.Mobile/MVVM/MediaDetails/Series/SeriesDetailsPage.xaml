@@ -366,7 +366,7 @@
                                     HeightRequest="24">
 
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.List}" Color="White" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Indent}" Color="White" />
                                     </Image.Source>
                                 </Image>
 
