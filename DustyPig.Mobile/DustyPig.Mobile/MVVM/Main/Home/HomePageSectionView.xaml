@@ -119,6 +119,7 @@
                 EmptyView="No media found"
                 ItemSizingStrategy="MeasureFirstItem"
                 RemainingItemsThreshold="100"
+                HorizontalScrollBarVisibility="Never"
                 RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
                 ItemsSource="{Binding Items}"
                 ItemTemplate="{StaticResource TemplateSelector}"
