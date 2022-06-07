@@ -56,28 +56,32 @@
                         IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
                         Margin="12,0,12,24">
 
-                        <!-- Title -->
-                        <Label 
-                            Text="{Binding Title}"
-                            FontSize="Medium"
-                            FontAttributes="Bold"
-                            LineBreakMode="WordWrap" />
-
                         
-                        <Grid
-                            Margin="0,4,0,0">
+                        <Grid>
                             
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+
+                            <!-- Title -->
+                            <Label 
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Grid.Row="0"
+                                Text="{Binding Title}"
+                                FontSize="Medium"
+                                FontAttributes="Bold"
+                                LineBreakMode="WordWrap" />
+
 
 
                             <!-- Year -->
                             <Label
                                 Grid.Column="0"
+                                Grid.Row="1"
                                 VerticalOptions="Center"
                                 Text="{Binding Year}"
                                 FontSize="Small" />
@@ -85,6 +89,7 @@
                             <!-- Rating -->
                             <Frame
                                 Grid.Column="1"
+                                Grid.Row="1"
                                 VerticalOptions="Center"
                                 Margin="0"
                                 Padding="0"
@@ -99,6 +104,7 @@
                             <!-- Duration -->
                             <Label
                                 Grid.Column="2"
+                                Grid.Row="1"
                                 VerticalOptions="Center"
                                 Text="{Binding DurationString}"
                                 FontSize="Small" />
@@ -106,6 +112,8 @@
                             <!-- Parental Controls -->
                             <ImageButton
                                 Grid.Column="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
                                 HorizontalOptions="End"
                                 VerticalOptions="Center"
                                 HeightRequest="40"
