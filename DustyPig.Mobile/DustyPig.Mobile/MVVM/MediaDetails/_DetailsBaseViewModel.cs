@@ -56,7 +56,15 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public AsyncCommand RequestPermissionCommand { get; }
         private async Task OnRequestPermission()
         {
-            await ShowAlertAsync("TO DO:", "Request Permission");
+            IsBusy2 = true;
+
+            var response = await App.API.Media.RequestAccessOverrideAsync(Basic_Media.Id);
+            if (response.Success)
+                await ShowAlertAsync("Success", "Request sent");
+            else
+                await ShowAlertAsync("Error", response.Error.Message);
+
+            IsBusy2 = false;
         }
 
 

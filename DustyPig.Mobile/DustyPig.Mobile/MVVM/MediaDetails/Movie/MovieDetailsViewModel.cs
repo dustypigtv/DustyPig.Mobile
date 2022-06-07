@@ -83,7 +83,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 Description = response.Data.Description;
                 Duration = response.Data.Length;
                 Owner = response.Data.Owner;
-
+                
                 switch (response.Data.Rated)
                 {
                     case API.v3.MPAA.Ratings.None:
@@ -160,7 +160,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             }
             else
             {
-                await ShowAlertAsync("Error", "Unable to retrieve movie info");
+                await ShowAlertAsync("Error", response.Error.Message);
                 await Navigation.PopModalAsync();
             }
         }
