@@ -166,6 +166,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             if (response.Success)
             {
                 Series = response.Data;
+                LibraryId = Series.LibraryId;
                 UpdateElements();
                 IsBusy = false;
             }

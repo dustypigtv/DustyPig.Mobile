@@ -74,6 +74,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             {
                 Movie = response.Data;
 
+                LibraryId = Movie.LibraryId;
                 BackdropUrl = string.IsNullOrWhiteSpace(response.Data.BackdropUrl) ?
                     response.Data.ArtworkUrl :
                     response.Data.BackdropUrl;
