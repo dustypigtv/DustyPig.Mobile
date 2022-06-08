@@ -1,10 +1,13 @@
-﻿using DustyPig.Mobile.CrossPlatform.FCM;
+﻿using DustyPig.Mobile.CrossPlatform.DownloadManager;
+using DustyPig.Mobile.CrossPlatform.FCM;
+using DustyPig.Mobile.iOS.CrossPlatform.DownloadManager;
 using DustyPig.Mobile.iOS.CrossPlatform.FCM;
 using DustyPig.Mobile.iOS.CrossPlatform.Orientation;
 using DustyPig.Mobile.iOS.CrossPlatform.SocialLogin;
 using FFImageLoading.Forms.Platform;
 using Foundation;
 using ObjCRuntime;
+using System;
 using UIKit;
 using Xamarin.Forms;
 
@@ -32,6 +35,8 @@ namespace DustyPig.Mobile.iOS
             GoogleLoginClientImplementation.Initialize();
 
             DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
+            
+            DependencyService.RegisterSingleton<IDownloadManager>(CrossPlatform.DownloadManager.DownloadManagerImplementation.Current);
 
             LoadApplication(new App());
 
@@ -71,6 +76,9 @@ namespace DustyPig.Mobile.iOS
             return base.OpenUrl(application, url, sourceApplication, annotation);
         }
 
-
+        public override void HandleEventsForBackgroundUrl(UIApplication application, string sessionIdentifier, Action completionHandler)
+        {
+            DownloadManagerImplementation.BackgroundSessionCompletionHandler = completionHandler;
+        }
     }
 }

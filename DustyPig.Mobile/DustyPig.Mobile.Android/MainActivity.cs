@@ -3,6 +3,7 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using DustyPig.Mobile.CrossPlatform.DownloadManager;
 using DustyPig.Mobile.CrossPlatform.FCM;
 using DustyPig.Mobile.Droid.CrossPlatform;
 using DustyPig.Mobile.Droid.CrossPlatform.FCM;
@@ -77,6 +78,8 @@ namespace DustyPig.Mobile.Droid
 
             Firebase.FirebaseApp.InitializeApp(this);
             Xamarin.Forms.DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
+
+            Xamarin.Forms.DependencyService.RegisterSingleton<IDownloadManager>(CrossPlatform.DownloadManager.DownloadManagerImplementation.Current);
 
             SetTheme(Resource.Style.MainTheme);
 

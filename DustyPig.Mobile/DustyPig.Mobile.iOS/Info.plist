@@ -77,5 +77,10 @@
 		<string>fbauth2</string>
 		<string>fb-messenger-share-api</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

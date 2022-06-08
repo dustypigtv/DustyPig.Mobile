@@ -88,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrossPlatform\AutofillManagerImplementation.cs" />
+    <Compile Include="CrossPlatform\DownloadManager\DownloadCompletedBroadcastReceiver.cs" />
+    <Compile Include="CrossPlatform\DownloadManager\DownloadImplementation.cs" />
+    <Compile Include="CrossPlatform\DownloadManager\DownloadManagerImplementation.cs" />
     <Compile Include="CrossPlatform\FCM\Extensions.cs" />
     <Compile Include="CrossPlatform\FCM\FCMImplementation.cs" />
     <Compile Include="CrossPlatform\FCM\FCMService.cs" />
