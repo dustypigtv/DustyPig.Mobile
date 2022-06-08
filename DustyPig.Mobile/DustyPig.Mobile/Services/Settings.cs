@@ -10,6 +10,8 @@ namespace DustyPig.Mobile.Services
         private const string AUTO_SKIP_INTRO_KEY = "auto_skip_intro";
         private const string AUTO_PLAY_NEXT_KEY = "auto_play_next";
 
+        private const string DOWNLOAD_OVER_CELLULAR_KEY = "download_over_cellular";
+
         public static bool AutoPlayNext
         {
             get => Preferences.Get(AUTO_PLAY_NEXT_KEY, false);
@@ -22,6 +24,11 @@ namespace DustyPig.Mobile.Services
             set => Preferences.Set(AUTO_SKIP_INTRO_KEY, value);
         }
 
+        public static bool DownloadOverCellular
+        {
+            get => Preferences.Get(DOWNLOAD_OVER_CELLULAR_KEY, false);
+            set => Preferences.Set(DOWNLOAD_OVER_CELLULAR_KEY, value);
+        }
 
         private static async Task<string> GetSecureString(string id)
         {

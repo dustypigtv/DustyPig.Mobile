@@ -1,7 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -19,24 +17,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             PlaylistCommand = new Command(AddToPlaylist);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
-            ManageParentalControlsCommand = new Command(ManageParentalControls);
-
-            switch (Services.Downloads.DownloadManager.GetStatus(Basic_Media.Id))
-            {
-                case Services.Downloads.DownloadStatus.Downloading:
-                    DownloadButtonText = "Downloading";
-                    ShowDownloadIcon = false;
-                    break;
-
-                case Services.Downloads.DownloadStatus.Downloaded:
-                    DownloadButtonText = "Downloaded";
-                    ShowDownloadIcon = false;
-                    break;
-
-                default:
-                    DownloadButtonText = "Download";
-                    break;
-            }
+            ManageParentalControlsCommand = new Command(ManageParentalControls);            
         }
 
         public _DetailsBaseViewModel(BasicTMDB basicTMDB, INavigation navigation) : base(navigation)

@@ -1,6 +1,10 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
+using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.CrossPlatform.DownloadManager;
+using DustyPig.Mobile.Services;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -10,6 +14,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 {
     public class MovieDetailsViewModel : _DetailsBaseViewModel
     {
+        private readonly IDownloadManager _downloadManager;
+
         public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
             IsBusy = true;
@@ -19,8 +25,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
             DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
-        }
 
+            _downloadManager = DependencyService.Get<IDownloadManager>();
+        }
 
         private DetailedMovie Movie { get; set; }
 
@@ -40,10 +47,56 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         public AsyncCommand DownloadCommand { get; }
         private async Task OnDownload()
         {
-            await ShowAlertAsync("TO DO:", "Download");
+            if (_downloadManager.Queue.Any(item => item.MediaEntryId == Id))
+            {
+                //Downloading - Cancel?
+                var ans = await DependencyService.Get<IPopup>().YesNoAsync("Confirm", "Do you want to cancel this download?");
+                if (ans)
+                    try { _downloadManager.Abort(_downloadManager.Queue.First(item => item.MediaEntryId == Id)); }
+                    catch { }
+            }
+            else
+            {
+                if (System.IO.File.Exists(_downloadManager.GetLocalPath(Id)))
+                {
+                    //Downloaded - Delete?
+                }
+                else
+                {
+                    //Not Downloaded - Queue it
+                    var dl = _downloadManager.CreateDownload(Movie.VideoUrl, Movie.Id);
+                    _downloadManager.Start(dl, Settings.DownloadOverCellular);
+                }
+            }
         }
 
-        
+        private void DownloadManager_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (_downloadManager.Queue.Any(item => item.MediaEntryId == Id))
+            {
+                DownloadButtonText = "Downloading";
+                ShowDownloadIcon = false;
+            }
+            else
+            {
+                if (System.IO.File.Exists(_downloadManager.GetLocalPath(Basic_Media.Id)))
+                {
+                    DownloadButtonText = "Downloaded";
+                    ShowDownloadIcon = false;
+                }
+                else
+                {
+                    DownloadButtonText = "Download";
+                    ShowDownloadIcon = true;
+                }
+            }
+        }
+
+
+
+
+
+
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
         {
@@ -154,6 +207,30 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     RemainingString = $"{dur.Hours}h {dur.Minutes}m remaining";
                 else
                     RemainingString = $"{Math.Max(dur.Minutes, 0)}m remaining";
+
+
+
+                var download = _downloadManager.Queue.FirstOrDefault(item => item.MediaEntryId == Basic_Media.Id);
+                if (download == null)
+                {
+                    if (System.IO.File.Exists(_downloadManager.GetLocalPath(Basic_Media.Id)))
+                    {
+                        DownloadButtonText = "Downloaded";
+                        ShowDownloadIcon = false;
+                    }
+                    else
+                    {
+                        DownloadButtonText = "Download";
+                    }
+                }
+                else
+                {
+                    DownloadButtonText = "Downloading";
+                    ShowDownloadIcon = false;
+                }
+
+                //Easiest thread safety ever - don't add the event until after setting above download logic
+                _downloadManager.CollectionChanged += DownloadManager_CollectionChanged;
 
 
                 IsBusy = false;

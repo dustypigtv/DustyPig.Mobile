@@ -219,7 +219,8 @@
                             BorderColor="{Static dpcc:Theme.DarkGrey}" 
                             HorizontalOptions="Fill"
                             IsVisible="{Binding CanPlay}"
-                            xct:TouchEffect.NativeAnimation="True">
+                            xct:TouchEffect.NativeAnimation="True"
+                            xct:TouchEffect.Command="{Binding DownloadCommand}">
 
                             <StackLayout 
                                 Orientation="Horizontal"
