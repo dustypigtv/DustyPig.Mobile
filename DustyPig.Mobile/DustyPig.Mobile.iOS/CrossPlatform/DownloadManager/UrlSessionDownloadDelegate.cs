@@ -43,7 +43,6 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 
             download.StatusDetails = error.LocalizedDescription;
             download.Status = DownloadStatus.FAILED;
-            DownloadManagerImplementation.Current.RemoveDownload(download);
         }
 
 
@@ -76,7 +75,6 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             {
                 download.StatusDetails = "Error.HttpCode: " + response.StatusCode;
                 download.Status = DownloadStatus.FAILED;
-                DownloadManagerImplementation.Current.RemoveDownload(download);
                 return;
             }
 
@@ -85,8 +83,6 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 
             if (success)
                 download.Status = DownloadStatus.COMPLETED;
-
-            DownloadManagerImplementation.Current.RemoveDownload(download);
         }
 
         public bool MoveDownloadedFile(DownloadImplementation file, NSUrl location, string destinationPathName)

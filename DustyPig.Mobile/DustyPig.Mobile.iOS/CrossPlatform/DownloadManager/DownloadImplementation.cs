@@ -10,6 +10,47 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public DownloadImplementation(string url, int mediaEntryId)
+        {
+            Url = url;
+            MediaEntryId = mediaEntryId;
+            Status = DownloadStatus.INITIALIZED;
+
+            UrlToIdMap.AddId(url, mediaEntryId);
+        }
+
+
+        public DownloadImplementation(NSUrlSessionTask task)
+        {
+            Url = task.OriginalRequest.Url.AbsoluteString;
+
+            MediaEntryId = UrlToIdMap.GetId(Url);
+
+            switch (task.State)
+            {
+                case NSUrlSessionTaskState.Running:
+                    Status = DownloadStatus.RUNNING;
+                    break;
+
+                case NSUrlSessionTaskState.Completed:
+                    Status = DownloadStatus.COMPLETED;
+                    break;
+
+                case NSUrlSessionTaskState.Canceling:
+                    Status = DownloadStatus.RUNNING;
+                    break;
+
+                case NSUrlSessionTaskState.Suspended:
+                    Status = DownloadStatus.PAUSED;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            Task = task;
+        }
+
         public int MediaEntryId { get; set; }
 
         public NSUrlSessionTask Task { get; set; }
@@ -52,6 +93,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
                     return;
                 _totalBytesExpected = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalBytesExpected)));
+                CalcPercent();
             }
         }
 
@@ -65,51 +107,34 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
                     return;
                 _totalBytesWritten = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalBytesWritten)));
+                CalcPercent();
             }
         }
 
-
-
-
-        public DownloadImplementation(string url, int mediaEntryId)
+        private int _percent;
+        public int Percent
         {
-            Url = url;
-            MediaEntryId = mediaEntryId;
-            Status = DownloadStatus.INITIALIZED;
-
-            UrlToIdMap.AddId(url, mediaEntryId);
-        }
-
-
-        public DownloadImplementation(NSUrlSessionTask task)
-        {
-            Url = task.OriginalRequest.Url.AbsoluteString;
-
-            MediaEntryId = UrlToIdMap.GetId(Url);
-
-            switch (task.State)
+            get => _percent;
+            set
             {
-                case NSUrlSessionTaskState.Running:
-                    Status = DownloadStatus.RUNNING;
-                    break;
+                if (Equals(_percent, value))
+                    return;
+                _percent = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Percent)));
+            }
+        }
 
-                case NSUrlSessionTaskState.Completed:
-                    Status = DownloadStatus.COMPLETED;
-                    break;
-
-                case NSUrlSessionTaskState.Canceling:
-                    Status = DownloadStatus.RUNNING;
-                    break;
-
-                case NSUrlSessionTaskState.Suspended:
-                    Status = DownloadStatus.PAUSED;
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
+        private void CalcPercent()
+        {
+            if(TotalBytesExpected <= 0 || TotalBytesWritten <= 0)
+            {
+                Percent = 0;
+                return;
             }
 
-            Task = task;
+            double w = (double)TotalBytesWritten;
+            double e = (double)TotalBytesExpected;
+            Percent = (int)Math.Floor(w / e * 100);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             using (var fs = File.Create(Path.Combine(Root, ".nomedia"))) { }
 
             // Add all items to the Queue that are pending, paused or running
-            LoopOnDownloads(new Action<ICursor>(cursor => ReinitializeFile(cursor)));
+            ReinitializeAllFiles(new Action<ICursor>(cursor => ReinitializeFile(cursor)));
 
             // Check sequentially if parameters for any of the registered downloads changed
             StartDownloadWatcher();
@@ -61,13 +61,12 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                 jfile.Delete();
 
             request.SetDestinationUri(Android.Net.Uri.FromFile(jfile));
-
             request.SetAllowedOverMetered(mobileNetworkAllowed);
             request.SetNotificationVisibility(DownloadVisibility.Hidden);
 
-            AddFile(dl);
-
             dl.Id = _downloadManager.Enqueue(request);
+        
+            AddFile(dl);
         }
 
         public void Abort(IDownload download)
@@ -84,7 +83,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                 Abort(file);
         }
 
-        void LoopOnDownloads(Action<ICursor> runnable)
+        void ReinitializeAllFiles(Action<ICursor> runnable)
         {
             // Reinitialize downloads that were started before the app was terminated or suspended
             var query = new Android.App.DownloadManager.Query();
@@ -129,15 +128,16 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     if (cursor != null && cursor.MoveToNext())
                         UpdateFileProperties(cursor, dl);
                     else
-                        // This file is not listed in the native download manager anymore. Let's mark it as canceled.
-                        Abort(dl);
+                        //This file is not listed in the native manager
+                        RemoveFile(dl);
+                    
                     cursor?.Close();
                 }
 
                 _downloadWatcherHandler.PostDelayed(_downloadWatcherHandlerRunnable, 1000);
             });
 
-            // Start this playing handler immediately
+            // Start this handler immediately
             _downloadWatcherHandler.PostDelayed(_downloadWatcherHandlerRunnable, 0);
         }
 
@@ -156,7 +156,6 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     download.StatusDetails = default(string);
                     download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.COMPLETED;
                     MoveFile(download.MediaEntryId);
-                    RemoveFile(download);
                     break;
 
                 case Android.App.DownloadStatus.Failed:
@@ -202,7 +201,6 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                         }
                     }
                     download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED;
-                    RemoveFile(download);
                     break;
 
                 case Android.App.DownloadStatus.Paused:

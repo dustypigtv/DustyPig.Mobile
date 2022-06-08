@@ -82,6 +82,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     return;
                 _totalBytesExpected = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalBytesExpected)));
+                CalcPercent();
             }
         }
 
@@ -95,7 +96,34 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     return;
                 _totalBytesWritten = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalBytesWritten)));
+                CalcPercent();
             }
+        }
+
+        private int _percent;
+        public int Percent
+        {
+            get => _percent;
+            set
+            {
+                if (Equals(_percent, value))
+                    return;
+                _percent = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Percent)));
+            }
+        }
+
+        private void CalcPercent()
+        {
+            if (TotalBytesExpected <= 0 || TotalBytesWritten <= 0)
+            {
+                Percent = 0;
+                return;
+            }
+
+            double w = (double)TotalBytesWritten;
+            double e = (double)TotalBytesExpected;
+            Percent = (int)Math.Floor(w / e * 100);
         }
     }
 }
