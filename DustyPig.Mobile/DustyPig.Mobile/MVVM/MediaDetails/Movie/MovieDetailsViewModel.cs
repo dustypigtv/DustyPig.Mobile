@@ -47,27 +47,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         public AsyncCommand DownloadCommand { get; }
         private async Task OnDownload()
         {
-            //if (_downloadManager.Queue.Any(item => item.MediaId == Id))
-            //{
-            //    //Downloading - Cancel?
-            //    var ans = await DependencyService.Get<IPopup>().YesNoAsync("Confirm", "Do you want to cancel this download?");
-            //    if (ans)
-            //        try { _downloadManager.Abort(_downloadManager.Queue.First(item => item.MediaId == Id)); }
-            //        catch { }
-            //}
-            //else
-            //{
-            //    if (System.IO.File.Exists(_downloadManager.GetLocalPath(Id)))
-            //    {
-            //        //Downloaded - Delete?
-            //    }
-            //    else
-            //    {
-            //        //Not Downloaded - Queue it
-            //        var dl = _downloadManager.CreateDownload(Movie.VideoUrl, Movie.Id);
-            //        _downloadManager.Start(dl, Settings.DownloadOverCellular);
-            //    }
-            //}
+           
+
         }
 
         private IDownload DownloadJob { get; set; }

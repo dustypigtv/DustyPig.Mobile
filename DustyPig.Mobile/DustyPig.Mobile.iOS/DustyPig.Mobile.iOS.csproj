@@ -71,8 +71,6 @@
   <ItemGroup>
     <Compile Include="CrossPlatform\DownloadManager\DownloadImplementation.cs" />
     <Compile Include="CrossPlatform\DownloadManager\DownloadManagerImplementation.cs" />
-    <Compile Include="CrossPlatform\DownloadManager\UrlToIdMap.cs" />
-    <Compile Include="CrossPlatform\DownloadManager\UrlToIdMapItem.cs" />
     <Compile Include="CrossPlatform\FCM\FCMImplementation.cs" />
     <Compile Include="CrossPlatform\KeyboardHelperImplementation.cs" />
     <Compile Include="CrossPlatform\PopupImplementation.cs" />

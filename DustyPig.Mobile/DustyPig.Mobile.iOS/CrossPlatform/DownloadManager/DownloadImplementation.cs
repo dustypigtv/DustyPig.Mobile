@@ -16,24 +16,14 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             MediaId = mediaEntryId;
             Suffix = suffix;
             Status = DownloadStatus.INITIALIZED;
-
-            UrlToIdMap.Add(this);
         }
 
 
         public DownloadImplementation(NSUrlSessionTask task)
         {
             Url = task.OriginalRequest.Url.AbsoluteString;
-
-            var map = UrlToIdMap.Get(Url);
-            if(map == null)
-            {
-                task.Cancel();
-                return;
-            }
-
-            MediaId = map.MediaId;
-            Suffix = map.Suffix;
+            MediaId = int.Parse(task.TaskDescription.Substring(0, task.TaskDescription.IndexOf('.')));
+            Suffix = task.TaskDescription.Substring(task.TaskDescription.IndexOf('.') + 1);
 
             switch (task.State)
             {
