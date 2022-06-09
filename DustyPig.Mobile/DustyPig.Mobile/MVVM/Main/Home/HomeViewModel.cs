@@ -1,13 +1,11 @@
-﻿using DustyPig.Mobile.Helpers;
+﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
-using System.Linq;
-using System.Collections.Generic;
-using System;
-using DustyPig.API.v3.Models;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
 {
@@ -183,8 +181,6 @@ namespace DustyPig.Mobile.MVVM.Main.Home
        
         private async Task Update()
         {
-            string cache_file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "home_screen_cache.json");
-
             bool loadFromDisk = MainStack.Children.Count == 0;
             if(!loadFromDisk)
                 if (MainStack.Children.Count == 1)
@@ -192,14 +188,14 @@ namespace DustyPig.Mobile.MVVM.Main.Home
                         loadFromDisk = true;
 
             if (loadFromDisk)
-                try { AddSections(JsonConvert.DeserializeObject<HomeScreen>(File.ReadAllText(cache_file))); }
+                try { AddSections(Services.HomePageCache.Load()); }
                 catch { }
             
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
                 AddSections(response.Data);
-                File.WriteAllText(cache_file, JsonConvert.SerializeObject(response.Data));
+                Services.HomePageCache.Save(response.Data);
                 App.HomePageNeedsRefresh = false;
             }
             else

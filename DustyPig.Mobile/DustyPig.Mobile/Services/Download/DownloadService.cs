@@ -2,18 +2,16 @@
     I *could* go to the trouble of implementing a sqlite database, but since this is is so lightweight...
     I'm just gonna have a serialized json file and a lock
 */
+using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform.DownloadManager;
+using DustyPig.Mobile.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
-using DustyPig.Mobile.CrossPlatform.DownloadManager;
-using Xamarin.Forms;
-using System.Threading.Tasks;
 using System.Threading;
-using DustyPig.API.v3.Models;
-using DustyPig.Mobile.Helpers;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Services.Download
 {
@@ -22,19 +20,24 @@ namespace DustyPig.Mobile.Services.Download
         static List<Job> _jobs;
         static readonly IDownloadManager _manager = DependencyService.Get<IDownloadManager>();
         static readonly string _filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "downloads.json");
-        static readonly object _locker = new object();
-        static readonly Timer _monitorTimer = new Timer(new TimerCallback(MonitorJobs), null, 60000, Timeout.Infinite);
-        static readonly Timer _detailsTimer = new Timer(new TimerCallback(UpdateDetails), null, 120000, Timeout.Infinite);
+        static readonly object _locker = new object();        
+        static readonly Timer _monitorTimer = new Timer(new TimerCallback(MonitorJobs));
+        static readonly Timer _detailsTimer = new Timer(new TimerCallback(UpdateDetails));
         static bool _detailsFirstRun = true;
+               
 
         public static void Init()
         {
             Load();
             CleanDirectories();
+            _monitorTimer.Change(60000, Timeout.Infinite);
+            _detailsTimer.Change(1000, Timeout.Infinite);
         }
 
         static void MonitorJobs(object dummy)
         {
+            //This is the meat: It synchronizes what I WANT to be downloaded with the native download manager
+
 
 
             _monitorTimer.Change(1000, Timeout.Infinite);
@@ -53,7 +56,7 @@ namespace DustyPig.Mobile.Services.Download
             {
                 try
                 {
-                    var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile);
+                    var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile());
                     if(jsonFile.LastWriteTime.AddMinutes(5) < DateTime.Now)
                     {
                         string jsonData1 = File.ReadAllText(jsonFile.FullName);
@@ -82,7 +85,7 @@ namespace DustyPig.Mobile.Services.Download
             {
                 try
                 {
-                    var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile);
+                    var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile());
                     if (jsonFile.LastWriteTime.AddMinutes(5) < DateTime.Now)
                     {
                         string jsonData1 = File.ReadAllText(jsonFile.FullName);
@@ -112,7 +115,7 @@ namespace DustyPig.Mobile.Services.Download
             {
                 try
                 {
-                    var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile);
+                    var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile());
                     if (jsonFile.LastWriteTime.AddMinutes(5) < DateTime.Now)
                     {
                         string jsonData1 = File.ReadAllText(jsonFile.FullName);
@@ -168,7 +171,7 @@ namespace DustyPig.Mobile.Services.Download
 
             //Manually save the .json file
             UpdateJobFile(job, "json", null, false);
-            File.WriteAllText(job.Files[0].LocalFile, JsonConvert.SerializeObject(movie));
+            File.WriteAllText(job.Files[0].LocalFile(), JsonConvert.SerializeObject(movie));
 
             UpdateJobFile(job, "poster.jpg", movie.ArtworkUrl, false);
             UpdateJobFile(job, "mp4", movie.VideoUrl, true);
@@ -200,7 +203,7 @@ namespace DustyPig.Mobile.Services.Download
 
             //Manually save the .json file
             UpdateJobFile(job, "json", null, false);
-            File.WriteAllText(job.Files[0].LocalFile, JsonConvert.SerializeObject(series));
+            File.WriteAllText(job.Files[0].LocalFile(), JsonConvert.SerializeObject(series));
 
             UpdateJobFile(job, "poster.jpg", series.ArtworkUrl, false);
             UpdateOptionalJobFile(job, "backdrop.jgp", series.BackdropUrl, false);
@@ -300,7 +303,7 @@ namespace DustyPig.Mobile.Services.Download
 
             //Manually save the .json file
             UpdateJobFile(job, "json", null, false);
-            File.WriteAllText(job.Files[0].LocalFile, JsonConvert.SerializeObject(playlist));
+            File.WriteAllText(job.Files[0].LocalFile(), JsonConvert.SerializeObject(playlist));
 
             UpdateJobFile(job, "poster1.jpg", playlist.ArtworkUrl1, false);
             UpdateOptionalJobFile(job, "poster2.jpg", playlist.ArtworkUrl2, false);
@@ -407,16 +410,16 @@ namespace DustyPig.Mobile.Services.Download
                 {
                     var downloads = _manager.Queue.Where(item => item.MediaId == mediaId).ToList();
                     downloads.ForEach(item => _manager.Abort(item));
-                    TryDeleteFile(jobFile.TempFile);
-                    TryDeleteFile(jobFile.LocalFile);
+                    TryDeleteFile(jobFile.TempFile());
+                    TryDeleteFile(jobFile.LocalFile());
                 }
 
                 foreach (var jobFile in job.SubJobs.SelectMany(item => item.Files))
                 {
                     var downloads = _manager.Queue.Where(item => item.MediaId == mediaId).ToList();
                     downloads.ForEach(item => _manager.Abort(item));
-                    TryDeleteFile(jobFile.TempFile);
-                    TryDeleteFile(jobFile.LocalFile);
+                    TryDeleteFile(jobFile.TempFile());
+                    TryDeleteFile(jobFile.LocalFile());
                 }
             }
 
@@ -432,15 +435,36 @@ namespace DustyPig.Mobile.Services.Download
 
 
 
+        public static void Reset()
+        {
+            _manager.AbortAll();
+            
+            lock (_locker)
+            {
+                _jobs.Clear();
+                TryDeleteFile(_filename);
+            }            
 
+            try
+            {
+                Directory.Delete(_manager.TempDirectory, true);
+            }
+            catch { }
+            
+            try
+            {
+                Directory.Delete(_manager.DownloadDirectory, true);
+            }
+            catch { }
+        }
 
         static void CleanDirectories()
         {
             var jobs = Jobs;
             var jobFiles = jobs.SelectMany(item => item.Files).ToList();
             jobFiles.AddRange(jobs.SelectMany(item => item.SubJobs).SelectMany(item => item.Files));
-            var safeFiles = jobFiles.Select(item => item.TempFile).ToList();
-            safeFiles.AddRange(jobFiles.Select(item => item.LocalFile).ToList());
+            var safeFiles = jobFiles.Select(item => item.TempFile()).ToList();
+            safeFiles.AddRange(jobFiles.Select(item => item.LocalFile()).ToList());
 
             foreach (var file in Directory.GetFiles(_manager.TempDirectory))
                 if (!safeFiles.Contains(file))
