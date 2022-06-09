@@ -46,14 +46,14 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             }
         }
 
-        public IDownload CreateDownload(string url, int id) => new DownloadImplementation(url, id);
+        public IDownload CreateDownload(string url, int id, string suffix) => new DownloadImplementation(url, id, suffix);
 
-        public void Start(IDownload downlod, bool mobileNetworkAllowed = false)
+        public void Start(IDownload download, bool mobileNetworkAllowed)
         {
-            var dl = (DownloadImplementation)downlod;
-            string destinationPathName = GetTempPath(downlod.MediaEntryId);
+            var dl = (DownloadImplementation)download;
+            string destinationPathName = GetTempPath(download);
 
-            using var downloadUrl = Android.Net.Uri.Parse(downlod.Url);
+            using var downloadUrl = Android.Net.Uri.Parse(download.Url);
             using var request = new Android.App.DownloadManager.Request(downloadUrl);
 
             var jfile = new Java.IO.File(destinationPathName);
@@ -64,7 +64,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             request.SetAllowedOverMetered(mobileNetworkAllowed);
             request.SetNotificationVisibility(DownloadVisibility.Hidden);
 
-            dl.Id = _downloadManager.Enqueue(request);
+            dl.AndroidId = _downloadManager.Enqueue(request);
         
             AddFile(dl);
         }
@@ -73,7 +73,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         {
             var dl = (DownloadImplementation)download;
             dl.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.CANCELED;
-            _downloadManager.Remove(dl.Id);
+            _downloadManager.Remove(dl.AndroidId);
             RemoveFile(dl);
         }
 
@@ -106,7 +106,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         {
             var download = new DownloadImplementation(cursor);
             AddFile(download);
-            UpdateFileProperties(cursor, download);
+            UpdateDownloadProperties(cursor, download);
         }
 
         void StartDownloadWatcher()
@@ -122,11 +122,11 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                 foreach (var dl in downloads)
                 {
                     var query = new Android.App.DownloadManager.Query();
-                    query.SetFilterById(dl.Id);
+                    query.SetFilterById(dl.AndroidId);
 
                     using var cursor = _downloadManager.InvokeQuery(query);
                     if (cursor != null && cursor.MoveToNext())
-                        UpdateFileProperties(cursor, dl);
+                        UpdateDownloadProperties(cursor, dl);
                     else
                         //This file is not listed in the native manager
                         RemoveFile(dl);
@@ -145,7 +145,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
          * Update the properties for a file by it's cursor.
          * This method should be called in an interval and on reinitialization.
          */
-        public void UpdateFileProperties(ICursor cursor, DownloadImplementation download)
+        public void UpdateDownloadProperties(ICursor cursor, DownloadImplementation download)
         {
             download.TotalBytesWritten = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
             download.TotalBytesExpected = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
@@ -155,7 +155,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                 case Android.App.DownloadStatus.Successful:
                     download.StatusDetails = default(string);
                     download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.COMPLETED;
-                    MoveFile(download.MediaEntryId);
+                    MoveFile(download);
                     break;
 
                 case Android.App.DownloadStatus.Failed:
@@ -271,17 +271,17 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 
         public string TempDirectory => Directory.CreateDirectory(Path.Combine(Root, "tmp")).FullName;
 
-        public string GetLocalPath(int id) => Path.Combine(DownloadDirectory, $"{id}.mp4");
+        public string GetLocalPath(IDownload download) => Path.Combine(DownloadDirectory, download.Filename);
         
-        public string GetTempPath(int id) => Path.Combine(TempDirectory, $"{id}.mp4");
+        public string GetTempPath(IDownload download) => Path.Combine(TempDirectory, download.Filename);
 
-        public void MoveFile(int id)
+        public void MoveFile(IDownload download)
         {
-            string local = GetLocalPath(id);
+            string local = GetLocalPath(download);
             if (File.Exists(local))
                 File.Delete(local);
 
-            File.Move(GetTempPath(id), local);
+            File.Move(GetTempPath(download), local);
         }
     }
 }

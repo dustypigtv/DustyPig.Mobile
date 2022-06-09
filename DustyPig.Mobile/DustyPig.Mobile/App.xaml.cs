@@ -18,6 +18,7 @@ namespace DustyPig.Mobile
             InitializeComponent();
             MainPage = new StartupPage();
             DependencyService.Get<IScreen>().SetOrientation(false);
+            //Services.Download.DownloadService.Init();
         }
 
         protected override void OnStart()

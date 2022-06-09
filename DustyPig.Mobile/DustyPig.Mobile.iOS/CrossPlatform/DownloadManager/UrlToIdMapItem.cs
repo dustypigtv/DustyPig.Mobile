@@ -4,6 +4,8 @@
     {
         public string Url { get; set; }
 
-        public int MediaEntryId { get; set; }
+        public int MediaId { get; set; }
+
+        public string Suffix { get; set; }
     }
 }

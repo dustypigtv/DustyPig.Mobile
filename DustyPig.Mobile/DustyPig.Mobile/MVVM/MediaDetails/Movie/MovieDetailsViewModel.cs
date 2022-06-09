@@ -47,53 +47,30 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         public AsyncCommand DownloadCommand { get; }
         private async Task OnDownload()
         {
-            if (_downloadManager.Queue.Any(item => item.MediaEntryId == Id))
-            {
-                //Downloading - Cancel?
-                var ans = await DependencyService.Get<IPopup>().YesNoAsync("Confirm", "Do you want to cancel this download?");
-                if (ans)
-                    try { _downloadManager.Abort(_downloadManager.Queue.First(item => item.MediaEntryId == Id)); }
-                    catch { }
-            }
-            else
-            {
-                if (System.IO.File.Exists(_downloadManager.GetLocalPath(Id)))
-                {
-                    //Downloaded - Delete?
-                }
-                else
-                {
-                    //Not Downloaded - Queue it
-                    var dl = _downloadManager.CreateDownload(Movie.VideoUrl, Movie.Id);
-                    _downloadManager.Start(dl, Settings.DownloadOverCellular);
-                }
-            }
+            //if (_downloadManager.Queue.Any(item => item.MediaId == Id))
+            //{
+            //    //Downloading - Cancel?
+            //    var ans = await DependencyService.Get<IPopup>().YesNoAsync("Confirm", "Do you want to cancel this download?");
+            //    if (ans)
+            //        try { _downloadManager.Abort(_downloadManager.Queue.First(item => item.MediaId == Id)); }
+            //        catch { }
+            //}
+            //else
+            //{
+            //    if (System.IO.File.Exists(_downloadManager.GetLocalPath(Id)))
+            //    {
+            //        //Downloaded - Delete?
+            //    }
+            //    else
+            //    {
+            //        //Not Downloaded - Queue it
+            //        var dl = _downloadManager.CreateDownload(Movie.VideoUrl, Movie.Id);
+            //        _downloadManager.Start(dl, Settings.DownloadOverCellular);
+            //    }
+            //}
         }
 
-        private void DownloadManager_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (_downloadManager.Queue.Any(item => item.MediaEntryId == Id))
-            {
-                DownloadButtonText = "Downloading";
-                ShowDownloadIcon = false;
-            }
-            else
-            {
-                if (System.IO.File.Exists(_downloadManager.GetLocalPath(Basic_Media.Id)))
-                {
-                    DownloadButtonText = "Downloaded";
-                    ShowDownloadIcon = false;
-                }
-                else
-                {
-                    DownloadButtonText = "Download";
-                    ShowDownloadIcon = true;
-                }
-            }
-        }
-
-
-
+        private IDownload DownloadJob { get; set; }
 
 
 
@@ -210,29 +187,34 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
 
 
-                var download = _downloadManager.Queue.FirstOrDefault(item => item.MediaEntryId == Basic_Media.Id);
-                if (download == null)
-                {
-                    if (System.IO.File.Exists(_downloadManager.GetLocalPath(Basic_Media.Id)))
-                    {
-                        DownloadButtonText = "Downloaded";
-                        ShowDownloadIcon = false;
-                    }
-                    else
-                    {
-                        DownloadButtonText = "Download";
-                    }
-                }
-                else
-                {
-                    DownloadButtonText = "Downloading";
-                    ShowDownloadIcon = false;
-                }
+                //DownloadJob = _downloadManager.Queue.FirstOrDefault(item => item.MediaId == Basic_Media.Id);
+                //if (DownloadJob == null)
+                //{
+                //    if (System.IO.File.Exists(_downloadManager.GetLocalPath(Basic_Media.Id)))
+                //    {
+                //        DownloadButtonText = "Downloaded";
+                //        ShowDownloadIcon = false;
+                //    }
+                //    else
+                //    {
+                //        DownloadButtonText = "Download";
+                //        ShowDownloadIcon = true;
+                //    }
+                //}
+                //else
+                //{
+                //    DownloadButtonText = "Downloading";
+                //    ShowDownloadIcon = false;
+                //    DownloadJob.PropertyChanged += (sender, e) =>
+                //    {
+                //        switch (DownloadJob.Status)
+                //        {
 
-                //Easiest thread safety ever - don't add the event until after setting above download logic
-                _downloadManager.CollectionChanged += DownloadManager_CollectionChanged;
+                //        }
+                //    };
+                //}
 
-
+                
                 IsBusy = false;
             }
             else

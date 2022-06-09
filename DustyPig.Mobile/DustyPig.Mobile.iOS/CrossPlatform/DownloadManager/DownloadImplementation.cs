@@ -10,13 +10,14 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DownloadImplementation(string url, int mediaEntryId)
+        public DownloadImplementation(string url, int mediaEntryId, string suffix)
         {
             Url = url;
-            MediaEntryId = mediaEntryId;
+            MediaId = mediaEntryId;
+            Suffix = suffix;
             Status = DownloadStatus.INITIALIZED;
 
-            UrlToIdMap.AddId(url, mediaEntryId);
+            UrlToIdMap.Add(this);
         }
 
 
@@ -24,7 +25,15 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
         {
             Url = task.OriginalRequest.Url.AbsoluteString;
 
-            MediaEntryId = UrlToIdMap.GetId(Url);
+            var map = UrlToIdMap.Get(Url);
+            if(map == null)
+            {
+                task.Cancel();
+                return;
+            }
+
+            MediaId = map.MediaId;
+            Suffix = map.Suffix;
 
             switch (task.State)
             {
@@ -51,11 +60,15 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             Task = task;
         }
 
-        public int MediaEntryId { get; set; }
-
-        public NSUrlSessionTask Task { get; set; }
+        public int MediaId { get; set; }
 
         public string Url { get; }
+
+        public string Suffix { get; set; }
+
+        public string Filename => $"{MediaId}.{Suffix}";
+
+
 
         private DownloadStatus _status;
         public DownloadStatus Status
@@ -136,5 +149,9 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             double e = (double)TotalBytesExpected;
             Percent = (int)Math.Floor(w / e * 100);
         }
+
+        public NSUrlSessionTask Task { get; set; }
+
+
     }
 }

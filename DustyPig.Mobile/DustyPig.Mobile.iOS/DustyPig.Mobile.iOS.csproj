@@ -27,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements>Entitlements.Dev.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements>Entitlements.Prd.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -71,7 +71,6 @@
   <ItemGroup>
     <Compile Include="CrossPlatform\DownloadManager\DownloadImplementation.cs" />
     <Compile Include="CrossPlatform\DownloadManager\DownloadManagerImplementation.cs" />
-    <Compile Include="CrossPlatform\DownloadManager\UrlSessionDownloadDelegate.cs" />
     <Compile Include="CrossPlatform\DownloadManager\UrlToIdMap.cs" />
     <Compile Include="CrossPlatform\DownloadManager\UrlToIdMapItem.cs" />
     <Compile Include="CrossPlatform\FCM\FCMImplementation.cs" />

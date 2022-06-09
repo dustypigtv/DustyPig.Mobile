@@ -8,25 +8,20 @@ using System.Linq;
 
 namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 {
-    /// <summary>
-    /// The iOS implementation of the download manager.
-    /// </summary>
-    public class DownloadManagerImplementation : IDownloadManager
+    public class DownloadManagerImplementation : NSObject, INSUrlSessionDownloadDelegate, IDownloadManager
     {
-        public static readonly DownloadManagerImplementation Current = new DownloadManagerImplementation();
-
         private string _identifier => NSBundle.MainBundle.BundleIdentifier + ".BackgroundTransferSession";
 
         private readonly NSUrlSession _backgroundSession;
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        private DownloadManagerImplementation()
+        internal DownloadManagerImplementation()
         {
             _queue = new List<IDownload>();
 
             using (var configuration = NSUrlSessionConfiguration.CreateBackgroundSessionConfiguration(_identifier))
-                _backgroundSession = NSUrlSession.FromConfiguration(configuration, UrlSessionDownloadDelegate.Current, new NSOperationQueue());
+                _backgroundSession = NSUrlSession.FromConfiguration(configuration, this, new NSOperationQueue());
 
             // Reinitialize tasks that were started before the app was terminated or suspended
             _backgroundSession.GetTasks2((dataTasks, uploadTasks, downloadTasks) =>
@@ -37,6 +32,60 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
         }
 
         public static Action BackgroundSessionCompletionHandler { get; set; }
+
+        protected internal void AddDownload(IDownload download)
+        {
+            lock (_queue)
+            {
+                _queue.Add(download);
+            }
+            CollectionChanged?.Invoke(Queue, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, download));
+        }
+
+        protected internal void RemoveDownload(IDownload download)
+        {
+            lock (_queue)
+            {
+                _queue.Remove(download);
+                UrlToIdMap.Delete(download);
+            }
+            CollectionChanged?.Invoke(Queue, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, download));
+        }
+
+        public string GetLocalPath(IDownload download) => Path.Combine(DownloadDirectory, download.Filename);
+
+
+        protected DownloadImplementation GetDownloadFileByTask(NSUrlSessionTask downloadTask)
+        {
+            return Queue
+                .Cast<DownloadImplementation>()
+                .FirstOrDefault(
+                    i => i.Task != null &&
+                    (int)i.Task.TaskIdentifier == (int)downloadTask.TaskIdentifier
+                );
+        }
+
+        public bool MoveDownloadedFile(DownloadImplementation file, NSUrl location, string destinationPathName)
+        {
+            var fileManager = NSFileManager.DefaultManager;
+
+            var destinationUrl = new NSUrl(destinationPathName, false);
+            NSError removeCopy;
+            NSError errorCopy;
+
+            fileManager.Remove(destinationUrl, out removeCopy);
+            var success = fileManager.Move(location, destinationUrl, out errorCopy);
+
+            if (!success)
+            {
+                file.StatusDetails = errorCopy.LocalizedDescription;
+                file.Status = DownloadStatus.FAILED;
+            }
+
+            return success;
+        }
+
+        #region IDownloadManager
 
         private readonly IList<IDownload> _queue;
         public IEnumerable<IDownload> Queue
@@ -50,7 +99,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             }
         }
 
-        public IDownload CreateDownload(string url, int id) => new DownloadImplementation(url, id);
+        public IDownload CreateDownload(string url, int id, string suffix) => new DownloadImplementation(url, id, suffix);
 
         public void Start(IDownload download, bool mobileNetworkAllowed = false)
         {
@@ -80,27 +129,6 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
                 Abort(file);
         }
 
-        protected internal void AddDownload(IDownload download)
-        {
-            lock (_queue)
-            {
-                _queue.Add(download);
-            }
-            CollectionChanged?.Invoke(Queue, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, download));
-        }
-
-        protected internal void RemoveDownload(IDownload download)
-        {
-            lock (_queue)
-            {
-                _queue.Remove(download);
-                UrlToIdMap.DeleteId(download.MediaEntryId);
-            }
-            CollectionChanged?.Invoke(Queue, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, download));
-        }
-
-
-
         public string DownloadDirectory
         {
             get
@@ -111,7 +139,98 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             }
         }
 
-        public string GetLocalPath(int id) => Path.Combine(DownloadDirectory, $"{id}.mp4");
+        public string TempDirectory
+        {
+            get
+            {
+                string ret = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "..", "Library", "Caches", "Temp");
+                Directory.CreateDirectory(ret);
+                return ret;
+            }
+        }
 
+
+        #endregion
+
+
+        #region INSUrlSessionDownloadDelegate
+
+        [Export("URLSession:downloadTask:didResumeAtOffset:expectedTotalBytes:")]
+        public void DidResume(NSUrlSession session, NSUrlSessionDownloadTask downloadTask, long resumeFileOffset, long expectedTotalBytes)
+        {
+            var download = GetDownloadFileByTask(downloadTask);
+            if (download == null)
+            {
+                downloadTask.Cancel();
+                return;
+            }
+
+            download.Status = DownloadStatus.RUNNING;
+        }
+
+
+        [Export("URLSession:task:didCompleteWithError:")]
+        public void DidCompleteWithError(NSUrlSession session, NSUrlSessionTask task, NSError error)
+        {
+            var download = GetDownloadFileByTask(task);
+            if (download == null)
+                return;
+
+            download.StatusDetails = error.LocalizedDescription;
+            download.Status = DownloadStatus.FAILED;
+        }
+
+
+        [Export("URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:")]
+        public void DidWriteData(NSUrlSession session, NSUrlSessionDownloadTask downloadTask, long bytesWritten, long totalBytesWritten, long totalBytesExpectedToWrite)
+        {
+            var download = GetDownloadFileByTask(downloadTask);
+            if (download == null)
+            {
+                downloadTask.Cancel();
+                return;
+            }
+
+            download.Status = DownloadStatus.RUNNING;
+            download.TotalBytesExpected = totalBytesExpectedToWrite;
+            download.TotalBytesWritten = totalBytesWritten;
+        }
+
+        public void DidFinishDownloading(NSUrlSession session, NSUrlSessionDownloadTask downloadTask, NSUrl location)
+        {
+            var download = GetDownloadFileByTask(downloadTask);
+            if (download == null)
+            {
+                downloadTask.Cancel();
+                return;
+            }
+
+            var response = downloadTask.Response as NSHttpUrlResponse;
+            if (response != null && response.StatusCode >= 400)
+            {
+                download.StatusDetails = "Error.HttpCode: " + response.StatusCode;
+                download.Status = DownloadStatus.FAILED;
+                return;
+            }
+
+            var destinationPathName = GetLocalPath(download);
+            var success = MoveDownloadedFile(download, location, destinationPathName);
+
+            if (success)
+                download.Status = DownloadStatus.COMPLETED;
+        }
+
+        [Export("URLSessionDidFinishEventsForBackgroundURLSession:")]
+        public void DidFinishEventsForBackgroundSession(NSUrlSession session)
+        {
+            var handler = BackgroundSessionCompletionHandler;
+            if (handler != null)
+            {
+                BackgroundSessionCompletionHandler = null;
+                handler();
+            }
+        }
+
+        #endregion
     }
 }

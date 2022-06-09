@@ -1,5 +1,7 @@
 ﻿using DustyPig.API.v3;
+using DustyPig.API.v3.Models;
 using System;
+using System.IO;
 
 namespace DustyPig.Mobile.Helpers
 {
@@ -18,6 +20,14 @@ namespace DustyPig.Mobile.Helpers
                 message = message.Substring(1, message.Length - 2);
 
             return message.Trim();
+        }
+
+        public static string SafeFilename(this ExternalSubtitle sub)
+        {
+            string ret = sub.Name;
+            foreach (char c in Path.GetInvalidFileNameChars())
+                ret = ret.Replace(c, '_');
+            return ret + ".srt";
         }
     }
 }

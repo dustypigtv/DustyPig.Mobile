@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DustyPig.Mobile.CrossPlatform.DownloadManager;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 {
@@ -12,17 +13,13 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 
         static readonly object _locker = new object();
 
-        static string Filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "dustypig_dl_map.xml");
+        static string Filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "ios_download_map.json");
         
         static UrlToIdMap LoadMap()
         {
             try
             {
-                using (var fs = File.OpenRead(Filename))
-                {
-                    var xs = new XmlSerializer(typeof(UrlToIdMap));
-                    return (UrlToIdMap)xs.Deserialize(fs);
-                }
+                return JsonConvert.DeserializeObject<UrlToIdMap>(File.ReadAllText(Filename));
             }
             catch
             {
@@ -30,44 +27,37 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             }
         }
 
-        static void SaveMap(UrlToIdMap map)
-        {
-            using (var fs = File.Create(Filename))
-            {
-                var xs = new XmlSerializer(typeof(UrlToIdMap));
-                xs.Serialize(fs, map);
-            }
-        }
+        static void SaveMap(UrlToIdMap map) => File.WriteAllText(Filename, JsonConvert.SerializeObject(map));
+        
 
-        public static void AddId(string url, int mediaEntryId)
+        public static void Add(IDownload download)
         {
             lock (_locker)
             {
                 var map = LoadMap();
-                var existing = map.Items.FirstOrDefault(x => x.Url == url);
+                var existing = map.Items.FirstOrDefault(x => x.Url == download.Url);
                 if(existing == null)
                 {
-                    map.Items.Add(new UrlToIdMapItem { Url = url, MediaEntryId = mediaEntryId });
+                    map.Items.Add(new UrlToIdMapItem { Url = download.Url, MediaId = download.MediaId, Suffix = download.Suffix });
                     SaveMap(map);
                 }
             }       
         }
 
-        public static int GetId(string url)
+        public static UrlToIdMapItem Get(string url)
         {
             lock (_locker)
             {
-                try { return LoadMap().Items.Single(x => x.Url == url).MediaEntryId; }
-                catch { return -1; }
+                return LoadMap().Items.FirstOrDefault(x => x.Url == url);
             }
         }
 
-        public static void DeleteId(int mediaEntryId)
+        public static void Delete(IDownload download)
         {
             lock (_locker)
             {
                 var map = LoadMap();
-                var existing = map.Items.FirstOrDefault(x => x.MediaEntryId == mediaEntryId);
+                var existing = map.Items.FirstOrDefault(x => x.Url == download.Url);
                 if (existing != null)
                 {
                     map.Items.Remove(existing);

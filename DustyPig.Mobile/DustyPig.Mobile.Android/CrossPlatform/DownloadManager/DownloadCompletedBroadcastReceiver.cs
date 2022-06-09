@@ -11,18 +11,18 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         {
             var reference = intent.GetLongExtra(Android.App.DownloadManager.ExtraDownloadId, -1);
 
-            var download = DownloadManagerImplementation.Current.Queue.Cast<DownloadImplementation>().FirstOrDefault(f => f.Id == reference);
+            var download = DownloadManagerImplementation.Current.Queue.Cast<DownloadImplementation>().FirstOrDefault(f => f.AndroidId == reference);
             if (download == null)
                 return;
 
             var query = new Android.App.DownloadManager.Query();
-            query.SetFilterById(download.Id);
+            query.SetFilterById(download.AndroidId);
 
 
             using var cursor = ((Android.App.DownloadManager)context.GetSystemService(Context.DownloadService)).InvokeQuery(query);
             while (cursor != null && cursor.MoveToNext())
             {
-                DownloadManagerImplementation.Current.UpdateFileProperties(cursor, download);
+                DownloadManagerImplementation.Current.UpdateDownloadProperties(cursor, download);
             }
             cursor?.Close();
         }

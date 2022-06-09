@@ -10,10 +10,11 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DownloadImplementation(string url, int mediaEntryId)
+        public DownloadImplementation(string url, int mediaEntryId, string suffix)
         {
             Url = url;
-            MediaEntryId = mediaEntryId;
+            MediaId = mediaEntryId;
+            Suffix = suffix;
             Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.INITIALIZED;
         }
 
@@ -22,11 +23,16 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
          */
         public DownloadImplementation(ICursor cursor)
         {
-            Id = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnId));
+            AndroidId = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnId));
             Url = cursor.GetString(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnUri));
 
             string localUri = cursor.GetString(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnLocalUri));
-            MediaEntryId = int.Parse(System.IO.Path.GetFileNameWithoutExtension(localUri));
+            string filename = System.IO.Path.GetFileName(localUri);
+
+            //Filename will be MediaId.Suffix
+            MediaId = int.Parse(filename.Substring(0, filename.IndexOf('.')));
+            Suffix = filename.Substring(filename.IndexOf('.') + 1);
+            
             
             Status = (Android.App.DownloadStatus)cursor.GetInt(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnStatus)) switch
             {
@@ -40,12 +46,19 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         }
 
 
-        public int MediaEntryId { get; set; }
-
-        public long Id { get; set; }
+        public int MediaId { get; set; }
 
         public string Url { get; set; }
 
+        public string Suffix { get; set; }
+
+        public string Filename => $"{MediaId}.{Suffix}";
+
+
+
+        public long AndroidId { get; set; }
+
+        
         private Mobile.CrossPlatform.DownloadManager.DownloadStatus _status;
         public Mobile.CrossPlatform.DownloadManager.DownloadStatus Status
         {

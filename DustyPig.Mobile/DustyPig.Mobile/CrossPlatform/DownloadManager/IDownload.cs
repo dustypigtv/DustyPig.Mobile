@@ -3,23 +3,16 @@ using System.ComponentModel;
 
 namespace DustyPig.Mobile.CrossPlatform.DownloadManager
 {
-    /// <summary>
-    /// Download file.
-    /// </summary>
     public interface IDownload : INotifyPropertyChanged
     {
-        int MediaEntryId { get; }
+        int MediaId { get; }
 
-        /// <summary>
-        /// Gets the URL of the file to download.
-        /// </summary>
-        /// <value>The URL.</value>
         string Url { get; }
 
-        /// <summary>
-        /// Gets the status.
-        /// </summary>
-        /// <value>The status.</value>
+        string Suffix { get; }
+
+        string Filename { get; }
+
         DownloadStatus Status { get; }
 
         /// <summary>
@@ -37,16 +30,10 @@ namespace DustyPig.Mobile.CrossPlatform.DownloadManager
         /// <value>The status details.</value>
         string StatusDetails { get; }
 
-        /// <summary>
-        /// Gets the amount of bytes expected.
-        /// </summary>
-        /// <value>The total bytes expected.</value>
         long TotalBytesExpected { get; }
 
-        /// <summary>
-        /// Gets the amount of bytes written.
-        /// </summary>
-        /// <value>The total bytes written.</value>
         long TotalBytesWritten { get; }
+
+        int Percent { get; }
     }
 }

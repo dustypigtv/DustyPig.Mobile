@@ -36,7 +36,7 @@ namespace DustyPig.Mobile.iOS
 
             DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
             
-            DependencyService.RegisterSingleton<IDownloadManager>(CrossPlatform.DownloadManager.DownloadManagerImplementation.Current);
+            DependencyService.RegisterSingleton<IDownloadManager>(new CrossPlatform.DownloadManager.DownloadManagerImplementation());
 
             LoadApplication(new App());
 
