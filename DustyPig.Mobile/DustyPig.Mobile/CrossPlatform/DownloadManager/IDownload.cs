@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace DustyPig.Mobile.CrossPlatform.DownloadManager
 {
-    public interface IDownload : INotifyPropertyChanged
+    public interface IDownload
     {
         int MediaId { get; }
 

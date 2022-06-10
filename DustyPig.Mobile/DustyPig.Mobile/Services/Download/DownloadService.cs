@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Services.Download
@@ -21,26 +22,196 @@ namespace DustyPig.Mobile.Services.Download
         static readonly IDownloadManager _manager = DependencyService.Get<IDownloadManager>();
         static readonly string _filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "downloads.json");
         static readonly object _locker = new object();        
-        static readonly Timer _monitorTimer = new Timer(new TimerCallback(MonitorJobs));
+        static readonly Timer _monitorTimer = new Timer(new TimerCallback(MonitorJobsCallback));
         static readonly Timer _detailsTimer = new Timer(new TimerCallback(UpdateDetails));
         static bool _detailsFirstRun = true;
                
 
         public static void Init()
         {
-            Load();
-            CleanDirectories();
-            _monitorTimer.Change(60000, Timeout.Infinite);
-            _detailsTimer.Change(1000, Timeout.Infinite);
+            //Faster startup
+            Task.Run(() =>
+            {
+                Load();
+                CleanDirectories();
+                _manager.DownloadUpdated += NativeManager_DownloadUpdated;
+                _monitorTimer.Change(1000, Timeout.Infinite);
+                _detailsTimer.Change(60000, Timeout.Infinite);
+            });
         }
 
-        static void MonitorJobs(object dummy)
+        /// <summary>
+        /// Returns top level (movie, series, plsaylist)
+        /// </summary>
+        public static Job FindJob(int mediaId)
         {
-            //This is the meat: It synchronizes what I WANT to be downloaded with the native download manager
+            var jobs = GetJobs();
+            var job = jobs.FirstOrDefault(item => item.MediaId == mediaId);
+            if(job == null)
+                foreach(var candidate in jobs)
+                    if(candidate.SubJobs.Any(item => item.MediaId == mediaId))
+                    {
+                        job = candidate;
+                        break;
+                    }
+
+            return job;
+        }
+
+        static JobFile FindFile(IDownload download)
+        {
+            var jobs = GetJobs();
+            foreach (var job in jobs)
+            {
+                if (job.MediaId == download.MediaId)
+                    foreach (var file in job.Files)
+                        if (file.Suffix == download.Suffix)
+                            if (file.Url == download.Url)
+                                return file;
+
+                foreach (var subJob in job.SubJobs)
+                    if (subJob.MediaId == download.MediaId)
+                        foreach (var file in subJob.Files)
+                            if (file.Url == download.Url)
+                                if (file.Suffix == download.Suffix)
+                                    return file;
+            }
+
+            return null;
+        }
 
 
+        static void NativeManager_DownloadUpdated(object sender, IDownload e)
+        {
+            var file = FindFile(e);
+            if (file != null)
+                file.Percent = e.Percent;
+
+            FindJob(e.MediaId)?.Update();
+
+            switch (e.Status)
+            {
+                //case DownloadStatus.CANCELED:
+                //case DownloadStatus.COMPLETED:
+                //case DownloadStatus.INITIALIZED:
+                //case DownloadStatus.PAUSED:
+                //case DownloadStatus.PENDING:
+                //    Console.WriteLine("*** DOWNLOAD {0} ***", e.Status);
+                //    break;
+
+                
+                case DownloadStatus.FAILED:
+                    Console.WriteLine("*** DOWNLOAD FAILED ***");
+                    Console.WriteLine(e.StatusDetails);
+                    _manager.Abort(e);                   
+                    break;
+
+                //case DownloadStatus.RUNNING:
+
+                //    if (e.TotalBytesExpected > 0)
+                //        Console.WriteLine("*** {0} PERCENT: {1:0.00%} ***", e.MediaId, (double)e.TotalBytesWritten / (double)e.TotalBytesExpected);
+                //    break;
+            }
+
+        }
+
+        static void MonitorJobsCallback(object dummy)
+        {
+            try
+            {
+                MonitorJobs();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
 
             _monitorTimer.Change(1000, Timeout.Infinite);
+        }
+
+        static void MonitorJobs()
+        {
+            //This is the meat: It synchronizes what I WANT to be downloaded with the native download manager
+           
+            var jobs = GetJobs();
+
+            //Delete any downlods in the native manager that arent in this manager
+            var validJobFiles = jobs.SelectMany(item => item.Files).ToList();
+            validJobFiles.AddRange(jobs.SelectMany(item => item.SubJobs).SelectMany(item => item.Files));
+            foreach (var download in _manager.GetQueue())
+            {
+                var valid = validJobFiles
+                    .Where(item => item.MediaId == download.MediaId)
+                    .Where(item => item.Suffix == download.Suffix)
+                    .Where(item => item.Url == download.Url)
+                    .Any();
+                
+                if (!valid)
+                    _manager.Abort(download);
+            }
+
+            //Delete any downloads in the native manager that are subjobs but not flagged as active
+            foreach (var job in jobs.Where(item => item.MediaType != MediaTypes.Movie))
+            {
+                foreach (var subJob in job.SubJobs.Where(item => !item.Active))
+                {
+                    foreach (var jobFile in subJob.Files)
+                    {
+                        var download = _manager.GetQueue()
+                            .Where(item => item.MediaId == jobFile.MediaId)
+                            .Where(item => item.Suffix == jobFile.Suffix)
+                            .Where(item => item.Url == jobFile.Url)
+                            .FirstOrDefault();
+                        if (download != null)
+                            _manager.Abort(download);
+                    }
+                }
+            }
+
+            //Add any jobs that are missing from the native manager
+            foreach(var job in jobs)
+            {
+                foreach(var jobFile in job.Files)
+                {
+                    if (!File.Exists(jobFile.LocalFile()))
+                    {
+                        var download = _manager.GetQueue()
+                            .Where(item => item.MediaId == jobFile.MediaId)
+                            .Where(item => item.Suffix == jobFile.Suffix)
+                            .Where(item => item.Url == jobFile.Url)
+                            .FirstOrDefault();
+
+                        if(download == null)
+                        {
+                            download = _manager.CreateDownload(jobFile.Url, jobFile.MediaId, jobFile.Suffix);
+                            _manager.Start(download, Settings.DownloadOverCellular);
+                        }
+                        
+                    }
+                }
+
+                foreach(var subJob in job.SubJobs.Where(item => item.Active))
+                {
+                    foreach(var jobFile in subJob.Files)
+                    {
+                        if (!File.Exists(jobFile.LocalFile()))
+                        {
+                            var download = _manager.GetQueue()
+                                .Where(item => item.MediaId == jobFile.MediaId)
+                                .Where(item => item.Suffix == jobFile.Suffix)
+                                .Where(item => item.Url == jobFile.Url)
+                                .FirstOrDefault();
+
+                            if (download == null)
+                            {
+                                download = _manager.CreateDownload(jobFile.Url, jobFile.MediaId, jobFile.Suffix);
+                                _manager.Start(download, Settings.DownloadOverCellular);
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
         static async void UpdateDetails(object dummy)
@@ -52,7 +223,7 @@ namespace DustyPig.Mobile.Services.Download
 
             int stagger = 0;
 
-            foreach(var job in Jobs.Where(item => item.MediaType == MediaTypes.Movie))
+            foreach(var job in GetJobs().Where(item => item.MediaType == MediaTypes.Movie))
             {
                 try
                 {
@@ -81,7 +252,7 @@ namespace DustyPig.Mobile.Services.Download
                     stagger = 0;
             }
 
-            foreach (var job in Jobs.Where(item => item.MediaType == MediaTypes.Series))
+            foreach (var job in GetJobs().Where(item => item.MediaType == MediaTypes.Series))
             {
                 try
                 {
@@ -111,7 +282,7 @@ namespace DustyPig.Mobile.Services.Download
             }
 
 
-            foreach (var job in Jobs.Where(item => item.MediaType == MediaTypes.Playlist))
+            foreach (var job in GetJobs().Where(item => item.MediaType == MediaTypes.Playlist))
             {
                 try
                 {
@@ -144,21 +315,18 @@ namespace DustyPig.Mobile.Services.Download
             _detailsTimer.Change(60000, Timeout.Infinite);
         }
 
-        public static IReadOnlyList<Job> Jobs
+        public static IReadOnlyList<Job> GetJobs()
         {
-            get
+            lock (_locker)
             {
-                lock (_locker)
-                {
-                    return _jobs.ToList();
-                }
+                return _jobs.ToList();
             }
-        }
+        }        
 
         public static void AddOrUpdateMovie(DetailedMovie movie)
         {
             bool isNew = false;
-            var job = Jobs.FirstOrDefault(item => item.MediaId == movie.Id);
+            var job = GetJobs().FirstOrDefault(item => item.MediaId == movie.Id);
             if (job == null)
             {
                 isNew = true;
@@ -188,7 +356,7 @@ namespace DustyPig.Mobile.Services.Download
         public static void AddOrUpdateSeries(DetailedSeries series, int itemCount)
         {
             bool isNew = false;
-            var job = Jobs.FirstOrDefault(item => item.MediaId == series.Id);
+            var job = GetJobs().FirstOrDefault(item => item.MediaId == series.Id);
             if (job == null)
             {
                 isNew = true;
@@ -288,7 +456,7 @@ namespace DustyPig.Mobile.Services.Download
         public static void AddOrUpdatePlaylist(DetailedPlaylist playlist, int itemCount)
         {
             bool isNew = false;
-            var job = Jobs.FirstOrDefault(item => item.MediaId == playlist.Id);
+            var job = GetJobs().FirstOrDefault(item => item.MediaId == playlist.Id);
             if (job == null)
             {
                 isNew = true;
@@ -399,16 +567,14 @@ namespace DustyPig.Mobile.Services.Download
             }
         }
 
-
-
         public static void Delete(int mediaId)
         {
-            var job = Jobs.FirstOrDefault(item => item.MediaId == mediaId);
+            var job = GetJobs().FirstOrDefault(item => item.MediaId == mediaId);
             if (job != null)
             {
                 foreach (var jobFile in job.Files)
                 {
-                    var downloads = _manager.Queue.Where(item => item.MediaId == mediaId).ToList();
+                    var downloads = _manager.GetQueue().Where(item => item.MediaId == mediaId).ToList();
                     downloads.ForEach(item => _manager.Abort(item));
                     TryDeleteFile(jobFile.TempFile());
                     TryDeleteFile(jobFile.LocalFile());
@@ -416,7 +582,7 @@ namespace DustyPig.Mobile.Services.Download
 
                 foreach (var jobFile in job.SubJobs.SelectMany(item => item.Files))
                 {
-                    var downloads = _manager.Queue.Where(item => item.MediaId == mediaId).ToList();
+                    var downloads = _manager.GetQueue().Where(item => item.MediaId == mediaId).ToList();
                     downloads.ForEach(item => _manager.Abort(item));
                     TryDeleteFile(jobFile.TempFile());
                     TryDeleteFile(jobFile.LocalFile());
@@ -433,7 +599,66 @@ namespace DustyPig.Mobile.Services.Download
             CleanDirectories();
         }
 
+        /// <summary>
+        /// Top level check - Movie, Series or Playlist
+        /// </summary>
+        public static (JobStatus Status, int Percent) GetStatus(int mediaId)
+        {
+            var job = FindJob(mediaId);
+            if (job == null)
+                return (JobStatus.NotDownloaded, 0);
 
+            bool done = true;
+            foreach(var jobFile in job.Files)
+                if(!File.Exists(jobFile.LocalFile()))
+                {
+                    done = false;
+                    break;
+                }
+            if(done)
+                foreach(var subJob in job.SubJobs.Where(item => item.Active))
+                    foreach(var jobFile in subJob.Files)
+                        if(!File.Exists(jobFile.LocalFile()))
+                        {
+                            done = false;
+                            break;
+                        }
+
+            if (done)
+                return (JobStatus.Downloaded, 100);
+
+            return (JobStatus.Downloading, job.Percent);
+        }
+
+        public static string CheckForLocalDetails(int mediaId) => CheckForLocalFile(mediaId, "json");
+
+        public static string CheckForLocalPoster(int mediaId) => CheckForLocalFile(mediaId, "poster.jpg");
+
+        public static string CheckForLocalBackdrop(int mediaId) => CheckForLocalFile(mediaId, "backdrop.jpg");
+
+        public static string CheckForLocalVideo(int mediaId) => CheckForLocalFile(mediaId, "mp4");
+
+        public static string CheckForLocalBif(int mediaId) => CheckForLocalFile(mediaId, "bif");
+
+        public static string CheckForLocalSubtitle(int mediaId, ExternalSubtitle sub) => CheckForLocalFile(mediaId, sub.SafeFilename());
+
+        static string CheckForLocalFile(int mediaId, string suffix)
+        {
+            //Only return local file if there is a download job, because if not
+            //Then the local file will soon be deleted
+            var jobs = GetJobs();
+            var job = jobs.FirstOrDefault(item => item.MediaId == mediaId);
+            if (job == null)
+                job = jobs.SelectMany(item => item.SubJobs).FirstOrDefault(item => item.MediaId == mediaId);
+            if (job == null)
+                return null;
+
+            string localFile = _manager.GetLocalPath(mediaId, suffix);
+            if (File.Exists(localFile))
+                return localFile;
+
+            return null;
+        }
 
         public static void Reset()
         {
@@ -460,7 +685,7 @@ namespace DustyPig.Mobile.Services.Download
 
         static void CleanDirectories()
         {
-            var jobs = Jobs;
+            var jobs = GetJobs();
             var jobFiles = jobs.SelectMany(item => item.Files).ToList();
             jobFiles.AddRange(jobs.SelectMany(item => item.SubJobs).SelectMany(item => item.Files));
             var safeFiles = jobFiles.Select(item => item.TempFile()).ToList();
@@ -502,7 +727,7 @@ namespace DustyPig.Mobile.Services.Download
 
         static void Save()
         {
-            File.WriteAllText(_filename, JsonConvert.SerializeObject(Jobs));
+            File.WriteAllText(_filename, JsonConvert.SerializeObject(GetJobs()));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.Services.Download;
 using System;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
@@ -14,10 +16,17 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             Basic_Media = basicMedia;
 
+            DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             PlaylistCommand = new Command(AddToPlaylist);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
-            ManageParentalControlsCommand = new Command(ManageParentalControls);            
+            ManageParentalControlsCommand = new Command(ManageParentalControls);
+
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                SetDownloadStatus();
+                return true;
+            });
         }
 
         public _DetailsBaseViewModel(BasicTMDB basicTMDB, INavigation navigation) : base(navigation)
@@ -31,6 +40,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public BasicMedia Basic_Media { get; }
 
         public BasicTMDB Basic_TMDB { get; }
+
+        public DetailedMovie Detailed_Movie { get; set; }
+
+        public DetailedSeries Detailed_Series { get; set; }
 
         public int LibraryId { get; set; }
 
@@ -93,7 +106,83 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
+        public AsyncCommand DownloadCommand { get; }
+        private async Task OnDownload()
+        {
+            var popup = DependencyService.Get<IPopup>();
+            string detailType = Basic_Media.MediaType.ToString().ToLower();         
+            var status = DownloadService.GetStatus(Id);
 
+            switch (status.Status)
+            {
+                case JobStatus.Downloaded:
+
+                    var confirmDelete = await popup.YesNoAsync("Confirm", $"Are you sure you want to remove the downloaded {detailType}?");
+                    if (!confirmDelete)
+                        return;
+                    DownloadService.Delete(Id);
+
+                    //Possible to get here from Downloaded info while offline. If deleting, close the page
+                    if (NoInternet)
+                    {
+                        await Navigation.PopModalAsync();
+                        return;
+                    }
+                    break;
+
+                case JobStatus.Downloading:
+                    var confirmCancel = await popup.YesNoAsync("Confirm", $"Are you sure you want to cancel downloading {detailType}?");
+                    if (!confirmCancel)
+                        return;
+                    DownloadService.Delete(Id);
+
+                    //Possible to get here from Downloaded info while offline. If deleting, close the page
+                    if (NoInternet)
+                    {
+                        await Navigation.PopModalAsync();
+                        return;
+                    }
+                    break;
+
+                case JobStatus.NotDownloaded:
+                    switch(Basic_Media.MediaType)
+                    {
+                        case MediaTypes.Movie:
+                            DownloadService.AddOrUpdateMovie(Detailed_Movie);
+                            break;
+
+                        case MediaTypes.Series:
+                            //DownloadService.AddOrUpdateSeries(Detailed_Series, count);
+                            break;
+
+                        case MediaTypes.Playlist:
+                            //DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, count);
+                            break;
+                    }                    
+                    break;
+            }
+
+            SetDownloadStatus();
+        }
+
+        public void SetDownloadStatus()
+        {
+            var status = DownloadService.GetStatus(Id);
+            switch (status.Status)
+            {
+                case JobStatus.Downloaded:
+                    DownloadButtonText = "Downloaded - 100%";
+                    break;
+
+                case JobStatus.Downloading:
+                    DownloadButtonText = $"Downloading - {status.Percent}%";
+                    break;
+
+                default:
+                    DownloadButtonText = "Download";
+                    break;
+            }
+        }
 
         private int _id;
         public int Id
@@ -304,13 +393,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             set => SetProperty(ref _downloadButtonText, value);
         }
 
-        private bool _showDownloadIcon = true;
-        public bool ShowDownloadIcon
-        {
-            get => _showDownloadIcon;
-            set => SetProperty(ref _showDownloadIcon, value);
-        }
-
+        
         private string _year;
         public string Year
         {
@@ -347,6 +430,23 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
        
             ImageHeight = (int)(Width * 0.5625);
+        }
+
+        
+
+
+        public static string GetPath(string local, string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return null;
+
+            if (string.IsNullOrWhiteSpace(local))
+                return url;
+
+            if (!System.IO.File.Exists(local))
+                return url;
+
+            return local;
         }
     }
 }

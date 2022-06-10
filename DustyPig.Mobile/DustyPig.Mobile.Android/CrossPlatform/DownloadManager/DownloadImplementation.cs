@@ -8,8 +8,6 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 {
     public class DownloadImplementation : IDownload
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public DownloadImplementation(string url, int mediaEntryId, string suffix)
         {
             Url = url;
@@ -59,84 +57,46 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         public long AndroidId { get; set; }
 
         
-        private Mobile.CrossPlatform.DownloadManager.DownloadStatus _status;
-        public Mobile.CrossPlatform.DownloadManager.DownloadStatus Status
+        public Mobile.CrossPlatform.DownloadManager.DownloadStatus Status { get; private set; }
+
+        public string StatusDetails { get; private set; }
+
+        public long TotalBytesExpected { get; private set; }
+
+        public long TotalBytesWritten { get; private set; }
+
+        public int Percent { get; private set; }
+
+        public bool SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus status, string details = null)
         {
-            get => _status;
-            set
-            {
-                if (Equals(_status, value))
-                    return;
-                _status = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Status)));
-            }
+            if (Status == status && StatusDetails == details)
+                return false;
+
+            Status = status;
+            StatusDetails = details;
+            return true;
         }
 
-        private string _statusDetails;
-        public string StatusDetails
+        public bool CalcPercent(long expected, long written)
         {
-            get => _statusDetails;
-            set
-            {
-                if (Equals(_statusDetails, value))
-                    return;
-                _statusDetails = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StatusDetails)));
-            }
-        }
+            if (TotalBytesExpected == expected && TotalBytesWritten == written)
+                return false;
 
-        private long _totalBytesExpected;
-        public long TotalBytesExpected
-        {
-            get => _totalBytesExpected;
-            set
-            {
-                if (Equals(_totalBytesExpected, value))
-                    return;
-                _totalBytesExpected = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalBytesExpected)));
-                CalcPercent();
-            }
-        }
+            TotalBytesExpected = expected;
+            TotalBytesWritten = written;
 
-        private long _totalBytesWritten;
-        public long TotalBytesWritten
-        {
-            get => _totalBytesWritten;
-            set
-            {
-                if (Equals(_totalBytesWritten, value))
-                    return;
-                _totalBytesWritten = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalBytesWritten)));
-                CalcPercent();
-            }
-        }
-
-        private int _percent;
-        public int Percent
-        {
-            get => _percent;
-            set
-            {
-                if (Equals(_percent, value))
-                    return;
-                _percent = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Percent)));
-            }
-        }
-
-        private void CalcPercent()
-        {
             if (TotalBytesExpected <= 0 || TotalBytesWritten <= 0)
             {
                 Percent = 0;
-                return;
+            }
+            else
+            {
+                double w = (double)TotalBytesWritten;
+                double e = (double)TotalBytesExpected;
+                Percent = (int)Math.Floor(w / e * 100);
             }
 
-            double w = (double)TotalBytesWritten;
-            double e = (double)TotalBytesExpected;
-            Percent = (int)Math.Floor(w / e * 100);
+            return true;
         }
     }
 }

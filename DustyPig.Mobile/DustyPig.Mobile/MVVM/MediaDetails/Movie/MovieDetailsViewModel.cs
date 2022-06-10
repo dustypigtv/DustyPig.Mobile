@@ -1,12 +1,9 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
-using DustyPig.Mobile.CrossPlatform;
-using DustyPig.Mobile.CrossPlatform.DownloadManager;
-using DustyPig.Mobile.Services;
+using DustyPig.Mobile.Services.Download;
+using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
@@ -14,8 +11,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 {
     public class MovieDetailsViewModel : _DetailsBaseViewModel
     {
-        private readonly IDownloadManager _downloadManager;
-
         public MovieDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
             IsBusy = true;
@@ -23,13 +18,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             Id = basicMedia.Id;
 
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
-            DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
-
-            _downloadManager = DependencyService.Get<IDownloadManager>();
         }
-
-        private DetailedMovie Movie { get; set; }
+    
 
         private bool _canManage;
         public bool CanManage
@@ -44,16 +35,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             await ShowAlertAsync("TO DO:", "Play");
         }
 
-        public AsyncCommand DownloadCommand { get; }
-        private async Task OnDownload()
-        {
-           
-
-        }
-
-        private IDownload DownloadJob { get; set; }
-
-
+        
 
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
@@ -80,15 +62,19 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         {
             IsBusy = true;
 
-            var response = await App.API.Movies.GetDetailsAsync(Id);
+            var response = await GetMovieDetailsAsync(Id);
             if (response.Success)
             {
-                Movie = response.Data;
+                Detailed_Movie = response.Data;
 
-                LibraryId = Movie.LibraryId;
-                BackdropUrl = string.IsNullOrWhiteSpace(response.Data.BackdropUrl) ?
+                LibraryId = Detailed_Movie.LibraryId;
+
+                string bdr = string.IsNullOrWhiteSpace(response.Data.BackdropUrl) ?
                     response.Data.ArtworkUrl :
                     response.Data.BackdropUrl;
+                BackdropUrl = GetPath(DownloadService.CheckForLocalBackdrop(Id), bdr);
+
+
                 Title = response.Data.Title;
                 Year = response.Data.Date.Year.ToString();
                 Description = response.Data.Description;
@@ -167,34 +153,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     RemainingString = $"{Math.Max(dur.Minutes, 0)}m remaining";
 
 
-
-                //DownloadJob = _downloadManager.Queue.FirstOrDefault(item => item.MediaId == Basic_Media.Id);
-                //if (DownloadJob == null)
-                //{
-                //    if (System.IO.File.Exists(_downloadManager.GetLocalPath(Basic_Media.Id)))
-                //    {
-                //        DownloadButtonText = "Downloaded";
-                //        ShowDownloadIcon = false;
-                //    }
-                //    else
-                //    {
-                //        DownloadButtonText = "Download";
-                //        ShowDownloadIcon = true;
-                //    }
-                //}
-                //else
-                //{
-                //    DownloadButtonText = "Downloading";
-                //    ShowDownloadIcon = false;
-                //    DownloadJob.PropertyChanged += (sender, e) =>
-                //    {
-                //        switch (DownloadJob.Status)
-                //        {
-
-                //        }
-                //    };
-                //}
-
+                SetDownloadStatus();
                 
                 IsBusy = false;
             }
@@ -204,5 +163,22 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 await Navigation.PopModalAsync();
             }
         }
+
+        
+        static Task<REST.Response<DetailedMovie>> GetMovieDetailsAsync(int id)
+        {
+            string local = DownloadService.CheckForLocalDetails(id);
+            if (!string.IsNullOrWhiteSpace(local))
+                try
+                {
+                    var ret = new REST.Response<DetailedMovie> { Success = true, Data = JsonConvert.DeserializeObject<DetailedMovie>(System.IO.File.ReadAllText(local)) };
+                    return Task.FromResult(ret);
+                }
+                catch { }
+
+            return App.API.Movies.GetDetailsAsync(id);
+        }
+
+        
     }
 }

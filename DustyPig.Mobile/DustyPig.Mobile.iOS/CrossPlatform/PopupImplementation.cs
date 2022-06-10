@@ -13,6 +13,8 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
     {
         public Task AlertAsync(string title, string message)
         {
+            message = "\n" + message;
+
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
             UIAlertController alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
@@ -47,67 +49,40 @@ namespace DustyPig.Mobile.iOS.CrossPlatform
                     SetBackgroundColor(subView);
         }
 
-        public Task<bool> OkCancelAsync(string title, string message)
+        public Task<bool> OkCancelAsync(string title, string message) => BoolAsync(title, message, "Cancel", "OK");
+
+        public Task<bool> YesNoAsync(string title, string message) => BoolAsync(title, message, "No", "Yes");
+
+
+        Task<bool> BoolAsync(string title, string message, string falseTxt, string trueTxt)
         {
+            message = "\n" + message;
+
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
             UIAlertController alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
 
-            var firstAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
-            var secondAttributes = new UIStringAttributes { ForegroundColor = UIColor.FromRGB(Theme.DarkGrey.R, Theme.DarkGrey.G, Theme.DarkGrey.B) };
+            var textColor = new UIStringAttributes { ForegroundColor = UIColor.White };
+            alertController.SetValueForKey(new NSAttributedString(title, textColor), new NSString("attributedTitle"));
+            alertController.SetValueForKey(new NSAttributedString(message, textColor), new NSString("attributedMessage"));
 
-            alertController.SetValueForKey(new NSAttributedString(title, firstAttributes), new NSString("attributedTitle"));
-            alertController.SetValueForKey(new NSAttributedString(message, secondAttributes), new NSString("attributedMessage"));
 
-            UIAlertAction cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (sender) =>
+            UIAlertAction cancelAction = UIAlertAction.Create(falseTxt, UIAlertActionStyle.Cancel, (sender) =>
             {
                 taskCompletionSource.TrySetResult(false);
             });
+            cancelAction.SetValueForKey(UIColor.White, new NSString("_titleTextColor"));
+            alertController.AddAction(cancelAction);
 
-            UIAlertAction okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, (sender) =>
+
+            UIAlertAction okAction = UIAlertAction.Create(trueTxt, UIAlertActionStyle.Default, (sender) =>
             {
                 taskCompletionSource.TrySetResult(true);
             });
-
-
             okAction.SetValueForKey(UIColor.White, new NSString("_titleTextColor"));
-
-            alertController.AddAction(cancelAction);
             alertController.AddAction(okAction);
 
-            var currentViewController = Utils.GetTopViewControllerWithRootViewController();
-            currentViewController.PresentViewController(alertController, true, null);
-
-            return taskCompletionSource.Task;
-        }
-
-        public Task<bool> YesNoAsync(string title, string message)
-        {
-            TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
-
-            UIAlertController alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-
-            var firstAttributes = new UIStringAttributes { ForegroundColor = UIColor.White };
-            var secondAttributes = new UIStringAttributes { ForegroundColor = UIColor.FromRGB(Theme.DarkGrey.R, Theme.DarkGrey.G, Theme.DarkGrey.B) };
-
-            alertController.SetValueForKey(new NSAttributedString(title, firstAttributes), new NSString("attributedTitle"));
-            alertController.SetValueForKey(new NSAttributedString(message, secondAttributes), new NSString("attributedMessage"));
-
-            UIAlertAction cancelAction = UIAlertAction.Create("No", UIAlertActionStyle.Cancel, (sender) =>
-            {
-                taskCompletionSource.TrySetResult(false);
-            });
-
-            UIAlertAction okAction = UIAlertAction.Create("Yes", UIAlertActionStyle.Default, (sender) =>
-            {
-                taskCompletionSource.TrySetResult(true);
-            });
-
-
-            okAction.SetValueForKey(UIColor.White, new NSString("_titleTextColor"));
-
-            alertController.AddAction(cancelAction);
-            alertController.AddAction(okAction);
+            SetBackgroundColor(alertController.View);
 
             var currentViewController = Utils.GetTopViewControllerWithRootViewController();
             currentViewController.PresentViewController(alertController, true, null);

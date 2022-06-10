@@ -19,7 +19,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
             PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
-            DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
             ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
         }
@@ -99,12 +98,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             await ShowAlertAsync("TO DO:", $"Play {id}");
         }
 
-        public AsyncCommand DownloadCommand { get; }
-        private async Task OnDownload()
-        {
-            await ShowAlertAsync("TO DO:", "Download");
-        }
-
+        
         
         public AsyncCommand ChangeSeasonCommand { get; }
         private async Task OnChangeSeason()

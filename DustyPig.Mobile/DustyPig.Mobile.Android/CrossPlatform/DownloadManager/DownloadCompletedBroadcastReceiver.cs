@@ -11,7 +11,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         {
             var reference = intent.GetLongExtra(Android.App.DownloadManager.ExtraDownloadId, -1);
 
-            var download = DownloadManagerImplementation.Current.Queue.Cast<DownloadImplementation>().FirstOrDefault(f => f.AndroidId == reference);
+            var download = DownloadManagerImplementation.Current.GetQueue().Cast<DownloadImplementation>().FirstOrDefault(f => f.AndroidId == reference);
             if (download == null)
                 return;
 

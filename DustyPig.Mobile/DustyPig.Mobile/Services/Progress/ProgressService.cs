@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace DustyPig.Mobile.Services.Progress
@@ -19,14 +20,14 @@ namespace DustyPig.Mobile.Services.Progress
         
         public static void Init()
         {         
+            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+            Task.Run(() => Connectivity_ConnectivityChanged(null, null));
+        }
+
+        private static void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        {
             NoInternet = (int)Connectivity.NetworkAccess < 3;
             UpdateFromList();
-
-            Connectivity.ConnectivityChanged += (sender, e) =>
-            {
-                NoInternet = (int)e.NetworkAccess < 3;
-                UpdateFromList();
-            };
         }
 
         static bool NoInternet { get; set; }

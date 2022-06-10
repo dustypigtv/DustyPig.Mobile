@@ -16,6 +16,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         public static readonly DownloadManagerImplementation Current = new DownloadManagerImplementation();
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event EventHandler<IDownload> DownloadUpdated;
 
         private Android.OS.Handler _downloadWatcherHandler;
         private Java.Lang.Runnable _downloadWatcherHandlerRunnable;
@@ -35,14 +36,11 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 
 
         private readonly IList<IDownload> _queue = new List<IDownload>();
-        public IEnumerable<IDownload> Queue
+        public IEnumerable<IDownload> GetQueue()
         {
-            get
+            lock (_queue)
             {
-                lock (_queue)
-                {
-                    return _queue.ToList();
-                }
+                return _queue.ToList();
             }
         }
 
@@ -51,6 +49,11 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         public void Start(IDownload download, bool mobileNetworkAllowed)
         {
             var dl = (DownloadImplementation)download;
+            dl.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.INITIALIZED);
+            dl.CalcPercent(0, 0);
+            AddFile(dl);
+            DownloadUpdated?.Invoke(this, dl);
+
             string destinationPathName = GetTempPath(download);
 
             using var downloadUrl = Android.Net.Uri.Parse(download.Url);
@@ -63,23 +66,22 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             request.SetDestinationUri(Android.Net.Uri.FromFile(jfile));
             request.SetAllowedOverMetered(mobileNetworkAllowed);
             request.SetNotificationVisibility(DownloadVisibility.Hidden);
-
-            dl.AndroidId = _downloadManager.Enqueue(request);
-        
-            AddFile(dl);
+           
+            dl.AndroidId = _downloadManager.Enqueue(request);       
         }
 
         public void Abort(IDownload download)
         {
             var dl = (DownloadImplementation)download;
-            dl.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.CANCELED;
             _downloadManager.Remove(dl.AndroidId);
+            if (dl.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.CANCELED))
+                DownloadUpdated?.Invoke(this, download);
             RemoveFile(dl);
         }
 
         public void AbortAll()
         {
-            foreach (var file in Queue)
+            foreach (var file in GetQueue())
                 Abort(file);
         }
 
@@ -104,9 +106,13 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 
         void ReinitializeFile(ICursor cursor)
         {
-            var download = new DownloadImplementation(cursor);
-            AddFile(download);
-            UpdateDownloadProperties(cursor, download);
+            try
+            {
+                var download = new DownloadImplementation(cursor);
+                AddFile(download);
+                UpdateDownloadProperties(cursor, download);
+            }
+            catch { }
         }
 
         void StartDownloadWatcher()
@@ -117,7 +123,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             // Create a runnable, restarting itself to update every file in the queue
             _downloadWatcherHandlerRunnable = new Java.Lang.Runnable(() =>
             {
-                var downloads = Queue.Cast<DownloadImplementation>().ToList();
+                var downloads = GetQueue().Cast<DownloadImplementation>();
 
                 foreach (var dl in downloads)
                 {
@@ -134,7 +140,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     cursor?.Close();
                 }
 
-                _downloadWatcherHandler.PostDelayed(_downloadWatcherHandlerRunnable, 1000);
+                _downloadWatcherHandler.PostDelayed(_downloadWatcherHandlerRunnable, 250);
             });
 
             // Start this handler immediately
@@ -147,60 +153,61 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
          */
         public void UpdateDownloadProperties(ICursor cursor, DownloadImplementation download)
         {
-            download.TotalBytesWritten = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
-            download.TotalBytesExpected = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
-            
+            var expected = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
+            var written = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
+            bool changed = download.CalcPercent(expected, written);
+
             switch ((Android.App.DownloadStatus)cursor.GetInt(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnStatus)))
             {
                 case Android.App.DownloadStatus.Successful:
-                    download.StatusDetails = default(string);
-                    download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.COMPLETED;
-                    MoveFile(download);
+                    if (MoveFile(download))
+                        changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.COMPLETED);
+                    //else
+                    //    changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.Temp file missing");
                     break;
 
                 case Android.App.DownloadStatus.Failed:
                     var reasonFailed = cursor.GetInt(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnReason));
                     if (reasonFailed < 600)
                     {
-                        download.StatusDetails = "Error.HttpCode: " + reasonFailed;
+                        changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.HttpCode: " + reasonFailed);
                     }
                     else
                     {
                         switch ((DownloadError)reasonFailed)
                         {
                             case DownloadError.CannotResume:
-                                download.StatusDetails = "Error.CannotResume";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.CannotResume");
                                 break;
                             case DownloadError.DeviceNotFound:
-                                download.StatusDetails = "Error.DeviceNotFound";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.DeviceNotFound");
                                 break;
                             case DownloadError.FileAlreadyExists:
-                                download.StatusDetails = "Error.FileAlreadyExists";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.FileAlreadyExists");
                                 break;
                             case DownloadError.FileError:
-                                download.StatusDetails = "Error.FileError";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.FileError");
                                 break;
                             case DownloadError.HttpDataError:
-                                download.StatusDetails = "Error.HttpDataError";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.HttpDataError");
                                 break;
                             case DownloadError.InsufficientSpace:
-                                download.StatusDetails = "Error.InsufficientSpace";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.InsufficientSpace");
                                 break;
                             case DownloadError.TooManyRedirects:
-                                download.StatusDetails = "Error.TooManyRedirects";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.TooManyRedirects");
                                 break;
                             case DownloadError.UnhandledHttpCode:
-                                download.StatusDetails = "Error.UnhandledHttpCode";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.UnhandledHttpCode");
                                 break;
                             case DownloadError.Unknown:
-                                download.StatusDetails = "Error.Unknown";
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.Unknown");
                                 break;
                             default:
-                                download.StatusDetails = "Error.Unregistered: " + reasonFailed;
+                                changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.Unregistered: " + reasonFailed);
                                 break;
                         }
                     }
-                    download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED;
                     break;
 
                 case Android.App.DownloadStatus.Paused:
@@ -208,34 +215,34 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     switch ((DownloadPausedReason)reasonPaused)
                     {
                         case DownloadPausedReason.QueuedForWifi:
-                            download.StatusDetails = "Paused.QueuedForWifi";
+                            changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.PAUSED, "Paused.QueuedForWifi");
                             break;
                         case DownloadPausedReason.WaitingToRetry:
-                            download.StatusDetails = "Paused.WaitingToRetry";
+                            changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.PAUSED, "Paused.WaitingToRetry");
                             break;
                         case DownloadPausedReason.WaitingForNetwork:
-                            download.StatusDetails = "Paused.WaitingForNetwork";
+                            changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.PAUSED, "Paused.WaitingForNetwork");
                             break;
                         case DownloadPausedReason.Unknown:
-                            download.StatusDetails = "Paused.Unknown";
+                            changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.PAUSED, "Paused.Unknown");
                             break;
                         default:
-                            download.StatusDetails = "Paused.Unregistered: " + reasonPaused;
+                            changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.PAUSED, "Paused.Unregistered: " + reasonPaused);
                             break;
                     }
-                    download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.PAUSED;
                     break;
 
                 case Android.App.DownloadStatus.Pending:
-                    download.StatusDetails = default(string);
-                    download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.PENDING;
+                    changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.PENDING);
                     break;
 
                 case Android.App.DownloadStatus.Running:
-                    download.StatusDetails = default(string);
-                    download.Status = Mobile.CrossPlatform.DownloadManager.DownloadStatus.RUNNING;
+                    changed |= download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.RUNNING);
                     break;
             }
+
+            if (changed)
+                DownloadUpdated?.Invoke(this, download);
         }
 
         protected internal void AddFile(IDownload download)
@@ -244,7 +251,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             {
                 _queue.Add(download);
             }
-            CollectionChanged?.Invoke(Queue, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, download));
+            CollectionChanged?.Invoke(GetQueue(), new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, download));
         }
 
         protected internal void RemoveFile(IDownload download)
@@ -252,7 +259,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             lock (_queue)
             {
                 _queue.Remove(download);
-                CollectionChanged?.Invoke(Queue, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, download));
+                CollectionChanged?.Invoke(GetQueue(), new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, download));
             }
         }
 
@@ -272,16 +279,23 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
         public string TempDirectory => Directory.CreateDirectory(Path.Combine(Root, "tmp")).FullName;
 
         public string GetLocalPath(IDownload download) => Path.Combine(DownloadDirectory, download.Filename);
+
+        public string GetLocalPath(int mediaId, string suffix) => Path.Combine(DownloadDirectory, $"{mediaId}.{suffix}");
         
         public string GetTempPath(IDownload download) => Path.Combine(TempDirectory, download.Filename);
 
-        public void MoveFile(IDownload download)
+        public bool MoveFile(IDownload download)
         {
+            string temp = GetTempPath(download);
+            if (!File.Exists(temp))
+                return false;
+
             string local = GetLocalPath(download);
             if (File.Exists(local))
                 File.Delete(local);
 
-            File.Move(GetTempPath(download), local);
+            File.Move(temp, local);
+            return true;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
 using DustyPig.Mobile.MVVM;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile
@@ -16,11 +17,11 @@ namespace DustyPig.Mobile
         public App()
         {
             InitializeComponent();
-        
+
             DependencyService.Get<IScreen>().SetOrientation(false);
             Services.Download.DownloadService.Init();
             Services.Progress.ProgressService.Init();
-            
+
             MainPage = new StartupPage();
         }
 
