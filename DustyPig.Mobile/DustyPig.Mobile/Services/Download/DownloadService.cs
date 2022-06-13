@@ -48,6 +48,7 @@ namespace DustyPig.Mobile.Services.Download
             if (file != null)
                 file.Percent = e.Percent;
 
+
             FindJob(e.MediaId)?.Update();
 
           
@@ -107,22 +108,13 @@ namespace DustyPig.Mobile.Services.Download
 
             if (!_firstUpdateRan)
                 return;
-
-            //Remove completed downloads from native manager
-            foreach (var download in _manager.GetDownloads())
-                if (download.Status == DownloadStatus.COMPLETED)
-                    if (!string.IsNullOrWhiteSpace(download.Suffix))
-                        if (!string.IsNullOrWhiteSpace(CheckForLocalFile(download.MediaId, download.Suffix)))
-                            _manager.Abort(download);
+            
 
             //Delete any downlods in the native manager that aren't in this manager - do it the slow way!!!
             foreach (var download in _manager.GetDownloads())
             {
-                var valid = _jobList.Jobs.SelectMany(item => item.Files)
-                    .Where(item => item.Url == download.Url)
-                    .Any();
-
-                if (!valid)
+                var valid = FindFile(download);
+                if (valid == null)
                     _manager.Abort(download);
             }
 
@@ -141,7 +133,7 @@ namespace DustyPig.Mobile.Services.Download
             //Add any jobs that are missing from the native manager
             foreach (var job in _jobList.Jobs)
             {
-                foreach (var jobFile in job.Files.Where(item => item.Suffix != "json"))
+                foreach (var jobFile in job.Files.Where(item => item.Suffix != "json").OrderBy(item => item.IsVideo))
                 {
                     if (!File.Exists(jobFile.LocalFile()))
                     {
@@ -182,7 +174,9 @@ namespace DustyPig.Mobile.Services.Download
 
             if (!App.LoggedIn)
                 return;
-           
+
+            _firstUpdateRan = true;
+
             var jobFileTimes = new List<KeyValuePair<Job, DateTime>>();
             foreach (var job in _jobList.Jobs)
             {
@@ -199,11 +193,8 @@ namespace DustyPig.Mobile.Services.Download
                 }
             }
             if (jobFileTimes.Count == 0)
-            {
-                _firstUpdateRan = true;
                 return;
-            }
-
+            
             jobFileTimes.Sort((x, y) => x.Value.CompareTo(y.Value));
 
             var jobsToUpdate = new List<Job>();
@@ -506,7 +497,7 @@ namespace DustyPig.Mobile.Services.Download
             {
                 jobFile = new JobFile
                 {
-                    MediaId = job.MediaId,
+                    MediaId = mediaId,
                     Suffix = suffix,
                     Url = url,
                     IsVideo = isVideo
@@ -533,13 +524,13 @@ namespace DustyPig.Mobile.Services.Download
                 var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == mediaId);
                 if (job != null)
                 {
-                    foreach (var jobFile in job.Files)
-                    {
-                        var downloads = _manager.GetDownloads().Where(item => item.MediaId == mediaId).ToList();
-                        downloads.ForEach(item => _manager.Abort(item));
-                        TryDeleteFile(jobFile.TempFile());
-                        TryDeleteFile(jobFile.LocalFile());
-                    }
+                    //foreach (var jobFile in job.Files)
+                    //{
+                    //    var downloads = _manager.GetDownloads().Where(item => item.MediaId == mediaId).ToList();
+                    //    downloads.ForEach(item => _manager.Abort(item));
+                    //    TryDeleteFile(jobFile.TempFile());
+                    //    TryDeleteFile(jobFile.LocalFile());
+                    //}
 
                     _jobList.RemoveJob(job);
                     _jobList.Save();
@@ -553,7 +544,20 @@ namespace DustyPig.Mobile.Services.Download
         /// <summary>
         /// Top level
         /// </summary>
-        static Job FindJob(int mediaId) => _jobList.Jobs.FirstOrDefault(item => item.MediaId == mediaId);
+        static Job FindJob(int mediaId)
+        {
+            var ret = _jobList.Jobs.FirstOrDefault(item => item.MediaId == mediaId);
+            if (ret != null)
+                return ret;
+
+            foreach (var job in _jobList.Jobs)
+                foreach (var jobFile in job.Files)
+                    if (jobFile.MediaId == mediaId)
+                        return job;
+            
+            return null;
+        }
+
 
         static JobFile FindFile(IDownload download)
         {

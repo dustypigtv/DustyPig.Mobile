@@ -12,7 +12,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 {
     public class DownloadManagerImplementation : IDownloadManager
     {
-        const int TIMER_MILLISECONDS = 250;
+        const int TIMER_MILLISECONDS = 1000;
 
         public static readonly DownloadManagerImplementation Current = new DownloadManagerImplementation();
 
@@ -62,7 +62,8 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     {
                         var download = new DownloadImplementation(cursor, _connection);
                         if (download.Status == Mobile.CrossPlatform.DownloadManager.DownloadStatus.COMPLETED)
-                            MoveFile(download);
+                            if (MoveFile(download))
+                                _downloadManager.Remove(download.AndroidId);
                         
 
                         ret.Add(download);

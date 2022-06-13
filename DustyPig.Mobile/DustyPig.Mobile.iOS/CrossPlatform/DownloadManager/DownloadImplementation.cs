@@ -1,22 +1,11 @@
 ﻿using DustyPig.Mobile.CrossPlatform.DownloadManager;
 using Foundation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 {
     public class DownloadImplementation : IDownload
     {
-        public DownloadImplementation(string url, int mediaEntryId, string suffix)
-        {
-            Url = url;
-            MediaId = mediaEntryId;
-            Suffix = suffix;
-            Status = DownloadStatus.INITIALIZED;
-        }
-
-
         public DownloadImplementation(NSUrlSessionTask task)
         {
             Url = task.OriginalRequest.Url.AbsoluteString;

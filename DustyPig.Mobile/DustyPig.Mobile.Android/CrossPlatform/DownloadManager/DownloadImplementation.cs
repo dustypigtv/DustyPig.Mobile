@@ -26,8 +26,8 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 
 
             //Rest of the info from the android native manager
-            var TotalBytesExpected = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
-            var TotalBytesWritten = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
+            TotalBytesExpected = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
+            TotalBytesWritten = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
             if (TotalBytesExpected <= 0 || TotalBytesWritten <= 0)
             {
                 Percent = 0;
