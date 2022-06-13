@@ -1,18 +1,16 @@
 ﻿using DustyPig.Mobile.CrossPlatform.DownloadManager;
-using Newtonsoft.Json;
 using System.IO;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Services.Download
 {
-    internal class JobFile
+    public class JobFile
     {
         public int MediaId { get; set; }
         public string Suffix { get; set; }
         public string Url { get; set; }
         public bool IsVideo { get; set; }
 
-        [JsonIgnore]
         public int Percent { get; set; }
 
 

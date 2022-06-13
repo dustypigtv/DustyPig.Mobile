@@ -1,5 +1,7 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.MVVM.Main.Home;
+using DustyPig.Mobile.Services;
 using DustyPig.Mobile.Services.Download;
 using System;
 using System.Threading.Tasks;
@@ -16,7 +18,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             Basic_Media = basicMedia;
 
-            DownloadCommand = new AsyncCommand(OnDownload, allowsMultipleExecutions: false);
+            DownloadCommand = new AsyncCommand(OnDownloadAsync, allowsMultipleExecutions: false);
             PlaylistCommand = new Command(AddToPlaylist);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
@@ -24,7 +26,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
-                SetDownloadStatus();
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                SetDownloadStatusAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 return true;
             });
         }
@@ -79,9 +83,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             if (response.Success)
             {
                 if (InWatchlist)
-                    Main.Home.HomeViewModel.InvokeRemovedFromWatchlist(Basic_Media);
+                    HomeViewModel.InvokeRemovedFromWatchlist(Basic_Media);
                 else
-                    Main.Home.HomeViewModel.InvokeAddedToWatchlist(Basic_Media);
+                    HomeViewModel.InvokeAddedToWatchlist(Basic_Media);
 
                 InWatchlist = !InWatchlist;
             }
@@ -107,40 +111,127 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
 
         public AsyncCommand DownloadCommand { get; }
-        private async Task OnDownload()
+        private async Task OnDownloadAsync()
         {
             var popup = DependencyService.Get<IPopup>();
             string detailType = Basic_Media.MediaType.ToString().ToLower();         
-            var status = DownloadService.GetStatus(Id);
+            var status = await DownloadService.GetStatusAsync(Id);
+            int cnt = Settings.LastDownloadCount;
 
             switch (status.Status)
             {
                 case JobStatus.Downloaded:
 
-                    var confirmDelete = await popup.YesNoAsync("Confirm", $"Are you sure you want to remove the downloaded {detailType}?");
-                    if (!confirmDelete)
-                        return;
-                    DownloadService.Delete(Id);
-
-                    //Possible to get here from Downloaded info while offline. If deleting, close the page
-                    if (NoInternet)
+                    switch (Basic_Media.MediaType)
                     {
-                        await Navigation.PopModalAsync();
-                        return;
+                        case MediaTypes.Movie:
+                            var confirmDelete = await popup.YesNoAsync("Confirm", $"Are you sure you want to remove the downloaded {detailType}?");
+                            if (!confirmDelete)
+                                return;
+                            DownloadService.Delete(Id);
+
+                            //Possible to get here from Downloaded info while offline. If deleting, close the page
+                            if (NoInternet)
+                            {
+                                await Navigation.PopModalAsync();
+                                return;
+                            }
+                            break;
+
+                        case MediaTypes.Series:
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, status.ItemCount));
+                            if (cnt == 0)
+                            {
+                                DownloadService.Delete(Id);
+
+                                //Possible to get here from Downloaded info while offline. If deleting, close the page
+                                if (NoInternet)
+                                {
+                                    await Navigation.PopModalAsync();
+                                    return;
+                                }
+                            }
+                            else if (cnt > 0)
+                            {
+                                DownloadService.AddOrUpdateSeries(Detailed_Series, cnt);
+                            }
+                            break;
+
+                            //case MediaTypes.Playlist:
+                            //    cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
+                            //    if (cnt == 0)
+                            //    {
+                            //        DownloadService.Delete(Id);
+
+                            //        //Possible to get here from Downloaded info while offline. If deleting, close the page
+                            //        if (NoInternet)
+                            //        {
+                            //            await Navigation.PopModalAsync();
+                            //            return;
+                            //        }
+                            //    }
+                            //    else if (cnt > 0)
+                            //    {
+                            //        DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
+                            //    }
+                            //    break;
                     }
                     break;
 
                 case JobStatus.Downloading:
-                    var confirmCancel = await popup.YesNoAsync("Confirm", $"Are you sure you want to cancel downloading {detailType}?");
-                    if (!confirmCancel)
-                        return;
-                    DownloadService.Delete(Id);
-
-                    //Possible to get here from Downloaded info while offline. If deleting, close the page
-                    if (NoInternet)
+                    switch (Basic_Media.MediaType)
                     {
-                        await Navigation.PopModalAsync();
-                        return;
+                        case MediaTypes.Movie:
+                            var confirmCancel = await popup.YesNoAsync("Confirm", $"Are you sure you want to cancel downloading {detailType}?");
+                            if (!confirmCancel)
+                                return;
+                            DownloadService.Delete(Id);
+
+                            //Possible to get here from Downloaded info while offline. If deleting, close the page
+                            if (NoInternet)
+                            {
+                                await Navigation.PopModalAsync();
+                                return;
+                            }
+                            break;
+
+                        case MediaTypes.Series:
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, status.ItemCount));
+                            if (cnt == 0)
+                            {
+                                DownloadService.Delete(Id);
+
+                                //Possible to get here from Downloaded info while offline. If deleting, close the page
+                                if (NoInternet)
+                                {
+                                    await Navigation.PopModalAsync();
+                                    return;
+                                }
+                            }
+                            else if (cnt > 0)
+                            {
+                                DownloadService.AddOrUpdateSeries(Detailed_Series, cnt);
+                            }                           
+                            break;
+
+                            //case MediaTypes.Playlist:
+                            //    cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
+                            //    if (cnt == 0)
+                            //    {
+                            //        DownloadService.Delete(Id);
+
+                            //        //Possible to get here from Downloaded info while offline. If deleting, close the page
+                            //        if (NoInternet)
+                            //        {
+                            //            await Navigation.PopModalAsync();
+                            //            return;
+                            //        }
+                            //    }
+                            //    else if (cnt > 0)
+                            //    {
+                            //        DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
+                            //    }
+                            //    break;
                     }
                     break;
 
@@ -148,26 +239,34 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     switch(Basic_Media.MediaType)
                     {
                         case MediaTypes.Movie:
-                            DownloadService.AddOrUpdateMovie(Detailed_Movie);
+                            DownloadService.AddMovie(Detailed_Movie);
                             break;
 
                         case MediaTypes.Series:
-                            //DownloadService.AddOrUpdateSeries(Detailed_Series, count);
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, cnt));
+                            if (cnt == 0)
+                                DownloadService.Delete(Id);
+                            else if (cnt > 0)
+                                DownloadService.AddOrUpdateSeries(Detailed_Series, cnt);
                             break;
 
-                        case MediaTypes.Playlist:
-                            //DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, count);
-                            break;
+                        //case MediaTypes.Playlist:
+                        //    cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, cnt));
+                        //    if (cnt == 0)
+                        //        DownloadService.Delete(Id);
+                        //    else if (cnt > 0)
+                        //        DownloadService.AddOrUpdateSeries(Detailed_Playlist, cnt);
+                        //    break;
                     }                    
                     break;
             }
 
-            SetDownloadStatus();
+            await SetDownloadStatusAsync();
         }
 
-        public void SetDownloadStatus()
+        public async Task SetDownloadStatusAsync()
         {
-            var status = DownloadService.GetStatus(Id);
+            var status = await DownloadService.GetStatusAsync(Id);
             switch (status.Status)
             {
                 case JobStatus.Downloaded:

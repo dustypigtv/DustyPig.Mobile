@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Services.Download;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,10 +50,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             }
         }
 
-        public static EpisodeInfoViewModel FromEpisode(DetailedEpisode ep) =>
-            new EpisodeInfoViewModel
+        public static EpisodeInfoViewModel FromEpisode(DetailedEpisode ep)
+        {
+            var ret = new EpisodeInfoViewModel
             {
-                ArtworkUrl = ep.ArtworkUrl,
+                ArtworkUrl = _DetailsBaseViewModel.GetPath(DownloadService.CheckForLocalScreenshot(ep.Id), ep.ArtworkUrl),
                 Description = StringUtils.Coalesce(ep.Description, "No episode synopsis"),
                 EpisodeNumber = ep.EpisodeNumber,
                 Id = ep.Id,
@@ -60,5 +62,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                 Title = ep.Title,
                 UpNext = ep.UpNext
             };
+
+            return ret;
+        }
     }
 }

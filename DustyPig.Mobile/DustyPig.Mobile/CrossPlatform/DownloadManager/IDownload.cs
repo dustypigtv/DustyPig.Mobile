@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace DustyPig.Mobile.CrossPlatform.DownloadManager
+﻿namespace DustyPig.Mobile.CrossPlatform.DownloadManager
 {
     public interface IDownload
     {

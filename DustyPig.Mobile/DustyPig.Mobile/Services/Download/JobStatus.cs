@@ -1,6 +1,6 @@
 ﻿namespace DustyPig.Mobile.Services.Download
 {
-    internal enum JobStatus
+    public enum JobStatus
     {
         NotDownloaded,
         Downloading,

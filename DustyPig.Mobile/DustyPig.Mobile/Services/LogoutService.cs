@@ -9,7 +9,9 @@ namespace DustyPig.Mobile.Services
     static class LogoutService
     {
         public static void Logout()
-        {            
+        {
+            App.LoggedIn = false;
+
             App.API.Token = null;
 
             Settings.DeleteProfileToken();

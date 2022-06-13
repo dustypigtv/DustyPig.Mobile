@@ -29,6 +29,7 @@ namespace DustyPig.Mobile.MVVM
 
             if (string.IsNullOrWhiteSpace(App.API.Token))
             {
+                App.LoggedIn = false;
                 Application.Current.MainPage = new NavigationPage(new LoginPage());
             }
             else
@@ -36,12 +37,14 @@ namespace DustyPig.Mobile.MVVM
                 var response = await App.API.Auth.VerifyTokenAsync();
                 if (response.Success && response.Data.LoginType != LoginResponseType.Account)
                 {
+                    App.LoggedIn = true;
                     App.HomePageNeedsRefresh = true;
                     App.IsMainProfile = response.Data.LoginType == LoginResponseType.MainProfile;
                     Application.Current.MainPage = new NavigationPage(new MainPage());
                 }
                 else
                 {
+                    App.LoggedIn = false;
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
                 }
             }

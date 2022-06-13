@@ -13,6 +13,7 @@ namespace DustyPig.Mobile
 
         internal static bool HomePageNeedsRefresh { get; set; } = true;
 
+        internal static bool LoggedIn { get; set; }
 
         public App()
         {

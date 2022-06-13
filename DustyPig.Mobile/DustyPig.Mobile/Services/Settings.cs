@@ -12,6 +12,8 @@ namespace DustyPig.Mobile.Services
 
         private const string DOWNLOAD_OVER_CELLULAR_KEY = "download_over_cellular";
 
+        private const string LAST_DOWNLOAD_COUNT = "last_download_count";
+
         public static bool AutoPlayNext
         {
             get => Preferences.Get(AUTO_PLAY_NEXT_KEY, false);
@@ -29,6 +31,13 @@ namespace DustyPig.Mobile.Services
             get => Preferences.Get(DOWNLOAD_OVER_CELLULAR_KEY, false);
             set => Preferences.Set(DOWNLOAD_OVER_CELLULAR_KEY, value);
         }
+
+        public static int LastDownloadCount
+        {
+            get => int.Parse(Preferences.Get(LAST_DOWNLOAD_COUNT, "5"));
+            set => Preferences.Set(LAST_DOWNLOAD_COUNT, value.ToString());
+        }
+
 
         private static async Task<string> GetSecureString(string id)
         {

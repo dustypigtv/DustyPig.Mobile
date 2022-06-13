@@ -1,5 +1,8 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
+using DustyPig.Mobile.MVVM.Main.Home;
+using DustyPig.Mobile.Services.Download;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,10 +23,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
             PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
-            ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
+            ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);            
         }
-
-        public DetailedSeries Series { get; set; }
 
         private bool _canManage;
         public bool CanManage
@@ -57,9 +58,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
             if (response.Success)
             {
-                Main.Home.HomeViewModel.InvokeMarkWatched(Id);
+                HomeViewModel.InvokeMarkWatched(Id);
 
-                var upnext = Series.Episodes.FirstOrDefault(item => item.UpNext);
+                var upnext = Detailed_Series.Episodes.FirstOrDefault(item => item.UpNext);
                 if(upnext != null)
                 {
                     upnext.UpNext = false;
@@ -68,7 +69,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
                 if (ret == MarkWatchedOptions.MarkSeriesWatched)
                 {
-                    var last = Series.Episodes.LastOrDefault();
+                    var last = Detailed_Series.Episodes.LastOrDefault();
                     if (last != null)
                     {
                         last.UpNext = true;
@@ -106,13 +107,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             if (!MultipleSeasons)
                 return;
 
-            var ret = await Navigation.ShowPopupAsync(new SeasonsPopup(Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason));
+            var ret = await Navigation.ShowPopupAsync(new SeasonsPopup(Detailed_Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason));
             if (ret < 0)
                 return;
 
             CurrentSeason = (ushort)ret;
             Episodes.Clear();
-            Episodes.AddRange(Series.Episodes.Where(item => item.SeasonNumber == ret).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
+            Episodes.AddRange(Detailed_Series.Episodes.Where(item => item.SeasonNumber == ret).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
         }
 
 
@@ -156,11 +157,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         {
             IsBusy = true;
 
-            var response = await App.API.Series.GetDetailsAsync(Id);
+            var response = await GetSeriesDetailsAsync(Id);
             if (response.Success)
             {
-                Series = response.Data;
-                LibraryId = Series.LibraryId;
+                Detailed_Series = response.Data;
+                LibraryId = Detailed_Series.LibraryId;
                 UpdateElements();
                 IsBusy = false;
             }
@@ -173,7 +174,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
     
         private void UpdateElements()
         {
-            int cnt = Series.Episodes.Select(item => item.SeasonNumber).Distinct().Count();
+            int cnt = Detailed_Series.Episodes.Select(item => item.SeasonNumber).Distinct().Count();
             SeasonCount = cnt.ToString() + " Season";
             if (cnt != 1)
             {
@@ -181,13 +182,15 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                 MultipleSeasons = true;
             }
 
-            BackdropUrl = string.IsNullOrWhiteSpace(Series.BackdropUrl) ?
-                Series.ArtworkUrl :
-                Series.BackdropUrl;
-            Title = Series.Title;
-            Owner = Series.Owner;
+            string bdu = string.IsNullOrWhiteSpace(Detailed_Series.BackdropUrl) ?
+                Detailed_Series.ArtworkUrl :
+                Detailed_Series.BackdropUrl;
+            BackdropUrl = GetPath(DownloadService.CheckForLocalBackdrop(Id), bdu);
 
-            switch (Series.Rated)
+            Title = Detailed_Series.Title;
+            Owner = Detailed_Series.Owner;
+
+            switch (Detailed_Series.Rated)
             {
                 case API.v3.MPAA.Ratings.None:
                 case API.v3.MPAA.Ratings.NR:
@@ -195,27 +198,27 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                     break;
 
                 default:
-                    Rating = Series.Rated.ToString().Replace('_', '-');
+                    Rating = Detailed_Series.Rated.ToString().Replace('_', '-');
                     break;
             }
 
-            CanManage = Series.CanManage;
+            CanManage = Detailed_Series.CanManage;
 
 
             // These all are based on whether the user CAN play content, or needs permission
 
-            CanPlay = Series.CanPlay;
-            InWatchlist = Series.InWatchlist;
+            CanPlay = Detailed_Series.CanPlay;
+            InWatchlist = Detailed_Series.InWatchlist;
 
-            var upNext = Series.Episodes.FirstOrDefault(item => item.UpNext);
+            var upNext = Detailed_Series.Episodes.FirstOrDefault(item => item.UpNext);
             if (upNext == null)
             {
-                var ep = Series.Episodes.First();
+                var ep = Detailed_Series.Episodes.First();
                 Episodes.Clear();
-                Episodes.AddRange(Series.Episodes.Where(item => item.SeasonNumber == ep.SeasonNumber).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
+                Episodes.AddRange(Detailed_Series.Episodes.Where(item => item.SeasonNumber == ep.SeasonNumber).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
                 CurrentSeason = ep.SeasonNumber;
                 CurrentEpisode = $"S{ep.SeasonNumber}:E{ep.EpisodeNumber} {ep.Title}";
-                Description = StringUtils.Coalesce(Series.Description, ep.Description);
+                Description = StringUtils.Coalesce(Detailed_Series.Description, ep.Description);
                 PlayButtonText = "Play";
             }
             else
@@ -227,7 +230,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                 ShowPlayedBar = CanPlay && Played > 0;
                 CurrentSeason = upNext.SeasonNumber;
                 Episodes.Clear();
-                Episodes.AddRange(Series.Episodes.Where(item => item.SeasonNumber == upNext.SeasonNumber).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
+                Episodes.AddRange(Detailed_Series.Episodes.Where(item => item.SeasonNumber == upNext.SeasonNumber).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
                 CurrentEpisode = $"S{upNext.SeasonNumber}:E{upNext.EpisodeNumber} {upNext.Title}";
                 Description = StringUtils.Coalesce(upNext.Description, "No episode description");
 
@@ -242,36 +245,45 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
 
 
-            var genres = Series.Genres.AsString();
+            var genres = Detailed_Series.Genres.AsString();
             if (!string.IsNullOrWhiteSpace(genres))
             {
                 Genres = genres.Replace(",", ", ");
                 ShowGenres = true;
             }
 
-            if (Series.Cast != null && Series.Cast.Count > 0)
+            if (Detailed_Series.Cast != null && Detailed_Series.Cast.Count > 0)
             {
-                Cast = string.Join(", ", Series.Cast);
+                Cast = string.Join(", ", Detailed_Series.Cast);
                 ShowCast = true;
             }
 
-            if (Series.Directors != null && Series.Directors.Count > 0)
+            if (Detailed_Series.Directors != null && Detailed_Series.Directors.Count > 0)
             {
-                Directors = string.Join(", ", Series.Directors);
+                Directors = string.Join(", ", Detailed_Series.Directors);
                 ShowDirectors = true;
             }
 
-            if (Series.Producers != null && Series.Producers.Count > 0)
+            if (Detailed_Series.Producers != null && Detailed_Series.Producers.Count > 0)
             {
-                Producers = string.Join(", ", Series.Producers);
+                Producers = string.Join(", ", Detailed_Series.Producers);
                 ShowProducers = true;
             }
 
-            if (Series.Writers != null && Series.Writers.Count > 0)
+            if (Detailed_Series.Writers != null && Detailed_Series.Writers.Count > 0)
             {
-                Writers = string.Join(", ", Series.Writers);
+                Writers = string.Join(", ", Detailed_Series.Writers);
                 ShowWriters = true;
             }
+        }
+
+        static async Task<REST.Response<DetailedSeries>> GetSeriesDetailsAsync(int id)
+        {
+            var data = await DownloadService.TryLoadDetailsAsync<DetailedSeries>(id);
+            if (data != null)
+                return new REST.Response<DetailedSeries> { Success = true, Data = data };
+
+            return await App.API.Series.GetDetailsAsync(id);
         }
 
     }

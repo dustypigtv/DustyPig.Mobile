@@ -40,7 +40,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             {
                 _queue.Add(download);
             }
-            CollectionChanged?.Invoke(GetQueue(), new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, download));
+            CollectionChanged?.Invoke(GetDownloads(), new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, download));
         }
 
         protected internal void RemoveDownload(IDownload download)
@@ -49,7 +49,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
             {
                 _queue.Remove(download);                
             }
-            CollectionChanged?.Invoke(GetQueue(), new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, download));
+            CollectionChanged?.Invoke(GetDownloads(), new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, download));
         }
 
         public string GetLocalPath(IDownload download) => Path.Combine(DownloadDirectory, download.Filename);
@@ -57,7 +57,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 
         protected DownloadImplementation GetDownloadFileByTask(NSUrlSessionTask downloadTask)
         {
-            var ret = GetQueue()
+            var ret = GetDownloads()
                 .Cast<DownloadImplementation>()
                 .FirstOrDefault(
                     i => i.Task != null &&
@@ -96,7 +96,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
         #region IDownloadManager
 
         private readonly IList<IDownload> _queue;
-        public IEnumerable<IDownload> GetQueue()
+        public IEnumerable<IDownload> GetDownloads()
         {
             lock (_queue)
             {
@@ -140,7 +140,7 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
                     task.Cancel();
             });
 
-            foreach (var file in GetQueue())
+            foreach (var file in GetDownloads())
                 Abort(file);
         }
 

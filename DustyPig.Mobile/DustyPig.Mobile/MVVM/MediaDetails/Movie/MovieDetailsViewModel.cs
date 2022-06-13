@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
+using DustyPig.Mobile.MVVM.Main.Home;
 using DustyPig.Mobile.Services.Download;
 using Newtonsoft.Json;
 using System;
@@ -45,7 +46,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             var response = await App.API.Media.UpdatePlaybackProgressAsync(Id, 0);
             if (response.Success)
             {
-                Main.Home.HomeViewModel.InvokeMarkWatched(Id);
+                HomeViewModel.InvokeMarkWatched(Id);
                 ShowPlayedBar = false;
             }
             else
@@ -153,7 +154,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                     RemainingString = $"{Math.Max(dur.Minutes, 0)}m remaining";
 
 
-                SetDownloadStatus();
+                SetDownloadStatusAsync();
                 
                 IsBusy = false;
             }
@@ -164,21 +165,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             }
         }
 
-        
-        static Task<REST.Response<DetailedMovie>> GetMovieDetailsAsync(int id)
+        static async Task<REST.Response<DetailedMovie>> GetMovieDetailsAsync(int id)
         {
-            string local = DownloadService.CheckForLocalDetails(id);
-            if (!string.IsNullOrWhiteSpace(local))
-                try
-                {
-                    var ret = new REST.Response<DetailedMovie> { Success = true, Data = JsonConvert.DeserializeObject<DetailedMovie>(System.IO.File.ReadAllText(local)) };
-                    return Task.FromResult(ret);
-                }
-                catch { }
+            var data = await DownloadService.TryLoadDetailsAsync<DetailedMovie>(id);
+            if (data != null)
+                return new REST.Response<DetailedMovie> { Success = true, Data = data };
 
-            return App.API.Movies.GetDetailsAsync(id);
+            return await App.API.Movies.GetDetailsAsync(id);
         }
 
-        
+
+
     }
 }

@@ -6,15 +6,11 @@ namespace DustyPig.Mobile.CrossPlatform.DownloadManager
 {
    public interface IDownloadManager
     {
-        IEnumerable<IDownload> GetQueue();
-
-        event NotifyCollectionChangedEventHandler CollectionChanged;
+        IEnumerable<IDownload> GetDownloads();
 
         event EventHandler<IDownload> DownloadUpdated;
 
-        IDownload CreateDownload(string url, int id, string suffix);
-
-        void Start(IDownload download, bool mobileNetworkAllowed);
+        void Start(int mediaId, string url, string suffix, bool mobileNetworkAllowed);
 
         void Abort(IDownload download);
 
@@ -24,6 +20,6 @@ namespace DustyPig.Mobile.CrossPlatform.DownloadManager
 
         string TempDirectory { get; }
 
-        string GetLocalPath(int mediaId, string suffix);
+        //string GetLocalPath(int mediaId, string suffix);
     }
 }
