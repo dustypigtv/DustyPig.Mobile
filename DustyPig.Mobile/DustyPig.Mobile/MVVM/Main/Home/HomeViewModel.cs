@@ -188,7 +188,11 @@ namespace DustyPig.Mobile.MVVM.Main.Home
                         loadFromDisk = true;
 
             if (loadFromDisk)
-                try { AddSections(Services.HomePageCache.Load()); }
+                try 
+                {
+                    var cached = await Services.HomePageCache.LoadAsync();
+                    AddSections(cached); 
+                }
                 catch { }
             
             var response = await App.API.Media.GetHomeScreenAsync();

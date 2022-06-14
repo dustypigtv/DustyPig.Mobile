@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DustyPig.Mobile.Services
 {
@@ -9,21 +10,27 @@ namespace DustyPig.Mobile.Services
     {
         static readonly string _filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "home_screen_cache.json");
 
-        public static HomeScreen Load()
+        public static Task<HomeScreen> LoadAsync()
         {
-            try { return JsonConvert.DeserializeObject<HomeScreen>(File.ReadAllText(_filename)); }
-            catch { return new HomeScreen(); }
+            return Task<HomeScreen>.Run(() =>
+            {
+                try { return JsonConvert.DeserializeObject<HomeScreen>(File.ReadAllText(_filename)); }
+                catch { return new HomeScreen(); }
+            });
         }
 
         public static void Save(HomeScreen hs)
         {
-            File.WriteAllText(_filename, JsonConvert.SerializeObject(hs));
+            Task.Run(() => File.WriteAllText(_filename, JsonConvert.SerializeObject(hs)));
         }
         
         public static void Reset()
         {
-            try { File.Delete(_filename); }
-            catch { }
+            Task.Run(() =>
+            {
+                try { File.Delete(_filename); }
+                catch { }
+            });
         }
     }
 }
