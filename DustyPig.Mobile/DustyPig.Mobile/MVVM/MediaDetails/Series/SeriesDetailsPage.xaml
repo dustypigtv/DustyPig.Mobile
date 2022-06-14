@@ -294,8 +294,8 @@
                             <ImageButton
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand"
                                 HeightRequest="40"
                                 WidthRequest="40"
                                 CornerRadius="20"
@@ -311,7 +311,8 @@
                             <Label 
                                 Grid.Column="0"
                                 Grid.Row="1"
-                                HorizontalOptions="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
                                 Text="Watchlist" 
                                 FontSize="Small" />
 
@@ -320,8 +321,8 @@
                             <ImageButton
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand"
                                 HeightRequest="40"
                                 WidthRequest="40"
                                 CornerRadius="20"
@@ -339,7 +340,8 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 IsVisible="{Binding ShowWatchButton}"
-                                HorizontalOptions="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
                                 Text="Mark Watched" 
                                 FontSize="Small" />
                             
@@ -347,8 +349,8 @@
                             <ImageButton
                                 Grid.Column="2"
                                 Grid.Row="0"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand"
                                 HeightRequest="40"
                                 WidthRequest="40"
                                 CornerRadius="20"
@@ -363,8 +365,9 @@
                             <Label 
                                 Grid.Column="2"
                                 Grid.Row="1"
-                                HorizontalOptions="Center"
-                                Text="Add to playlist" 
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Text="Playlist" 
                                 FontSize="Small" />
 
                         </Grid>
