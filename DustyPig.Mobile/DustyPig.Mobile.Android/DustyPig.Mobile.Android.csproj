@@ -75,15 +75,15 @@
       <Version>11.2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Firebase.Messaging">
-      <Version>122.0.0.5</Version>
+      <Version>122.0.0.6</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2478" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Auth">
-      <Version>119.2.0.5</Version>
+      <Version>120.2.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
