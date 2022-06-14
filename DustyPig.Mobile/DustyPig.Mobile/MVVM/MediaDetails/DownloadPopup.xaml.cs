@@ -1,10 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,16 +15,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DownloadPopup : Popup<int>
     {
+        readonly List<StackLayout> _labels = new List<StackLayout>();
+        int _selectedIndex = -1;
+
         public DownloadPopup(MediaTypes mediaType, int currentCount)
         {
             InitializeComponent();
 
-
-            ShowDelete = currentCount > 0;
-
-            _selectedItem = ((currentCount < 1 || currentCount > 10) ? 5 : currentCount).ToString();
-
-
+            
             switch (mediaType)
             {
                 case MediaTypes.Series:
@@ -40,14 +33,27 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     Header = "Number of items to download:";
                     break;
             }
-
-            Items = new ObservableCollection<string>();
-            Items.Add("None (Delete download)");
-            for (int i = 1; i <= 10; i++)
-                Items.Add(i.ToString());
-
+                        
+            ShowDelete = currentCount > 0;            
+            LabelTouchedCommand = new Command<string>(OnLabelTouched);
             CancelCommand = new Command(() => Dismiss(-1));
             SaveCommand = new Command(OnSave);
+
+            _labels.Add(lbl0);
+            _labels.Add(lbl1);
+            _labels.Add(lbl2);
+            _labels.Add(lbl3);
+            _labels.Add(lbl4);
+            _labels.Add(lbl5);
+            _labels.Add(lbl6);
+            _labels.Add(lbl7);
+            _labels.Add(lbl8);
+            _labels.Add(lbl9);
+            _labels.Add(lbl10);
+
+            if (currentCount < 1 || currentCount > 10)
+                currentCount = Services.Settings.LastDownloadCount;
+            OnLabelTouched(currentCount.ToString());
 
             BindingContext = this;
         }
@@ -56,33 +62,28 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
         public bool ShowDelete { get; set; }
 
-        private string _selectedItem;
-        public string SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                if (Equals(_selectedItem, value))
-                    return;
-                _selectedItem = value;
-                OnPropertyChanged(nameof(SelectedItem));
-            }
-        }
 
-        public ObservableCollection<string> Items { get; }
+        public Command<string> LabelTouchedCommand { get; }
+        private void OnLabelTouched(string s)
+        {
+            _selectedIndex = int.Parse(s);
+            for (int i = 0; i < _labels.Count; i++)
+                if (i == _selectedIndex)
+                    _labels[i].BackgroundColor = Helpers.Theme.Grey;
+                else
+                    _labels[i].BackgroundColor = Color.Transparent;
+        }
 
         public Command DeleteCommand { get; }        
 
         public Command CancelCommand { get; }       
 
-        public Command SaveCommand { get; }
+        public Command SaveCommand { get; }   
         private void OnSave()
         {
-            if (int.TryParse(SelectedItem, out int cnt))
-                Dismiss(cnt);
-            else
-                //Delete download
-                Dismiss(0);
+            if(_selectedIndex > 0)
+                Services.Settings.LastDownloadCount = _selectedIndex;
+            Dismiss(_selectedIndex);
         }
     }
 }

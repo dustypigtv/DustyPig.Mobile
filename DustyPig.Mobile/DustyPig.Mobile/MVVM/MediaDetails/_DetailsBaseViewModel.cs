@@ -243,7 +243,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Series:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, cnt));
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, 0));
                             if (cnt == 0)
                                 DownloadService.Delete(Id);
                             else if (cnt > 0)
