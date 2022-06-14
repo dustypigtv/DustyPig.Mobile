@@ -5,51 +5,27 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 {
     public class DownloadManagerImplementation : IDownloadManager
     {
-        const int TIMER_MILLISECONDS = 1000;
-
-        public static readonly DownloadManagerImplementation Current = new DownloadManagerImplementation();
-
-        public event EventHandler<IDownload> DownloadUpdated;
-       
         readonly Android.App.DownloadManager _downloadManager = (Android.App.DownloadManager)Application.Context.GetSystemService(Context.DownloadService);
-        readonly Timer _watcher;
-        readonly SQLite.SQLiteConnection _connection;
-
-        //private readonly object _locker = new object();
-
-        private DownloadManagerImplementation()
+        
+        public DownloadManagerImplementation()
         {
             //Skip media scanner in this app
             using (var fs = File.Create(Path.Combine(Root, ".nomedia"))) { }
-
-            string dbfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "droid.downloads.sqlite");
-            _connection = new SQLite.SQLiteConnection(dbfile, SQLite.SQLiteOpenFlags.Create | SQLite.SQLiteOpenFlags.ReadWrite | SQLite.SQLiteOpenFlags.FullMutex);
-            _connection.CreateTable<DownloadInfo>(SQLite.CreateFlags.None);
-
-            _watcher = new Timer(new TimerCallback(WatcherCallback), null, TIMER_MILLISECONDS, Timeout.Infinite);
-
         }
 
-        void WatcherCallback(object dummy)
-        {
-            try { ScanDownloads(); }
-            catch { }
-
-            _watcher.Change(TIMER_MILLISECONDS, Timeout.Infinite);
-        }
-
+        /// <summary>
+        /// Wrap inside a lock
+        /// </summary>
         List<DownloadImplementation> ScanDownloads()
         {
             var ret = new List<DownloadImplementation>();
-
-            var dummy = TempDirectory;
 
             var query = new Android.App.DownloadManager.Query();
             using var cursor = _downloadManager.InvokeQuery(query);
@@ -57,20 +33,26 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             {
                 while (cursor.MoveToNext())
                 {
-                    var androidId = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnId));
                     try
                     {
-                        var download = new DownloadImplementation(cursor, _connection);
+                        var download = new DownloadImplementation(cursor);
                         if (download.Status == Mobile.CrossPlatform.DownloadManager.DownloadStatus.COMPLETED)
+                        {
                             if (MoveFile(download))
                                 _downloadManager.Remove(download.AndroidId);
-                        
+                            else
+                                download.SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.RUNNING);
+                        }
+
+                        if (download.StatusDetails == "Error.CannotResume")
+                            _downloadManager.Remove(download.AndroidId);
 
                         ret.Add(download);
-                        try { DownloadUpdated?.Invoke(this, download); }
-                        catch { }
                     }
-                    catch { }                    
+                    catch (Exception ex)
+                    {                        
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
                 }
                 cursor.Close();
             }
@@ -78,90 +60,67 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             return ret;
         }
 
+
         public IEnumerable<IDownload> GetDownloads() => ScanDownloads();
-
-
-        DownloadImplementation FindDownload(IDownload dl) => FindDownload(dl.Url);
-
-        DownloadImplementation FindDownload(string url)
-        {
-            return ScanDownloads()
-                .Where(item => item.Url == url)
-                .FirstOrDefault();
-        }
 
 
         public void Start(int mediaId, string url, string suffix, bool mobileNetworkAllowed)
         {
-            if (FindDownload(url) != null)
+            var allDownloads = ScanDownloads();
+            var download = allDownloads.FirstOrDefault(item => item.Url == url);
+            if (download != null)
                 return;
 
-            var info = _connection.Table<DownloadInfo>()
-                .Where(item => item.Url == url)
-                .FirstOrDefault();
-
-            if(info == null)
-            {
-                info = new DownloadInfo
-                {
-                    MediaId = mediaId,
-                    Suffix = suffix,
-                    Url = url
-                };
-                _connection.Insert(info);
-            }
-            
-            string destinationPathName = GetTempPath(mediaId, suffix);
-
+            string destinationPathName = GetTempPath(new DownloadImplementation { MediaId = mediaId, Suffix = suffix });
             using var downloadUrl = Android.Net.Uri.Parse(url);
             using var request = new Android.App.DownloadManager.Request(downloadUrl);
 
             using var jfile = new Java.IO.File(destinationPathName);
             if (jfile.Exists())
                 jfile.Delete();
-            
+
+            request.SetTitle($"{mediaId}.{suffix}");
             request.SetDestinationUri(Android.Net.Uri.FromFile(jfile));
             request.SetAllowedOverMetered(mobileNetworkAllowed);
             request.SetNotificationVisibility(DownloadVisibility.Hidden);
-           
-            _downloadManager.Enqueue(request);       
+
+            _downloadManager.Enqueue(request);
         }
 
         public void Abort(IDownload download)
         {
+            if (download == null)
+                return;
+
+            if (string.IsNullOrWhiteSpace(download.Url))
+                return;
+
             var dl = download as DownloadImplementation;
-            
+
             if (dl == null)
-                dl = FindDownload(dl);
+                dl = ScanDownloads().FirstOrDefault(item => item.Url == download.Url);
 
             if (dl != null)
                 _downloadManager.Remove(dl.AndroidId);
-
-            var info = _connection.Table<DownloadInfo>()
-               .Where(item => item.Url == download.Url)
-               .FirstOrDefault();
-
-            if (info != null)
-                _connection.Delete(info);
         }
 
         public void AbortAll()
         {
             var query = new Android.App.DownloadManager.Query();
             using var cursor = _downloadManager.InvokeQuery(query);
-            if(cursor != null)
+            if (cursor != null)
             {
-                while(cursor.MoveToNext())
+                while (cursor.MoveToNext())
                 {
                     var androidId = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnId));
                     _downloadManager.Remove(androidId);
                 }
                 cursor.Close();
             }
-
-            _connection.DeleteAll<DownloadInfo>();
         }
                
+
+
         string Root
         {
             get
@@ -179,11 +138,8 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 
         string GetLocalPath(IDownload download) => Path.Combine(DownloadDirectory, download.Filename);
 
-        string GetLocalPath(int mediaId, string suffix) => Path.Combine(DownloadDirectory, $"{mediaId}.{suffix}");
-        
         string GetTempPath(IDownload download) => Path.Combine(TempDirectory, download.Filename);
-        
-        string GetTempPath(int mediaId, string suffix) => Path.Combine(TempDirectory, $"{mediaId}.{suffix}");
+
 
         bool MoveFile(IDownload download)
         {

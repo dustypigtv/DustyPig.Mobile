@@ -1,6 +1,8 @@
 ﻿/*
     I *could* go to the trouble of implementing a sqlite database, but since this is is so lightweight...
     I'm just gonna have a serialized json file and a lock
+
+    Also, trying to mix events and polling was... anyway setup for polling only
 */
 using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform.DownloadManager;
@@ -22,73 +24,20 @@ namespace DustyPig.Mobile.Services.Download
         static readonly IDownloadManager _manager = DependencyService.Get<IDownloadManager>();
         static readonly object _locker = new object();
         static readonly Timer _monitorTimer = new Timer(new TimerCallback(MonitorJobsCallback));
-        static readonly Timer _detailsTimer = new Timer(new TimerCallback(UpdateDetailsCallback));
-        static bool _firstUpdateRan = false;
+        static DateTime _lastDetails = DateTime.Now.AddMinutes(-2);
 
         public static void Init()
-        {            
-            //Faster startup
-            Task.Run(() =>
-            {
-                _manager.DownloadUpdated += NativeManager_DownloadUpdated;
-                _detailsTimer.Change(1000, Timeout.Infinite);
-                _monitorTimer.Change(1000, Timeout.Infinite);
-            });
-        }
-
-        
-
-
-        static void NativeManager_DownloadUpdated(object sender, IDownload e)
         {
-            if (!App.LoggedIn)
-                return;
+            //_jobList.ClearJobs();
+            //_jobList.Save();
+            //_manager.AbortAll();
 
-            var file = FindFile(e);
-            if (file != null)
-                file.Percent = e.Percent;
-
-
-            FindJob(e.MediaId)?.Update();
-
-          
-            switch (e.Status)
-            {
-                case DownloadStatus.CANCELED:
-                case DownloadStatus.COMPLETED:
-                case DownloadStatus.INITIALIZED:
-                case DownloadStatus.PAUSED:
-                case DownloadStatus.PENDING:
-                    Console.WriteLine("*** DOWNLOAD {0} ***", e.Status);
-                    break;
-
-
-                case DownloadStatus.FAILED:
-                    Console.WriteLine("*** DOWNLOAD FAILED ***");
-                    Console.WriteLine(e.StatusDetails);
-
-                    switch (e.StatusDetails)
-                    {
-                        case "Error.CannotResume":
-                           _manager.Abort(e);
-                            break;
-
-                        default:
-                            break;
-                    }                                  
-                    break;
-
-                case DownloadStatus.RUNNING:
-
-                    if (e.TotalBytesExpected > 0)
-                        Console.WriteLine("*** {0} PERCENT: {1:0.00%} ***", e.MediaId, (double)e.TotalBytesWritten / (double)e.TotalBytesExpected);
-                    break;
-            }
-
+            _monitorTimer.Change(1000, Timeout.Infinite);
         }
 
 
-
+        public static IReadOnlyList<Job> GetJobs() => _jobList.Jobs;
+           
 
 
         static void MonitorJobsCallback(object dummy)
@@ -106,16 +55,33 @@ namespace DustyPig.Mobile.Services.Download
             if (!App.LoggedIn)
                 return;
 
-            if (!_firstUpdateRan)
-                return;
-            
+            if(_lastDetails.AddMinutes(1) < DateTime.Now)
+            {
+                UpdateDetails();
+                _lastDetails = DateTime.Now;
+            }
 
             //Delete any downlods in the native manager that aren't in this manager - do it the slow way!!!
             foreach (var download in _manager.GetDownloads())
             {
                 var valid = FindFile(download);
                 if (valid == null)
+                {
                     _manager.Abort(download);
+                }
+                else
+                {                    
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine("*** {0}.{1}: {2} ***", download.MediaId, download.Suffix, download.Status);
+                    if (!string.IsNullOrWhiteSpace(download.StatusDetails))
+                        System.Diagnostics.Debug.WriteLine(download.StatusDetails);
+                    System.Diagnostics.Debug.WriteLine(download.Percent.ToString() + "%");
+                    System.Diagnostics.Debug.WriteLine(String.Empty);
+#endif
+
+                    valid.Percent = download.Percent;
+                    FindJob(download.MediaId)?.Update();
+                }
             }
 
 
@@ -132,51 +98,19 @@ namespace DustyPig.Mobile.Services.Download
 
             //Add any jobs that are missing from the native manager
             foreach (var job in _jobList.Jobs)
-            {
                 foreach (var jobFile in job.Files.Where(item => item.Suffix != "json").OrderBy(item => item.IsVideo))
-                {
                     if (!File.Exists(jobFile.LocalFile()))
-                    {
-                        var download = _manager.GetDownloads()
-                            .Where(item => item.Url == jobFile.Url)
-                            .FirstOrDefault();
-
-                        if (download == null)
-                            _manager.Start(jobFile.MediaId, jobFile.Url, jobFile.Suffix, Settings.DownloadOverCellular);
-                    }
-                }
-            }
+                        _manager.Start(jobFile.MediaId, jobFile.Url, jobFile.Suffix, Settings.DownloadOverCellular);
         }
 
-
-
-
-
-
-
-        static async void UpdateDetailsCallback(object dummy)
-        {
-            try { await UpdateDetails(); }
-            catch { }
-
-            if (_firstUpdateRan)
-                _detailsTimer.Change(60000, Timeout.Infinite);
-            else
-                _detailsTimer.Change(1000, Timeout.Infinite);
-        }
-
-        static async Task UpdateDetails()
+        static void UpdateDetails()
         {
             //Logic:
             //  Run this method once a minute
             //  Update date the most stale job
             //  Update any jobs over 5 min old
 
-            if (!App.LoggedIn)
-                return;
-
-            _firstUpdateRan = true;
-
+         
             var jobFileTimes = new List<KeyValuePair<Job, DateTime>>();
             foreach (var job in _jobList.Jobs)
             {
@@ -210,17 +144,17 @@ namespace DustyPig.Mobile.Services.Download
                     switch (job.MediaType)
                     {
                         case MediaTypes.Movie:
-                            var movieResponse = await App.API.Movies.GetDetailsAsync(job.MediaId);
+                            var movieResponse = App.API.Movies.GetDetailsAsync(job.MediaId).Result;
                             InternalAddOrUpdateMovie(movieResponse.Data);
                             break;
 
                         case MediaTypes.Series:
-                            var seriesResponse = await App.API.Series.GetDetailsAsync(job.MediaId);
+                            var seriesResponse = App.API.Series.GetDetailsAsync(job.MediaId).Result;
                             InternalAddOrUpdateSeries(seriesResponse.Data, job.ItemsCount);
                             break;
 
                         case MediaTypes.Playlist:
-                            var playlistResponse = await App.API.Playlists.GetDetailsAsync(job.MediaId);
+                            var playlistResponse = App.API.Playlists.GetDetailsAsync(job.MediaId).Result;
                             InternalAddOrUpdatePlaylist(playlistResponse.Data, job.ItemsCount);
                             break;
                     }
@@ -238,25 +172,6 @@ namespace DustyPig.Mobile.Services.Download
 
 
 
-
-
-        static string ReadFile(string filename)
-        {
-            lock (_locker)
-            {
-                try { return File.ReadAllText(filename); }
-                catch { return null; }
-            }
-        }
-
-        static void SaveFile(string filename, string data)
-        {
-            lock (_locker)
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(filename));
-                File.WriteAllText(filename, data);
-            }
-        }
 
 
 
@@ -283,98 +198,107 @@ namespace DustyPig.Mobile.Services.Download
 
         static void InternalAddOrUpdateMovie(DetailedMovie movie)
         {
-            bool changed = false;
-
-            var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == movie.Id);
-            if (job == null)
+            lock (_locker)
             {
-                job = new Job
+                bool changed = false;
+
+                var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == movie.Id);
+                if (job == null)
                 {
-                    MediaType = MediaTypes.Movie,
-                    MediaId = movie.Id
-                };
-                _jobList.AddJob(job);
-                changed = true;
+                    job = new Job
+                    {
+                        MediaType = MediaTypes.Movie,
+                        MediaId = movie.Id
+                    };
+                    _jobList.AddJob(job);
+                    changed = true;
+                }
+
+                //Manually save the .json file
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "json", null, false);
+                File.WriteAllText(job.Files[0].LocalFile(), JsonConvert.SerializeObject(movie));
+
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "poster.jpg", movie.ArtworkUrl, false);
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "mp4", movie.VideoUrl, true);
+                changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "backdrop.jpg", movie.BackdropUrl);
+                changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "bif", movie.BifUrl);
+                changed |= AddOrUpdateExternalSubtitles(job, job.MediaId, movie.ExternalSubtitles);
+
+                if (changed)
+                    _jobList.Save();
             }
-
-            //Manually save the .json file
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "json", null, false);
-            File.WriteAllText(job.Files[0].LocalFile(), JsonConvert.SerializeObject(movie));
-
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "poster.jpg", movie.ArtworkUrl, false);
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "mp4", movie.VideoUrl, true);
-            changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "backdrop.jpg", movie.BackdropUrl);
-            changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "bif", movie.BifUrl);
-            changed |= AddOrUpdateExternalSubtitles(job, job.MediaId, movie.ExternalSubtitles);
-
-            if(changed)
-                _jobList.Save();
         }
 
         static void InternalAddOrUpdateSeries(DetailedSeries series, int itemCount)
         {
-            bool changed = false;
-
-            var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == series.Id);
-            if (job == null)
+            lock (_locker)
             {
-                job = new Job
+                bool changed = false;
+
+                var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == series.Id);
+                if (job == null)
                 {
-                    MediaType = MediaTypes.Series,
-                    MediaId = series.Id,
-                };
-                _jobList.AddJob(job);
-                changed = true;
+                    job = new Job
+                    {
+                        MediaType = MediaTypes.Series,
+                        MediaId = series.Id,
+                    };
+                    _jobList.AddJob(job);
+                    changed = true;
+                }
+
+                if (job.ItemsCount != itemCount)
+                    changed = true;
+                job.ItemsCount = itemCount;
+
+                //Manually save the .json file
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "json", null, false);
+                File.WriteAllText(job.Files.First(item => item.Suffix == "json").LocalFile(), JsonConvert.SerializeObject(series));
+
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "poster.jpg", series.ArtworkUrl, false);
+                changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "backdrop.jpg", series.BackdropUrl);
+                changed |= AddOrUpdateEpisodes(job, series);
+
+                if (changed)
+                    _jobList.Save();
             }
-
-            if (job.ItemsCount != itemCount)
-                changed = true;
-            job.ItemsCount = itemCount;
-
-            //Manually save the .json file
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "json", null, false);
-            File.WriteAllText(job.Files.First(item => item.Suffix == "json").LocalFile(), JsonConvert.SerializeObject(series));
-
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "poster.jpg", series.ArtworkUrl, false);
-            changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "backdrop.jpg", series.BackdropUrl);
-            changed |= AddOrUpdateEpisodes(job, series);
-
-            if (changed)
-                _jobList.Save();
         }
 
         static void InternalAddOrUpdatePlaylist(DetailedPlaylist playlist, int itemCount)
         {
-            bool changed = false;
-
-            var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == playlist.Id);
-            if (job == null)
+            lock (_locker)
             {
-                job = new Job
+                bool changed = false;
+
+                var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == playlist.Id);
+                if (job == null)
                 {
-                    MediaType = MediaTypes.Playlist,
-                    MediaId = playlist.Id,
-                };
-                _jobList.AddJob(job);
-                changed = true;
+                    job = new Job
+                    {
+                        MediaType = MediaTypes.Playlist,
+                        MediaId = playlist.Id,
+                    };
+                    _jobList.AddJob(job);
+                    changed = true;
+                }
+
+                if (job.ItemsCount != itemCount)
+                    changed = true;
+                job.ItemsCount = itemCount;
+
+                //Manually save the .json file
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "json", null, false);
+                File.WriteAllText(job.Files.First(item => item.Suffix == "json").LocalFile(), JsonConvert.SerializeObject(playlist));
+
+                changed |= AddOrUpdateJobFile(job, job.MediaId, "poster1.jpg", playlist.ArtworkUrl1, false);
+                changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "poster2.jpg", playlist.ArtworkUrl2);
+                changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "poster3.jpg", playlist.ArtworkUrl3);
+                changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "poster4.jpg", playlist.ArtworkUrl4);
+                changed |= AddOrUpdatePlaylistItems(job, playlist);
+
+                if (changed)
+                    _jobList.Save();
             }
-
-            if (job.ItemsCount != itemCount)
-                changed = true;
-            job.ItemsCount = itemCount;
-
-            //Manually save the .json file
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "json", null, false);
-            File.WriteAllText(job.Files.First(item => item.Suffix == "json").LocalFile(), JsonConvert.SerializeObject(playlist));
-
-            changed |= AddOrUpdateJobFile(job, job.MediaId, "poster1.jpg", playlist.ArtworkUrl1, false);
-            changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "poster2.jpg", playlist.ArtworkUrl2);
-            changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "poster3.jpg", playlist.ArtworkUrl3);
-            changed |= AddOrUpdateOptionalJobFile(job, job.MediaId, "poster4.jpg", playlist.ArtworkUrl4);
-            changed |= AddOrUpdatePlaylistItems(job, playlist);
-
-            if (changed)
-                _jobList.Save();
         }
 
         static bool AddOrUpdateEpisodes(Job job, DetailedSeries series)
@@ -521,19 +445,16 @@ namespace DustyPig.Mobile.Services.Download
             //Fire & forget
             Task.Run(() =>
             {
-                var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == mediaId);
-                if (job != null)
+                lock (_locker)
                 {
-                    //foreach (var jobFile in job.Files)
-                    //{
-                    //    var downloads = _manager.GetDownloads().Where(item => item.MediaId == mediaId).ToList();
-                    //    downloads.ForEach(item => _manager.Abort(item));
-                    //    TryDeleteFile(jobFile.TempFile());
-                    //    TryDeleteFile(jobFile.LocalFile());
-                    //}
-
-                    _jobList.RemoveJob(job);
-                    _jobList.Save();
+                    var job = _jobList.Jobs.FirstOrDefault(item => item.MediaId == mediaId);
+                    if (job != null)
+                    {
+                        _jobList.RemoveJob(job);
+                        _jobList.Save();
+                    }
+                    if (_jobList.Jobs.Count == 0)
+                        _manager.AbortAll();
                 }
             });
         }
@@ -658,9 +579,6 @@ namespace DustyPig.Mobile.Services.Download
             {
                 if (!File.Exists(file))
                     return true;
-
-                if (new FileInfo(file).LastWriteTime.AddMinutes(1) > DateTime.Now)
-                    return false;
 
                 File.Delete(file);
                 return true;

@@ -34,6 +34,8 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
                     throw new ArgumentOutOfRangeException();
             }
 
+            CalcPercent(task.BytesExpectedToReceive, task.BytesReceived);
+
             Task = task;
         }
 
@@ -45,48 +47,24 @@ namespace DustyPig.Mobile.iOS.CrossPlatform.DownloadManager
 
         public string Filename => $"{MediaId}.{Suffix}";
 
-
-
         public DownloadStatus Status { get; private set; }
 
         public string StatusDetails { get; private set; }
 
-        public long TotalBytesExpected { get; private set; }
-
-        public long TotalBytesWritten { get;  private set; }
-
         public int Percent { get; set; }
 
-        public bool SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus status, string details = null)
+        public void SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus status, string details = null)
         {
-            if (Status == status && StatusDetails == details)
-                return false;
-
             Status = status;
             StatusDetails = details;
-            return true;
         }
 
-        public bool CalcPercent(long expected, long written)
+        public void CalcPercent(long size, long downloaded)
         {
-            if (TotalBytesExpected == expected && TotalBytesWritten == written)
-                return false;
-
-            TotalBytesExpected = expected;
-            TotalBytesWritten = written;
-
-            if (TotalBytesExpected <= 0 || TotalBytesWritten <= 0)
-            {
+            if (size <= 0 || downloaded <= 0)
                 Percent = 0;
-            }
             else
-            {
-                double w = (double)TotalBytesWritten;
-                double e = (double)TotalBytesExpected;
-                Percent = (int)Math.Floor(w / e * 100);
-            }
-
-            return true;
+                Percent = (int)Math.Floor((double)downloaded / (double)size * 100);
         }
 
         public NSUrlSessionTask Task { get; set; }

@@ -153,9 +153,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 else
                     RemainingString = $"{Math.Max(dur.Minutes, 0)}m remaining";
 
-
-                SetDownloadStatusAsync();
-                
                 IsBusy = false;
             }
             else

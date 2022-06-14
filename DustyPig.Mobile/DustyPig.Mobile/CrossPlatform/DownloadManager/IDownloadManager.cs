@@ -8,7 +8,7 @@ namespace DustyPig.Mobile.CrossPlatform.DownloadManager
     {
         IEnumerable<IDownload> GetDownloads();
 
-        event EventHandler<IDownload> DownloadUpdated;
+        //event EventHandler<IDownload> DownloadUpdated;
 
         void Start(int mediaId, string url, string suffix, bool mobileNetworkAllowed);
 

@@ -27,9 +27,9 @@
         /// <value>The status details.</value>
         string StatusDetails { get; }
 
-        long TotalBytesExpected { get; }
+        //long TotalBytesExpected { get; }
 
-        long TotalBytesWritten { get; }
+        //long TotalBytesWritten { get; }
 
         int Percent { get; }
     }

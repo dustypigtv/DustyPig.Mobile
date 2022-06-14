@@ -68,9 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="sqlite-net-pcl">
-      <Version>1.8.116</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
       <Version>28.0.0.3</Version>
     </PackageReference>
@@ -92,7 +89,6 @@
   <ItemGroup>
     <Compile Include="CrossPlatform\AutofillManagerImplementation.cs" />
     <Compile Include="CrossPlatform\DownloadManager\DownloadImplementation.cs" />
-    <Compile Include="CrossPlatform\DownloadManager\DownloadInfo.cs" />
     <Compile Include="CrossPlatform\DownloadManager\DownloadManagerImplementation.cs" />
     <Compile Include="CrossPlatform\FCM\Extensions.cs" />
     <Compile Include="CrossPlatform\FCM\FCMImplementation.cs" />

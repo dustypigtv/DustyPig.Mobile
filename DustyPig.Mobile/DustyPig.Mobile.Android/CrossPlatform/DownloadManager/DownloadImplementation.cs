@@ -2,45 +2,29 @@
 using Android.Database;
 using DustyPig.Mobile.CrossPlatform.DownloadManager;
 using System;
-using System.Linq;
 
 namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 {
     public class DownloadImplementation : IDownload
     {
-        
-        public DownloadImplementation(ICursor cursor, SQLite.SQLiteConnection conn)
+        public DownloadImplementation() { }
+
+        public DownloadImplementation(ICursor cursor)
         {
-            AndroidId = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnId));           
+            AndroidId = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnId));
             Url = cursor.GetString(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnUri));
-            if (string.IsNullOrWhiteSpace(Url))
-                throw new ArgumentNullException(nameof(Url));
+            
+            string title = cursor.GetString(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTitle));            
+            MediaId = int.Parse(title.Substring(0, title.IndexOf('.')));
+            Suffix = title.Substring(title.IndexOf('.') + 1);
 
-
-            //Get info from my database
-            var rec = conn.Table<DownloadInfo>()
-                .Where(item => item.Url == Url)
-                .First();
-            MediaId = rec.MediaId;
-            Suffix = rec.Suffix;
-
-
-            //Rest of the info from the android native manager
-            TotalBytesExpected = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
-            TotalBytesWritten = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
-            if (TotalBytesExpected <= 0 || TotalBytesWritten <= 0)
-            {
+            var size = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnTotalSizeBytes));
+            var downloaded = cursor.GetLong(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnBytesDownloadedSoFar));
+            if (size <= 0 || downloaded <= 0)
                 Percent = 0;
-            }
             else
-            {
-                double w = (double)TotalBytesWritten;
-                double e = (double)TotalBytesExpected;
-                Percent = (int)Math.Floor(w / e * 100);
-            }
-
-
-
+                Percent = (int)Math.Floor((double)downloaded / (double)size * 100);
+            
             switch ((Android.App.DownloadStatus)cursor.GetInt(cursor.GetColumnIndex(Android.App.DownloadManager.ColumnStatus)))
             {
                 case Android.App.DownloadStatus.Successful:
@@ -52,6 +36,7 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
                     if (reasonFailed < 600)
                     {
                         SetStatus(Mobile.CrossPlatform.DownloadManager.DownloadStatus.FAILED, "Error.HttpCode: " + reasonFailed);
+
                     }
                     else
                     {
@@ -132,22 +117,12 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
 
         public string Filename => $"{MediaId}.{Suffix}";
 
-
-
-        /// <summary>
-        /// Id in the native manager
-        /// </summary>
         public long AndroidId { get; set; }
-
-        
+                
         
         public Mobile.CrossPlatform.DownloadManager.DownloadStatus Status { get; private set; }
 
         public string StatusDetails { get; private set; }
-
-        public long TotalBytesExpected { get; private set; }
-
-        public long TotalBytesWritten { get; private set; }
 
         public int Percent { get; private set; }
 
@@ -156,7 +131,5 @@ namespace DustyPig.Mobile.Droid.CrossPlatform.DownloadManager
             Status = status;
             StatusDetails = details;
         }
-
-        
     }
 }

@@ -79,7 +79,7 @@ namespace DustyPig.Mobile.Droid
             Firebase.FirebaseApp.InitializeApp(this);
             Xamarin.Forms.DependencyService.RegisterSingleton<IFCM>(new FCMImplementation());
 
-            Xamarin.Forms.DependencyService.RegisterSingleton<IDownloadManager>(CrossPlatform.DownloadManager.DownloadManagerImplementation.Current);
+            Xamarin.Forms.DependencyService.RegisterSingleton<IDownloadManager>(new CrossPlatform.DownloadManager.DownloadManagerImplementation());
 
             SetTheme(Resource.Style.MainTheme);
 
