@@ -14,13 +14,15 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 {
     public class SeriesDetailsViewModel : _DetailsBaseViewModel
     {
+        private int _upNextId;
+
         public SeriesDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
             IsBusy = true;
 
             Id = basicMedia.Id;
 
-            PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
+            PlayCommand = new AsyncCommand(() => OnPlayEpisode(_upNextId), allowsMultipleExecutions: false);
             PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
             ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);            
@@ -88,11 +90,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         }
 
         public AsyncCommand PlayCommand { get; }
-        private async Task OnPlay()
-        {
-            await ShowAlertAsync("TO DO:", "Play Next");
-        }
-
         public AsyncCommand<int> PlayEpisodeCommand { get; }
         private async Task OnPlayEpisode(int id)
         {
@@ -214,6 +211,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             if (upNext == null)
             {
                 var ep = Detailed_Series.Episodes.First();
+                _upNextId = ep.Id;
                 Episodes.Clear();
                 Episodes.AddRange(Detailed_Series.Episodes.Where(item => item.SeasonNumber == ep.SeasonNumber).Select(item => EpisodeInfoViewModel.FromEpisode(item)));
                 CurrentSeason = ep.SeasonNumber;
@@ -223,6 +221,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             }
             else
             {
+                _upNextId = upNext.Id;
                 Duration = upNext.Length;
                 Played = upNext.Played ?? 0;
                 PlayButtonText = Played > 0 ? "Resume" : "Play";

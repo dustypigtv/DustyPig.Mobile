@@ -536,7 +536,7 @@
                 Grid.RowSpan="2"
                 Margin="60"
                 HorizontalOptions="Center"
-                VerticalOptions="Start"
+                VerticalOptions="Center"
                 IsRunning="{Binding IsBusy}" />
 
             <ActivityIndicator

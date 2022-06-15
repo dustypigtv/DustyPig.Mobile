@@ -49,6 +49,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
         public DetailedSeries Detailed_Series { get; set; }
 
+        public DetailedPlaylist Detailed_Playlist { get; set; }
+
         public int LibraryId { get; set; }
 
         public AsyncCommand RequestPermissionCommand { get; }
@@ -157,24 +159,24 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             }
                             break;
 
-                            //case MediaTypes.Playlist:
-                            //    cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
-                            //    if (cnt == 0)
-                            //    {
-                            //        DownloadService.Delete(Id);
+                        case MediaTypes.Playlist:
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
+                            if (cnt == 0)
+                            {
+                                DownloadService.Delete(Id);
 
-                            //        //Possible to get here from Downloaded info while offline. If deleting, close the page
-                            //        if (NoInternet)
-                            //        {
-                            //            await Navigation.PopModalAsync();
-                            //            return;
-                            //        }
-                            //    }
-                            //    else if (cnt > 0)
-                            //    {
-                            //        DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
-                            //    }
-                            //    break;
+                                //Possible to get here from Downloaded info while offline. If deleting, close the page
+                                if (NoInternet)
+                                {
+                                    await Navigation.PopModalAsync();
+                                    return;
+                                }
+                            }
+                            else if (cnt > 0)
+                            {
+                                DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
+                            }
+                            break;
                     }
                     break;
 
@@ -214,24 +216,24 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             }                           
                             break;
 
-                            //case MediaTypes.Playlist:
-                            //    cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
-                            //    if (cnt == 0)
-                            //    {
-                            //        DownloadService.Delete(Id);
+                        case MediaTypes.Playlist:
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
+                            if (cnt == 0)
+                            {
+                                DownloadService.Delete(Id);
 
-                            //        //Possible to get here from Downloaded info while offline. If deleting, close the page
-                            //        if (NoInternet)
-                            //        {
-                            //            await Navigation.PopModalAsync();
-                            //            return;
-                            //        }
-                            //    }
-                            //    else if (cnt > 0)
-                            //    {
-                            //        DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
-                            //    }
-                            //    break;
+                                //Possible to get here from Downloaded info while offline. If deleting, close the page
+                                if (NoInternet)
+                                {
+                                    await Navigation.PopModalAsync();
+                                    return;
+                                }
+                            }
+                            else if (cnt > 0)
+                            {
+                                DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
+                            }
+                            break;
                     }
                     break;
 
@@ -250,13 +252,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                                 DownloadService.AddOrUpdateSeries(Detailed_Series, cnt);
                             break;
 
-                        //case MediaTypes.Playlist:
-                        //    cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, cnt));
-                        //    if (cnt == 0)
-                        //        DownloadService.Delete(Id);
-                        //    else if (cnt > 0)
-                        //        DownloadService.AddOrUpdateSeries(Detailed_Playlist, cnt);
-                        //    break;
+                        case MediaTypes.Playlist:
+                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, cnt));
+                            if (cnt == 0)
+                                DownloadService.Delete(Id);
+                            else if (cnt > 0)
+                                DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
+                            break;
                     }                    
                     break;
             }

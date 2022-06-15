@@ -1,6 +1,7 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.MVVM.MediaDetails.Movie;
+using DustyPig.Mobile.MVVM.MediaDetails.Playlist;
 using DustyPig.Mobile.MVVM.MediaDetails.Series;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,10 @@ namespace DustyPig.Mobile.MVVM
 
                 case MediaTypes.Series:
                     await Navigation.PushModalAsync(new SeriesDetailsPage(item));
+                    break;
+
+                case MediaTypes.Playlist:
+                    await Navigation.PushModalAsync(new PlaylistDetailsPage(item));
                     break;
 
                 default:

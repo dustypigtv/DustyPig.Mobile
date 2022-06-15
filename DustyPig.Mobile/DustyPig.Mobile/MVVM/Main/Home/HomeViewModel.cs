@@ -17,6 +17,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         private static event EventHandler<int> MarkWatched;
 
         private static event EventHandler<BasicMedia> AddedToPlaylists;
+        private static event EventHandler<BasicMedia> RemovedFromPlaylists;
+
 
         private static event EventHandler<BasicMedia> PlaylistArtworkUpdated;
 
@@ -31,6 +33,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             RemovedFromWatchlist += ItemRemovedFromWatchlist;
             MarkWatched += HomeViewModel_MarkWatched;
             AddedToPlaylists += HomeViewModel_AddedToPlaylists;
+            RemovedFromPlaylists += HomeViewModel_RemovedFromPlaylists;
             PlaylistArtworkUpdated += HomeViewModel_PlaylistArtworkUpdated;
 
             ////Only do this in the home tab - since this class doesn't get destroyed
@@ -45,29 +48,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             //};
         }
 
-        private void HomeViewModel_PlaylistArtworkUpdated(object sender, BasicMedia e)
-        {
-            try
-            {
-                var items = GetOrAddSection(DustyPig.API.v3.Clients.MediaClient.ID_PLAYLISTS, DustyPig.API.v3.Clients.MediaClient.ID_PLAYLISTS_TITLE).VM.Items;
-                int idx = -1;
-                for(int i = 0; i < items.Count; i++)
-                    if (items[i].Id == e.Id)
-                    {
-                        idx = i;
-                        break;
-                    }
-                if (idx < 0)
-                    return;
-                items.RemoveAt(idx);
-                items.Insert(idx, e);
-            }
-            catch { }
-        }
-
-        public static void InvokePlaylistArtworkUpdated(BasicMedia e) => PlaylistArtworkUpdated?.Invoke(null, e);
-
-
+        
+        
         private HomePageSectionView GetSection(long id)
         {
             return MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == id) as HomePageSectionView;
@@ -110,6 +92,39 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         public static void InvokeAddedToPlaylists(BasicMedia basicMedia) => AddedToPlaylists?.Invoke(null, basicMedia);
 
+
+
+        private void HomeViewModel_RemovedFromPlaylists(object sender, BasicMedia e)
+        {
+            try
+            {
+                var section = GetSection(API.v3.Clients.MediaClient.ID_PLAYLISTS);
+                if (section == null)
+                    return;
+                section.VM.Items.Remove(e);
+                if (section.VM.Items.Count == 0)
+                    MainStack.Children.Remove(section);
+            }
+            catch { }
+        }
+
+        public static void InvokeRmovedFromPlaylists(BasicMedia basicMedia) => RemovedFromPlaylists?.Invoke(null, basicMedia);
+
+
+        private void HomeViewModel_PlaylistArtworkUpdated(object sender, BasicMedia e)
+        {
+            try
+            {
+               //TO DO
+            }
+            catch { }
+        }
+
+        public static void InvokePlaylistArtworkUpdated(BasicMedia e) => PlaylistArtworkUpdated?.Invoke(null, e);
+
+
+
+        
 
         private void HomeViewModel_MarkWatched(object sender, int e)
         {

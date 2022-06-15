@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:playlist="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Playlist"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
+    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+    ios:Page.UseSafeArea="true"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Playlist.PlaylistDetailsPage"
+    x:DataType="playlist:PlaylistDetailsViewModel"
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="Transparent">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <playlist:ItemBorderColorConverter x:Key="BoolColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid
+            WidthRequest="{Binding Width}"
+            HorizontalOptions="Center"
+            VerticalOptions="FillAndExpand"
+            BackgroundColor="Black">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <ScrollView
+                Margin="0,28,0,0"
+                Grid.RowSpan="2">
+                
+                <StackLayout
+                    IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    Margin="12,0,12,24">
+      
+                    <!-- Title -->
+                    <Label
+                        Grid.Row="0"
+                        Text="{Binding Title}"
+                        LineBreakMode="WordWrap"
+                        FontSize="Large"
+                        FontAttributes="Bold" />
+
+                    <!-- Play button -->
+                    <Frame
+                        Margin="0,12,0,0"
+                        Padding="0"
+                        HeightRequest="32" 
+                        CornerRadius="4" 
+                        HasShadow="false" 
+                        BackgroundColor="White" 
+                        BorderColor="#White" 
+                        HorizontalOptions="Fill"
+                        xct:TouchEffect.NativeAnimation="True"
+                        xct:TouchEffect.Command="{Binding PlayCommand}">
+
+                        <StackLayout
+                            Orientation="Horizontal"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            InputTransparent="True">
+                            <Image
+                                HeightRequest="16"
+                                WidthRequest="16"
+                                HorizontalOptions="End" 
+                                VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource 
+                                        FontFamily="FontAwesomeSolid" 
+                                        Glyph="{x:Static dpcc:FontAwesome.Play}" 
+                                        Color="Black" />
+                                </Image.Source>
+                            </Image>
+
+                            <Label 
+                                Text="{Binding PlayButtonText}" 
+                                TextColor="Black"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Start" 
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                    </Frame>
+
+
+                    <!-- Download button -->
+                    <Frame
+                        Margin="0,6,0,0"
+                        Padding="0"
+                        HeightRequest="32" 
+                        CornerRadius="4" 
+                        HasShadow="false" 
+                        BackgroundColor="{Static dpcc:Theme.DarkGrey}" 
+                        BorderColor="{Static dpcc:Theme.DarkGrey}" 
+                        HorizontalOptions="Fill"
+                        xct:TouchEffect.NativeAnimation="True"
+                        xct:TouchEffect.Command="{Binding DownloadCommand}">
+
+                        <StackLayout 
+                            Orientation="Horizontal"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            InputTransparent="True">
+                            <Image
+                                HeightRequest="16"
+                                WidthRequest="16"
+                                HorizontalOptions="End" 
+                                VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource 
+                                        FontFamily="FontAwesomeSolid" 
+                                        Glyph="{x:Static dpcc:FontAwesome.Download}" 
+                                        Color="White" />
+                                </Image.Source>
+                            </Image>
+
+                            <Label 
+                                Text="{Binding DownloadButtonText}" 
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Start" 
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Current Item -->
+                    <Label
+                        Margin="0,6,0,0"
+                        LineBreakMode="WordWrap"
+                        Text="Up Next:"/>
+                    
+                    <Label
+                        LineBreakMode="WordWrap"
+                        FontSize="Medium"
+                        FontAttributes="Bold"
+                        Text="{Binding UpNextTitle}"/>
+
+
+                    <!-- Playback progress -->
+                    <Grid
+                        Margin="0,6,0,0"
+                        IsVisible="{Binding ShowPlayedBar}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ProgressBar
+                            Progress="{Binding Progress}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Column="1"
+                            VerticalOptions="Center"
+                            Text="{Binding RemainingString}"
+                            FontSize="Micro" />
+
+                    </Grid>
+
+                    <!-- Description -->
+                    <Label
+                        Text="{Binding Description}"
+                        FontSize="Medium"
+                        LineBreakMode="WordWrap" />
+
+
+
+                    <!-- Items -->
+                    <StackLayout
+                            Margin="0,12,0,0"
+                            BindableLayout.ItemsSource="{Binding Items}">
+
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate
+                                    x:DataType="playlist:PlaylistItemViewModel">
+                                <Frame 
+                                        BackgroundColor="Transparent" 
+                                        Margin="0,0,0,24" 
+                                        Padding="4"
+                                        BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <ffimages:CachedImage
+                                                Grid.Column="0"
+                                                Grid.Row="0"
+                                                Source="{Binding ArtworkUrl}"
+                                                HeightRequest="56"
+                                                WidthRequest="100"
+                                                Aspect="AspectFit"
+                                                HorizontalOptions="Start"
+                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
+                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
+
+                                        <!-- Play button -->
+                                        <ImageButton
+                                                Grid.Column="0"
+                                                Grid.Row="0"
+                                                HeightRequest="24"
+                                                WidthRequest="24"
+                                                CornerRadius="12"
+                                                BackgroundColor="#88000000"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                xct:TouchEffect.NativeAnimation="True"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=PlayItemCommand}"
+                                                CommandParameter="{Binding Id}">
+                                            <ImageButton.Source>
+                                                <FontImageSource 
+                                                        FontFamily="FontAwesomeRegular" 
+                                                        Glyph="{x:Static dpcc:FontAwesome.CirclePlay}" 
+                                                        Color="White" />
+                                            </ImageButton.Source>
+                                        </ImageButton>
+
+                                        <StackLayout
+                                                Grid.Column="1"
+                                                Grid.Row="0"
+                                                Margin="4,0,0,0"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="Center">
+                                            <Label
+                                                    LineBreakMode="WordWrap"
+                                                    Text="{Binding Title}" />
+                                            <Label
+                                                    FontSize="Small"
+                                                    TextColor="{Static dpcc:Theme.Grey}"
+                                                    Text="{Binding Duration}" />
+                                        </StackLayout>
+
+                                        <Label
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Grid.Row="1"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Description}" />
+
+                                    </Grid>
+
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+
+
+                    </StackLayout>
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="0"
+                            Margin="12"
+                            Text="Rename"
+                            WidthRequest="80"
+                            HeightRequest="40"
+                            Command="{Binding RenameCommand}" />
+
+                        <Button
+                            Grid.Column="1"
+                            Margin="12"
+                            Text="Delete"
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            WidthRequest="80"
+                            HeightRequest="40"
+                            Command="{Binding DeleteCommand}">
+                            
+                            <!-- Default is to change it to white - override -->
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="Red" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+                        </Button>
+
+
+
+                    </Grid>
+
+                </StackLayout>
+                
+            </ScrollView>
+            
+            <!-- Gradient Bar -->
+            <reusable:TopButtonBarGradient
+                VerticalOptions="Start"
+                InputTransparent="True" />
+
+
+            <!-- Search / Cast buttons-->
+            <reusable:CastButtons
+                x:Name="SCButtons"
+                VerticalOptions="Start"
+                HorizontalOptions="FillAndExpand"
+                CloseButtonVisible="True" />
+
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Margin="60"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy}" />
+
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Margin="60"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                IsRunning="{Binding IsBusy2}" />
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

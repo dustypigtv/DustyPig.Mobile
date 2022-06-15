@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xctViews:Popup 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
+    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Playlist"
+    x:Class="DustyPig.Mobile.MVVM.MediaDetails.Playlist.RenamePlaylistPopup"
+    x:DataType="local:RenamePlaylistPopup"
+    IsLightDismissEnabled="False"
+    Size="300,240">
+
+    <xctViews:Popup.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </xctViews:Popup.Resources>
+
+    <StackLayout
+        BackgroundColor="{Static dpcc:Theme.DarkGrey}">
+
+        <Label
+            Margin="24,24,24,0"
+            HorizontalOptions="CenterAndExpand"
+            Text="Rename Playlist"
+            FontSize="Large"
+            FontAttributes="Bold" />
+
+        <BoxView 
+            Margin="24,0,24,12"
+            HeightRequest="1"
+            Color="LightGray"/>
+            
+        <Grid
+            Margin="24,0,24,0"
+            VerticalOptions="Start">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <Label 
+                Grid.Column="0"
+                Grid.Row="0"
+                Text="New Playlist Name:" />
+
+            <Entry
+                x:Name="TB"
+                Grid.Column="0"
+                Grid.Row="1"
+                HeightRequest="40"
+                ClearButtonVisibility="WhileEditing"
+                IsSpellCheckEnabled="True"
+                IsTextPredictionEnabled="True"
+                BackgroundColor="{Static dpcc:Theme.DarkGrey}"
+                Text="{Binding PlaylistTitle}"/>
+
+            <ImageButton
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    HeightRequest="40"
+                    WidthRequest="40"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Padding="8"
+                    CornerRadius="20"
+                    BackgroundColor="Transparent"
+                    Aspect="AspectFit"
+                    IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    Command="{Binding SaveCommand}"
+                    xct:TouchEffect.NativeAnimation="True">
+
+                <ImageButton.Source>
+                    <FontImageSource
+                            FontFamily="FontAwesomeSolid"
+                            Glyph="{Static dpcc:FontAwesome.FloppyDisk}"
+                            Color="White" />
+                </ImageButton.Source>
+            </ImageButton>
+
+
+            <ActivityIndicator
+                Grid.Column="1"
+                Grid.Row="1"
+                HeightRequest="24"
+                WidthRequest="24"
+                VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    BackgroundColor="Transparent"
+                IsRunning="{Binding IsBusy}" />
+
+
+        </Grid>
+
+        <ImageButton
+                Margin="24"
+                HeightRequest="48"
+                WidthRequest="48"
+                Padding="8"
+                CornerRadius="24"
+                HorizontalOptions="Center"
+                VerticalOptions="EndAndExpand"
+                BackgroundColor="Transparent"
+                Aspect="AspectFit"
+                xct:TouchEffect.NativeAnimation="True"
+                Command="{Binding CancelCommand}">
+
+            <ImageButton.Source>
+                <FontImageSource
+                        FontFamily="FontAwesomeSolid"
+                        Glyph="{Static dpcc:FontAwesome.CircleXmark}"
+                        Color="White" />
+            </ImageButton.Source>
+        </ImageButton>
+
+    </StackLayout>
+    
+</xctViews:Popup>
