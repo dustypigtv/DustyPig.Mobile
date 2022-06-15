@@ -18,6 +18,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         public PlaylistDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
             Id = basicMedia.Id;
+
+            ItemDragStartingCommand = new Command<int>(OnItemDrag);
+            ItemDroppedCommand = new AsyncCommand<int>(OnItemDropped, allowsMultipleExecutions: false);
+            DragOverCommand = new Command<int>(OnDragOverCommand);
+
             PlayCommand = new AsyncCommand(() => OnPlayItem(Detailed_Playlist.Items[Detailed_Playlist.CurrentIndex].Id), allowsMultipleExecutions: false);
             PlayItemCommand = new AsyncCommand<int>(OnPlayItem, allowsMultipleExecutions: false);
             RenameCommand = new AsyncCommand(OnRename, allowsMultipleExecutions: false);
@@ -26,12 +31,61 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             IsBusy = true;
         }
 
+        private int _draggedItemId;
+        public Command<int> ItemDragStartingCommand { get; }
+        private void OnItemDrag(int itemId)
+        {
+            _draggedItemId = itemId;
+        }
+
+        public Command<int> DragOverCommand { get; }
+        private void OnDragOverCommand(int itemId)
+        {
+            Console.WriteLine("*** DragOver: {0} {1} ***", _draggedItemId, itemId);
+        }
+
+        public AsyncCommand<int> ItemDroppedCommand { get; }
+        private async Task OnItemDropped(int itemId)
+        {
+            if (_draggedItemId == itemId)
+                return;
+
+            if (NoInternet)
+            {
+                await ShowAlertAsync("Error", "Cannot reorder playlist when not connected to the internet");
+                return;
+            }
+
+            IsBusy2 = true;
+
+            var pliDragged = Items.First(item => item.Id == _draggedItemId);
+            var pliDropped = Items.First(item => item.Id == itemId);
+
+            var response = await App.API.Playlists.MoveItemToNewIndexAsync(Id, pliDragged.Id, pliDropped.Index);
+            if(response.Success)
+            {
+                Items.Remove(pliDragged);
+                Items.Insert(Items.IndexOf(pliDropped), pliDragged);
+                for (int i = 0; i < Items.Count; i++)
+                    Items[i].Index = i;
+            }
+            else
+            {
+                await ShowAlertAsync("Error", response.Error.Message);
+            }
+
+            IsBusy2 = false;
+        }
+
+
         public AsyncCommand PlayCommand { get; }
         public AsyncCommand<int> PlayItemCommand { get; }
         private async Task OnPlayItem(int id)
         {
             await ShowAlertAsync("TO DO:", $"Play {id}");
         }
+
+        
 
         public AsyncCommand RenameCommand { get; }
         private async Task OnRename()

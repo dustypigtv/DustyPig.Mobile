@@ -440,7 +440,6 @@
                                     x:DataType="series:EpisodeInfoViewModel">
                                     <Frame 
                                         BackgroundColor="Transparent" 
-                                        Margin="0,0,0,24" 
                                         Padding="4"
                                         BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
@@ -452,7 +451,6 @@
 
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
                                             
                                             <ffimages:CachedImage
@@ -488,12 +486,24 @@
                                                 </ImageButton.Source>
                                             </ImageButton>
 
-                                            <StackLayout
-                                                Grid.Column="1"
-                                                Grid.Row="0"
-                                                Margin="4,0,0,0"
-                                                HorizontalOptions="Start"
-                                                VerticalOptions="Center">
+                                            
+                                            <Grid
+                                                    Grid.Column="1"
+                                                    Grid.Row="0"
+                                                    Margin="4,0,0,0"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="Center">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+
                                                 <Label
                                                     LineBreakMode="WordWrap">
                                                     <Label.FormattedText>
@@ -505,18 +515,36 @@
                                                     </Label.FormattedText>
                                                 </Label>
                                                 <Label
-                                                    FontSize="Small"
-                                                    TextColor="{Static dpcc:Theme.Grey}"
-                                                    Text="{Binding Duration}" />
-                                            </StackLayout>
+                                                        Grid.Column="0"
+                                                        Grid.Row="1"
+                                                        FontSize="Small"
+                                                        TextColor="{Static dpcc:Theme.Grey}"
+                                                        Text="{Binding Duration}" />
 
-                                            <Label
-                                                Grid.Column="0"
-                                                Grid.ColumnSpan="2"
-                                                Grid.Row="1"
-                                                LineBreakMode="WordWrap"
-                                                Text="{Binding Description}" />
+                                                <ImageButton
+                                                    Grid.Column="1"
+                                                    Grid.Row="0"
+                                                    Grid.RowSpan="2"
+                                                    HeightRequest="40"
+                                                    WidthRequest="40"
+                                                    CornerRadius="20"
+                                                    Padding="8"
+                                                    BackgroundColor="#88000000"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="Center"
+                                                    xct:TouchEffect.NativeAnimation="True"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowInfoCommand}"
+                                                    CommandParameter="{Binding Description}">
+                                                    <ImageButton.Source>
+                                                        <FontImageSource 
+                                                            FontFamily="FontAwesomeSolid" 
+                                                            Glyph="{x:Static dpcc:FontAwesome.EllipsisVertical}" 
+                                                            Color="White" />
+                                                    </ImageButton.Source>
+                                                </ImageButton>
 
+                                            </Grid>
+                                            
                                         </Grid>
                                         
                                     </Frame>

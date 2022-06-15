@@ -40,5 +40,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 BackgroundColor = Color.FromRgba(0, 0, 0, 0.5);
             });
         }
+
     }
 }

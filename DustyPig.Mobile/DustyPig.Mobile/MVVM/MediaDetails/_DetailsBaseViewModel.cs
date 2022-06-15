@@ -23,6 +23,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
             ManageParentalControlsCommand = new Command(ManageParentalControls);
+            ShowInfoCommand = new AsyncCommand<string>(OnShowInfo, allowsMultipleExecutions: false);
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
@@ -52,6 +53,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public DetailedPlaylist Detailed_Playlist { get; set; }
 
         public int LibraryId { get; set; }
+
+        public AsyncCommand<string> ShowInfoCommand { get; }
+        private async Task OnShowInfo(string desc)
+        {
+            await ShowAlertAsync("Synopsis", desc);
+        }
+
 
         public AsyncCommand RequestPermissionCommand { get; }
         private async Task OnRequestPermission()

@@ -63,14 +63,24 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         {
             var ret = new PlaylistItemViewModel
             {
-                ArtworkUrl = _DetailsBaseViewModel.GetPath(DownloadService.CheckForLocalScreenshot(item.Id), item.ArtworkUrl),
-                Description = StringUtils.Coalesce(item.Description, "No item synopsis"),
+                Description = StringUtils.Coalesce(item.Description, "No synopsis"),
                 Id = item.Id,
                 Length = item.Length,
                 Title = item.Title,
                 Index = item.Index,
                 UpNext = item.Index == currentIndex
             };
+
+            switch (item.MediaType)
+            {
+                case MediaTypes.Movie:
+                    ret.ArtworkUrl = _DetailsBaseViewModel.GetPath(DownloadService.CheckForLocalPoster(item.Id), item.ArtworkUrl);
+                    break;
+
+                case MediaTypes.Episode:
+                    ret.ArtworkUrl = _DetailsBaseViewModel.GetPath(DownloadService.CheckForLocalScreenshot(item.Id), item.ArtworkUrl);
+                    break;
+            }
 
             return ret;
         }

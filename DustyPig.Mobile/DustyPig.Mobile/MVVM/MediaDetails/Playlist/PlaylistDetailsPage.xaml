@@ -180,80 +180,145 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate
                                     x:DataType="playlist:PlaylistItemViewModel">
-                                <Frame 
-                                        BackgroundColor="Transparent" 
-                                        Margin="0,0,0,24" 
-                                        Padding="4"
-                                        BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+                                <SwipeView>
 
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-
-                                        <ffimages:CachedImage
-                                                Grid.Column="0"
-                                                Grid.Row="0"
-                                                Source="{Binding ArtworkUrl}"
-                                                HeightRequest="56"
-                                                WidthRequest="100"
-                                                Aspect="AspectFit"
-                                                HorizontalOptions="Start"
-                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
-                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
-
-                                        <!-- Play button -->
-                                        <ImageButton
-                                                Grid.Column="0"
-                                                Grid.Row="0"
-                                                HeightRequest="24"
-                                                WidthRequest="24"
-                                                CornerRadius="12"
-                                                BackgroundColor="#88000000"
-                                                HorizontalOptions="Center"
-                                                VerticalOptions="Center"
-                                                xct:TouchEffect.NativeAnimation="True"
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=PlayItemCommand}"
-                                                CommandParameter="{Binding Id}">
-                                            <ImageButton.Source>
-                                                <FontImageSource 
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem BackgroundColor="Red">
+                                                <SwipeItem.IconImageSource>
+                                                    <FontImageSource
                                                         FontFamily="FontAwesomeRegular" 
-                                                        Glyph="{x:Static dpcc:FontAwesome.CirclePlay}" 
-                                                        Color="White" />
-                                            </ImageButton.Source>
-                                        </ImageButton>
+                                                            Glyph="{x:Static dpcc:FontAwesome.TrashCan}" 
+                                                            Color="White" />
+                                                </SwipeItem.IconImageSource>
+                                            </SwipeItem>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
 
-                                        <StackLayout
-                                                Grid.Column="1"
-                                                Grid.Row="0"
-                                                Margin="4,0,0,0"
-                                                HorizontalOptions="Start"
-                                                VerticalOptions="Center">
-                                            <Label
-                                                    LineBreakMode="WordWrap"
-                                                    Text="{Binding Title}" />
-                                            <Label
-                                                    FontSize="Small"
-                                                    TextColor="{Static dpcc:Theme.Grey}"
-                                                    Text="{Binding Duration}" />
-                                        </StackLayout>
+                                    <SwipeView.GestureRecognizers>
+                                        <DragGestureRecognizer
+                                                CanDrag="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=NoInternet, Converter={StaticResource InvertedBoolConverter}}"
+                                                DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=ItemDragStartingCommand}"
+                                                DragStartingCommandParameter="{Binding Id}" />
+                                        <DropGestureRecognizer
+                                                AllowDrop="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=NoInternet, Converter={StaticResource InvertedBoolConverter}}"
+                                                DropCommand="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=ItemDroppedCommand}"
+                                                DropCommandParameter="{Binding Id}"
+                                                DragOverCommand="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=DragOverCommand}"
+                                                DragOverCommandParameter="{Binding Id}"
+                                            />
+                                       
+                                    </SwipeView.GestureRecognizers>
 
-                                        <Label
-                                                Grid.Column="0"
-                                                Grid.ColumnSpan="2"
-                                                Grid.Row="1"
-                                                LineBreakMode="WordWrap"
-                                                Text="{Binding Description}" />
+                                    <Frame 
+                                            CornerRadius="0"
+                                            BackgroundColor="Black" 
+                                            Padding="4"
+                                            BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
-                                    </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
 
-                                </Frame>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <ffimages:CachedImage
+                                                    Grid.Column="0"
+                                                    Grid.Row="0"
+                                                    Source="{Binding ArtworkUrl}"
+                                                    HeightRequest="56"
+                                                    WidthRequest="100"
+                                                    Aspect="AspectFit"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
+                                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
+
+                                            <!-- Play button -->
+                                            <ImageButton
+                                                    Grid.Column="0"
+                                                    Grid.Row="0"
+                                                    HeightRequest="24"
+                                                    WidthRequest="24"
+                                                    CornerRadius="12"
+                                                    BackgroundColor="#88000000"
+                                                    HorizontalOptions="Center"
+                                                    VerticalOptions="Center"
+                                                    xct:TouchEffect.NativeAnimation="True"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=PlayItemCommand}"
+                                                    CommandParameter="{Binding Id}">
+                                                <ImageButton.Source>
+                                                    <FontImageSource 
+                                                            FontFamily="FontAwesomeRegular" 
+                                                            Glyph="{x:Static dpcc:FontAwesome.CirclePlay}" 
+                                                            Color="White" />
+                                                </ImageButton.Source>
+                                            </ImageButton>
+
+                                            <Grid
+                                                    Grid.Column="1"
+                                                    Grid.Row="0"
+                                                    Margin="4,0,0,0"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="Center">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                
+                                                <Label
+                                                        Grid.Column="0"
+                                                        Grid.Row="0"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="{Binding Title}" />
+                                                <Label
+                                                        Grid.Column="0"
+                                                        Grid.Row="1"
+                                                        FontSize="Small"
+                                                        TextColor="{Static dpcc:Theme.Grey}"
+                                                        Text="{Binding Duration}" />
+
+                                                <ImageButton
+                                                    Grid.Column="1"
+                                                    Grid.Row="0"
+                                                    Grid.RowSpan="2"
+                                                    HeightRequest="40"
+                                                    WidthRequest="40"
+                                                    CornerRadius="20"
+                                                    Padding="8"
+                                                    BackgroundColor="#88000000"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="Center"
+                                                    xct:TouchEffect.NativeAnimation="True"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=ShowInfoCommand}"
+                                                    CommandParameter="{Binding Description}">
+                                                    <ImageButton.Source>
+                                                        <FontImageSource 
+                                                            FontFamily="FontAwesomeSolid" 
+                                                            Glyph="{x:Static dpcc:FontAwesome.EllipsisVertical}" 
+                                                            Color="White" />
+                                                    </ImageButton.Source>
+                                                </ImageButton>
+
+                                            </Grid>
+
+                                        </Grid>
+                                    
+                                    
+                                    </Frame>
+                                    
+                                </SwipeView>
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
 
