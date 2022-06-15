@@ -65,7 +65,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
 
 
-            var addResponse = await App.API.Playlists.AddItemAsync(createResponse.Data, _basicMedia.Id);
+            var addResponse = _basicMedia.MediaType == MediaTypes.Movie
+                ? await App.API.Playlists.AddItemAsync(createResponse.Data, _basicMedia.Id)
+                : await App.API.Playlists.AddSeriesAsync(createResponse.Data, _basicMedia.Id);
             if (!addResponse.Success)
             {
                 await ShowAlertAsync("Error", addResponse.Error.FormatMessage());
