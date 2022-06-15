@@ -155,7 +155,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
             IsBusy = false;
         }
-
+        
         
 
         private bool _showExistingPlaylists;

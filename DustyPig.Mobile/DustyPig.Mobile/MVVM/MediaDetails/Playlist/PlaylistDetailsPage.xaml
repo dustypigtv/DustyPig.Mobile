@@ -200,14 +200,14 @@
                                         <DragGestureRecognizer
                                                 CanDrag="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=NoInternet, Converter={StaticResource InvertedBoolConverter}}"
                                                 DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=ItemDragStartingCommand}"
-                                                DragStartingCommandParameter="{Binding Id}" />
-                                        <DropGestureRecognizer
+                                                DragStartingCommandParameter="{Binding Id}"                                      
+                                            />
+                                        <!--<DropGestureRecognizer
                                                 AllowDrop="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=NoInternet, Converter={StaticResource InvertedBoolConverter}}"
                                                 DropCommand="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=ItemDroppedCommand}"
                                                 DropCommandParameter="{Binding Id}"
                                                 DragOverCommand="{Binding Source={RelativeSource AncestorType={x:Type playlist:PlaylistDetailsViewModel}}, Path=DragOverCommand}"
-                                                DragOverCommandParameter="{Binding Id}"
-                                            />
+                                                DragOverCommandParameter="{Binding Id}" />-->
                                        
                                     </SwipeView.GestureRecognizers>
 
