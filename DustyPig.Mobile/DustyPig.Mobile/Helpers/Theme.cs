@@ -5,6 +5,11 @@ namespace DustyPig.Mobile.Helpers
     public static class Theme
     {
         /// <summary>
+        /// #191919
+        /// </summary>
+        public static Color DarkDarkGrey => Color.FromArgb(0x19, 0x19, 0x19);
+
+        /// <summary>
         /// #333333
         /// </summary>
         public static Color DarkGrey => Color.FromArgb(0x33, 0x33, 0x33);

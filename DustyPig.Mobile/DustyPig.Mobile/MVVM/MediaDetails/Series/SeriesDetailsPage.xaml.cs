@@ -18,7 +18,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
 
-            BindingContext = VM = new SeriesDetailsViewModel(basicMedia, Navigation);
+            BindingContext = VM = new SeriesDetailsViewModel(basicMedia, Navigation, Dimmer, BottomDrawer);
         }
 
         public SeriesDetailsViewModel VM { get; }
@@ -29,16 +29,5 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             VM.OnSizeAllocated(width, height);
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            VM.OnAppearing();
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                //Default modal animation is 250 secs
-                await Task.Delay(250);
-                BackgroundColor = Color.FromRgba(0, 0, 0, 0.5);
-            });
-        }
     }
 }

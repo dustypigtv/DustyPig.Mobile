@@ -22,7 +22,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             InitializeComponent();
 
-            
+
             switch (mediaType)
             {
                 case MediaTypes.Series:
@@ -33,8 +33,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     Header = "Number of items to download:";
                     break;
             }
-                        
-            ShowDelete = currentCount > 0;            
+
+            ShowDelete = currentCount > 0;
             LabelTouchedCommand = new Command<string>(OnLabelTouched);
             CancelCommand = new Command(() => Dismiss(-1));
             SaveCommand = new Command(OnSave);
@@ -74,14 +74,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     _labels[i].BackgroundColor = Color.Transparent;
         }
 
-        public Command DeleteCommand { get; }        
+        public Command DeleteCommand { get; }
 
-        public Command CancelCommand { get; }       
+        public Command CancelCommand { get; }
 
-        public Command SaveCommand { get; }   
+        public Command SaveCommand { get; }
         private void OnSave()
         {
-            if(_selectedIndex > 0)
+            if (_selectedIndex > 0)
                 Services.Settings.LastDownloadCount = _selectedIndex;
             Dismiss(_selectedIndex);
         }

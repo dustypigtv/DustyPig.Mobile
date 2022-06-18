@@ -1,10 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
@@ -18,6 +13,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             Id = basicTMDB.TMDB_ID;
             _basicTMDB = basicTMDB;
             IsBusy = true;
+            LoadData();
         }
 
         private ObservableBasicMediaCollection _available = new ObservableBasicMediaCollection();
@@ -41,7 +37,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             set => SetProperty(ref _showYear, value);
         }
 
-        public async void OnAppearing()
+        private async void LoadData()
         {
             var response = _basicTMDB.MediaType == MediaTypes.Movie
                 ? await App.API.TMDB.GetMovieAsync(Id)
@@ -101,7 +97,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                     ShowWriters = true;
                 }
 
-                if(response.Data.Available != null && response.Data.Available.Count > 0)
+                if (response.Data.Available != null && response.Data.Available.Count > 0)
                 {
                     Available.ReplaceRange(response.Data.Available);
                     ShowAvailable = true;

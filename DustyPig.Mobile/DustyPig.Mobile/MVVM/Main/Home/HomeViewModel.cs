@@ -48,8 +48,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             //};
         }
 
-        
-        
+
+
         private HomePageSectionView GetSection(long id)
         {
             return MainStack.Children.FirstOrDefault(item => ((HomePageSectionView)item).VM.ListId == id) as HomePageSectionView;
@@ -115,7 +115,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         {
             try
             {
-               //TO DO
+                //TO DO
             }
             catch { }
         }
@@ -124,7 +124,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
 
 
-        
+
 
         private void HomeViewModel_MarkWatched(object sender, int e)
         {
@@ -173,7 +173,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
 
 
-        
+
 
         public AsyncCommand RefreshCommand { get; }
 
@@ -193,23 +193,23 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             if (App.HomePageNeedsRefresh)
                 IsBusy = true;
         }
-       
+
         private async Task Update()
         {
             bool loadFromDisk = MainStack.Children.Count == 0;
-            if(!loadFromDisk)
+            if (!loadFromDisk)
                 if (MainStack.Children.Count == 1)
                     if (MainStack.Children[0] is Label)
                         loadFromDisk = true;
 
             if (loadFromDisk)
-                try 
+                try
                 {
                     var cached = await Services.HomePageCache.LoadAsync();
-                    AddSections(cached); 
+                    AddSections(cached);
                 }
                 catch { }
-            
+
             var response = await App.API.Media.GetHomeScreenAsync();
             if (response.Success)
             {
@@ -226,7 +226,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             App.HomePageNeedsRefresh = false;
             IsBusy = false;
         }
-   
+
         private void AddSections(HomeScreen hs)
         {
             if (hs.Sections.Count == 0)

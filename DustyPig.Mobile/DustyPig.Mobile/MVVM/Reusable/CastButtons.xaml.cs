@@ -20,8 +20,8 @@ namespace DustyPig.Mobile.MVVM.Reusable
                 Application.Current.MainPage.Navigation is somehow different from Navigation.
                 Calling it from the root is how to hide the tab bar while the search page is shown
              */
-            
-            CloseButtonTapped = new AsyncCommand(async ()=>
+
+            CloseButtonTapped = new AsyncCommand(async () =>
             {
                 CloseTapped?.Invoke(this, EventArgs.Empty);
                 await Navigation.PopModalAsync();

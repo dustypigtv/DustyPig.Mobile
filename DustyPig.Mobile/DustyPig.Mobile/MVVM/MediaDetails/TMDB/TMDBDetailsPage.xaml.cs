@@ -1,8 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -19,9 +15,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         {
             InitializeComponent();
             SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
-            
+
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
-            
+
             BindingContext = VM = new TMDBDetailsViewModel(basicTMDB, Navigation);
         }
 
@@ -36,7 +32,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            VM.OnAppearing();
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 //Default modal animation is 250 secs

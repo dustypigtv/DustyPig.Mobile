@@ -1,9 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
@@ -26,7 +22,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             CancelCommand = new Command(() => Dismiss(null));
             SaveCommand = new AsyncCommand(OnSave, canExecute: CanSave, allowsMultipleExecutions: false);
             PlaylistTitle = _basicMedia.Title;
-            
+
             BindingContext = this;
 
             Device.BeginInvokeOnMainThread(async () =>
@@ -47,7 +43,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             get => _playlistTitle;
             set
             {
-                if(_playlistTitle != value)
+                if (_playlistTitle != value)
                 {
                     _playlistTitle = value;
                     OnPropertyChanged(nameof(PlaylistTitle));
@@ -62,7 +58,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             get => _isBusy;
             set
             {
-                if(_isBusy != value)
+                if (_isBusy != value)
                 {
                     _isBusy = value;
                     OnPropertyChanged(nameof(IsBusy));
@@ -76,7 +72,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         public AsyncCommand SaveCommand { get; }
         private async Task OnSave()
         {
-            if(PlaylistTitle == _basicMedia.Title)
+            if (PlaylistTitle == _basicMedia.Title)
             {
                 Dismiss(null);
                 return;
@@ -101,6 +97,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
                 IsBusy = false;
             }
-        }        
+        }
     }
 }

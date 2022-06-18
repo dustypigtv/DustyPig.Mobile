@@ -29,17 +29,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             VM.OnSizeAllocated(width, height);
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            VM.OnAppearing();
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                //Default modal animation is 250 secs
-                await Task.Delay(250);
-                BackgroundColor = Color.FromRgba(0, 0, 0, 0.5);
-            });
-        }
-
+        
     }
 }

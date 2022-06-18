@@ -1,5 +1,4 @@
 ﻿using DustyPig.API.v3.Models;
-using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.MVVM.MediaDetails.Movie;
 using DustyPig.Mobile.MVVM.MediaDetails.Playlist;
 using DustyPig.Mobile.MVVM.MediaDetails.Series;
@@ -35,14 +34,7 @@ namespace DustyPig.Mobile.MVVM
 
         public INavigation Navigation { get; }
 
-        public Task ShowAlertAsync(string title, string msg)
-        {
-            msg += string.Empty;
-            if (msg.StartsWith("\"") && msg.EndsWith("\""))
-                msg = msg.Trim('"');
-
-            return DependencyService.Get<IPopup>().AlertAsync(title, msg);
-        }
+        public Task ShowAlertAsync(string title, string msg) => Helpers.Alerts.ShowAlertAsync(title, msg);
 
         bool _isBusy = false;
         public bool IsBusy
@@ -85,7 +77,7 @@ namespace DustyPig.Mobile.MVVM
                 default:
                     await ShowAlertAsync("Tapped", item.Title);
                     break;
-            }            
+            }
         }
 
         public AsyncCommand<BasicTMDB> TMDBItemTappedCommand { get; }

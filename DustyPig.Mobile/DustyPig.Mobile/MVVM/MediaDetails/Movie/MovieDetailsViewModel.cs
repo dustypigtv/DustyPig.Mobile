@@ -2,7 +2,6 @@
 using DustyPig.API.v3.MPAA;
 using DustyPig.Mobile.MVVM.Main.Home;
 using DustyPig.Mobile.Services.Download;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -20,8 +19,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
             PlayCommand = new AsyncCommand(OnPlay, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
+            LoadData();
         }
-    
+
 
         private bool _canManage;
         public bool CanManage
@@ -36,7 +36,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             await ShowAlertAsync("TO DO:", "Play");
         }
 
-        
+
 
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
@@ -57,9 +57,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             IsBusy2 = false;
         }
 
-        
-        
-        public async void OnAppearing()
+
+
+        async void LoadData()
         {
             IsBusy = true;
 
@@ -81,7 +81,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 Description = response.Data.Description;
                 Duration = response.Data.Length;
                 Owner = response.Data.Owner;
-                
+
                 switch (response.Data.Rated)
                 {
                     case API.v3.MPAA.Ratings.None:
@@ -146,7 +146,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
                 ShowPlayedBar = CanPlay && Played > 0;
                 Progress = Math.Min(Math.Max(Played / Duration, 0), 1);
                 PlayButtonText = Played > 0 ? "Resume" : "Play";
-                
+
                 dur = TimeSpan.FromSeconds(response.Data.Length - (response.Data.Played ?? 0));
                 if (dur.Hours > 0)
                     RemainingString = $"{dur.Hours}h {dur.Minutes}m remaining";

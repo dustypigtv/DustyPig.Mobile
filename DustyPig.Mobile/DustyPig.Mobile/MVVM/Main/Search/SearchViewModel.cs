@@ -77,7 +77,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                 _availableCV.TranslateTo(0, 0, duration);
                 _otherCV.TranslateTo(_width + 100, 0, duration);
             }
-            
+
             _lastIndex = index;
         }
 
@@ -142,7 +142,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
         public void OnSizeAllocated(double width, double height)
         {
             _width = width;
-            SlideItems(_lastIndex, false);            
+            SlideItems(_lastIndex, false);
 
             //Poster width = 100
             //Spacing = 12
@@ -177,12 +177,12 @@ namespace DustyPig.Mobile.MVVM.Main.Search
             IsBusy = true;
             MediaEmptyString = string.Empty;
             _lastQuery = formattedQuery;
-            
+
             //Less load on the server
-            if(delay)
+            if (delay)
                 try { await Task.Delay(500, token); }
                 catch { return; }
-            
+
             var response = await App.API.Media.SearchAsync(query, true, token);
             if (response.Success)
             {
@@ -198,7 +198,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                 OtherItems.ReplaceRange(response.Data.OtherTitles);
             }
             else
-            {              
+            {
                 if (token.IsCancellationRequested)
                     return;
 

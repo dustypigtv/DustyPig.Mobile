@@ -5,7 +5,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 {
     public class SeasonInfo
     {
-       
+
         //No idea why I can't bind to a relative source in a popup dialog, so just pass in the desired action and create the command here
         public SeasonInfo(ushort number, string text, Action<int> action)
         {

@@ -1,6 +1,4 @@
-﻿using DustyPig.Mobile.Controls;
-using System.Collections.Generic;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.MVVM.Main.Home
@@ -19,7 +17,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         public void PageShown(bool reselected)
         {
-            if(reselected)
+            if (reselected)
                 MainSV.ScrollToAsync(0, 0, true);
 
             foreach (var child in MainStack.Children)

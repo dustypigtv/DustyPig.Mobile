@@ -3,9 +3,7 @@ using DustyPig.Mobile.CrossPlatform;
 using DustyPig.Mobile.MVVM.Main.Home;
 using DustyPig.Mobile.Services.Download;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -19,62 +17,60 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         {
             Id = basicMedia.Id;
 
-            ItemDragStartingCommand = new Command<int>(OnItemDrag);
-            ItemDroppedCommand = new AsyncCommand<int>(OnItemDropped, allowsMultipleExecutions: false);
-            DragOverCommand = new Command<int>(OnDragOverCommand);
-
             PlayCommand = new AsyncCommand(() => OnPlayItem(Detailed_Playlist.Items[Detailed_Playlist.CurrentIndex].Id), allowsMultipleExecutions: false);
             PlayItemCommand = new AsyncCommand<int>(OnPlayItem, allowsMultipleExecutions: false);
+            ShowSynopsisCommand = new AsyncCommand<string>(OnShowSynopsis, allowsMultipleExecutions: false);
+
             RenameCommand = new AsyncCommand(OnRename, allowsMultipleExecutions: false);
             DeleteCommand = new AsyncCommand(OnDelete, allowsMultipleExecutions: false);
 
+            ShowSynopsis = Services.Settings.ShowPlaylistItemSynopsis;
+
             IsBusy = true;
+            LoadData();
         }
 
-        private int _draggedItemId;
-        public Command<int> ItemDragStartingCommand { get; }
-        private void OnItemDrag(int itemId)
+
+        /// <summary>
+        /// I know these 3 are anit-pattern, but nobody's perfect
+        /// </summary>
+        private bool _showSynopsis = false;
+        public bool ShowSynopsis
         {
-            _draggedItemId = itemId;
+            get => _showSynopsis;
+            set
+            {
+                if (SetProperty(ref _showSynopsis, value))
+                {
+                    Services.Settings.ShowPlaylistItemSynopsis = value;
+                    PlaylistPosterRowSpan = value ? 2 : 3;
+                    double bottom = value ? 24 : 0;
+                    PlaylistItemMargin = new Thickness(0, 0, 0, bottom);
+                }
+            }
         }
 
-        public Command<int> DragOverCommand { get; }
-        private void OnDragOverCommand(int itemId)
+        private int _playlistPosterRowSpan = 3;
+        public int PlaylistPosterRowSpan
         {
-            Console.WriteLine("*** DragOver: {0} {1} ***", _draggedItemId, itemId);
+            get => _playlistPosterRowSpan;
+            set => SetProperty(ref _playlistPosterRowSpan, value);
         }
 
-        public AsyncCommand<int> ItemDroppedCommand { get; }
-        private async Task OnItemDropped(int itemId)
+        private Thickness _playlistItemMargin = new Thickness(0, 0, 0, 0);
+        public Thickness PlaylistItemMargin
         {
-            if (_draggedItemId == itemId)
-                return;
+            get => _playlistItemMargin;
+            set => SetProperty(ref _playlistItemMargin, value);
+        }
 
-            if (NoInternet)
-            {
-                await ShowAlertAsync("Error", "Cannot reorder playlist when not connected to the internet");
-                return;
-            }
 
-            IsBusy2 = true;
 
-            var pliDragged = Items.First(item => item.Id == _draggedItemId);
-            var pliDropped = Items.First(item => item.Id == itemId);
 
-            var response = await App.API.Playlists.MoveItemToNewIndexAsync(Id, pliDragged.Id, pliDropped.Index);
-            if(response.Success)
-            {
-                Items.Remove(pliDragged);
-                Items.Insert(Items.IndexOf(pliDropped), pliDragged);
-                for (int i = 0; i < Items.Count; i++)
-                    Items[i].Index = i;
-            }
-            else
-            {
-                await ShowAlertAsync("Error", response.Error.Message);
-            }
-
-            IsBusy2 = false;
+        public AsyncCommand<string> ShowSynopsisCommand { get; }
+        public async Task OnShowSynopsis(string synopsis)
+        {
+            await ShowAlertAsync("Synopsis", synopsis);
         }
 
 
@@ -85,7 +81,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             await ShowAlertAsync("TO DO:", $"Play {id}");
         }
 
-        
+
 
         public AsyncCommand RenameCommand { get; }
         private async Task OnRename()
@@ -94,7 +90,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             Title = Basic_Media.Title;
             Detailed_Playlist.Name = Title;
         }
-        
+
 
         public AsyncCommand DeleteCommand { get; }
         private async Task OnDelete()
@@ -134,7 +130,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             set => SetProperty(ref _items, value);
         }
 
-        public async void OnAppearing()
+        private async void LoadData()
         {
             IsBusy = true;
 
@@ -144,7 +140,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 Detailed_Playlist = response.Data;
                 Title = Detailed_Playlist.Name;
 
-                
+
                 if (Detailed_Playlist.CurrentIndex < 0)
                     Detailed_Playlist.CurrentIndex = 0;
                 if (Detailed_Playlist.CurrentIndex > Detailed_Playlist.Items.Count - 1)

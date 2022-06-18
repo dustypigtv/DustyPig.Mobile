@@ -104,7 +104,7 @@ namespace DustyPig.Mobile.Services.Download
             get => _percent;
             set => SetProperty(ref _percent, value);
         }
-        
+
 
         /// <summary>
         /// Only for top level jobs (Movie, Series, Playlist)

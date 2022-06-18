@@ -37,14 +37,14 @@ namespace DustyPig.Mobile.Services.Download
 
 
         public static IReadOnlyList<Job> GetJobs() => _jobList.Jobs;
-           
+
 
 
         static void MonitorJobsCallback(object dummy)
         {
             try { MonitorJobs(); }
             catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
-            
+
             _monitorTimer.Change(1000, Timeout.Infinite);
         }
 
@@ -55,7 +55,7 @@ namespace DustyPig.Mobile.Services.Download
             if (!App.LoggedIn)
                 return;
 
-            if(_lastDetails.AddMinutes(1) < DateTime.Now)
+            if (_lastDetails.AddMinutes(1) < DateTime.Now)
             {
                 UpdateDetails();
                 _lastDetails = DateTime.Now;
@@ -70,7 +70,7 @@ namespace DustyPig.Mobile.Services.Download
                     _manager.Abort(download);
                 }
                 else
-                {                    
+                {
 #if DEBUG
                     System.Diagnostics.Debug.WriteLine("*** {0}.{1}: {2} ***", download.MediaId, download.Suffix, download.Status);
                     if (!string.IsNullOrWhiteSpace(download.StatusDetails))
@@ -110,25 +110,25 @@ namespace DustyPig.Mobile.Services.Download
             //  Update date the most stale job
             //  Update any jobs over 5 min old
 
-         
+
             var jobFileTimes = new List<KeyValuePair<Job, DateTime>>();
             foreach (var job in _jobList.Jobs)
             {
                 var jobFile = job.Files.FirstOrDefault(item => item.Suffix == "json");
-                if(jobFile == null)
+                if (jobFile == null)
                 {
                     jobFileTimes.Add(new KeyValuePair<Job, DateTime>(job, DateTime.Now.AddDays(-1)));
                 }
                 else
                 {
                     var jsonFile = new FileInfo(job.Files.First(item => item.Suffix == "json").LocalFile());
-                    if(jsonFile.Exists)
+                    if (jsonFile.Exists)
                         jobFileTimes.Add(new KeyValuePair<Job, DateTime>(job, jsonFile.LastWriteTime));
                 }
             }
             if (jobFileTimes.Count == 0)
                 return;
-            
+
             jobFileTimes.Sort((x, y) => x.Value.CompareTo(y.Value));
 
             var jobsToUpdate = new List<Job>();
@@ -137,7 +137,7 @@ namespace DustyPig.Mobile.Services.Download
                 if (jobFileTimes[i].Value.AddMinutes(5) < DateTime.Now)
                     jobsToUpdate.Add(jobFileTimes[i].Key);
 
-            foreach(var job in jobsToUpdate)
+            foreach (var job in jobsToUpdate)
             {
                 try
                 {
@@ -165,10 +165,10 @@ namespace DustyPig.Mobile.Services.Download
                 }
             }
 
-            
+
         }
 
-        
+
 
 
 
@@ -316,7 +316,7 @@ namespace DustyPig.Mobile.Services.Download
             var upNext = series.Episodes.FirstOrDefault(item => item.UpNext);
             if (upNext == null)
                 upNext = series.Episodes.FirstOrDefault();
-            if(upNext != null)
+            if (upNext != null)
             {
                 bool upNextFound = false;
                 foreach (var episode in series.Episodes)
@@ -351,7 +351,7 @@ namespace DustyPig.Mobile.Services.Download
             playlist.Items.Sort((x, y) => x.Index.CompareTo(y.Index));
 
             var toDownlod = new List<PlaylistItem>();
-            foreach(var item in playlist.Items)
+            foreach (var item in playlist.Items)
             {
                 if (item.Index >= playlist.CurrentIndex)
                     toDownlod.Add(item);
@@ -362,8 +362,8 @@ namespace DustyPig.Mobile.Services.Download
             var validIds = toDownlod.Select(item => item.MediaId).ToList();
             validIds.Add(job.MediaId);
             bool ret = job.RemoveAllFiles(item => !validIds.Contains(item.MediaId));
-            
-            foreach(var pli in toDownlod)
+
+            foreach (var pli in toDownlod)
             {
                 ret |= AddOrUpdateJobFile(job, pli.MediaId, "mp4", pli.VideoUrl, true);
                 ret |= AddOrUpdateJobFile(job, pli.MediaId, "jpg", pli.ArtworkUrl, false);
@@ -391,7 +391,7 @@ namespace DustyPig.Mobile.Services.Download
 
         static bool AddOrUpdateOptionalJobFile(Job job, int mediaId, string suffix, string url)
         {
-            if(string.IsNullOrWhiteSpace(url))
+            if (string.IsNullOrWhiteSpace(url))
             {
                 var jobFile = job.Files
                      .Where(item => item.MediaId == mediaId)
@@ -475,7 +475,7 @@ namespace DustyPig.Mobile.Services.Download
                 foreach (var jobFile in job.Files)
                     if (jobFile.MediaId == mediaId)
                         return job;
-            
+
             return null;
         }
 
@@ -507,7 +507,7 @@ namespace DustyPig.Mobile.Services.Download
                         done = false;
                         break;
                     }
-                
+
                 if (done)
                     return (JobStatus.Downloaded, 100, job.ItemsCount);
 
@@ -572,9 +572,9 @@ namespace DustyPig.Mobile.Services.Download
                 _jobList.Save();
             });
         }
-                
+
         static bool TryDeleteFile(string file)
-        {            
+        {
             try
             {
                 if (!File.Exists(file))

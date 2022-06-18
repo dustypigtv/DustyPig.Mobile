@@ -14,7 +14,7 @@ namespace DustyPig.Mobile.MVVM.Main.Settings
 
         public void PageShown(bool reselected)
         {
-            
+
         }
 
         private void Button_Clicked(object sender, System.EventArgs e)

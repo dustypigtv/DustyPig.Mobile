@@ -5,7 +5,7 @@
     xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.TMDB" 
     xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
     xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
-    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
     xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
@@ -178,7 +178,7 @@
                                 Margin="0,12,0,0"
                                 Text="Genres: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowGenres}" />
 
                             <Label 
@@ -188,7 +188,7 @@
                                 Text="{Binding Genres}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowGenres}" />
 
 
@@ -199,7 +199,7 @@
                                 Margin="0,12,0,0"
                                 Text="Cast: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowCast}" />
 
                             <Label 
@@ -209,7 +209,7 @@
                                 Text="{Binding Cast}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowCast}" />
 
                             <!-- Directors -->
@@ -219,7 +219,7 @@
                                 Margin="0,12,0,0"
                                 Text="Directors: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowDirectors}" />
 
                             <Label 
@@ -229,7 +229,7 @@
                                 Text="{Binding Directors}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowDirectors}" />
 
                             <!-- Producers -->
@@ -239,7 +239,7 @@
                                 Margin="0,12,0,0"
                                 Text="Producers: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowProducers}" />
 
                             <Label 
@@ -249,7 +249,7 @@
                                 Text="{Binding Producers}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowProducers}" />
 
                             <!-- Writers -->
@@ -259,7 +259,7 @@
                                 Margin="0,12,0,0"
                                 Text="Writers: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
 
                             <Label 
@@ -269,7 +269,7 @@
                                 Text="{Binding Writers}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
 
 

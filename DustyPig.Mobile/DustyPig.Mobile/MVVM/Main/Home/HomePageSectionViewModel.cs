@@ -1,6 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.Helpers;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
@@ -15,7 +14,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         {
             ListId = hsl.ListId;
             Title = hsl.Title;
-            _listFullyLoaded = hsl.Items.Count  == 0;
+            _listFullyLoaded = hsl.Items.Count == 0;
             LoadMoreItemsCommand = new AsyncCommand(OnLoadMoreItems, canExecute: (obj) => !_listFullyLoaded, allowsMultipleExecutions: false);
             Items.AddRange(hsl.Items);
         }

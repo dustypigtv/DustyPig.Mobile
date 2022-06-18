@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
-    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+    xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
     xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Playlist"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.Playlist.RenamePlaylistPopup"
     x:DataType="local:RenamePlaylistPopup"
@@ -18,7 +18,7 @@
     </xctViews:Popup.Resources>
 
     <StackLayout
-        BackgroundColor="{Static dpcc:Theme.DarkGrey}">
+        BackgroundColor="{Static helpers:Theme.DarkGrey}">
 
         <Label
             Margin="24,24,24,0"
@@ -59,7 +59,7 @@
                 ClearButtonVisibility="WhileEditing"
                 IsSpellCheckEnabled="True"
                 IsTextPredictionEnabled="True"
-                BackgroundColor="{Static dpcc:Theme.DarkGrey}"
+                BackgroundColor="{Static helpers:Theme.DarkGrey}"
                 Text="{Binding PlaylistTitle}"/>
 
             <ImageButton
@@ -80,7 +80,7 @@
                 <ImageButton.Source>
                     <FontImageSource
                             FontFamily="FontAwesomeSolid"
-                            Glyph="{Static dpcc:FontAwesome.FloppyDisk}"
+                            Glyph="{Static helpers:FontAwesome.FloppyDisk}"
                             Color="White" />
                 </ImageButton.Source>
             </ImageButton>
@@ -115,7 +115,7 @@
             <ImageButton.Source>
                 <FontImageSource
                         FontFamily="FontAwesomeSolid"
-                        Glyph="{Static dpcc:FontAwesome.CircleXmark}"
+                        Glyph="{Static helpers:FontAwesome.CircleXmark}"
                         Color="White" />
             </ImageButton.Source>
         </ImageButton>

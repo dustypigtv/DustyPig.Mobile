@@ -19,10 +19,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             Basic_Media = basicMedia;
 
             DownloadCommand = new AsyncCommand(OnDownloadAsync, allowsMultipleExecutions: false);
-            PlaylistCommand = new Command(AddToPlaylist);
+            PlaylistCommand = new AsyncCommand(AddToPlaylist, allowsMultipleExecutions: false);
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
-            ManageParentalControlsCommand = new Command(ManageParentalControls);
+            ManageParentalControlsCommand = new AsyncCommand(ManageParentalControls, allowsMultipleExecutions: false);
             ShowInfoCommand = new AsyncCommand<string>(OnShowInfo, allowsMultipleExecutions: false);
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
@@ -105,18 +105,19 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
         }
 
-        
-        public Command PlaylistCommand { get; }
-        public void AddToPlaylist()
+
+        public AsyncCommand PlaylistCommand { get; }
+        public async Task AddToPlaylist()
         {
-            Navigation.ShowPopup(new AddToPlaylistPopup(Basic_Media));
+            await Navigation.PushModalAsync(new AddToPlaylist.AddToPlaylistPage(Basic_Media));
         }
 
 
-        public Command ManageParentalControlsCommand { get; }
-        public void ManageParentalControls()
+        public AsyncCommand ManageParentalControlsCommand { get; }
+        public async Task ManageParentalControls()
         {
-            Navigation.ShowPopup(new ParentalControlsPopup(Basic_Media.Id, LibraryId));
+            //await Navigation.PushModalAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
+            await Navigation.ShowPopupAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
         }
 
 
@@ -124,7 +125,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         private async Task OnDownloadAsync()
         {
             var popup = DependencyService.Get<IPopup>();
-            string detailType = Basic_Media.MediaType.ToString().ToLower();         
+            string detailType = Basic_Media.MediaType.ToString().ToLower();
             var status = await DownloadService.GetStatusAsync(Id);
             int cnt = Settings.LastDownloadCount;
 
@@ -221,7 +222,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             else if (cnt > 0)
                             {
                                 DownloadService.AddOrUpdateSeries(Detailed_Series, cnt);
-                            }                           
+                            }
                             break;
 
                         case MediaTypes.Playlist:
@@ -246,7 +247,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     break;
 
                 case JobStatus.NotDownloaded:
-                    switch(Basic_Media.MediaType)
+                    switch (Basic_Media.MediaType)
                     {
                         case MediaTypes.Movie:
                             DownloadService.AddMovie(Detailed_Movie);
@@ -267,7 +268,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             else if (cnt > 0)
                                 DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, cnt);
                             break;
-                    }                    
+                    }
                     break;
             }
 
@@ -502,7 +503,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             set => SetProperty(ref _downloadButtonText, value);
         }
 
-        
+
         private string _year;
         public string Year
         {
@@ -537,11 +538,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
                 Width = (int)Math.Min(width, newWidth);
             }
-       
+
             ImageHeight = (int)(Width * 0.5625);
         }
 
-        
+
 
 
         public static string GetPath(string local, string url)

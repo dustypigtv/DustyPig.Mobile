@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DustyPig.Mobile.Services.Download
 {
-    public class JobList 
+    public class JobList
     {
         private readonly object _locker = new object();
         private readonly List<Job> _jobs = new List<Job>();
@@ -20,7 +20,7 @@ namespace DustyPig.Mobile.Services.Download
         }
 
 
-        
+
         /// <summary>
         /// This returns a safe COPY of the job list
         /// </summary>

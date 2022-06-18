@@ -23,7 +23,7 @@ namespace DustyPig.Mobile.Services
         {
             Task.Run(() => File.WriteAllText(_filename, JsonConvert.SerializeObject(hs)));
         }
-        
+
         public static void Reset()
         {
             Task.Run(() =>

@@ -1,7 +1,4 @@
 ﻿using DustyPig.Mobile.MVVM;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Services

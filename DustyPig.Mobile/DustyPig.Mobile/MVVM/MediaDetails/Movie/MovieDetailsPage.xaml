@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              xmlns:movie="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Movie"
-             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+             xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
              xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
@@ -124,7 +124,7 @@
                                 IsVisible="{Binding CanManage}"
                                 Command="{Binding ManageParentalControlsCommand}">
                                 <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.UserLock}" Color="White" />
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static helpers:FontAwesome.UserLock}" Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
 
@@ -155,7 +155,7 @@
                                     HorizontalOptions="End" 
                                     VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Unlock}" Color="Black" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Unlock}" Color="Black" />
                                     </Image.Source>
                                 </Image>
 
@@ -194,7 +194,7 @@
                                     HorizontalOptions="End" 
                                     VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Play}" Color="Black" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Play}" Color="Black" />
                                     </Image.Source>
                                 </Image>
                                 
@@ -215,8 +215,8 @@
                             HeightRequest="32" 
                             CornerRadius="4" 
                             HasShadow="false" 
-                            BackgroundColor="{Static dpcc:Theme.DarkGrey}" 
-                            BorderColor="{Static dpcc:Theme.DarkGrey}" 
+                            BackgroundColor="{Static helpers:Theme.DarkGrey}" 
+                            BorderColor="{Static helpers:Theme.DarkGrey}" 
                             HorizontalOptions="Fill"
                             IsVisible="{Binding CanPlay}"
                             xct:TouchEffect.NativeAnimation="True"
@@ -233,7 +233,7 @@
                                     HorizontalOptions="End" 
                                     VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" Color="White" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Download}" Color="White" />
                                     </Image.Source>
                                 </Image>
 
@@ -323,7 +323,7 @@
                                 Command="{Binding MarkWatchedCommand}"
                                 CommandParameter="{Binding Id}">
                                 <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static helpers:FontAwesome.Eye}" Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
 
@@ -350,7 +350,7 @@
                                 xct:TouchEffect.NativeAnimation="True"
                                 Command="{Binding PlaylistCommand}">
                                 <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Indent}" Color="White" />
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static helpers:FontAwesome.Indent}" Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
 
@@ -399,7 +399,7 @@
                                 Margin="0,12,0,0"
                                 Text="Genres: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowGenres}" />
                             
                             <Label 
@@ -409,7 +409,7 @@
                                 Text="{Binding Genres}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowGenres}" />
 
 
@@ -420,7 +420,7 @@
                                 Margin="0,12,0,0"
                                 Text="Cast: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowCast}" />
 
                             <Label 
@@ -430,7 +430,7 @@
                                 Text="{Binding Cast}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowCast}" />
 
                             <!-- Directors -->
@@ -440,7 +440,7 @@
                                 Margin="0,12,0,0"
                                 Text="Directors: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowDirectors}" />
 
                             <Label 
@@ -450,7 +450,7 @@
                                 Text="{Binding Directors}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowDirectors}" />
 
                             <!-- Producers -->
@@ -460,7 +460,7 @@
                                 Margin="0,12,0,0"
                                 Text="Producers: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowProducers}" />
 
                             <Label 
@@ -470,7 +470,7 @@
                                 Text="{Binding Producers}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowProducers}" />
 
                             <!-- Writers -->
@@ -480,7 +480,7 @@
                                 Margin="0,12,0,0"
                                 Text="Writers: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
 
                             <Label 
@@ -490,7 +490,7 @@
                                 Text="{Binding Writers}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
 
                             <!-- Owner -->
@@ -500,7 +500,7 @@
                                 Margin="0,12,0,0"
                                 Text="Owner: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}" />
+                                TextColor="{Static helpers:Theme.Grey}" />
 
                             <Label 
                                 Grid.Row="5"
@@ -509,7 +509,7 @@
                                 Text="{Binding Owner}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}" />
+                                TextColor="{Static helpers:Theme.Grey}" />
 
                         </Grid>
                         

@@ -14,7 +14,7 @@ namespace DustyPig.Mobile.MVVM.Main.Downloads
 
         public void PageShown(bool reselected)
         {
-            
+
         }
     }
 }

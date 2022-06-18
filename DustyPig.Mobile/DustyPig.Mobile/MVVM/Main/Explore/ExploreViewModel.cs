@@ -71,7 +71,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
 
             REST.Response<List<BasicMedia>> response = await App.API.Media.LoadExploreResultsAsync(new ExploreRequest
             {
-                 Start = start
+                Start = start
             });
 
             if (response.Success)

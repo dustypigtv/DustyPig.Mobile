@@ -1,10 +1,7 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.Services.Download;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 {

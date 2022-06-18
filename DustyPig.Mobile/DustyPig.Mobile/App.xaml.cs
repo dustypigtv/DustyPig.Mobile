@@ -1,6 +1,5 @@
 ﻿using DustyPig.Mobile.CrossPlatform.Orientation;
 using DustyPig.Mobile.MVVM;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile
@@ -17,6 +16,8 @@ namespace DustyPig.Mobile
 
         public App()
         {
+            DevExpress.XamarinForms.CollectionView.Initializer.Init();
+
             InitializeComponent();
 
             DependencyService.Get<IScreen>().SetOrientation(false);

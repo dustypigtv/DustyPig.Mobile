@@ -4,18 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core" 
     xmlns:home="clr-namespace:DustyPig.Mobile.MVVM.Main.Home"
-    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
     xmlns:download="clr-namespace:DustyPig.Mobile.MVVM.Main.Downloads" 
     xmlns:settings="clr-namespace:DustyPig.Mobile.MVVM.Main.Settings" 
     xmlns:search="clr-namespace:DustyPig.Mobile.MVVM.Main.Search"
     xmlns:effect="clr-namespace:DustyPig.Mobile.Effects" 
     xmlns:explore="clr-namespace:DustyPig.Mobile.MVVM.Main.Explore"
     android:TabbedPage.ToolbarPlacement="Bottom"
-    android:TabbedPage.BarItemColor="{Static dpcc:Theme.LightGrey}"
+    android:TabbedPage.BarItemColor="{Static helpers:Theme.LightGrey}"
     android:TabbedPage.BarSelectedItemColor="White"
     x:Class="DustyPig.Mobile.MVVM.Main.MainPage"
     NavigationPage.HasNavigationBar="False"
-    BarBackgroundColor="{Static dpcc:Theme.DarkGrey}">
+    BarBackgroundColor="{Static helpers:Theme.DarkGrey}">
 
     <TabbedPage.Effects>
         <effect:UnselectedTabColorEffect />
@@ -26,7 +26,7 @@
             <home:HomePage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.House}" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.House}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
 
@@ -37,7 +37,7 @@
             <explore:ExplorePage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Film}" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Film}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
 
@@ -46,7 +46,7 @@
             <search:SearchPage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.MagnifyingGlass}" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.MagnifyingGlass}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
 
@@ -56,7 +56,7 @@
             <download:DownloadsPage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Download}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
 
@@ -67,7 +67,7 @@
             <settings:SettingsPage />
         </x:Arguments>
         <NavigationPage.IconImageSource>
-            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Gear}" />
+            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Gear}" />
         </NavigationPage.IconImageSource>
     </NavigationPage>
 

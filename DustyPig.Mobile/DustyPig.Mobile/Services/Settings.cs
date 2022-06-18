@@ -14,6 +14,23 @@ namespace DustyPig.Mobile.Services
 
         private const string LAST_DOWNLOAD_COUNT = "last_download_count";
 
+        private const string SHOW_PLAYLIST_ITEM_SYNOPSIS = "show_playlist_item_synopsis";
+
+        private const string SHOW_EPISODE_SYNOPSIS = "show_episode_synopsis";
+
+        public static bool ShowPlaylistItemSynopsis
+        {
+            get => Preferences.Get(SHOW_PLAYLIST_ITEM_SYNOPSIS, false);
+            set => Preferences.Set(SHOW_PLAYLIST_ITEM_SYNOPSIS, value);
+        }
+
+        public static bool ShowEpisodeSynopsis
+        {
+            get => Preferences.Get(SHOW_EPISODE_SYNOPSIS, true);
+            set => Preferences.Set(SHOW_EPISODE_SYNOPSIS, value);
+        }
+
+
         public static bool AutoPlayNext
         {
             get => Preferences.Get(AUTO_PLAY_NEXT_KEY, false);

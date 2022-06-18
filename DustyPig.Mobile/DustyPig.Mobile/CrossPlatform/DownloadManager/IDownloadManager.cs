@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 
 namespace DustyPig.Mobile.CrossPlatform.DownloadManager
 {
-   public interface IDownloadManager
+    public interface IDownloadManager
     {
         IEnumerable<IDownload> GetDownloads();
 

@@ -16,14 +16,14 @@ namespace DustyPig.Mobile.MVVM.Main.Search
         }
 
         public SearchViewModel VM { get; }
-        
+
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             VM.OnSizeAllocated(width, height);
         }
 
-       
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
@@ -52,6 +52,6 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                 });
         }
 
-        
+
     }
 }

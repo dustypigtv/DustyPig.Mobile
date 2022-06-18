@@ -39,7 +39,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             get => _index;
             set
             {
-                if(_index != value)
+                if (_index != value)
                 {
                     _index = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Index)));

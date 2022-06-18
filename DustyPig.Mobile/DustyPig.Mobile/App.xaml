@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              x:Class="DustyPig.Mobile.App">
@@ -32,7 +32,7 @@
             <Style TargetType="Entry">
                 <Setter Property="BackgroundColor" Value="Black" />
                 <Setter Property="TextColor" Value="White" />
-                <Setter Property="PlaceholderColor" Value="{x:Static dpcc:Theme.Placeholder}" />
+                <Setter Property="PlaceholderColor" Value="{x:Static helpers:Theme.Placeholder}" />
             </Style>
 
             <Style TargetType="Button">
@@ -47,7 +47,7 @@
                             </VisualState>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{x:Static dpcc:Theme.DarkGrey}" />
+                                    <Setter Property="BackgroundColor" Value="{x:Static helpers:Theme.DarkGrey}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -79,11 +79,11 @@
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="ThumbColor" Value="White" />
                 <Setter Property="MinimumTrackColor" Value="White" />
-                <Setter Property="MaximumTrackColor" Value="{x:Static dpcc:Theme.Grey}" />
+                <Setter Property="MaximumTrackColor" Value="{x:Static helpers:Theme.Grey}" />
             </Style>
 
             <Style TargetType="Switch">
-                <Setter Property="OnColor" Value="{Static dpcc:Theme.LightGrey}" />
+                <Setter Property="OnColor" Value="{Static helpers:Theme.LightGrey}" />
                 <Setter Property="ThumbColor" Value="White" />
             </Style>
 
@@ -91,7 +91,7 @@
                 x:Key="ProgressBackgroundColor" 
                 x:TypeArguments="Color" 
                 Android="Transparent" 
-                iOS="{Static dpcc:Theme.DarkGrey}"  />
+                iOS="{Static helpers:Theme.DarkGrey}"  />
             <Style TargetType="ProgressBar">
                 <Setter Property="BackgroundColor" Value="{StaticResource ProgressBackgroundColor}" />
                 <Setter Property="ProgressColor" Value="White" />

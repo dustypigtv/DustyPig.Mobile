@@ -5,7 +5,7 @@
 	xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.Main.Search" 
 	xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
 	xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
-	xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+	xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
 	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
     xmlns:effect="clr-namespace:DustyPig.Mobile.Effects"
@@ -25,12 +25,12 @@
                 xct:CornerRadiusEffect.CornerRadius="8"
                 Margin="0"
                 Placeholder="Search for title"
-                PlaceholderColor="{Static dpcc:Theme.Grey}"            
+                PlaceholderColor="{Static helpers:Theme.Grey}"            
                 TextChanged="SearchBar_TextChanged"
                 SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
 
             <Grid 
-                BackgroundColor="{Static dpcc:Theme.DarkGrey}"
+                BackgroundColor="{Static helpers:Theme.DarkGrey}"
                 HeightRequest="48"
                 IsVisible="{Binding ShowTabs}">
                 <Grid.ColumnDefinitions>

@@ -17,9 +17,9 @@ namespace DustyPig.Mobile.Services.Progress
     {
         static readonly string _filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "playback_progress.json");
         static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-        
+
         public static void Init()
-        {         
+        {
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
             Task.Run(() => Connectivity_ConnectivityChanged(null, null));
         }

@@ -5,14 +5,14 @@
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit" 
     xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails"
-    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
+    xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.DownloadPopup"
     IsLightDismissEnabled="False"
     x:DataType="local:DownloadPopup"
     x:TypeArguments="x:Int32">
 
     <StackLayout
-        BackgroundColor="{Static dpcc:Theme.DarkGrey}">
+        BackgroundColor="{Static helpers:Theme.DarkGrey}">
 
         <Label
             Margin="24,24,24,0"
@@ -49,7 +49,7 @@
                                 </VisualState>
                                 <VisualState Name="Selected">
                                     <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="{Static dpcc:Theme.Grey}" />
+                                        <Setter Property="BackgroundColor" Value="{Static helpers:Theme.Grey}" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
@@ -235,7 +235,7 @@
         </ScrollView>
 
         <Grid
-            BackgroundColor="{Static dpcc:Theme.Grey}"
+            BackgroundColor="{Static helpers:Theme.Grey}"
             VerticalOptions="EndAndExpand">
             
             <Grid.ColumnDefinitions>

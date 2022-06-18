@@ -17,7 +17,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
 
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
-            
+
             BindingContext = VM = new MovieDetailsViewModel(basicMedia, Navigation);
         }
 
@@ -29,16 +29,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             VM.OnSizeAllocated(width, height);
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            VM.OnAppearing();
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                //Default modal animation is 250 secs
-                await Task.Delay(250);
-                BackgroundColor = Color.FromRgba(0, 0, 0, 0.5);
-            });
-        }
+        
     }
 }

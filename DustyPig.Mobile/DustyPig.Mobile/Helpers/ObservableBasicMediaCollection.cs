@@ -1,6 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using Xamarin.CommunityToolkit.ObjectModel;
 
@@ -36,7 +35,7 @@ namespace DustyPig.Mobile.Helpers
                 var existingItem = this.FirstOrDefault(item => item.Id == newItem.Id);
                 if (existingItem == null)
                 {
-                    Insert(newIdx, newItem);                    
+                    Insert(newIdx, newItem);
                 }
                 else
                 {

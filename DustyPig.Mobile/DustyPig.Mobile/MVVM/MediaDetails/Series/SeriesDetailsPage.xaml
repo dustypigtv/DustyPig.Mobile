@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:series="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
-    xmlns:dpcc="clr-namespace:DustyPig.Mobile.Helpers" 
+    xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
     xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
     xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
@@ -120,7 +120,7 @@
                                 IsVisible="{Binding CanManage}"
                                 Command="{Binding ManageParentalControlsCommand}">
                                 <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.UserLock}" Color="White" />
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static helpers:FontAwesome.UserLock}" Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
 
@@ -151,7 +151,7 @@
                                     HorizontalOptions="End" 
                                     VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Unlock}" Color="Black" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Unlock}" Color="Black" />
                                     </Image.Source>
                                 </Image>
 
@@ -190,7 +190,7 @@
                                     HorizontalOptions="End" 
                                     VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Play}" Color="Black" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Play}" Color="Black" />
                                     </Image.Source>
                                 </Image>
 
@@ -211,8 +211,8 @@
                             HeightRequest="32" 
                             CornerRadius="4" 
                             HasShadow="false" 
-                            BackgroundColor="{Static dpcc:Theme.DarkGrey}" 
-                            BorderColor="{Static dpcc:Theme.DarkGrey}" 
+                            BackgroundColor="{Static helpers:Theme.DarkGrey}" 
+                            BorderColor="{Static helpers:Theme.DarkGrey}" 
                             HorizontalOptions="Fill"
                             IsVisible="{Binding CanPlay}"
                             xct:TouchEffect.NativeAnimation="True"
@@ -229,7 +229,7 @@
                                     HorizontalOptions="End" 
                                     VerticalOptions="Center">
                                     <Image.Source>
-                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.Download}" Color="White" />
+                                        <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.Download}" Color="White" />
                                     </Image.Source>
                                 </Image>
 
@@ -338,7 +338,7 @@
                                 Command="{Binding MarkWatchedCommand}"
                                 CommandParameter="{Binding Id}">
                                 <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Eye}" Color="White" />
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static helpers:FontAwesome.Eye}" Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
 
@@ -364,7 +364,7 @@
                                 xct:TouchEffect.NativeAnimation="True"
                                 Command="{Binding PlaylistCommand}">
                                 <ImageButton.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static dpcc:FontAwesome.Indent}" Color="White" />
+                                    <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{Static helpers:FontAwesome.Indent}" Color="White" />
                                 </ImageButton.Source>
                             </ImageButton>
                             
@@ -422,7 +422,7 @@
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center">
                                         <Image.Source>
-                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static dpcc:FontAwesome.ChevronDown}" Color="White" />
+                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.ChevronDown}" Color="White" />
                                         </Image.Source>
                                     </Image>
 
@@ -441,109 +441,102 @@
                                     <Frame 
                                         BackgroundColor="Transparent" 
                                         Padding="4"
-                                        BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
+                                           Margin="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodeItemMargin}"
+                                           BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
-                                            
-                                            <ffimages:CachedImage
-                                                Grid.Column="0"
-                                                Grid.Row="0"
-                                                Source="{Binding ArtworkUrl}"
-                                                HeightRequest="56"
-                                                WidthRequest="100"
-                                                Aspect="AspectFit"
-                                                HorizontalOptions="Start"
-                                                ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
-                                                LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
+
+                                            <ffimages:CachedImage Grid.Column="0"
+                                                                  Grid.Row="0"
+                                                                  Grid.RowSpan="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodePosterRowSpan}"
+                                                                  Source="{Binding ArtworkUrl}"
+                                                                  HeightRequest="56"
+                                                                  WidthRequest="100"
+                                                                  Aspect="AspectFit"
+                                                                  HorizontalOptions="Center"
+                                                                  VerticalOptions="Center"
+                                                                  ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
+                                                                  LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" /> 
 
                                             <!-- Play button -->
-                                            <ImageButton
-                                                Grid.Column="0"
-                                                Grid.Row="0"
-                                                HeightRequest="24"
-                                                WidthRequest="24"
-                                                CornerRadius="12"
-                                                BackgroundColor="#88000000"
-                                                HorizontalOptions="Center"
-                                                VerticalOptions="Center"
-                                                xct:TouchEffect.NativeAnimation="True"
-                                                IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=CanPlay}"                                                
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
-                                                CommandParameter="{Binding Id}">
+                                            <ImageButton Grid.Column="0"
+                                                         Grid.Row="0"
+                                                         Grid.RowSpan="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodePosterRowSpan}"
+                                                         HeightRequest="24"
+                                                         WidthRequest="24"
+                                                         CornerRadius="12"
+                                                         BackgroundColor="#88000000"
+                                                         HorizontalOptions="Center"
+                                                         VerticalOptions="Center"
+                                                         xct:TouchEffect.NativeAnimation="True"
+                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=CanPlay}"
+                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
+                                                         CommandParameter="{Binding Id}">
                                                 <ImageButton.Source>
                                                     <FontImageSource 
                                                         FontFamily="FontAwesomeRegular" 
-                                                        Glyph="{x:Static dpcc:FontAwesome.CirclePlay}" 
+                                                        Glyph="{x:Static helpers:FontAwesome.CirclePlay}" 
                                                         Color="White" />
                                                 </ImageButton.Source>
                                             </ImageButton>
 
-                                            
-                                            <Grid
-                                                    Grid.Column="1"
-                                                    Grid.Row="0"
-                                                    Margin="4,0,0,0"
-                                                    HorizontalOptions="FillAndExpand"
-                                                    VerticalOptions="Center">
+                                            <!-- Title -->
+                                            <Label Grid.Column="1"
+                                                   Grid.Row="0"
+                                                   VerticalOptions="Start"
+                                                   LineBreakMode="WordWrap"
+                                                   Text="{Binding Title}" />
 
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
 
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto" />
-                                                    <RowDefinition Height="Auto" />
-                                                </Grid.RowDefinitions>
+                                            <!-- Duration -->
+                                            <Label Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   VerticalOptions="Start"
+                                                   FontSize="Small"
+                                                   TextColor="{Static helpers:Theme.Grey}"
+                                                   Text="{Binding Duration}" />
 
-                                                <Label
-                                                    LineBreakMode="WordWrap">
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding EpisodeNumber}" />
-                                                            <Span Text=". " />
-                                                            <Span Text="{Binding Title}" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
-                                                <Label
-                                                        Grid.Column="0"
-                                                        Grid.Row="1"
-                                                        FontSize="Small"
-                                                        TextColor="{Static dpcc:Theme.Grey}"
-                                                        Text="{Binding Duration}" />
 
-                                                <ImageButton
-                                                    Grid.Column="1"
-                                                    Grid.Row="0"
-                                                    Grid.RowSpan="2"
-                                                    HeightRequest="40"
-                                                    WidthRequest="40"
-                                                    CornerRadius="20"
-                                                    Padding="8"
-                                                    BackgroundColor="#88000000"
-                                                    HorizontalOptions="End"
-                                                    VerticalOptions="Center"
-                                                    xct:TouchEffect.NativeAnimation="True"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowInfoCommand}"
-                                                    CommandParameter="{Binding Description}">
-                                                    <ImageButton.Source>
-                                                        <FontImageSource 
-                                                            FontFamily="FontAwesomeSolid" 
-                                                            Glyph="{x:Static dpcc:FontAwesome.EllipsisVertical}" 
-                                                            Color="White" />
-                                                    </ImageButton.Source>
-                                                </ImageButton>
+                                            <!-- Synopsis button -->
+                                            <ImageButton Grid.Column="2"
+                                                         Grid.Row="0"
+                                                         Grid.RowSpan="3"
+                                                         HeightRequest="40"
+                                                         WidthRequest="40"
+                                                         CornerRadius="20"
+                                                         Padding="8"
+                                                         VerticalOptions="CenterAndExpand"
+                                                         HorizontalOptions="Center"
+                                                         xct:TouchEffect.NativeAnimation="True"
+                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsis, Converter={StaticResource InvertedBoolConverter}}"
+                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsisCommand}"
+                                                         CommandParameter="{Binding Description}">
+                                                <ImageButton.Source>
+                                                    <FontImageSource FontFamily="FontAwesomeSolid"
+                                                                     Glyph="{x:Static helpers:FontAwesome.CircleInfo}"
+                                                                     Color="White" />
+                                                </ImageButton.Source>
+                                            </ImageButton>
 
-                                            </Grid>
+
+                                            <!-- Synopsis -->
+                                            <Label Grid.Column="0"
+                                                   Grid.ColumnSpan="3"
+                                                   Grid.Row="2"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsis}"
+                                                   LineBreakMode="WordWrap"
+                                                   Text="{Binding Description}" />
                                             
                                         </Grid>
                                         
@@ -580,7 +573,7 @@
                                 Margin="0,12,0,0"
                                 Text="Genres: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowGenres}" />
 
                             <Label 
@@ -590,7 +583,7 @@
                                 Text="{Binding Genres}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowGenres}" />
 
 
@@ -601,7 +594,7 @@
                                 Margin="0,12,0,0"
                                 Text="Cast: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowCast}" />
 
                             <Label 
@@ -611,7 +604,7 @@
                                 Text="{Binding Cast}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowCast}" />
 
                             <!-- Directors -->
@@ -621,7 +614,7 @@
                                 Margin="0,12,0,0"
                                 Text="Directors: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowDirectors}" />
 
                             <Label 
@@ -631,7 +624,7 @@
                                 Text="{Binding Directors}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowDirectors}" />
 
                             <!-- Producers -->
@@ -641,7 +634,7 @@
                                 Margin="0,12,0,0"
                                 Text="Producers: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowProducers}" />
 
                             <Label 
@@ -651,7 +644,7 @@
                                 Text="{Binding Producers}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowProducers}" />
 
                             <!-- Writers -->
@@ -661,7 +654,7 @@
                                 Margin="0,12,0,0"
                                 Text="Writers: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
 
                             <Label 
@@ -671,7 +664,7 @@
                                 Text="{Binding Writers}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}"
+                                TextColor="{Static helpers:Theme.Grey}"
                                 IsVisible="{Binding ShowWriters}" />
 
                             <!-- Owner -->
@@ -681,7 +674,7 @@
                                 Margin="0,12,0,0"
                                 Text="Owner: "
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}" />
+                                TextColor="{Static helpers:Theme.Grey}" />
 
                             <Label 
                                 Grid.Row="5"
@@ -690,7 +683,7 @@
                                 Text="{Binding Owner}"
                                 LineBreakMode="WordWrap"
                                 FontSize="Small"
-                                TextColor="{Static dpcc:Theme.Grey}" />
+                                TextColor="{Static helpers:Theme.Grey}" />
 
                         </Grid>
 
@@ -701,6 +694,108 @@
 
             </ScrollView>
 
+            <BoxView x:Name="Dimmer"
+                     Grid.RowSpan="2"
+                     BackgroundColor="Black"
+                     Opacity="0"
+                     InputTransparent="True" />
+
+
+            <Frame x:Name="BottomDrawer"
+                   Grid.RowSpan="2"
+                   VerticalOptions="End"
+                   CornerRadius="0"
+                   Padding="0"
+                   TranslationY="200"
+                   xct:CornerRadiusEffect.CornerRadius="10,10,0,0"
+                   BackgroundColor="{Static helpers:Theme.DarkGrey}">
+
+                <StackLayout>
+                    
+                    <Grid HorizontalOptions="FillAndExpand"
+                          RowSpacing="0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="56" />
+                            <RowDefinition Height="56" />
+                            <RowDefinition Height="9" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0"
+                              HeightRequest="48"
+                              HorizontalOptions="FillAndExpand"
+                              xct:TouchEffect.NativeAnimation="True"
+                              xct:TouchEffect.Command="{Binding MarkSeriesWatchedCommand}">
+
+                            <Label Padding="48,0,0,0"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   VerticalTextAlignment="Center"
+                                   Text="Mark Series Watched" />
+
+                            <Image Margin="12,0,0,0"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="CenterAndExpand"
+                                   HeightRequest="24"
+                                   WidthRequest="24"
+                                   InputTransparent="True">
+                                <Image.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid"
+                                                     Glyph="{Static helpers:FontAwesome.Eye}"
+                                                     Color="White" />
+                                </Image.Source>
+                            </Image>
+
+                        </Grid>
+
+                        <Grid Grid.Row="1"
+                              HeightRequest="48"
+                              HorizontalOptions="FillAndExpand"
+                              xct:TouchEffect.NativeAnimation="True"
+                              xct:TouchEffect.Command="{Binding StopWatchingCommand}">
+
+                            <Label Padding="48,0,0,0"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   VerticalTextAlignment="Center"
+                                   Text="Stop Watching" />
+
+                            <Image Margin="12,0,0,0"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="CenterAndExpand"
+                                   HeightRequest="24"
+                                   WidthRequest="24"
+                                   InputTransparent="True">
+                                <Image.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid"
+                                                     Glyph="{Static helpers:FontAwesome.CircleMinus}"
+                                                     Color="White" />
+                                </Image.Source>
+                            </Image>
+
+                        </Grid>
+
+                        <BoxView Grid.Row="2"
+                                 BackgroundColor="LightGray"
+                                 VerticalOptions="End"
+                                 HorizontalOptions="FillAndExpand"
+                                 HeightRequest="1" />
+
+                        <Label Grid.Row="3"
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               Text="Cancel"
+                               xct:TouchEffect.NativeAnimation="True"
+                               xct:TouchEffect.Command="{Binding CancelMarkWatchedCommand}" />
+
+                    </Grid>
+                
+                </StackLayout>
+            </Frame>
+                
 
             <!-- Gradient Bar -->
             <reusable:TopButtonBarGradient
