@@ -375,11 +375,10 @@
 
 
                         <!-- Season Button -->
-                        <Grid>
+                        <Grid HorizontalOptions="FillAndExpand">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
-                                <!--<ColumnDefinition Width="Auto" />-->
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
@@ -396,11 +395,11 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
                                     <Label Grid.Column="0"
-                                           Margin="8,4,4,4">
+                                           Margin="8,4,4,4"
+                                           VerticalOptions="Center">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Season " />
@@ -411,6 +410,7 @@
 
 
                                     <Image Grid.Column="1"
+                                           Margin="4,4,8,4"
                                            IsVisible="{Binding MultipleSeasons}"
                                            HeightRequest="16"
                                            WidthRequest="16"
@@ -426,13 +426,14 @@
                                 </Grid>
                             </Frame>
 
-                            <!--<Label Grid.Column="2"
-                                   Text="Show synopsis"
-                                   VerticalOptions="FillAndExpand"
-                                   VerticalTextAlignment="Center"
-                                   FontSize="10" />-->
+                            <Label Grid.Column="1"
+                                   Text="Synopsis"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   VerticalTextAlignment="Center" />
 
-                            <Switch Grid.Column="3"
+                            <Switch Grid.Column="2"
+                                    VerticalOptions="Center"
                                     IsToggled="{Binding ShowSynopsis}" />
 
 

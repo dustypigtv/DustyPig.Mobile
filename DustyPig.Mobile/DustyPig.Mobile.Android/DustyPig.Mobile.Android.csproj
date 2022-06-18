@@ -71,9 +71,6 @@
     <PackageReference Include="DevExpress.XamarinForms.CollectionView">
       <Version>21.2.8</Version>
     </PackageReference>
-    <PackageReference Include="DevExpress.XamarinForms.Editors">
-      <Version>21.2.8</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
       <Version>28.0.0.3</Version>
     </PackageReference>
