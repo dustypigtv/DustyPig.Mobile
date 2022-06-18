@@ -18,7 +18,9 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Install dependencies
-        run: nuget restore DustyPig.Mobile.sln
+        run: |
+            dotnet nuget add source --name DevExpress "https://nuget.devexpress.com/${{ secrets.DEV_EXPRESS_KEY }}/api"
+            nuget restore DustyPig.Mobile.sln
 
 
       - name: Setup iOS Certificates
