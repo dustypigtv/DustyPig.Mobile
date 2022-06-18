@@ -25,7 +25,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
             ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
-            ShowSynopsisCommand = new AsyncCommand<string>(OnShowSynopsis, allowsMultipleExecutions: false);
+            ShowSynopsisCommand = new AsyncCommand<EpisodeInfoViewModel>(OnShowSynopsis, allowsMultipleExecutions: false);
            
             ShowSynopsis = Services.Settings.ShowEpisodeSynopsis;
 
@@ -65,10 +65,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             set => SetProperty(ref _episodeItemMargin, value);
         }
 
-        public AsyncCommand<string> ShowSynopsisCommand { get; }
-        public async Task OnShowSynopsis(string synopsis)
+        public AsyncCommand<EpisodeInfoViewModel> ShowSynopsisCommand { get; }
+        public async Task OnShowSynopsis(EpisodeInfoViewModel episode)
         {
-            await ShowAlertAsync("Synopsis", synopsis);
+            await ShowAlertAsync("Synopsis", $"{episode.EpisodeNumber}: {episode.Title}\n\n{episode.Synopsis}");
         }
 
         private bool _canManage;

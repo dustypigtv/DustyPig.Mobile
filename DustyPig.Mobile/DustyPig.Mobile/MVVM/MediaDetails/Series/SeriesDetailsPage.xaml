@@ -454,7 +454,10 @@
                                            Margin="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodeItemMargin}"
                                            BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
-                                        <Grid>
+                                        <Grid RowSpacing="0"
+                                              Padding="0"
+                                              Margin="0">
+                                            
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="*" />
@@ -467,46 +470,64 @@
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
 
-                                            <ffimages:CachedImage Grid.Column="0"
-                                                                  Grid.Row="0"
-                                                                  Grid.RowSpan="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodePosterRowSpan}"
-                                                                  Source="{Binding ArtworkUrl}"
-                                                                  HeightRequest="56"
-                                                                  WidthRequest="100"
-                                                                  Aspect="AspectFit"
-                                                                  HorizontalOptions="Center"
-                                                                  VerticalOptions="Center"
-                                                                  ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
-                                                                  LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" /> 
 
-                                            <!-- Play button -->
-                                            <ImageButton Grid.Column="0"
-                                                         Grid.Row="0"
-                                                         Grid.RowSpan="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodePosterRowSpan}"
-                                                         HeightRequest="24"
-                                                         WidthRequest="24"
-                                                         CornerRadius="12"
-                                                         BackgroundColor="#88000000"
-                                                         HorizontalOptions="Center"
-                                                         VerticalOptions="Center"
-                                                         xct:TouchEffect.NativeAnimation="True"
-                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=CanPlay}"
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
-                                                         CommandParameter="{Binding Id}">
-                                                <ImageButton.Source>
-                                                    <FontImageSource 
-                                                        FontFamily="FontAwesomeRegular" 
-                                                        Glyph="{x:Static helpers:FontAwesome.CirclePlay}" 
-                                                        Color="White" />
-                                                </ImageButton.Source>
-                                            </ImageButton>
+                                            <!-- Grid.RowSpan="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodePosterRowSpan}"
+                                                   -->
+                                            <Grid  Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   Grid.RowSpan="2"
+                                                   RowSpacing="0"
+                                                   ColumnSpacing="0"
+                                                   RowDefinitions="56"
+                                                   ColumnDefinitions="100"
+                                                   HeightRequest="56"
+                                                   WidthRequest="100"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Start"
+                                                   Padding="0"
+                                                   Margin="0">
+
+                                                <ffimages:CachedImage Source="{Binding ArtworkUrl}"
+                                                                      HeightRequest="56"
+                                                                      WidthRequest="100"
+                                                                      Aspect="AspectFit"
+                                                                      HorizontalOptions="Center"
+                                                                      VerticalOptions="Center"
+                                                                      ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
+                                                                      LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
+
+                                                <!-- Play button -->
+                                                <ImageButton HeightRequest="24"
+                                                             WidthRequest="24"
+                                                             CornerRadius="12"
+                                                             BackgroundColor="#88000000"
+                                                             HorizontalOptions="Center"
+                                                             VerticalOptions="Center"
+                                                             xct:TouchEffect.NativeAnimation="True"
+                                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=CanPlay}"
+                                                             Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
+                                                             CommandParameter="{Binding Id}">
+                                                    <ImageButton.Source>
+                                                        <FontImageSource FontFamily="FontAwesomeRegular"
+                                                                         Glyph="{x:Static helpers:FontAwesome.CirclePlay}"
+                                                                         Color="White" />
+                                                    </ImageButton.Source>
+                                                </ImageButton>
+                                            </Grid>
 
                                             <!-- Title -->
                                             <Label Grid.Column="1"
                                                    Grid.Row="0"
                                                    VerticalOptions="Start"
-                                                   LineBreakMode="WordWrap"
-                                                   Text="{Binding Title}" />
+                                                   LineBreakMode="WordWrap">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding EpisodeNumber}" />
+                                                        <Span Text=": " />
+                                                        <Span Text="{Binding Title}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
 
 
                                             <!-- Duration -->
@@ -521,7 +542,7 @@
                                             <!-- Synopsis button -->
                                             <ImageButton Grid.Column="2"
                                                          Grid.Row="0"
-                                                         Grid.RowSpan="3"
+                                                         Grid.RowSpan="2"
                                                          HeightRequest="40"
                                                          WidthRequest="40"
                                                          CornerRadius="20"
@@ -531,7 +552,7 @@
                                                          xct:TouchEffect.NativeAnimation="True"
                                                          IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsis, Converter={StaticResource InvertedBoolConverter}}"
                                                          Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsisCommand}"
-                                                         CommandParameter="{Binding Description}">
+                                                         CommandParameter="{Binding .}">
                                                 <ImageButton.Source>
                                                     <FontImageSource FontFamily="FontAwesomeSolid"
                                                                      Glyph="{x:Static helpers:FontAwesome.CircleInfo}"
@@ -546,7 +567,7 @@
                                                    Grid.Row="2"
                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsis}"
                                                    LineBreakMode="WordWrap"
-                                                   Text="{Binding Description}" />
+                                                   Text="{Binding Synopsis}" />
                                             
                                         </Grid>
                                         

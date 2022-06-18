@@ -13,7 +13,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string Synopsis { get; set; }
 
         public int EpisodeNumber { get; set; }
 
@@ -52,7 +52,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             var ret = new EpisodeInfoViewModel
             {
                 ArtworkUrl = _DetailsBaseViewModel.GetPath(DownloadService.CheckForLocalScreenshot(ep.Id), ep.ArtworkUrl),
-                Description = StringUtils.Coalesce(ep.Description, "No episode synopsis"),
+                Synopsis = StringUtils.Coalesce(ep.Description, "No episode synopsis"),
                 EpisodeNumber = ep.EpisodeNumber,
                 Id = ep.Id,
                 Length = ep.Length,

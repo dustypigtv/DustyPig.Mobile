@@ -17,8 +17,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         {
             InitializeComponent();
 
-            int maxHeight = 100 + (seasons.Count * 42);
-            maxHeight = Math.Min(400, maxHeight);
+           double maxHeight = 100 + (seasons.Count * 42);
+            if (Device.Idiom == TargetIdiom.Tablet)
+                maxHeight = Math.Min(Math.Min(Helpers.Screen.CurrentHeight, Helpers.Screen.CurrentWidth) * 0.75, maxHeight);
+            else
+                maxHeight = Math.Min(Helpers.Screen.CurrentHeight * 0.75, maxHeight);
             Size = new Size(200, maxHeight);
 
             seasons.Sort();

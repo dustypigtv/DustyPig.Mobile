@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.CrossPlatform.Orientation
 {
@@ -28,6 +29,24 @@ namespace DustyPig.Mobile.CrossPlatform.Orientation
                         @this.ForceLandscape();
                     else
                         @this.ForcePortrait();
+                    break;
+            }
+        }
+
+        public static void LockCurrentOrientation(this IScreen @this)
+        {
+            switch (DeviceDisplay.MainDisplayInfo.Orientation)
+            {
+                case DisplayOrientation.Portrait:
+                    @this.ForcePortrait();
+                    break;
+
+                case DisplayOrientation.Landscape:
+                    @this.ForceLandscape();
+                    break;
+
+                default:
+                    @this.ForcePortrait();
                     break;
             }
         }
