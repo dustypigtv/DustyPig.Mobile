@@ -1,6 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -29,16 +28,19 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             VM.OnSizeAllocated(width, height);
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            Device.BeginInvokeOnMainThread(async () =>
+            //Default modal animation is 250 secs
+            await Task.Delay(250);
+            double alpha = 0;
+            for (int i = 0; i < 5; i++)
             {
-                //Default modal animation is 250 secs
-                await Task.Delay(250);
-                BackgroundColor = Color.FromRgba(0, 0, 0, 0.5);
-            });
+                await Task.Delay(50);
+                alpha += 0.1;
+                BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
+            }
         }
     }
 }
