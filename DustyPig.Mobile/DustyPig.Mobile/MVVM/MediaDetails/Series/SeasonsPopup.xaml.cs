@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,6 +17,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         {
             InitializeComponent();
 
+            int maxHeight = 100 + (seasons.Count * 42);
+            maxHeight = Math.Min(400, maxHeight);
+            Size = new Size(200, maxHeight);
 
             seasons.Sort();
 
@@ -21,11 +27,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             foreach (var season in seasons)
                 Seasons.Add(new SeasonInfo(season, $"Season {season}", Dismiss));
 
-
             //All seasons are >= 0, so use -1 for cancel
             CancelCommand = new Command(() => Dismiss(-1));
 
             BindingContext = this;
+
 
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -33,7 +39,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                 {
                     try
                     {
-                        TheCV.ScrollTo(seasons.IndexOf(current), position: ScrollToPosition.Start, animate: false);
+                        TheCV.ScrollTo(current, position: ScrollToPosition.Start, animate: false);
                         return;
                     }
                     catch { }

@@ -17,7 +17,7 @@ namespace DustyPig.Mobile
         public App()
         {
             DevExpress.XamarinForms.CollectionView.Initializer.Init();
-
+           
             InitializeComponent();
 
             DependencyService.Get<IScreen>().SetOrientation(false);

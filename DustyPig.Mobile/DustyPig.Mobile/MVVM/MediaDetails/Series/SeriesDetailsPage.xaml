@@ -7,8 +7,7 @@
     xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
     xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
     xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     ios:Page.UseSafeArea="true"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeriesDetailsPage"             
     x:DataType="series:SeriesDetailsViewModel"
@@ -50,10 +49,6 @@
                         Margin="0"                      
                         ErrorPlaceholder="resource://DustyPig.Mobile.Images.errorimage_wide.png"
                         LoadingPlaceholder="resource://DustyPig.Mobile.Images.placeholder_wide.png" />
-
-                        
-
-
 
                     <!-- Everything else -->
                     <StackLayout
@@ -384,16 +379,18 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
+                                <!--<ColumnDefinition Width="Auto" />-->
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            
-                            <Frame
-                                BorderColor="White"
-                                BackgroundColor="Transparent"
-                                HorizontalOptions="Start"
-                                Margin="0"
-                                Padding="0"
-                                xct:TouchEffect.NativeAnimation="True"
-                                xct:TouchEffect.Command="{Binding ChangeSeasonCommand}">
+
+                            <Frame Grid.Column="0"
+                                   BorderColor="White"
+                                   BackgroundColor="Transparent"
+                                   HorizontalOptions="Start"
+                                   Margin="0"
+                                   Padding="0"
+                                   xct:TouchEffect.NativeAnimation="True"
+                                   xct:TouchEffect.Command="{Binding ChangeSeasonCommand}">
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -402,9 +399,8 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Label
-                                        Grid.Column="0"
-                                        Margin="8,4,4,4">
+                                    <Label Grid.Column="0"
+                                           Margin="8,4,4,4">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Season " />
@@ -412,23 +408,36 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                        
 
-                                    <Image
-                                        Grid.Column="1"
-                                        IsVisible="{Binding MultipleSeasons}"
-                                        HeightRequest="16"
-                                        WidthRequest="16"
-                                        HorizontalOptions="Center"
-                                        VerticalOptions="Center">
+
+                                    <Image Grid.Column="1"
+                                           IsVisible="{Binding MultipleSeasons}"
+                                           HeightRequest="16"
+                                           WidthRequest="16"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
                                         <Image.Source>
-                                            <FontImageSource FontFamily="FontAwesomeSolid" Glyph="{x:Static helpers:FontAwesome.ChevronDown}" Color="White" />
+                                            <FontImageSource FontFamily="FontAwesomeSolid"
+                                                             Glyph="{x:Static helpers:FontAwesome.ChevronDown}"
+                                                             Color="White" />
                                         </Image.Source>
                                     </Image>
 
                                 </Grid>
                             </Frame>
+
+                            <!--<Label Grid.Column="2"
+                                   Text="Show synopsis"
+                                   VerticalOptions="FillAndExpand"
+                                   VerticalTextAlignment="Center"
+                                   FontSize="10" />-->
+
+                            <Switch Grid.Column="3"
+                                    IsToggled="{Binding ShowSynopsis}" />
+
+
                         </Grid>
+
 
                         <!-- Episodes -->
                         <StackLayout
@@ -694,108 +703,7 @@
 
             </ScrollView>
 
-            <BoxView x:Name="Dimmer"
-                     Grid.RowSpan="2"
-                     BackgroundColor="Black"
-                     Opacity="0"
-                     InputTransparent="True" />
-
-
-            <Frame x:Name="BottomDrawer"
-                   Grid.RowSpan="2"
-                   VerticalOptions="End"
-                   CornerRadius="0"
-                   Padding="0"
-                   TranslationY="200"
-                   xct:CornerRadiusEffect.CornerRadius="10,10,0,0"
-                   BackgroundColor="{Static helpers:Theme.DarkGrey}">
-
-                <StackLayout>
-                    
-                    <Grid HorizontalOptions="FillAndExpand"
-                          RowSpacing="0">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="56" />
-                            <RowDefinition Height="56" />
-                            <RowDefinition Height="9" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-
-                        <Grid Grid.Row="0"
-                              HeightRequest="48"
-                              HorizontalOptions="FillAndExpand"
-                              xct:TouchEffect.NativeAnimation="True"
-                              xct:TouchEffect.Command="{Binding MarkSeriesWatchedCommand}">
-
-                            <Label Padding="48,0,0,0"
-                                   HorizontalOptions="FillAndExpand"
-                                   VerticalOptions="FillAndExpand"
-                                   VerticalTextAlignment="Center"
-                                   Text="Mark Series Watched" />
-
-                            <Image Margin="12,0,0,0"
-                                   HorizontalOptions="Start"
-                                   VerticalOptions="CenterAndExpand"
-                                   HeightRequest="24"
-                                   WidthRequest="24"
-                                   InputTransparent="True">
-                                <Image.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid"
-                                                     Glyph="{Static helpers:FontAwesome.Eye}"
-                                                     Color="White" />
-                                </Image.Source>
-                            </Image>
-
-                        </Grid>
-
-                        <Grid Grid.Row="1"
-                              HeightRequest="48"
-                              HorizontalOptions="FillAndExpand"
-                              xct:TouchEffect.NativeAnimation="True"
-                              xct:TouchEffect.Command="{Binding StopWatchingCommand}">
-
-                            <Label Padding="48,0,0,0"
-                                   HorizontalOptions="FillAndExpand"
-                                   VerticalOptions="FillAndExpand"
-                                   VerticalTextAlignment="Center"
-                                   Text="Stop Watching" />
-
-                            <Image Margin="12,0,0,0"
-                                   HorizontalOptions="Start"
-                                   VerticalOptions="CenterAndExpand"
-                                   HeightRequest="24"
-                                   WidthRequest="24"
-                                   InputTransparent="True">
-                                <Image.Source>
-                                    <FontImageSource FontFamily="FontAwesomeSolid"
-                                                     Glyph="{Static helpers:FontAwesome.CircleMinus}"
-                                                     Color="White" />
-                                </Image.Source>
-                            </Image>
-
-                        </Grid>
-
-                        <BoxView Grid.Row="2"
-                                 BackgroundColor="LightGray"
-                                 VerticalOptions="End"
-                                 HorizontalOptions="FillAndExpand"
-                                 HeightRequest="1" />
-
-                        <Label Grid.Row="3"
-                               HorizontalOptions="FillAndExpand"
-                               VerticalOptions="FillAndExpand"
-                               HorizontalTextAlignment="Center"
-                               VerticalTextAlignment="Center"
-                               Text="Cancel"
-                               xct:TouchEffect.NativeAnimation="True"
-                               xct:TouchEffect.Command="{Binding CancelMarkWatchedCommand}" />
-
-                    </Grid>
-                
-                </StackLayout>
-            </Frame>
-                
+           
 
             <!-- Gradient Bar -->
             <reusable:TopButtonBarGradient

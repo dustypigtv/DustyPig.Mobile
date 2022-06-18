@@ -18,7 +18,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
 
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
 
-            BindingContext = VM = new SeriesDetailsViewModel(basicMedia, Navigation, Dimmer, BottomDrawer);
+            BindingContext = VM = new SeriesDetailsViewModel(basicMedia, Navigation);
         }
 
         public SeriesDetailsViewModel VM { get; }

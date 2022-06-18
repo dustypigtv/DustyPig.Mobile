@@ -14,28 +14,20 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
     public class SeriesDetailsViewModel : _DetailsBaseViewModel
     {
         private int _upNextId;
-        private readonly BoxView _dimmer;
-        private readonly Frame _bottomDrawer;
-
-        public SeriesDetailsViewModel(BasicMedia basicMedia, INavigation navigation, BoxView dimmer, Frame bottomDrawer) : base(basicMedia, navigation)
+        
+        public SeriesDetailsViewModel(BasicMedia basicMedia, INavigation navigation) : base(basicMedia, navigation)
         {
-            _dimmer = dimmer;
-            _bottomDrawer = bottomDrawer;
-
             IsBusy = true;
 
             Id = basicMedia.Id;
 
             PlayCommand = new AsyncCommand(() => OnPlayEpisode(_upNextId), allowsMultipleExecutions: false);
             PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
-            MarkWatchedCommand = new Command(OnMarkWatched);
+            MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
             ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
             ShowSynopsisCommand = new AsyncCommand<string>(OnShowSynopsis, allowsMultipleExecutions: false);
-            MarkSeriesWatchedCommand = new AsyncCommand(OnMarkSeriesWatched, allowsMultipleExecutions: false);
-            StopWatchingCommand = new AsyncCommand(OnStopWatching, allowsMultipleExecutions: false);
-            CancelMarkWatchedCommand = new Command(OnCancelMarkWatched);
-
-            ShowSynopsis = Services.Settings.ShowEpisodeSynopsis; ;
+           
+            ShowSynopsis = Services.Settings.ShowEpisodeSynopsis;
 
             LoadData();
         }
@@ -51,7 +43,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             {
                 if (SetProperty(ref _showSynopsis, value))
                 {
-                    Services.Settings.ShowPlaylistItemSynopsis = value;
+                    Services.Settings.ShowEpisodeSynopsis = value;
                     EpisodePosterRowSpan = value ? 2 : 3;
                     double bottom = value ? 24 : 0;
                     EpisodeItemMargin = new Thickness(0, 0, 0, bottom);
@@ -93,51 +85,33 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             set => SetProperty(ref _showWatchButton, value);
         }
 
-        public Command MarkWatchedCommand { get; }
-        private void OnMarkWatched()
+        public AsyncCommand MarkWatchedCommand { get; }
+        private async Task OnMarkWatched()
         {
-            _dimmer.InputTransparent = false;
-            _dimmer.FadeTo(0.5); 
-            _bottomDrawer.TranslateTo(0, 0);
-        }
+            var ret = await Navigation.ShowPopupAsync(new MarkWatchedPopup());
+            if (ret == MarkWatchedPopupResponse.NoAction)
+                return;
 
-
-        public AsyncCommand MarkSeriesWatchedCommand { get; }
-        private async Task OnMarkSeriesWatched()
-        {
             IsBusy2 = true;
-            OnCancelMarkWatched();
-            await Task.Delay(250);
-            var response = await App.API.Series.MarkSeriesWatchedAsync(Id);
-            await AfterMarkingWatched(response, false);
-            IsBusy2 = false;
-        }
 
-        public AsyncCommand StopWatchingCommand { get; }
-        private async Task OnStopWatching()
-        {
-            IsBusy2 = true;
-            OnCancelMarkWatched();
-            await Task.Delay(250);
-            var response = await App.API.Series.RemoveFromContinueWatchingAsync(Id);
-            await AfterMarkingWatched(response, true);
-            IsBusy2 = false;
-        }
+            switch (ret)
+            {
+                case MarkWatchedPopupResponse.MarkSeriesWatched:
+                    await AfterMarkingWatched(await App.API.Series.MarkSeriesWatchedAsync(Id), false);
+                    break;
 
-        public Command CancelMarkWatchedCommand { get; }
-        private void OnCancelMarkWatched()
-        {
-            _dimmer.InputTransparent = true;
-            _dimmer.FadeTo(0);
-            _bottomDrawer.TranslateTo(0, 200);
+                case MarkWatchedPopupResponse.StopWatching:
+                    await AfterMarkingWatched(await App.API.Series.RemoveFromContinueWatchingAsync(Id), true);
+                    break;
+            }
+
+            IsBusy2 = false;
         }
 
         private async Task AfterMarkingWatched(REST.Response response, bool stoppedWatching)
         {
             if (response.Success)
             {
-                ShowWatchButton = false;
-
                 HomeViewModel.InvokeMarkWatched(Id);
 
                 var upnext = Detailed_Series.Episodes.FirstOrDefault(item => item.UpNext);
@@ -147,14 +121,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                     upnext.Played = null;
                 }
 
-                var ep = stoppedWatching
-                    ? Detailed_Series.Episodes.FirstOrDefault()
-                    : Detailed_Series.Episodes.LastOrDefault();
-
-                if (ep != null)
+                if (!stoppedWatching)
                 {
-                    ep.UpNext = true;
-                    ep.Played = ep.Length;
+                    var ep = Detailed_Series.Episodes.LastOrDefault();
+                    if (ep != null)
+                    {
+                        ep.UpNext = true;
+                        ep.Played = ep.Length;
+                    }
                 }
 
                 UpdateElements();
@@ -218,6 +192,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             set => SetProperty(ref _multipleSeasons, value);
         }
 
+
+        public ObservableRangeCollection<string> Seasons { get; } = new ObservableRangeCollection<string>();
+
         private ObservableRangeCollection<EpisodeInfoViewModel> _episodes = new ObservableRangeCollection<EpisodeInfoViewModel>();
         public ObservableRangeCollection<EpisodeInfoViewModel> Episodes
         {
@@ -234,6 +211,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             {
                 Detailed_Series = response.Data;
                 LibraryId = Detailed_Series.LibraryId;
+                Seasons.AddRange(response.Data.Episodes.Select(item => item.SeasonNumber).Distinct().Select(item => $"Season {item}"));
                 UpdateElements();
                 IsBusy = false;
             }

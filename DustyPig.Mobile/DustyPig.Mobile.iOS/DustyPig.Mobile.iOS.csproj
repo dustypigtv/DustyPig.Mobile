@@ -175,6 +175,9 @@
     <PackageReference Include="DevExpress.XamarinForms.CollectionView">
       <Version>21.2.8</Version>
     </PackageReference>
+    <PackageReference Include="DevExpress.XamarinForms.Editors">
+      <Version>21.2.8</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Facebook.LoginKit.iOS">
       <Version>9.0.1.5</Version>
     </PackageReference>
