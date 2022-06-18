@@ -19,6 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+            nuget sources Add -Name nuget.org -Source "https://api.nuget.org/v3/index.json"
             nuget sources Add -Name DevExpress -Source "https://nuget.devexpress.com/${{ secrets.DEV_EXPRESS_KEY }}/api"
             nuget restore DustyPig.Mobile.sln
 
