@@ -128,7 +128,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             string detailType = Basic_Media.MediaType.ToString().ToLower();
             var status = await DownloadService.GetStatusAsync(Id);
             int cnt = Settings.LastDownloadCount;
-
+           
             switch (status.Status)
             {
                 case JobStatus.Downloaded:
@@ -150,7 +150,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Series:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, status.ItemCount));
+                            cnt = await ShowDownloadPopupAndGetResult(status.ItemCount);
                             if (cnt == 0)
                             {
                                 DownloadService.Delete(Id);
@@ -169,7 +169,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Playlist:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
+                            cnt = await ShowDownloadPopupAndGetResult(status.ItemCount);
                             if (cnt == 0)
                             {
                                 DownloadService.Delete(Id);
@@ -207,7 +207,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Series:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, status.ItemCount));
+                            cnt = await ShowDownloadPopupAndGetResult(status.ItemCount);
                             if (cnt == 0)
                             {
                                 DownloadService.Delete(Id);
@@ -226,7 +226,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Playlist:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, status.ItemCount));
+                            cnt = await ShowDownloadPopupAndGetResult(status.ItemCount);
                             if (cnt == 0)
                             {
                                 DownloadService.Delete(Id);
@@ -254,7 +254,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Series:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Series, 0));
+                            cnt = await ShowDownloadPopupAndGetResult(status.ItemCount);
                             if (cnt == 0)
                                 DownloadService.Delete(Id);
                             else if (cnt > 0)
@@ -262,7 +262,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                             break;
 
                         case MediaTypes.Playlist:
-                            cnt = await Navigation.ShowPopupAsync(new DownloadPopup(MediaTypes.Playlist, cnt));
+                            cnt = await ShowDownloadPopupAndGetResult(status.ItemCount);
                             if (cnt == 0)
                                 DownloadService.Delete(Id);
                             else if (cnt > 0)
@@ -273,6 +273,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
 
             await SetDownloadStatusAsync();
+        }
+
+        private async Task<int> ShowDownloadPopupAndGetResult(int itemCount)
+        {
+            var popupPage = new DownloadPopup(Basic_Media.MediaType, itemCount);
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);
+            return await popupPage.GetResult();
         }
 
         public async Task SetDownloadStatusAsync()

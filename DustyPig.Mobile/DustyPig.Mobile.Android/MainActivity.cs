@@ -70,6 +70,8 @@ namespace DustyPig.Mobile.Droid
             base.OnCreate(savedInstanceState);
             Instance = this;
 
+            Rg.Plugins.Popup.Popup.Init(this);
+
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
@@ -81,6 +83,7 @@ namespace DustyPig.Mobile.Droid
 
             Xamarin.Forms.DependencyService.RegisterSingleton<IDownloadManager>(new CrossPlatform.DownloadManager.DownloadManagerImplementation());
 
+            
             SetTheme(Resource.Style.MainTheme);
 
             LoadApplication(new App());

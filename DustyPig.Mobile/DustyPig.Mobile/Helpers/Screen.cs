@@ -1,15 +1,19 @@
-﻿using Xamarin.Essentials;
+﻿using DustyPig.Mobile.CrossPlatform.Orientation;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Helpers
 {
     static class Screen
     {
-        public static double CurrentWidth => DeviceDisplay.MainDisplayInfo.XamarinWidth();
+        public static IScreen IScreen => DependencyService.Get<IScreen>();
 
-        public static double CurrentHeight => DeviceDisplay.MainDisplayInfo.XamarinHeight();
+        public static double Width => DeviceDisplay.MainDisplayInfo.CurrentWidth();
 
-        public static double XamarinWidth(this DisplayInfo di) => di.Width / di.Density;
+        public static double Height => DeviceDisplay.MainDisplayInfo.CurrentHeight();
 
-        public static double XamarinHeight(this DisplayInfo di) => di.Height / di.Density;
+        public static double CurrentWidth(this DisplayInfo di) => di.Width / di.Density;
+
+        public static double CurrentHeight(this DisplayInfo di) => di.Height / di.Density;
     }
 }

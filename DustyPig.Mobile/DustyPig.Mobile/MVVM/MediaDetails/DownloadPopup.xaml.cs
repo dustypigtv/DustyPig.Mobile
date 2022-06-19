@@ -1,5 +1,8 @@
 ﻿using DustyPig.API.v3.Models;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,31 +16,42 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
     ///     Otherwise return 1-10 number of items to download
     /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DownloadPopup : Popup<int>
+    public partial class DownloadPopup : Rg.Plugins.Popup.Pages.PopupPage
     {
-        readonly List<StackLayout> _labels = new List<StackLayout>();
-        int _selectedIndex = -1;
+        readonly List<View> _labels = new List<View>();
+        readonly TaskCompletionSource<int> _taskCompletionSource = new TaskCompletionSource<int>();
 
+        int _selectedIndex = -1;
+        
         public DownloadPopup(MediaTypes mediaType, int currentCount)
         {
             InitializeComponent();
 
+            CloseWhenBackgroundIsClicked = false;
+
+            double maxWidth = Device.Idiom == TargetIdiom.Phone ? Helpers.Screen.Width * 0.9 : Math.Min(Helpers.Screen.Width, Helpers.Screen.Height) * 0.75;
+            double maxHeight = Device.Idiom == TargetIdiom.Phone ? Helpers.Screen.Height * 0.9 : maxWidth;
+
+            double width = Math.Min( 340, maxWidth);
+            double height = Math.Min(552, maxHeight);
+
+            //Size = new Size(width, height);
 
             switch (mediaType)
             {
                 case MediaTypes.Series:
-                    Header = "Number of episodes to download:";
+                    Header = "Episodes to Download:";
                     break;
 
                 case MediaTypes.Playlist:
-                    Header = "Number of items to download:";
+                    Header = "Items to Download:";
                     break;
             }
 
             ShowDelete = currentCount > 0;
             LabelTouchedCommand = new Command<string>(OnLabelTouched);
-            CancelCommand = new Command(() => Dismiss(-1));
-            SaveCommand = new Command(OnSave);
+            CancelCommand = new AsyncCommand(OnCancel, allowsMultipleExecutions: false);
+            SaveCommand = new AsyncCommand(OnSave, allowsMultipleExecutions: false);
 
             _labels.Add(lbl0);
             _labels.Add(lbl1);
@@ -55,8 +69,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                 currentCount = Services.Settings.LastDownloadCount;
             OnLabelTouched(currentCount.ToString());
 
+            ShowDelete = true;
+
             BindingContext = this;
         }
+
+        public Task<int> GetResult() => _taskCompletionSource.Task;
 
         public string Header { get; set; }
 
@@ -74,16 +92,20 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                     _labels[i].BackgroundColor = Color.Transparent;
         }
 
-        public Command DeleteCommand { get; }
+        public AsyncCommand CancelCommand { get; }
+        private async Task OnCancel()
+        {
+            _taskCompletionSource.SetResult(-1);
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
+        }
 
-        public Command CancelCommand { get; }
-
-        public Command SaveCommand { get; }
-        private void OnSave()
+        public AsyncCommand SaveCommand { get; }
+        private async Task OnSave()
         {
             if (_selectedIndex > 0)
                 Services.Settings.LastDownloadCount = _selectedIndex;
-            Dismiss(_selectedIndex);
+            _taskCompletionSource.SetResult(_selectedIndex);
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
         }
     }
 }
