@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xctViews:Popup xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
-                xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
-                xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
-                x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedPopup"
-                x:TypeArguments="local:MarkWatchedPopupResponse"
-                x:DataType="local:MarkWatchedPopup"
-                IsLightDismissEnabled="False"
-                Size="250,193">
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+              xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+              xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
+              xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.MarkWatchedPopup"
+              x:DataType="local:MarkWatchedPopup">
 
 
     <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
-          HorizontalOptions="FillAndExpand"
+          HorizontalOptions="Center"
+          VerticalOptions="Center"
+          WidthRequest="250"
+          HeightRequest="193"
+          xct:CornerRadiusEffect.CornerRadius="8"
           RowSpacing="0">
 
 
@@ -108,4 +109,4 @@
 
     </Grid>
 
-</xctViews:Popup>
+</rg:PopupPage>

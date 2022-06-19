@@ -88,7 +88,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         public AsyncCommand MarkWatchedCommand { get; }
         private async Task OnMarkWatched()
         {
-            var ret = await Navigation.ShowPopupAsync(new MarkWatchedPopup());
+            var popupPage = new MarkWatchedPopup();
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);
+            var ret = await popupPage.GetResult();
+
             if (ret == MarkWatchedPopupResponse.NoAction)
                 return;
 
