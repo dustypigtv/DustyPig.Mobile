@@ -40,6 +40,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
+        public _DetailsBaseViewModel(INavigation navigation) : base(navigation) { }
 
 
         public BasicMedia Basic_Media { get; }
@@ -116,7 +117,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public AsyncCommand ManageParentalControlsCommand { get; }
         public Task ManageParentalControls()
         {
-            return Navigation.ShowPopupAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
+            return Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId), true);
         }
 
 

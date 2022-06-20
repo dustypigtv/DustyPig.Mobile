@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,24 @@ using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
 {
-    public class ParentalControlsForDetailsVeiwModel : ObservableObject
+    public class ParentalControlsForDetailsVeiwModel : _DetailsBaseViewModel
     {
         private readonly int _id;
         private readonly int _libraryId;
         private readonly INavigation _navigation;
 
-        public ParentalControlsForDetailsVeiwModel(int id, int libraryId, INavigation navigation)
+        public ParentalControlsForDetailsVeiwModel(int id, int libraryId, INavigation navigation) : base(navigation)
         {
             _id = id;
             _libraryId = libraryId;
             _navigation = navigation;
             IsBusy = true;
+            CancelCommand = new AsyncCommand(ClosePopup, allowsMultipleExecutions: false);
             SaveCommand = new AsyncCommand(OnSave, allowsMultipleExecutions: false);
-            LoadPermissions();
+            LoadData();
         }
+
+        public AsyncCommand CancelCommand { get; }
 
         public AsyncCommand SaveCommand { get; }
         private async Task OnSave()
@@ -57,65 +61,36 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
                 }
             }
 
-            var response = await App.API.Media.SetAccessOverrideAsync(data);
-            if (response.Success)
+            if (data.Overrides.Count > 0)
             {
-                await _navigation.PopModalAsync();
+                var response = await App.API.Media.SetAccessOverrideAsync(data);
+                if (response.Success)
+                {
+                    await ClosePopup();
+                }
+                else
+                {
+                    await Helpers.Alerts.ShowAlertAsync("Error", response.Error.Message);
+                    foreach (var grp in Profiles)
+                        foreach (var profile in grp.Where(item => item.HasLibraryAccess))
+                            profile.CanWatch = profile.OrigCanWatch;
+                }
             }
             else
             {
-                await Helpers.Alerts.ShowAlertAsync("Error", response.Error.Message);
-                foreach (var grp in Profiles)
-                    foreach (var profile in grp.Where(item => item.HasLibraryAccess))
-                        profile.CanWatch = profile.OrigCanWatch;
+                await ClosePopup();
             }
 
             IsBusy = false;
 
         }
 
+        private Task ClosePopup() => PopupNavigation.Instance.PopAsync(true);
+
         public ObservableRangeCollection<ParentalControlsGroupViewModel> Profiles { get; } = new ObservableRangeCollection<ParentalControlsGroupViewModel>();
 
-        private bool _isBusy;
-        public bool IsBusy
-        {
-            get => _isBusy;
-            set => SetProperty(ref _isBusy, value);
-        }
-
-        private double _width;
-        public double Width
-        {
-            get => _width;
-            set => SetProperty(ref _width, value);
-        }
-
-        public void OnSizeAllocated(double width, double height)
-        {
-            if (Device.Idiom == TargetIdiom.Phone)
-            {
-                Width = width;
-            }
-            else
-            {
-                double newWidth = width;
-                switch (DeviceDisplay.MainDisplayInfo.Orientation)
-                {
-                    case DisplayOrientation.Landscape:
-                        newWidth = width * 0.33;
-                        break;
-
-                    case DisplayOrientation.Portrait:
-                        newWidth = height * 0.33;
-                        break;
-                }
-                newWidth = Math.Max(newWidth, 400);
-
-                Width = (int)Math.Min(width, newWidth);
-            }
-        }
-
-        private async void LoadPermissions()
+        
+        private async void LoadData()
         {
             var permissionResponse = await App.API.Media.GetTitlePermissionsAsync(_id, default);
             if (permissionResponse.Success)

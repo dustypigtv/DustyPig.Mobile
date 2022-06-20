@@ -12,8 +12,8 @@
     <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
           HorizontalOptions="Center"
           VerticalOptions="Center"
-          WidthRequest="340"
-          HeightRequest="552"
+          WidthRequest="{Binding PanelWidth}"
+          HeightRequest="{Binding PanelHeight}"
           xct:CornerRadiusEffect.CornerRadius="8">
 
         <Grid.RowDefinitions>

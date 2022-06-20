@@ -29,14 +29,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
             CloseWhenBackgroundIsClicked = false;
 
-            double maxWidth = Device.Idiom == TargetIdiom.Phone ? Helpers.Screen.Width * 0.9 : Math.Min(Helpers.Screen.Width, Helpers.Screen.Height) * 0.75;
-            double maxHeight = Device.Idiom == TargetIdiom.Phone ? Helpers.Screen.Height * 0.9 : maxWidth;
-
-            double width = Math.Min( 340, maxWidth);
-            double height = Math.Min(552, maxHeight);
-
-            //Size = new Size(width, height);
-
             switch (mediaType)
             {
                 case MediaTypes.Series:
@@ -72,6 +64,43 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             ShowDelete = true;
 
             BindingContext = this;
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+
+            PanelWidth = Math.Min(340, width);
+            PanelHeight = Math.Min(552, height);
+        }
+
+
+        private double _panelWidth;
+        public double PanelWidth
+        {
+            get => _panelWidth;
+            set
+            {
+                if(_panelWidth != value)
+                {
+                    _panelWidth = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private double _panelHeight;
+        public double PanelHeight
+        {
+            get => _panelHeight;
+            set
+            {
+                if(_panelHeight != value)
+                {
+                    _panelHeight = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public Task<int> GetResult() => _taskCompletionSource.Task;

@@ -23,6 +23,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
 
             NewPlaylistCommand = new AsyncCommand(OnNewPlaylist, CanTapNewPlaylist, allowsMultipleExecutions: false);
             PlaylistTappedCommand = new AsyncCommand<int>(OnPlaylistTapped, allowsMultipleExecutions: false);
+            CancelCommand = new AsyncCommand(_navigation.PopModalAsync, allowsMultipleExecutions: false);
 
             LoadData();
         }
@@ -61,8 +62,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
             }
         }
 
-
-
+        public AsyncCommand CancelCommand { get; }
+        
         public AsyncCommand NewPlaylistCommand { get; }
         private async Task OnNewPlaylist()
         {

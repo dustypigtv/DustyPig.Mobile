@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.CrossPlatform;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -40,6 +41,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
                 }
             });
 
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DependencyService.Get<IKeyboardHelper>().HideKeyboard();
         }
 
         private async void Cancel_Clicked(object sender, EventArgs e)

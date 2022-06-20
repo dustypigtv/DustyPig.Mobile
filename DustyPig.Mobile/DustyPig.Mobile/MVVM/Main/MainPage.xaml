@@ -15,6 +15,7 @@
     android:TabbedPage.BarSelectedItemColor="White"
     x:Class="DustyPig.Mobile.MVVM.Main.MainPage"
     NavigationPage.HasNavigationBar="False"
+    BackgroundColor="Black"
     BarBackgroundColor="{Static helpers:Theme.DarkGrey}">
 
     <TabbedPage.Effects>

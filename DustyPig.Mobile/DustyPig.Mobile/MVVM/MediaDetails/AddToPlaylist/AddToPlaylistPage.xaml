@@ -168,18 +168,20 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
 
-                <Button Grid.Column="0"
-                        BackgroundColor="Transparent"
-                        Text="Cancel"
-                        FontSize="12"
-                        TextColor="White"
-                        HeightRequest="40"
-                        WidthRequest="80"
-                        xct:TouchEffect.NativeAnimation="True"
-                        Clicked="Cancel_Clicked" />
+                <Label Grid.Column="0"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Cancel"
+                       FontSize="12"
+                       TextColor="White"
+                       xct:TouchEffect.NativeAnimation="True"
+                       xct:TouchEffect.Command="{Binding CancelCommand}" />
 
                 <Label Grid.Column="1"
                        BackgroundColor="Transparent"
