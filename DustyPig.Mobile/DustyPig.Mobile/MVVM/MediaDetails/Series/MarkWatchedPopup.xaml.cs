@@ -25,25 +25,25 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         public AsyncCommand MarkWatchedCommnd { get; }
         private async Task OnMarkWatched()
         {
-            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.MarkSeriesWatched);
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
+            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.MarkSeriesWatched);
         }
 
         public AsyncCommand StopWatchingCommand { get; }
         private async Task OnStopWatching()
         {
-            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.StopWatching);
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
+            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.StopWatching);
         }
 
         public AsyncCommand CancelCommand { get; }
         private async Task OnCancel()
         {
-            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.NoAction);
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
+            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.NoAction);
         }
 
 
-        public Task<MarkWatchedPopupResponse> GetResult() => _taskCompletionSource.Task;
+        public Task<MarkWatchedPopupResponse> GetResultAsync() => _taskCompletionSource.Task;
     }
 }

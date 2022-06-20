@@ -93,10 +93,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
         public AsyncCommand CancelCommand { get; }
-        private async Task OnCancel()
+        private Task OnCancel()
         {
-            _taskCompletionSource.SetResult(-1);
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
+            _selectedIndex = -1;
+            return OnSave();
         }
 
         public AsyncCommand SaveCommand { get; }
@@ -104,8 +104,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             if (_selectedIndex > 0)
                 Services.Settings.LastDownloadCount = _selectedIndex;
-            _taskCompletionSource.SetResult(_selectedIndex);
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
+            _taskCompletionSource.SetResult(_selectedIndex);
         }
     }
 }

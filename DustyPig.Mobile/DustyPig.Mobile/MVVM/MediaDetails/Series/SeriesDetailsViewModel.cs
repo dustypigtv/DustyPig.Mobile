@@ -89,8 +89,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         private async Task OnMarkWatched()
         {
             var popupPage = new MarkWatchedPopup();
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);
-            var ret = await popupPage.GetResult();
+            
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);            
+            var ret = await popupPage.GetResultAsync();
 
             if (ret == MarkWatchedPopupResponse.NoAction)
                 return;
@@ -156,8 +157,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             if (!MultipleSeasons)
                 return;
 
-            var ret = await Navigation.ShowPopupAsync(new SeasonsPopup(Detailed_Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason));
-            if (ret < 0)
+            var popupPage = new SeasonsPopup(Detailed_Series.Episodes.Select(item => item.SeasonNumber).Distinct().ToList(), CurrentSeason);
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);
+            var ret = await popupPage.GetResultAsync();
+            if (ret < 0 || CurrentSeason == (ushort)ret)
                 return;
 
             CurrentSeason = (ushort)ret;

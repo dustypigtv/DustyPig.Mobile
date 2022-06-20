@@ -147,6 +147,9 @@
     <Compile Update="MVVM\Main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="MVVM\MediaDetails\AddToPlaylist\AddToPlaylistPage.xaml.cs">
+      <DependentUpon>AddToPlaylistPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml.cs">
       <DependentUpon>MovieDetailsPopup.xaml</DependentUpon>
     </Compile>

@@ -8,7 +8,7 @@
              xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              x:Class="DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist.AddToPlaylistPage"
-             x:DataType="local:AddToPlaylistViewModel"
+             x:DataType="local:AddToPlaylistViewModel"             
              ios:Page.UseSafeArea="true"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="Transparent">
@@ -274,7 +274,6 @@
                                IsRunning="{Binding IsBusy}" />
 
         </Grid>
-
 
 
     </ContentPage.Content>

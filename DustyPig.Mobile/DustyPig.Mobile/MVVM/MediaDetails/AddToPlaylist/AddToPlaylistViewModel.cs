@@ -34,6 +34,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
             set => SetProperty(ref _isBusy, value);
         }
 
+        private double _height;
+        public double Height
+        {
+            get => _height;
+            set => SetProperty(ref _height, value);
+        }
+
         private double _width;
         public double Width
         {
@@ -199,6 +206,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
 
                 Width = (int)Math.Min(width, newWidth);
             }
+
+            Height = height - 36;
         }
 
         private async void LoadData()

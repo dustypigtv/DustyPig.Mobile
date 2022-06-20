@@ -55,9 +55,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public int LibraryId { get; set; }
 
         public AsyncCommand<string> ShowInfoCommand { get; }
-        private async Task OnShowInfo(string desc)
+        private Task OnShowInfo(string desc)
         {
-            await ShowAlertAsync("Synopsis", desc);
+            return ShowAlertAsync("Synopsis", desc);
         }
 
 
@@ -107,17 +107,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
 
         public AsyncCommand PlaylistCommand { get; }
-        public async Task AddToPlaylist()
+        public Task AddToPlaylist()
         {
-            await Navigation.PushModalAsync(new AddToPlaylist.AddToPlaylistPage(Basic_Media));
+            return Navigation.PushModalAsync(new AddToPlaylist.AddToPlaylistPage(Basic_Media));
         }
 
 
         public AsyncCommand ManageParentalControlsCommand { get; }
-        public async Task ManageParentalControls()
+        public Task ManageParentalControls()
         {
-            //await Navigation.PushModalAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
-            await Navigation.ShowPopupAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
+            return Navigation.ShowPopupAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
         }
 
 

@@ -2,6 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
@@ -12,6 +14,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
         public AddToPlaylistPage(BasicMedia basicMedia)
         {
             InitializeComponent();
+
+            On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
 
             BindingContext = VM = new AddToPlaylistViewModel(basicMedia, Navigation);
         }

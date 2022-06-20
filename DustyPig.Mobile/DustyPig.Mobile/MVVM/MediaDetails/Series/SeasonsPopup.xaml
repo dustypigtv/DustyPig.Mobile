@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xctViews:Popup xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-                xmlns:xctViews="clr-namespace:Xamarin.CommunityToolkit.UI.Views;assembly=Xamarin.CommunityToolkit"
-                xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
-                xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
-                x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeasonsPopup"
-                x:TypeArguments="x:Int32"
-                x:DataType="local:SeasonsPopup"
-                IsLightDismissEnabled="False">
+<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+              xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+              xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+              xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
+              x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeasonsPopup"
+              x:DataType="local:SeasonsPopup">
 
     <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
-          HorizontalOptions="FillAndExpand">
+          HorizontalOptions="Center"
+          VerticalOptions="Center"
+          xct:CornerRadiusEffect.CornerRadius="8"
+          WidthRequest="{Binding PanelWidth}"
+          HeightRequest="{Binding PanelHeight}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -38,12 +40,12 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="local:SeasonInfo">
                     <Label Margin="12"
-                           Text="{Binding Text}"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center"
                            FontSize="14"
+                           Text="{Binding Text}"
                            xct:TouchEffect.NativeAnimation="True"
-                           xct:TouchEffect.Command="{Binding SeasonTapped}"
+                           xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SeasonsPopup}}, Path=SeasonTappedCommand}"
                            xct:TouchEffect.CommandParameter="{Binding Number}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -62,9 +64,9 @@
                VerticalTextAlignment="Center"
                Text="Cancel"
                xct:TouchEffect.NativeAnimation="True"
-               xct:TouchEffect.Command="{Binding CancelCommand} " />
+               xct:TouchEffect.Command="{Binding CancelCommand}" />
 
     </Grid>
     
     
-</xctViews:Popup>
+</rg:PopupPage>
