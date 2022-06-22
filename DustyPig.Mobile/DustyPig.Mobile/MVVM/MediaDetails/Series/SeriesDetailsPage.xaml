@@ -375,69 +375,50 @@
 
 
                         <!-- Season Button -->
-                        <Grid HorizontalOptions="FillAndExpand">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <Frame BorderColor="White"
+                               BackgroundColor="Transparent"
+                               HorizontalOptions="Start"
+                               Margin="0"
+                               Padding="0"
+                               xct:TouchEffect.NativeAnimation="True"
+                               xct:TouchEffect.Command="{Binding ChangeSeasonCommand}">
 
-                            <Frame Grid.Column="0"
-                                   BorderColor="White"
-                                   BackgroundColor="Transparent"
-                                   HorizontalOptions="Start"
-                                   Margin="0"
-                                   Padding="0"
-                                   xct:TouchEffect.NativeAnimation="True"
-                                   xct:TouchEffect.Command="{Binding ChangeSeasonCommand}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Label Grid.Column="0"
-                                           Margin="8,4,4,4"
-                                           VerticalOptions="Center">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Season " />
-                                                <Span Text="{Binding CurrentSeason}" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
+                                <Label Grid.Column="0"
+                                        Margin="8,4,4,4"
+                                        VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Season " />
+                                            <Span Text="{Binding CurrentSeason}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
 
 
-                                    <Image Grid.Column="1"
-                                           Margin="4,4,8,4"
-                                           IsVisible="{Binding MultipleSeasons}"
-                                           HeightRequest="16"
-                                           WidthRequest="16"
-                                           HorizontalOptions="Center"
-                                           VerticalOptions="Center">
-                                        <Image.Source>
-                                            <FontImageSource FontFamily="FontAwesomeSolid"
-                                                             Glyph="{x:Static helpers:FontAwesome.ChevronDown}"
-                                                             Color="White" />
-                                        </Image.Source>
-                                    </Image>
+                                <Image Grid.Column="1"
+                                        Margin="4,4,8,4"
+                                        IsVisible="{Binding MultipleSeasons}"
+                                        HeightRequest="16"
+                                        WidthRequest="16"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid"
+                                                            Glyph="{x:Static helpers:FontAwesome.ChevronDown}"
+                                                            Color="White" />
+                                    </Image.Source>
+                                </Image>
 
-                                </Grid>
-                            </Frame>
+                            </Grid>
+                        </Frame>
 
-                            <Label Grid.Column="1"
-                                   Text="Synopsis"
-                                   HorizontalOptions="End"
-                                   VerticalOptions="Center"
-                                   VerticalTextAlignment="Center" />
-
-                            <Switch Grid.Column="2"
-                                    VerticalOptions="Center"
-                                    IsToggled="{Binding ShowSynopsis}" />
-
-
-                        </Grid>
+                          
 
 
                         <!-- Episodes -->
@@ -448,10 +429,9 @@
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate
                                     x:DataType="local:EpisodeInfoViewModel">
-                                    <Frame 
-                                        BackgroundColor="Transparent" 
-                                        Padding="4"
-                                           Margin="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=EpisodeItemMargin}"
+                                    <Frame BackgroundColor="Transparent"
+                                           Padding="4"
+                                           Margin="0,0,0,24"
                                            BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
                                         <Grid RowSpacing="0"
@@ -461,7 +441,6 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
 
                                             <Grid.RowDefinitions>
@@ -535,33 +514,11 @@
                                                    FontSize="Small"
                                                    TextColor="{Static helpers:Theme.Grey}"
                                                    Text="{Binding Duration}" />
-
-
-                                            <!-- Synopsis button -->
-                                            <ImageButton Grid.Column="2"
-                                                         Grid.Row="0"
-                                                         Grid.RowSpan="2"
-                                                         HeightRequest="40"
-                                                         WidthRequest="40"
-                                                         CornerRadius="20"
-                                                         Padding="8"
-                                                         VerticalOptions="CenterAndExpand"
-                                                         HorizontalOptions="Center"
-                                                         xct:TouchEffect.NativeAnimation="True"
-                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=ShowSynopsis, Converter={StaticResource InvertedBoolConverter}}"
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=ShowSynopsisCommand}"
-                                                         CommandParameter="{Binding .}">
-                                                <ImageButton.Source>
-                                                    <FontImageSource FontFamily="FontAwesomeSolid"
-                                                                     Glyph="{x:Static helpers:FontAwesome.CircleInfo}"
-                                                                     Color="White" />
-                                                </ImageButton.Source>
-                                            </ImageButton>
-
+                                            
 
                                             <!-- Synopsis -->
                                             <Label Grid.Column="0"
-                                                   Grid.ColumnSpan="3"
+                                                   Grid.ColumnSpan="2"
                                                    Grid.Row="2"
                                                    IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=ShowSynopsis}"
                                                    LineBreakMode="WordWrap"

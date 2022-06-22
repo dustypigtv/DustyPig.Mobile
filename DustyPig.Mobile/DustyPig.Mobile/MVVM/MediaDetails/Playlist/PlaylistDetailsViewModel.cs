@@ -19,52 +19,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
             PlayCommand = new AsyncCommand(() => OnPlayItem(Detailed_Playlist.Items[Detailed_Playlist.CurrentIndex].Id), allowsMultipleExecutions: false);
             PlayItemCommand = new AsyncCommand<int>(OnPlayItem, allowsMultipleExecutions: false);
-            ShowSynopsisCommand = new AsyncCommand<PlaylistItemViewModel>(OnShowSynopsis, allowsMultipleExecutions: false);
             EditCommand = new AsyncCommand(OnEdit, allowsMultipleExecutions: false);
 
             RenameCommand = new AsyncCommand(OnRename, allowsMultipleExecutions: false);
             DeleteCommand = new AsyncCommand(OnDelete, allowsMultipleExecutions: false);
-
-            ShowSynopsis = Services.Settings.ShowPlaylistItemSynopsis;
 
             IsBusy = true;
             LoadData();
         }
 
 
-        /// <summary>
-        /// I know these 3 are anit-pattern, but nobody's perfect
-        /// </summary>
-        private bool _showSynopsis = false;
-        public bool ShowSynopsis
-        {
-            get => _showSynopsis;
-            set
-            {
-                if (SetProperty(ref _showSynopsis, value))
-                {
-                    Services.Settings.ShowPlaylistItemSynopsis = value;
-                    double bottom = value ? 24 : 0;
-                    PlaylistItemMargin = new Thickness(0, 0, 0, bottom);
-                }
-            }
-        }
-
-        private Thickness _playlistItemMargin = new Thickness(0, 0, 0, 0);
-        public Thickness PlaylistItemMargin
-        {
-            get => _playlistItemMargin;
-            set => SetProperty(ref _playlistItemMargin, value);
-        }
-
-
-
-
-        public AsyncCommand<PlaylistItemViewModel> ShowSynopsisCommand { get; }
-        public async Task OnShowSynopsis(PlaylistItemViewModel item)
-        {
-            await ShowAlertAsync(item.Title, item.Synopsis);
-        }
 
 
         public AsyncCommand PlayCommand { get; }
@@ -92,7 +56,18 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         public AsyncCommand EditCommand { get; }
         private async Task OnEdit()
         {
-            await ShowAlertAsync("On Edit", string.Empty);
+            var page = new PlaylistEditorPage(Detailed_Playlist);
+            await Navigation.PushModalAsync(page);
+            var ret = await page.GetResultAsync();
+            if (ret == EditPlaylistResult.Updated)
+            {
+                LoadData();
+            }
+            else if (ret == EditPlaylistResult.Deleted)
+            {
+                HomeViewModel.InvokeRemovedFromPlaylists(Basic_Media);
+                await Navigation.PopModalAsync();
+            }
         }
 
         public AsyncCommand DeleteCommand { get; }
@@ -108,7 +83,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             var response = await App.API.Playlists.DeleteAsync(Id);
             if (response.Success)
             {
-                HomeViewModel.InvokeRmovedFromPlaylists(Basic_Media);
+                HomeViewModel.InvokeRemovedFromPlaylists(Basic_Media);
                 await Navigation.PopModalAsync();
             }
             else
@@ -136,6 +111,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         private async void LoadData()
         {
             IsBusy = true;
+
+            Items.Clear();
 
             var response = await GetPlaylistDetailsAsync(Id);
             if (response.Success)

@@ -1,12 +1,124 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DustyPig.Mobile.MVVM.MediaDetails.Playlist.PlaylistEditorPage">
+             xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Playlist"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:dxcv="http://schemas.devexpress.com/xamarin/2014/forms/collectionview"
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+             ios:Page.UseSafeArea="true"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="Transparent"
+             x:Class="DustyPig.Mobile.MVVM.MediaDetails.Playlist.PlaylistEditorPage"
+             x:DataType="local:PlaylistEditorViewModel">
+    
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+
+        <Grid HorizontalOptions="Center"
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="{Static helpers:Theme.DarkGrey}"
+              WidthRequest="{Binding Width}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                  HorizontalOptions="FillAndExpand">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Cancel"
+                       FontSize="12"
+                       TextColor="White"
+                       xct:TouchEffect.NativeAnimation="True"
+                       xct:TouchEffect.Command="{Binding CancelCommand}" />
+
+                <Label Grid.Column="1"
+                       BackgroundColor="Transparent"
+                       Text="Add To Playlist"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold" />
+
+                <Label Grid.Column="2"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Save"
+                       FontSize="12"
+                       TextColor="White"
+                       xct:TouchEffect.NativeAnimation="True"
+                       xct:TouchEffect.Command="{Binding SaveCommand}" />
+
+            </Grid>
+
+            <dxcv:DXCollectionView Grid.Row="1"
+                                   AllowDragDropItems="True"
+                                   ItemsSource="{Binding Items}">
+
+                <dxcv:DXCollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:PlaylistItem">
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ImageButton Grid.Column="0"
+                                         Padding="8"
+                                         HeightRequest="40"
+                                         WidthRequest="40"
+                                         CornerRadius="20"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         xct:TouchEffect.NativeAnimation="True"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:PlaylistEditorViewModel}}, Path=DeleteCommand}"
+                                         CommandParameter="{Binding Id}">
+                                <ImageButton.Source>
+                                    <FontImageSource FontFamily="FontAwesomeSolid"
+                                                     Glyph="{x:Static helpers:FontAwesome.CircleMinus}"
+                                                     Color="White" />
+                                </ImageButton.Source>
+                            </ImageButton>
+
+                            <Label Grid.Column="1"
+                                   VerticalOptions="FillAndExpand"                                   
+                                   VerticalTextAlignment="Center"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="White"
+                                   Text="{Binding Title}" />
+                            
+                        </Grid>
+                    </DataTemplate>
+                </dxcv:DXCollectionView.ItemTemplate>
+                
+            </dxcv:DXCollectionView>
+
+        </Grid>
+        
+        
     </ContentPage.Content>
+    
 </ContentPage>

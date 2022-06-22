@@ -25,44 +25,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             PlayEpisodeCommand = new AsyncCommand<int>(OnPlayEpisode, allowsMultipleExecutions: false);
             MarkWatchedCommand = new AsyncCommand(OnMarkWatched, allowsMultipleExecutions: false);
             ChangeSeasonCommand = new AsyncCommand(OnChangeSeason, allowsMultipleExecutions: false);
-            ShowSynopsisCommand = new AsyncCommand<EpisodeInfoViewModel>(OnShowSynopsis, allowsMultipleExecutions: false);
-           
-            ShowSynopsis = Services.Settings.ShowEpisodeSynopsis;
 
             LoadData();
         }
-
-        /// <summary>
-        /// I know these 3 are anit-pattern, but nobody's perfect
-        /// </summary>
-        private bool _showSynopsis = false;
-        public bool ShowSynopsis
-        {
-            get => _showSynopsis;
-            set
-            {
-                if (SetProperty(ref _showSynopsis, value))
-                {
-                    Services.Settings.ShowEpisodeSynopsis = value;
-                    double bottom = value ? 24 : 0;
-                    EpisodeItemMargin = new Thickness(0, 0, 0, bottom);
-                }
-            }
-        }
-
-        private Thickness _episodeItemMargin = new Thickness(0, 0, 0, 0);
-        public Thickness EpisodeItemMargin
-        {
-            get => _episodeItemMargin;
-            set => SetProperty(ref _episodeItemMargin, value);
-        }
-
-        public AsyncCommand<EpisodeInfoViewModel> ShowSynopsisCommand { get; }
-        public async Task OnShowSynopsis(EpisodeInfoViewModel episode)
-        {
-            await ShowAlertAsync($"{episode.EpisodeNumber}: {episode.Title}", episode.Synopsis);
-        }
-
+                
         private bool _canManage;
         public bool CanManage
         {

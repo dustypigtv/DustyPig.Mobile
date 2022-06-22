@@ -172,7 +172,7 @@
                         LineBreakMode="WordWrap" />
 
 
-                    <!-- Synopsis switch -->
+                    <!-- Edit / Delete -->
                     <Grid HorizontalOptions="FillAndExpand"
                           Margin="0,12,0,0">
                         
@@ -180,7 +180,6 @@
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -241,16 +240,6 @@
                                    InputTransparent="True" />
                         </Frame>
 
-                        <Label Grid.Column="2"
-                               Text="Synopsis"
-                               HorizontalOptions="End"
-                               VerticalOptions="Center"
-                               VerticalTextAlignment="Center" />
-
-                        <Switch Grid.Column="3"
-                                VerticalOptions="Center"
-                                IsToggled="{Binding ShowSynopsis}" />
-
                     </Grid>
                     
                     
@@ -263,7 +252,7 @@
                             <DataTemplate x:DataType="local:PlaylistItemViewModel">
                                 <Frame BackgroundColor="Transparent"
                                        Padding="4"
-                                       Margin="{Binding Source={RelativeSource AncestorType={x:Type local:PlaylistDetailsViewModel}}, Path=PlaylistItemMargin}"
+                                       Margin="0,0,0,24"
                                        BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
                                     <Grid RowSpacing="0"
@@ -273,7 +262,6 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="100" />
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
@@ -340,34 +328,10 @@
                                                TextColor="{Static helpers:Theme.Grey}"
                                                Text="{Binding Duration}" />
 
-
-                                        <!-- Synopsis button -->
-                                        <ImageButton Grid.Column="2"
-                                                     Grid.Row="0"
-                                                     Grid.RowSpan="2"
-                                                     HeightRequest="40"
-                                                     WidthRequest="40"
-                                                     CornerRadius="20"
-                                                     Padding="8"
-                                                     VerticalOptions="CenterAndExpand"
-                                                     HorizontalOptions="Center"
-                                                     xct:TouchEffect.NativeAnimation="True"
-                                                     IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:PlaylistDetailsViewModel}}, Path=ShowSynopsis, Converter={StaticResource InvertedBoolConverter}}"
-                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:PlaylistDetailsViewModel}}, Path=ShowSynopsisCommand}"
-                                                     CommandParameter="{Binding .}">
-                                            <ImageButton.Source>
-                                                <FontImageSource FontFamily="FontAwesomeSolid"
-                                                                 Glyph="{x:Static helpers:FontAwesome.CircleInfo}"
-                                                                 Color="White" />
-                                            </ImageButton.Source>
-                                        </ImageButton>
-
-
                                         <!-- Synopsis -->
                                         <Label Grid.Column="0"
-                                               Grid.ColumnSpan="3"
+                                               Grid.ColumnSpan="2"
                                                Grid.Row="2"
-                                               IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:PlaylistDetailsViewModel}}, Path=ShowSynopsis}"
                                                LineBreakMode="WordWrap"
                                                Text="{Binding Synopsis}" />
 

@@ -108,7 +108,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             catch { }
         }
 
-        public static void InvokeRmovedFromPlaylists(BasicMedia basicMedia) => RemovedFromPlaylists?.Invoke(null, basicMedia);
+        public static void InvokeRemovedFromPlaylists(BasicMedia basicMedia) => RemovedFromPlaylists?.Invoke(null, basicMedia);
 
 
         private void HomeViewModel_PlaylistArtworkUpdated(object sender, BasicMedia e)
