@@ -61,8 +61,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                 currentCount = Services.Settings.LastDownloadCount;
             OnLabelTouched(currentCount.ToString());
 
-            ShowDelete = true;
-
             BindingContext = this;
         }
 
