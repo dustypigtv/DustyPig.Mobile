@@ -53,7 +53,7 @@
 
                 <Label Grid.Column="1"
                        BackgroundColor="Transparent"
-                       Text="Add To Playlist"
+                       Text="Edit Playlist"
                        HorizontalTextAlignment="Center"
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
@@ -79,7 +79,7 @@
 
                 <dxcv:DXCollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:PlaylistItem">
-                        <Grid>
+                        <Grid Margin="0,6,0,6">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40" />
