@@ -1,17 +1,19 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RenamePlaylistPopup : Popup
+    public partial class RenamePlaylistPopup : PopupPage
     {
         readonly BasicMedia _basicMedia;
+        readonly TaskCompletionSource<bool> _taskCompletionSource = new TaskCompletionSource<bool>();
 
         public RenamePlaylistPopup(BasicMedia basicMedia)
         {
@@ -19,20 +21,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
             _basicMedia = basicMedia;
 
-            CancelCommand = new Command(() => Dismiss(null));
+            CancelCommand = new AsyncCommand(OnCancel, allowsMultipleExecutions: false);
             SaveCommand = new AsyncCommand(OnSave, canExecute: CanSave, allowsMultipleExecutions: false);
             PlaylistTitle = _basicMedia.Title;
 
             BindingContext = this;
-
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                while (!TB.Focus())
-                {
-                    await Task.Delay(100);
-                }
-                TB.CursorPosition = PlaylistTitle.Length;
-            });
         }
 
         private bool CanSave() => !string.IsNullOrWhiteSpace(PlaylistTitle);
@@ -52,33 +45,53 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             }
         }
 
-        private bool _isBusy;
-        public bool IsBusy
+        private bool _isBusy2;
+        public bool IsBusy2
         {
-            get => _isBusy;
+            get => _isBusy2;
             set
             {
-                if (_isBusy != value)
+                if (_isBusy2 != value)
                 {
-                    _isBusy = value;
-                    OnPropertyChanged(nameof(IsBusy));
+                    _isBusy2 = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
-        public Command CancelCommand { get; }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                while (!TB.Focus())
+                {
+                    await Task.Delay(100);
+                }
+                TB.CursorPosition = PlaylistTitle.Length;
+            });
+        }
+
+
+        public AsyncCommand CancelCommand { get; }
+        private async Task OnCancel()
+        {
+            await PopupNavigation.Instance.PopAsync(true);
+            _taskCompletionSource.SetResult(false);
+        }
 
         public AsyncCommand SaveCommand { get; }
         private async Task OnSave()
         {
             if (PlaylistTitle == _basicMedia.Title)
             {
-                Dismiss(null);
+                await PopupNavigation.Instance.PopAsync(true);
+                _taskCompletionSource.SetResult(false); 
                 return;
             }
 
-            IsBusy = true;
+            IsBusy2 = true;
 
             var data = new UpdatePlaylist
             {
@@ -90,13 +103,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             if (response.Success)
             {
                 _basicMedia.Title = PlaylistTitle;
-                Dismiss(null);
+                await PopupNavigation.Instance.PopAsync(true);
+                _taskCompletionSource.SetResult(true);
             }
             else
             {
                 await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
-                IsBusy = false;
+                IsBusy2 = false;
             }
         }
+
+        public Task<bool> GetResultAsync() => _taskCompletionSource.Task;
     }
 }

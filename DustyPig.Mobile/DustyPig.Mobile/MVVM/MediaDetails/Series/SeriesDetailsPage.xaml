@@ -3,21 +3,21 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:series="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
+    xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.Series"
     xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
     xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable" 
     xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     ios:Page.UseSafeArea="true"
     x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeriesDetailsPage"             
-    x:DataType="series:SeriesDetailsViewModel"
+    x:DataType="local:SeriesDetailsViewModel"
     NavigationPage.HasNavigationBar="False"
     BackgroundColor="Transparent">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
-            <series:EpisodeBorderColorConverter x:Key="BoolColorConverter" />
+            <local:EpisodeBorderColorConverter x:Key="BoolColorConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -447,11 +447,11 @@
 
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate
-                                    x:DataType="series:EpisodeInfoViewModel">
+                                    x:DataType="local:EpisodeInfoViewModel">
                                     <Frame 
                                         BackgroundColor="Transparent" 
                                         Padding="4"
-                                           Margin="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodeItemMargin}"
+                                           Margin="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=EpisodeItemMargin}"
                                            BorderColor="{Binding UpNext, Converter={StaticResource BoolColorConverter}}">
 
                                         <Grid RowSpacing="0"
@@ -471,8 +471,6 @@
                                             </Grid.RowDefinitions>
 
 
-                                            <!-- Grid.RowSpan="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=EpisodePosterRowSpan}"
-                                                   -->
                                             <Grid  Grid.Column="0"
                                                    Grid.Row="0"
                                                    Grid.RowSpan="2"
@@ -504,8 +502,8 @@
                                                              HorizontalOptions="Center"
                                                              VerticalOptions="Center"
                                                              xct:TouchEffect.NativeAnimation="True"
-                                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=CanPlay}"
-                                                             Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
+                                                             IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=CanPlay}"
+                                                             Command="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=PlayEpisodeCommand}"
                                                              CommandParameter="{Binding Id}">
                                                     <ImageButton.Source>
                                                         <FontImageSource FontFamily="FontAwesomeRegular"
@@ -550,8 +548,8 @@
                                                          VerticalOptions="CenterAndExpand"
                                                          HorizontalOptions="Center"
                                                          xct:TouchEffect.NativeAnimation="True"
-                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsis, Converter={StaticResource InvertedBoolConverter}}"
-                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsisCommand}"
+                                                         IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=ShowSynopsis, Converter={StaticResource InvertedBoolConverter}}"
+                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=ShowSynopsisCommand}"
                                                          CommandParameter="{Binding .}">
                                                 <ImageButton.Source>
                                                     <FontImageSource FontFamily="FontAwesomeSolid"
@@ -565,7 +563,7 @@
                                             <Label Grid.Column="0"
                                                    Grid.ColumnSpan="3"
                                                    Grid.Row="2"
-                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type series:SeriesDetailsViewModel}}, Path=ShowSynopsis}"
+                                                   IsVisible="{Binding Source={RelativeSource AncestorType={x:Type local:SeriesDetailsViewModel}}, Path=ShowSynopsis}"
                                                    LineBreakMode="WordWrap"
                                                    Text="{Binding Synopsis}" />
                                             

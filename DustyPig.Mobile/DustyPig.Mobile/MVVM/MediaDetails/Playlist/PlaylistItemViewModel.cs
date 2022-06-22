@@ -13,7 +13,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string Synopsis { get; set; }
 
         public double Length { get; set; }
 
@@ -63,7 +63,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         {
             var ret = new PlaylistItemViewModel
             {
-                Description = StringUtils.Coalesce(item.Description, "No synopsis"),
+                Synopsis = StringUtils.Coalesce(item.Description, "No synopsis"),
                 Id = item.Id,
                 Length = item.Length,
                 Title = item.Title,

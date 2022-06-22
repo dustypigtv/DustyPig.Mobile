@@ -44,18 +44,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
                 if (SetProperty(ref _showSynopsis, value))
                 {
                     Services.Settings.ShowEpisodeSynopsis = value;
-                    EpisodePosterRowSpan = value ? 2 : 3;
                     double bottom = value ? 24 : 0;
                     EpisodeItemMargin = new Thickness(0, 0, 0, bottom);
                 }
             }
-        }
-
-        private int _episodePosterRowSpan = 3;
-        public int EpisodePosterRowSpan
-        {
-            get => _episodePosterRowSpan;
-            set => SetProperty(ref _episodePosterRowSpan, value);
         }
 
         private Thickness _episodeItemMargin = new Thickness(0, 0, 0, 0);
@@ -68,7 +60,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
         public AsyncCommand<EpisodeInfoViewModel> ShowSynopsisCommand { get; }
         public async Task OnShowSynopsis(EpisodeInfoViewModel episode)
         {
-            await ShowAlertAsync("Synopsis", $"{episode.EpisodeNumber}: {episode.Title}\n\n{episode.Synopsis}");
+            await ShowAlertAsync($"{episode.EpisodeNumber}: {episode.Title}", episode.Synopsis);
         }
 
         private bool _canManage;

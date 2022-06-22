@@ -19,7 +19,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
             PlayCommand = new AsyncCommand(() => OnPlayItem(Detailed_Playlist.Items[Detailed_Playlist.CurrentIndex].Id), allowsMultipleExecutions: false);
             PlayItemCommand = new AsyncCommand<int>(OnPlayItem, allowsMultipleExecutions: false);
-            ShowSynopsisCommand = new AsyncCommand<string>(OnShowSynopsis, allowsMultipleExecutions: false);
+            ShowSynopsisCommand = new AsyncCommand<PlaylistItemViewModel>(OnShowSynopsis, allowsMultipleExecutions: false);
+            EditCommand = new AsyncCommand(OnEdit, allowsMultipleExecutions: false);
 
             RenameCommand = new AsyncCommand(OnRename, allowsMultipleExecutions: false);
             DeleteCommand = new AsyncCommand(OnDelete, allowsMultipleExecutions: false);
@@ -43,18 +44,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 if (SetProperty(ref _showSynopsis, value))
                 {
                     Services.Settings.ShowPlaylistItemSynopsis = value;
-                    PlaylistPosterRowSpan = value ? 2 : 3;
                     double bottom = value ? 24 : 0;
                     PlaylistItemMargin = new Thickness(0, 0, 0, bottom);
                 }
             }
-        }
-
-        private int _playlistPosterRowSpan = 3;
-        public int PlaylistPosterRowSpan
-        {
-            get => _playlistPosterRowSpan;
-            set => SetProperty(ref _playlistPosterRowSpan, value);
         }
 
         private Thickness _playlistItemMargin = new Thickness(0, 0, 0, 0);
@@ -67,10 +60,10 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
 
 
-        public AsyncCommand<string> ShowSynopsisCommand { get; }
-        public async Task OnShowSynopsis(string synopsis)
+        public AsyncCommand<PlaylistItemViewModel> ShowSynopsisCommand { get; }
+        public async Task OnShowSynopsis(PlaylistItemViewModel item)
         {
-            await ShowAlertAsync("Synopsis", synopsis);
+            await ShowAlertAsync(item.Title, item.Synopsis);
         }
 
 
@@ -86,11 +79,21 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         public AsyncCommand RenameCommand { get; }
         private async Task OnRename()
         {
-            await Navigation.ShowPopupAsync(new RenamePlaylistPopup(Basic_Media));
-            Title = Basic_Media.Title;
-            Detailed_Playlist.Name = Title;
+            var popupPage = new RenamePlaylistPopup(Basic_Media);
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);
+            var ret = await popupPage.GetResultAsync();
+            if (ret)
+            {
+                Title = Basic_Media.Title;
+                Detailed_Playlist.Name = Title;
+            }
         }
 
+        public AsyncCommand EditCommand { get; }
+        private async Task OnEdit()
+        {
+            await ShowAlertAsync("On Edit", string.Empty);
+        }
 
         public AsyncCommand DeleteCommand { get; }
         private async Task OnDelete()
