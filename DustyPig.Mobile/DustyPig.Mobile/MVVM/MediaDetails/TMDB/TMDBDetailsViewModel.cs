@@ -1,5 +1,9 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.Helpers;
+using DustyPig.Mobile.MVVM.MediaDetails.Movie;
+using DustyPig.Mobile.MVVM.MediaDetails.Series;
+using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
@@ -13,6 +17,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             Id = basicTMDB.TMDB_ID;
             _basicTMDB = basicTMDB;
             IsBusy = true;
+            AvailableItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped, allowsMultipleExecutions: false);
             LoadData();
         }
 
@@ -36,6 +41,26 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             get => _showYear;
             set => SetProperty(ref _showYear, value);
         }
+
+        public AsyncCommand<BasicMedia> AvailableItemTappedCommand { get; }
+        private async Task OnItemTapped(BasicMedia item)
+        {
+            switch (item.MediaType)
+            {
+                case MediaTypes.Movie:
+                    await Navigation.PushModalAsync(new MovieDetailsPage(item, true));
+                    break;
+
+                case MediaTypes.Series:
+                    await Navigation.PushModalAsync(new SeriesDetailsPage(item, true));
+                    break;
+
+                default:
+                    await ShowAlertAsync("Tapped", item.Title);
+                    break;
+            }
+        }
+
 
         private async void LoadData()
         {

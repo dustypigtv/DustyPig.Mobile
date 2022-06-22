@@ -10,6 +10,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PlaylistDetailsPage : ContentPage
     {
+        private bool _firstAppeared = false;
+
         public PlaylistDetailsPage(BasicMedia basicMedia)
         {
             InitializeComponent();
@@ -32,6 +34,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            if (_firstAppeared)
+                return;
+
+            _firstAppeared = true;
 
 
             //Default modal animation is 250 secs

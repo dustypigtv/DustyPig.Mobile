@@ -10,8 +10,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MovieDetailsPage : ContentPage
     {
-        public MovieDetailsPage(BasicMedia basicMedia)
+        private bool _firstAppeared = false;
+
+        public MovieDetailsPage(BasicMedia basicMedia, bool firstAppeared = false)
         {
+            _firstAppeared = firstAppeared;
+
             InitializeComponent();
 
             SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
@@ -32,6 +36,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            if (_firstAppeared)
+                return;
+
+            _firstAppeared = true;
 
             //Default modal animation is 250 secs
             await Task.Delay(250);
