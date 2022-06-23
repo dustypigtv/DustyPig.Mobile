@@ -9,7 +9,7 @@
                 x:DataType="local:DownloadPopup">
 
 
-    <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
+    <Grid BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
           HorizontalOptions="Center"
           VerticalOptions="Center"
           WidthRequest="{Binding PanelWidth}"
@@ -23,7 +23,7 @@
 
         <Grid Grid.Row="0"
               HeightRequest="40"
-              BackgroundColor="{Static helpers:Theme.DarkDarkGrey}">
+              BackgroundColor="{Static helpers:Theme.HeaderBackground}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" />

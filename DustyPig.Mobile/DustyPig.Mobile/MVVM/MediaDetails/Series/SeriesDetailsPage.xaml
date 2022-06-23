@@ -27,7 +27,7 @@
             WidthRequest="{Binding Width}"
             HorizontalOptions="Center"
             VerticalOptions="FillAndExpand"
-              BackgroundColor="{Static helpers:Theme.DarkDarkGrey}">
+              BackgroundColor="{Static helpers:Theme.DialogPageBackground}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

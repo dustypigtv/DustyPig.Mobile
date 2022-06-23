@@ -18,7 +18,7 @@
 
     <rg:PopupPage.Content>
 
-        <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
+        <Grid BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
               HorizontalOptions="Center"
               VerticalOptions="Center"
               xct:CornerRadiusEffect.CornerRadius="8"
@@ -34,7 +34,7 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0"
-                   BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                   BackgroundColor="{Static helpers:Theme.HeaderBackground}"
                    Text="Rename Playlist"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"

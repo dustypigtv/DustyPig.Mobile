@@ -18,19 +18,18 @@
 
         <StackLayout Margin="12">
 
-            <SearchBar 
-                x:Name="TheSearchBar"            
-                IsSpellCheckEnabled="false"
-                TextTransform="Lowercase"
-                xct:CornerRadiusEffect.CornerRadius="8"
-                Margin="0"
-                Placeholder="Search for title"
-                PlaceholderColor="{Static helpers:Theme.Grey}"            
-                TextChanged="SearchBar_TextChanged"
-                SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
+            <SearchBar x:Name="TheSearchBar"
+                       IsSpellCheckEnabled="false"
+                       TextTransform="Lowercase"
+                       xct:CornerRadiusEffect.CornerRadius="8"
+                       Margin="0"
+                       Placeholder="Search for title"
+                       PlaceholderColor="{Static helpers:Theme.Placeholder}"
+                       TextChanged="SearchBar_TextChanged"
+                       SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
 
             <Grid 
-                BackgroundColor="{Static helpers:Theme.DarkGrey}"
+                BackgroundColor="{Static helpers:Theme.TabBarBackground}"
                 HeightRequest="48"
                 IsVisible="{Binding ShowTabs}">
                 <Grid.ColumnDefinitions>

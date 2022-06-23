@@ -8,9 +8,10 @@
               x:Class="DustyPig.Mobile.MVVM.MediaDetails.Series.SeasonsPopup"
               x:DataType="local:SeasonsPopup">
 
-    <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
+    <Grid BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
           HorizontalOptions="Center"
           VerticalOptions="Center"
+          RowSpacing="0"
           xct:CornerRadiusEffect.CornerRadius="8"
           WidthRequest="{Binding PanelWidth}"
           HeightRequest="{Binding PanelHeight}">
@@ -23,7 +24,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
-               BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+               BackgroundColor="{Static helpers:Theme.HeaderBackground}"
                Text="Select Season"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"

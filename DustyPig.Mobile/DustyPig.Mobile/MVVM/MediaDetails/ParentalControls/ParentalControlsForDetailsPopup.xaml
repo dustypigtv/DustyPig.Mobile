@@ -27,7 +27,7 @@
               VerticalOptions="FillAndExpand"
               Margin="0,24,0,0"
               xct:CornerRadiusEffect.CornerRadius="8,8,0,0"
-              BackgroundColor="{Static helpers:Theme.DarkGrey}"
+              BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
               WidthRequest="{Binding Width}">
 
             <Grid.RowDefinitions>
@@ -36,7 +36,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                  BackgroundColor="{Static helpers:Theme.HeaderBackground}"
                   HorizontalOptions="FillAndExpand">
 
                 <Grid.ColumnDefinitions>

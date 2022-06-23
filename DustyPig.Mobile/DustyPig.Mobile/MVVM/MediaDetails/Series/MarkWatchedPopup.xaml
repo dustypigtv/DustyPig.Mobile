@@ -9,7 +9,7 @@
               x:DataType="local:MarkWatchedPopup">
 
 
-    <Grid BackgroundColor="{Static helpers:Theme.DarkGrey}"
+    <Grid BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
           HorizontalOptions="Center"
           VerticalOptions="Center"
           WidthRequest="250"
@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
-               BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+               BackgroundColor="{Static helpers:Theme.HeaderBackground}"
                Text="Options"
                HorizontalTextAlignment="Center"
                VerticalTextAlignment="Center"

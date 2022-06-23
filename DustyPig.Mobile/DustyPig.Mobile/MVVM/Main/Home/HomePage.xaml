@@ -1,13 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
-             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
              xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Home"
-             xmlns:reusable="clr-namespace:DustyPig.Mobile.MVVM.Reusable"
-             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePage"
              x:DataType="viewmodels:HomeViewModel"
              ios:Page.UseSafeArea="true"

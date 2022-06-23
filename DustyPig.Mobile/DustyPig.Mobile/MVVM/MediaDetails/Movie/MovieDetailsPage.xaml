@@ -20,12 +20,11 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        
-        <Grid
-            WidthRequest="{Binding Width}"
-            HorizontalOptions="Center"
-            VerticalOptions="FillAndExpand"
-            BackgroundColor="{Static helpers:Theme.DarkDarkGrey}">
+
+        <Grid WidthRequest="{Binding Width}"
+              HorizontalOptions="Center"
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="{Static helpers:Theme.DialogPageBackground}">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

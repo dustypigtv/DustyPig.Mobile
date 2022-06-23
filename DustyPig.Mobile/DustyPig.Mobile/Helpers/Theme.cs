@@ -29,5 +29,16 @@ namespace DustyPig.Mobile.Helpers
         /// #808080
         /// </summary>
         public static Color Placeholder => Color.FromArgb(0x80, 0x80, 0x80);
+
+
+        public static Color TabBarBackground = DarkGrey;
+
+        public static Color TabBarForeground = LightGrey;
+
+        public static Color MainBackground = Color.Black;
+
+        public static Color DialogPageBackground = DarkDarkGrey;
+
+        public static Color HeaderBackground = DarkGrey;
     }
 }

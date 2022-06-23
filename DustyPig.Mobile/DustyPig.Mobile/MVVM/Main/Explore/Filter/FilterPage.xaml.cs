@@ -26,22 +26,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
         public FilterViewModel VM { get; }
 
         public Task<ExploreRequest> GetResultAsync() => _taskCompletionSource.Task;
-
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-
-
-            //Default modal animation is 250 secs
-            double alpha = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                await Task.Delay(50);
-                alpha += 0.1;
-                BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
-            }
-        }
-
+       
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);

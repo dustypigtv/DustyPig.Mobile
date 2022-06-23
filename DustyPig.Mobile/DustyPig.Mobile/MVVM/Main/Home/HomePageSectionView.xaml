@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView
-    xmlns="http://xamarin.com/schemas/2014/forms" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-    xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Home" 
-    xmlns:controls="clr-namespace:DustyPig.Mobile.Controls" 
-    xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-    xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-    xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
-    x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePageSectionView"
-    x:DataType="viewmodels:HomePageSectionViewModel">
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+             xmlns:controls="clr-namespace:DustyPig.Mobile.Controls"
+             xmlns:viewmodels="clr-namespace:DustyPig.Mobile.MVVM.Main.Home"
+             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="DustyPig.Mobile.MVVM.Main.Home.HomePageSectionView"
+             x:DataType="viewmodels:HomePageSectionViewModel">
 
     <ContentView.Resources>
         <DataTemplate

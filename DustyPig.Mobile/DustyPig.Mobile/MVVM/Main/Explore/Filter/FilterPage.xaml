@@ -18,7 +18,7 @@
         <Grid HorizontalOptions="Center"
               VerticalOptions="End"
               xct:CornerRadiusEffect.CornerRadius="8,8,0,0"
-              BackgroundColor="{Static helpers:Theme.DarkGrey}"
+              BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
               WidthRequest="{Binding Width}">
 
             <Grid.RowDefinitions>
@@ -28,7 +28,7 @@
 
             <!-- Header -->
             <Grid Grid.Row="0"
-                  BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                  BackgroundColor="{Static helpers:Theme.HeaderBackground}"
                   HorizontalOptions="FillAndExpand">
 
                 <Grid.ColumnDefinitions>
@@ -99,13 +99,13 @@
                                   HorizontalOptions="FillAndExpand"
                                   ItemsSource="{Binding SortOrders}"
                                   SelectedItem="{Binding SortOrder}"
-                                  BackgroundColor="{Static helpers:Theme.DarkGrey}"
+                                  BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
                                   TextColor="White"
                                   BorderColor="White"
                                   FocusedBorderColor="White"
-                                  DropDownBackgroundColor="{Static helpers:Theme.Grey}"
+                                  DropDownBackgroundColor="{Static helpers:Theme.HeaderBackground}"
                                   DropDownItemTextColor="White"
-                                  DropDownSelectedItemBackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                                  DropDownSelectedItemBackgroundColor="{Static helpers:Theme.DialogPageBackground}"
                                   DropDownSelectedItemTextColor="White"
                                   DropDownIconColor="White"
                                   TextFontSize="14"
@@ -128,13 +128,13 @@
                                   HorizontalOptions="FillAndExpand"
                                   ItemsSource="{Binding GenreItems}"
                                   SelectedItem="{Binding SelectedGenre}"
-                                  BackgroundColor="{Static helpers:Theme.DarkGrey}"
+                                  BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
                                   TextColor="White"
                                   BorderColor="White"
                                   FocusedBorderColor="White"
-                                  DropDownBackgroundColor="{Static helpers:Theme.Grey}"
+                                  DropDownBackgroundColor="{Static helpers:Theme.HeaderBackground}"
                                   DropDownItemTextColor="White"
-                                  DropDownSelectedItemBackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                                  DropDownSelectedItemBackgroundColor="{Static helpers:Theme.DialogPageBackground}"
                                   DropDownSelectedItemTextColor="White"
                                   DropDownIconColor="White"
                                   TextFontSize="14"

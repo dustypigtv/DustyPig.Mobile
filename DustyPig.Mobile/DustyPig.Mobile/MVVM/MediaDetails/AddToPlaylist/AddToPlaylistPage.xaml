@@ -149,7 +149,7 @@
 
         <Grid HorizontalOptions="Center"
               VerticalOptions="FillAndExpand"
-              BackgroundColor="{Static helpers:Theme.DarkGrey}"
+              BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
               WidthRequest="{Binding Width}">
 
             <Grid.RowDefinitions>
@@ -158,7 +158,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"
-                  BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                  BackgroundColor="{Static helpers:Theme.HeaderBackground}"
                   HorizontalOptions="FillAndExpand">
 
                 <Grid.ColumnDefinitions>
@@ -219,7 +219,7 @@
                            ClearButtonVisibility="WhileEditing"
                            IsSpellCheckEnabled="True"
                            IsTextPredictionEnabled="True"
-                           BackgroundColor="{Static helpers:Theme.DarkGrey}"
+                           BackgroundColor="Transparent"
                            Text="{Binding NewPlaylistText}" />
 
                     <ImageButton Grid.Column="1"
