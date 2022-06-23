@@ -101,7 +101,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
         }
 
-        public Task<int> GetResult() => _taskCompletionSource.Task;
+        public Task<int> GetResultAsync() => _taskCompletionSource.Task;
 
         public string Header { get; set; }
 
@@ -133,6 +133,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
                 Services.Settings.LastDownloadCount = _selectedIndex;
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAsync(true);
             _taskCompletionSource.SetResult(_selectedIndex);
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            _taskCompletionSource.SetResult(-1);
+            return false;
         }
     }
 }

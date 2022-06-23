@@ -73,6 +73,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             });
         }
 
+        protected override bool OnBackButtonPressed() => true;
 
         public AsyncCommand CancelCommand { get; }
         private async Task OnCancel()

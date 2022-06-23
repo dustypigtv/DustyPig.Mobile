@@ -104,5 +104,10 @@ namespace DustyPig.Mobile.Droid
             FacebookLoginClientImplementation.OnActivityResult(requestCode, resultCode, intent);
             GoogleLoginClientImplementation.OnAuthCompleted(requestCode, intent);
         }
+
+        public override void OnBackPressed()
+        {
+            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
+        }
     }
 }

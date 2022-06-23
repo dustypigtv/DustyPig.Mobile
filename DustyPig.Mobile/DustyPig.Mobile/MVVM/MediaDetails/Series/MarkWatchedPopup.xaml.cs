@@ -43,6 +43,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             _taskCompletionSource.SetResult(MarkWatchedPopupResponse.NoAction);
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            _taskCompletionSource.SetResult(MarkWatchedPopupResponse.NoAction);
+            return false;
+        }
+
 
         public Task<MarkWatchedPopupResponse> GetResultAsync() => _taskCompletionSource.Task;
     }

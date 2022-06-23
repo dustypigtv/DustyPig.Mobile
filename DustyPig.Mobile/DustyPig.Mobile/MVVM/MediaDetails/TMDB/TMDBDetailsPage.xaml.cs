@@ -10,6 +10,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TMDBDetailsPage : ContentPage
     {
+        private bool _firstAppeared = false;
+
         public TMDBDetailsPage(BasicTMDB basicTMDB)
         {
             InitializeComponent();
@@ -32,14 +34,22 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         {
             base.OnAppearing();
 
-            //Default modal animation is 250 secs
-            await Task.Delay(250);
-            double alpha = 0;
-            for (int i = 0; i < 5; i++)
+            if (_firstAppeared)
+                return;
+
+            _firstAppeared = true;
+            
+            if (Device.Idiom != TargetIdiom.Phone)
             {
-                await Task.Delay(50);
-                alpha += 0.1;
-                BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
+                //Default modal animation is 250 secs
+                await Task.Delay(250);
+                double alpha = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    await Task.Delay(50);
+                    alpha += 0.1;
+                    BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
+                }
             }
         }
     }

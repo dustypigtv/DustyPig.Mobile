@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.API.v3.MPAA;
 using DustyPig.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,58 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
     {
         private bool _listFullyLoaded = false;
 
+        private readonly ExploreRequest _currentRequest = new ExploreRequest();
+
         public ExploreViewModel(INavigation navigation) : base(navigation)
         {
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
+            FilterCommand = new AsyncCommand(OnFilter, allowsMultipleExecutions: false);
         }
+
+       
 
         public AsyncCommand RefreshCommand { get; }
 
         public AsyncCommand LoadMoreCommand { get; }
+
+        public AsyncCommand FilterCommand { get; }
+        private async Task OnFilter()
+        {
+            var page = new Filter.FilterPage(_currentRequest);
+            await Navigation.PushModalAsync(page);
+            var ret = await page.GetResultAsync();
+
+
+            bool changed = false;
+            if(ret.FilterOnGenres != _currentRequest.FilterOnGenres)
+            {
+                _currentRequest.FilterOnGenres = ret.FilterOnGenres;
+                _currentRequest.IncludeUnknownGenres = false;
+                changed = true;
+            }
+
+            if(ret.ReturnSeries != _currentRequest.ReturnSeries)
+            {
+                _currentRequest.ReturnSeries = ret.ReturnSeries;
+                changed = true;
+            }
+
+            if(ret.ReturnMovies != _currentRequest.ReturnMovies)
+            {
+                _currentRequest.ReturnMovies = ret.ReturnMovies;
+                changed = true;
+            }
+
+            if(ret.SortBy != _currentRequest.SortBy)
+            {
+                _currentRequest.SortBy = ret.SortBy;
+                changed = true;
+            }
+
+            if(changed)
+                IsBusy = true;
+        }
 
         private string _emptyMessage = "Loading";
         public string EmptyMessage
@@ -67,12 +111,9 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
 
         private async Task LoadItems(bool initial)
         {
-            int start = initial ? 0 : Items.Count;
-
-            REST.Response<List<BasicMedia>> response = await App.API.Media.LoadExploreResultsAsync(new ExploreRequest
-            {
-                Start = start
-            });
+            _currentRequest.Start = initial ? 0 : Items.Count;
+            
+            REST.Response<List<BasicMedia>> response = await App.API.Media.LoadExploreResultsAsync(_currentRequest);
 
             if (response.Success)
             {

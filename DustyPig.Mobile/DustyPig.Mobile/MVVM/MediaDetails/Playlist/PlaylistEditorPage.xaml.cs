@@ -27,5 +27,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             VM.OnSizeAllocated(width, height);
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            _taskCompletionSource.SetResult(EditPlaylistResult.NoChange);
+            return base.OnBackButtonPressed();
+        }
+
     }
 }

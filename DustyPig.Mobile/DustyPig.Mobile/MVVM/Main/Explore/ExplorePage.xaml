@@ -84,7 +84,8 @@
                 CornerRadius="20"
                 BackgroundColor="Transparent"
                 Aspect="AspectFit"
-                xct:TouchEffect.NativeAnimation="True">
+                xct:TouchEffect.NativeAnimation="True"
+                Command="{Binding FilterCommand}">
 
                 <ImageButton.Source>
 

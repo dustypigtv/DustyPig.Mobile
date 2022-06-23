@@ -99,6 +99,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             PanelHeight = Math.Min(Helpers.Screen.Height * 0.75, 100 + (_seasonsCnt * 42));
             PanelWidth = Math.Min(200, width);
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            _taskCompletionSource.SetResult(-1);
+            return false;
+        }
     }
 
 

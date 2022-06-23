@@ -38,7 +38,8 @@
 
   
   <ItemGroup>
-    <PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="21.2.8" />
+    <PackageReference Include="DevExpress.XamarinForms.CollectionView" Version="22.1.3" />
+    <PackageReference Include="DevExpress.XamarinForms.Editors" Version="22.1.3" />
     <PackageReference Include="DustyPig.API" Version="3.0.2.82" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
@@ -53,6 +54,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\Explore\ExplorePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MVVM\Main\Explore\Filter\FilterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\Main\Home\HomePageSectionView.xaml">
@@ -100,7 +104,7 @@
     <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPage.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Playlist\PlaylistDetailsPage.xaml">
@@ -152,6 +156,9 @@
     </Compile>
     <Compile Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml.cs">
       <DependentUpon>MovieDetailsPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPopup.xaml.cs">
+      <DependentUpon>ParentalControlsForDetailsPopup.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\MediaDetails\Series\SeasonsPopup.xaml.cs">
       <DependentUpon>SeasonsPopup.xaml</DependentUpon>

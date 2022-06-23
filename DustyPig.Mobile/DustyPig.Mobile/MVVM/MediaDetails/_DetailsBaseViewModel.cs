@@ -117,7 +117,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public AsyncCommand ManageParentalControlsCommand { get; }
         public Task ManageParentalControls()
         {
-            return Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId), true);
+            return Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ParentalControls.ParentalControlsForDetailsPopup(Basic_Media.Id, LibraryId), true);
         }
 
 
@@ -279,7 +279,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             var popupPage = new DownloadPopup(Basic_Media.MediaType, itemCount);
             await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(popupPage, true);
-            return await popupPage.GetResult();
+            return await popupPage.GetResultAsync();
         }
 
         public async Task SetDownloadStatusAsync()

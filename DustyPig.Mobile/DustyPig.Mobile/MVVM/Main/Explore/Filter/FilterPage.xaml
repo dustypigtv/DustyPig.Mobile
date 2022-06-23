@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.Main.Explore.Filter"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:dxe="clr-namespace:DevExpress.XamarinForms.Editors;assembly=DevExpress.XamarinForms.Editors"
+             ios:Page.UseSafeArea="true"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="Transparent"
+             x:Class="DustyPig.Mobile.MVVM.Main.Explore.Filter.FilterPage"
+             x:DataType="local:FilterViewModel">
+    
+    
+    <ContentPage.Content>
+
+        <Grid HorizontalOptions="Center"
+              VerticalOptions="End"
+              xct:CornerRadiusEffect.CornerRadius="8,8,0,0"
+              BackgroundColor="{Static helpers:Theme.DarkGrey}"
+              WidthRequest="{Binding Width}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Grid.Row="0"
+                  BackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                  HorizontalOptions="FillAndExpand">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Cancel"
+                       FontSize="12"
+                       TextColor="White"
+                       xct:TouchEffect.NativeAnimation="True"
+                       xct:TouchEffect.Command="{Binding CancelCommand}" />
+
+                <Label Grid.Column="1"
+                       BackgroundColor="Transparent"
+                       Text="Filter Options"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold" />
+
+                <Label Grid.Column="2"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Save"
+                       FontSize="12"
+                       TextColor="White"
+                       xct:TouchEffect.NativeAnimation="True"
+                       xct:TouchEffect.Command="{Binding SaveCommand}" />
+
+            </Grid>
+
+            <!-- Options -->
+            <Grid Grid.Row="1"
+                  Margin="12"
+                  RowSpacing="24"
+                  VerticalOptions="Start">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <Label Grid.Column="0"
+                       Grid.Row="0"
+                       VerticalOptions="CenterAndExpand"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"
+                       Text="Sort By" />
+
+                <dxe:ComboBoxEdit Grid.Column="1"
+                                  Grid.Row="0"
+                                  HorizontalOptions="FillAndExpand"
+                                  ItemsSource="{Binding SortOrders}"
+                                  SelectedItem="{Binding SortOrder}"
+                                  BackgroundColor="{Static helpers:Theme.DarkGrey}"
+                                  TextColor="White"
+                                  BorderColor="White"
+                                  FocusedBorderColor="White"
+                                  DropDownBackgroundColor="{Static helpers:Theme.Grey}"
+                                  DropDownItemTextColor="White"
+                                  DropDownSelectedItemBackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                                  DropDownSelectedItemTextColor="White"
+                                  DropDownIconColor="White"
+                                  TextFontSize="14"
+                                  DropDownItemFontSize="14"
+                                  BoxPadding="8,4,4,4" />
+
+
+
+
+                <Label Grid.Column="0"
+                       Grid.Row="1"
+                       VerticalOptions="CenterAndExpand"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"
+                       Text="Genres" />
+
+
+                <dxe:ComboBoxEdit Grid.Column="1"
+                                  Grid.Row="1"
+                                  HorizontalOptions="FillAndExpand"
+                                  ItemsSource="{Binding GenreItems}"
+                                  SelectedItem="{Binding SelectedGenre}"
+                                  BackgroundColor="{Static helpers:Theme.DarkGrey}"
+                                  TextColor="White"
+                                  BorderColor="White"
+                                  FocusedBorderColor="White"
+                                  DropDownBackgroundColor="{Static helpers:Theme.Grey}"
+                                  DropDownItemTextColor="White"
+                                  DropDownSelectedItemBackgroundColor="{Static helpers:Theme.DarkDarkGrey}"
+                                  DropDownSelectedItemTextColor="White"
+                                  DropDownIconColor="White"
+                                  TextFontSize="14"
+                                  DropDownItemFontSize="14"
+                                  BoxPadding="8,4,4,4" />
+
+
+
+
+                <Label Grid.Column="0"
+                       Grid.Row="2"
+                       VerticalOptions="CenterAndExpand"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"
+                       Text="Include Movies" />
+
+                <Switch Grid.Column="1"
+                        Grid.Row="2"
+                        HorizontalOptions="End"
+                        IsToggled="{Binding ReturnMovies}" />
+
+                <Label Grid.Column="0"
+                       Grid.Row="3"
+                       VerticalOptions="CenterAndExpand"
+                       VerticalTextAlignment="Center"
+                       FontSize="14"
+                       Text="Include Series" />
+
+                <Switch Grid.Column="1"
+                        Grid.Row="3"
+                        HorizontalOptions="End"
+                        IsToggled="{Binding ReturnSeries}" />
+
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>
