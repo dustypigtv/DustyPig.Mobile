@@ -173,6 +173,7 @@
             <ActivityIndicator Grid.Row="1"
                                HorizontalOptions="FillAndExpand"
                                VerticalOptions="FillAndExpand"
+                               InputTransparent="True"
                                IsRunning="{Binding IsBusy}" />
 
         </Grid>
