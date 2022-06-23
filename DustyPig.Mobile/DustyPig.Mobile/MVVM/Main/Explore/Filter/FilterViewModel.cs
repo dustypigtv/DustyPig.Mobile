@@ -2,7 +2,7 @@
 using DustyPig.API.v3.MPAA;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Essentials;
@@ -18,17 +18,16 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
         readonly TaskCompletionSource<ExploreRequest> _taskCompletionSource;
         readonly INavigation _navigation;
 
+        readonly List<KeyValuePair<string, SortOrder>> _sortMap = new List<KeyValuePair<string, SortOrder>>();
+
         public FilterViewModel(ExploreRequest currentRequest, TaskCompletionSource<ExploreRequest> taskCompletionSource, INavigation navigation)
         {
             _currentRequest = currentRequest;
             _taskCompletionSource = taskCompletionSource;   
             _navigation = navigation;
 
-            foreach (Genres genre in Enum.GetValues(typeof(Genres)))
-                if(genre != Genres.Unknown)
-                    GenreItems.Add(genre.AsString());
-            GenreItems.Sort();
-            GenreItems.Insert(0, ALL_GENRES);
+            IsBusy = true;
+            LoadGenres();
 
             if (_currentRequest.FilterOnGenres == null)
                 SelectedGenre = ALL_GENRES;
@@ -36,16 +35,51 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
                 SelectedGenre = _currentRequest.FilterOnGenres.Value.AsString();
 
 
-            foreach (string so in Enum.GetNames(typeof(SortOrder)))
-                SortOrders.Add(so.Replace('_', ' '));
+            _sortMap.Add(new KeyValuePair<string, SortOrder>("Added", SortOrder.Added_Descending));
+            _sortMap.Add(new KeyValuePair<string, SortOrder>("Alphabetical", SortOrder.Alphabetical));
+            _sortMap.Add(new KeyValuePair<string, SortOrder>("Popularity", SortOrder.Popularity_Descending));
+            _sortMap.Add(new KeyValuePair<string, SortOrder>("Released", SortOrder.Released_Descending));
+
+            foreach (var kvp in _sortMap)
+                SortOrders.Add(kvp.Key);
             SortOrders.Sort();
-            SortOrder = _currentRequest.SortBy.ToString().Replace('_', ' ');
+            SelectedSortOrder = _sortMap.First(item => item.Value ==  _currentRequest.SortBy).Key;
 
             ReturnMovies = _currentRequest.ReturnMovies;
             ReturnSeries = _currentRequest.ReturnSeries;
 
             CancelCommand = new AsyncCommand(OnCancel, allowsMultipleExecutions: false);
             SaveCommand = new AsyncCommand(OnSave, allowsMultipleExecutions: false);
+        }
+
+        private async void LoadGenres()
+        {
+            IsBusy = true;
+
+            var lst = new List<string>();
+            
+            var response = await App.API.Media.GetAllAvailableGenresAsync();
+            if (response.Success)
+            {
+                foreach (Genres genre in Enum.GetValues(typeof(Genres)))
+                    if (genre != Genres.Unknown)
+                        if (response.Data.HasFlag(genre))
+                            lst.Add(genre.AsString());
+            }
+            else
+            {
+                //Ignore the error and just add all the genres
+                foreach (Genres genre in Enum.GetValues(typeof(Genres)))
+                    if (genre != Genres.Unknown)
+                        lst.Add(genre.AsString());
+            }
+
+            lst.Sort();
+            lst.Insert(0, ALL_GENRES);
+
+            GenreItems.AddRange(lst);
+
+            IsBusy = false;
         }
 
         public AsyncCommand CancelCommand { get; }
@@ -64,21 +98,19 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
             if (SelectedGenre != ALL_GENRES)
                 ret.FilterOnGenres = SelectedGenre.ToGenres();
 
-            foreach(SortOrder so in Enum.GetValues(typeof(SortOrder)))
-                if(so.ToString().Replace('_', ' ') == SortOrder)
-                {
-                    ret.SortBy = so;
-                    break;
-                }
+            ret.SortBy = _sortMap.First(item => item.Key == SelectedSortOrder).Value;
 
             ret.ReturnMovies = ReturnMovies;
             ret.ReturnSeries = ReturnSeries;
+
+            if (!(ret.ReturnMovies || ret.ReturnSeries))
+                ret.ReturnMovies = true;
 
             _taskCompletionSource.TrySetResult(ret);
             await _navigation.PopModalAsync();
         }
 
-        public List<string> GenreItems { get; } = new List<string>();
+        public ObservableRangeCollection<string> GenreItems { get; } = new ObservableRangeCollection<string>();
 
         private string _selectedGenre;
         public string SelectedGenre
@@ -89,11 +121,11 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
 
         public List<string> SortOrders { get; } = new List<string>();
 
-        private string _sortOrder;
-        public string SortOrder
+        private string _selectedSortOrder;
+        public string SelectedSortOrder
         {
-            get => _sortOrder;
-            set => SetProperty(ref _sortOrder, value);
+            get => _selectedSortOrder;
+            set => SetProperty(ref _selectedSortOrder, value);
         }
 
         private bool _returnMovies;
@@ -110,6 +142,12 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
             set => SetProperty(ref _returnSeries, value);
         }
 
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
 
         private double _width;
         public double Width

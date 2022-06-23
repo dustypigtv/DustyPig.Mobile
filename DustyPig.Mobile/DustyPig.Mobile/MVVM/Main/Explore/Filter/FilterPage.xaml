@@ -74,7 +74,7 @@
                        xct:TouchEffect.Command="{Binding SaveCommand}" />
 
             </Grid>
-
+           
             <!-- Options -->
             <Grid Grid.Row="1"
                   Margin="12"
@@ -98,7 +98,7 @@
                                   Grid.Row="0"
                                   HorizontalOptions="FillAndExpand"
                                   ItemsSource="{Binding SortOrders}"
-                                  SelectedItem="{Binding SortOrder}"
+                                  SelectedItem="{Binding SelectedSortOrder}"
                                   BackgroundColor="{Static helpers:Theme.DialogPageBackground}"
                                   TextColor="White"
                                   BorderColor="White"
@@ -169,6 +169,11 @@
                         IsToggled="{Binding ReturnSeries}" />
 
             </Grid>
+
+            <ActivityIndicator Grid.Row="1"
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"
+                               IsRunning="{Binding IsBusy}" />
 
         </Grid>
 
