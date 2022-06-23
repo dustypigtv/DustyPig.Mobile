@@ -1,14 +1,12 @@
-﻿using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
-using System;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ParentalControlsForDetailsPopup : PopupPage
+    public partial class ParentalControlsForDetailsPage : ContentPage
     {
-        public ParentalControlsForDetailsPopup(int id, int libraryId)
+        public ParentalControlsForDetailsPage(int id, int libraryId)
         {
             InitializeComponent();
 

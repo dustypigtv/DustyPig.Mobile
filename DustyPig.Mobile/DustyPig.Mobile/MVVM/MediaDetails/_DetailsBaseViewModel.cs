@@ -117,7 +117,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         public AsyncCommand ManageParentalControlsCommand { get; }
         public Task ManageParentalControls()
         {
-            return Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ParentalControls.ParentalControlsForDetailsPopup(Basic_Media.Id, LibraryId), true);
+            return Navigation.PushModalAsync(new ParentalControls.ParentalControlsForDetailsPage(Basic_Media.Id, LibraryId));
         }
 
 

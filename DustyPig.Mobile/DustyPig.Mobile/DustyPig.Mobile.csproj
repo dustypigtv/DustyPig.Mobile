@@ -104,7 +104,7 @@
     <EmbeddedResource Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPopup.xaml">
+    <EmbeddedResource Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MVVM\MediaDetails\Playlist\PlaylistDetailsPage.xaml">
@@ -157,8 +157,8 @@
     <Compile Update="MVVM\MediaDetails\Movie\MovieDetailsPopup.xaml.cs">
       <DependentUpon>MovieDetailsPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPopup.xaml.cs">
-      <DependentUpon>ParentalControlsForDetailsPopup.xaml</DependentUpon>
+    <Compile Update="MVVM\MediaDetails\ParentalControls\ParentalControlsForDetailsPage.xaml.cs">
+      <DependentUpon>ParentalControlsForDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="MVVM\MediaDetails\Series\SeasonsPopup.xaml.cs">
       <DependentUpon>SeasonsPopup.xaml</DependentUpon>

@@ -22,7 +22,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
             _libraryId = libraryId;
             _navigation = navigation;
             IsBusy = true;
-            CancelCommand = new AsyncCommand(ClosePopup, allowsMultipleExecutions: false);
+            CancelCommand = new AsyncCommand(Navigation.PopModalAsync, allowsMultipleExecutions: false);
             SaveCommand = new AsyncCommand(OnSave, allowsMultipleExecutions: false);
             LoadData();
         }
@@ -66,11 +66,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
                 var response = await App.API.Media.SetAccessOverrideAsync(data);
                 if (response.Success)
                 {
-                    await ClosePopup();
+                    await Navigation.PopModalAsync();
                 }
                 else
                 {
-                    await Helpers.Alerts.ShowAlertAsync("Error", response.Error.Message);
+                    await ShowAlertAsync("Error", response.Error.Message);
                     foreach (var grp in Profiles)
                         foreach (var profile in grp.Where(item => item.HasLibraryAccess))
                             profile.CanWatch = profile.OrigCanWatch;
@@ -78,15 +78,14 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
             }
             else
             {
-                await ClosePopup();
+                await Navigation.PopModalAsync();
             }
 
             IsBusy = false;
 
         }
 
-        private Task ClosePopup() => PopupNavigation.Instance.PopAsync(true);
-
+        
         public ObservableRangeCollection<ParentalControlsGroupViewModel> Profiles { get; } = new ObservableRangeCollection<ParentalControlsGroupViewModel>();
 
         
@@ -127,7 +126,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
                     }
                     else
                     {
-                        await Helpers.Alerts.ShowAlertAsync("Error", permissionResponse.Error.Message);
+                        await ShowAlertAsync("Error", permissionResponse.Error.Message);
                     }
                 }
 
@@ -139,6 +138,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
             else
             {
                 await Helpers.Alerts.ShowAlertAsync("Error", permissionResponse.Error.Message);
+                await Navigation.PopModalAsync();
             }
         }
 

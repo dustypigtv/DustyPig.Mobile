@@ -18,6 +18,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             _basicTMDB = basicTMDB;
             IsBusy = true;
             AvailableItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped, allowsMultipleExecutions: false);
+            RequestCommand = new AsyncCommand(OnRequest, allowsMultipleExecutions: false);
             LoadData();
         }
 
@@ -61,6 +62,11 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             }
         }
 
+        public AsyncCommand RequestCommand { get; }
+        private async Task OnRequest()
+        {
+            await ShowAlertAsync("To Do", "Implement Request logic");
+        }
 
         private async void LoadData()
         {
