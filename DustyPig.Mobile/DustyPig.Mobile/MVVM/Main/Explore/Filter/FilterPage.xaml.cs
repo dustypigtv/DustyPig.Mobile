@@ -33,7 +33,6 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
 
 
             //Default modal animation is 250 secs
-            await Task.Delay(250);
             double alpha = 0;
             for (int i = 0; i < 5; i++)
             {

@@ -29,20 +29,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
             VM.OnSizeAllocated(width, height);
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                while (!NewNameEntry.Focus())
-                {
-                    await Task.Delay(100);
-                }
-            });
-
-        }
-
         protected override void OnDisappearing()
         {
             base.OnDisappearing();

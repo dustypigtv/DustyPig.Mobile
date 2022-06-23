@@ -35,34 +35,38 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
             await Navigation.PushModalAsync(page);
             var ret = await page.GetResultAsync();
 
+            //Force compliance
+            if (!(ret.ReturnMovies || ret.ReturnSeries))
+                ret.ReturnMovies = true;
 
+            //Check if filters changed
             bool changed = false;
-            if(ret.FilterOnGenres != _currentRequest.FilterOnGenres)
+            if (ret.FilterOnGenres != _currentRequest.FilterOnGenres)
             {
                 _currentRequest.FilterOnGenres = ret.FilterOnGenres;
                 _currentRequest.IncludeUnknownGenres = false;
                 changed = true;
             }
 
-            if(ret.ReturnSeries != _currentRequest.ReturnSeries)
+            if (ret.ReturnSeries != _currentRequest.ReturnSeries)
             {
                 _currentRequest.ReturnSeries = ret.ReturnSeries;
                 changed = true;
             }
 
-            if(ret.ReturnMovies != _currentRequest.ReturnMovies)
+            if (ret.ReturnMovies != _currentRequest.ReturnMovies)
             {
                 _currentRequest.ReturnMovies = ret.ReturnMovies;
                 changed = true;
             }
 
-            if(ret.SortBy != _currentRequest.SortBy)
+            if (ret.SortBy != _currentRequest.SortBy)
             {
                 _currentRequest.SortBy = ret.SortBy;
                 changed = true;
             }
 
-            if(changed)
+            if (changed)
                 IsBusy = true;
         }
 

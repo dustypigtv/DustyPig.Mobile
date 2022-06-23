@@ -33,6 +33,7 @@ namespace DustyPig.Mobile.iOS
             global::Xamarin.Forms.Forms.Init();
 
             DevExpress.XamarinForms.CollectionView.iOS.Initializer.Init();
+            DevExpress.XamarinForms.Editors.Editors.Init();
             CachedImageRenderer.Init();
             FacebookLoginClientImplementation.Init(app, options);
             GoogleLoginClientImplementation.Initialize();
