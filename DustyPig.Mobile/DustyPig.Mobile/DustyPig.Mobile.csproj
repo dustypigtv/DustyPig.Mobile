@@ -170,8 +170,4 @@
       <DependentUpon>CastButtons.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="MVVM\Playlists\" />
-  </ItemGroup>
 </Project>
