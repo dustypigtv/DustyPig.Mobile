@@ -12,8 +12,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
     {
         public SeriesDetailsPage(BasicMedia basicMedia, bool firstAppeared = false)
         {
-            _firstAppeared = firstAppeared;
-
             InitializeComponent();
 
             SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
