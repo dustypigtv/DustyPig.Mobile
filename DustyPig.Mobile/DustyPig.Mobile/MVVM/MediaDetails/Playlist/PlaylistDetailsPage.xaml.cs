@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -17,8 +18,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
             BindingContext = VM = new PlaylistDetailsViewModel(basicMedia, Navigation);
 
-            SCButtons.CloseTapped += (sender, e) => VM.BrightenSL(slDimmer);
-            VM.DimSL(slDimmer);
+            SCButtons.CloseTapped += (sender, e) => slDimmer?.BrightenSL();
+            slDimmer.DimSL();
         }
 
         public PlaylistDetailsViewModel VM { get; }

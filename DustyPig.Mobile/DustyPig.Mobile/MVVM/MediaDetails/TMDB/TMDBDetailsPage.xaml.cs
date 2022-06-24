@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Helpers;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
@@ -18,8 +19,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
 
             BindingContext = VM = new TMDBDetailsViewModel(basicTMDB, Navigation);
 
-            SCButtons.CloseTapped += (sender, e) => VM.BrightenSL(slDimmer);
-            VM.DimSL(slDimmer);
+            SCButtons.CloseTapped += (sender, e) => slDimmer?.BrightenSL();
+            slDimmer.DimSL();
         }
 
         public TMDBDetailsViewModel VM { get; }

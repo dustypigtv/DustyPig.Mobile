@@ -519,39 +519,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         }
 
 
-        public async void DimSL(StackLayout slDimmer)
-        {
-            if (slDimmer == null)
-                return;
-
-            if (Device.Idiom == TargetIdiom.Phone)
-                return;
-
-            double alpha = 0;
-            while(alpha < 0.5)
-            {
-                alpha += 0.1;
-                slDimmer.BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
-                await Task.Delay(50);
-            }
-        }
-
-        public async void BrightenSL(StackLayout slDimmer)
-        {
-            if (slDimmer == null)
-                return;
-
-            if (Device.Idiom == TargetIdiom.Phone)
-                return;
-
-            double alpha = 0.5;
-            while (alpha > 0)
-            {
-                alpha -= 0.1;
-                slDimmer.BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
-                await Task.Delay(50);
-            }
-        }
 
         public void OnSizeAllocated(double width, double height)
         {

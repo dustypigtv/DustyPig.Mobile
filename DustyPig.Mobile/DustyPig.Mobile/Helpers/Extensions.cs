@@ -2,6 +2,8 @@
 using DustyPig.API.v3.Models;
 using System;
 using System.IO;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Helpers
 {
@@ -28,6 +30,42 @@ namespace DustyPig.Mobile.Helpers
             foreach (char c in Path.GetInvalidFileNameChars())
                 ret = ret.Replace(c, '_');
             return ret + ".srt";
+        }
+
+        public static async void DimSL(this StackLayout slDimmer, bool force = false)
+        {
+            if (slDimmer == null)
+                return;
+
+            if (!force)
+                if (Device.Idiom == TargetIdiom.Phone)
+                    return;
+
+            double alpha = 0;
+            while (alpha < 0.5)
+            {
+                alpha += 0.1;
+                slDimmer.BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
+                await Task.Delay(50);
+            }
+        }
+
+        public static async void BrightenSL(this StackLayout slDimmer, bool force = false)
+        {
+            if (slDimmer == null)
+                return;
+
+            if (!force)
+                if (Device.Idiom == TargetIdiom.Phone)
+                    return;
+
+            double alpha = 0.5;
+            while (alpha > 0)
+            {
+                alpha -= 0.1;
+                slDimmer.BackgroundColor = Color.FromRgba(0, 0, 0, alpha);
+                await Task.Delay(50);
+            }
         }
     }
 }

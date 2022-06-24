@@ -14,9 +14,11 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
         private bool _listFullyLoaded = false;
 
         private readonly ExploreRequest _currentRequest = new ExploreRequest();
+        private readonly StackLayout _slDimmer;
 
         public ExploreViewModel(StackLayout slDimmer, INavigation navigation) : base(slDimmer, navigation)
         {
+            _slDimmer = slDimmer;
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
             FilterCommand = new AsyncCommand(OnFilter, allowsMultipleExecutions: false);
@@ -31,9 +33,11 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
         public AsyncCommand FilterCommand { get; }
         private async Task OnFilter()
         {
+            _slDimmer?.DimSL(true);
             var page = new Filter.FilterPage(_currentRequest);
             await Navigation.PushModalAsync(page);
             var ret = await page.GetResultAsync();
+            _slDimmer.BrightenSL(true);
 
             //Force compliance
             if (!(ret.ReturnMovies || ret.ReturnSeries))
