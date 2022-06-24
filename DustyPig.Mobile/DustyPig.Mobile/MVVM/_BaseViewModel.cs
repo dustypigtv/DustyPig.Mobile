@@ -17,6 +17,8 @@ namespace DustyPig.Mobile.MVVM
     {
         public event EventHandler<bool> InternetConnectivityChanged;
 
+        private readonly StackLayout _slDimmer = null;
+
         public _BaseViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -31,6 +33,14 @@ namespace DustyPig.Mobile.MVVM
             ItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped);
             TMDBItemTappedCommand = new AsyncCommand<BasicTMDB>(OnTMDBItemTapped);
         }
+
+        public _BaseViewModel(StackLayout slDimmer, INavigation navigation) : this(navigation)
+        {
+            _slDimmer = slDimmer;
+        }
+
+
+
 
         public INavigation Navigation { get; }
 
@@ -63,15 +73,15 @@ namespace DustyPig.Mobile.MVVM
             switch (item.MediaType)
             {
                 case MediaTypes.Movie:
-                    await Navigation.PushModalAsync(new MovieDetailsPage(item));
+                    await Navigation.PushModalAsync(new MovieDetailsPage(item, _slDimmer));
                     break;
 
                 case MediaTypes.Series:
-                    await Navigation.PushModalAsync(new SeriesDetailsPage(item));
+                    await Navigation.PushModalAsync(new SeriesDetailsPage(item, _slDimmer));
                     break;
 
                 case MediaTypes.Playlist:
-                    await Navigation.PushModalAsync(new PlaylistDetailsPage(item));
+                    await Navigation.PushModalAsync(new PlaylistDetailsPage(item, _slDimmer));
                     break;
 
                 default:
@@ -83,7 +93,7 @@ namespace DustyPig.Mobile.MVVM
         public AsyncCommand<BasicTMDB> TMDBItemTappedCommand { get; }
         private async Task OnTMDBItemTapped(BasicTMDB item)
         {
-            await Navigation.PushModalAsync(new MediaDetails.TMDB.TMDBDetailsPage(item));
+            await Navigation.PushModalAsync(new MediaDetails.TMDB.TMDBDetailsPage(item, _slDimmer));
         }
 
 

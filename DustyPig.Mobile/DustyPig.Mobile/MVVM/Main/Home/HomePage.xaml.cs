@@ -9,7 +9,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = VM = new HomeViewModel(MainStack, EmptyLabel, Navigation);
+            BindingContext = VM = new HomeViewModel(MainStack, EmptyLabel, SLDimmer, Navigation);
         }
 
 

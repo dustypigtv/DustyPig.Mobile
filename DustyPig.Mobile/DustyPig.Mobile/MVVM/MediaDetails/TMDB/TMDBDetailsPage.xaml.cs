@@ -10,14 +10,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TMDBDetailsPage : ContentPage
     {
-        public TMDBDetailsPage(BasicTMDB basicTMDB)
+        public TMDBDetailsPage(BasicTMDB basicTMDB, StackLayout slDimmer)
         {
             InitializeComponent();
-            SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
-
+            
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
 
             BindingContext = VM = new TMDBDetailsViewModel(basicTMDB, Navigation);
+
+            SCButtons.CloseTapped += (sender, e) => VM.BrightenSL(slDimmer);
+            VM.DimSL(slDimmer);
         }
 
         public TMDBDetailsViewModel VM { get; }
@@ -26,6 +28,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         {
             base.OnSizeAllocated(width, height);
             VM.OnSizeAllocated(width, height);
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            SCButtons.CloseButtonTapped.ExecuteAsync();
+            return true;
         }
     }
 }

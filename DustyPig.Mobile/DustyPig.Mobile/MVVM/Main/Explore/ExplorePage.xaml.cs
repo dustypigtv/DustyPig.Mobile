@@ -9,7 +9,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
         public ExplorePage()
         {
             InitializeComponent();
-            BindingContext = VM = new ExploreViewModel(Navigation);
+            BindingContext = VM = new ExploreViewModel(SLDimmer, Navigation);
         }
 
         public ExploreViewModel VM { get; }

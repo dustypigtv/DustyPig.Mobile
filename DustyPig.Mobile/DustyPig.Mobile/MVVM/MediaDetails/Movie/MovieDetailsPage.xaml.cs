@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -9,15 +10,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MovieDetailsPage : ContentPage
     {
-        public MovieDetailsPage(BasicMedia basicMedia, bool firstAppeared = false)
+        public MovieDetailsPage(BasicMedia basicMedia, StackLayout slDimmer)
         {
             InitializeComponent();
-
-            SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
 
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
 
             BindingContext = VM = new MovieDetailsViewModel(basicMedia, Navigation);
+
+            SCButtons.CloseTapped += (sender, e) => VM.BrightenSL(slDimmer);
+            VM.DimSL(slDimmer);
         }
 
         public MovieDetailsViewModel VM { get; }
@@ -26,6 +28,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
         {
             base.OnSizeAllocated(width, height);
             VM.OnSizeAllocated(width, height);
-        }        
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            SCButtons.CloseButtonTapped.ExecuteAsync();
+            return true;
+        }
     }
 }

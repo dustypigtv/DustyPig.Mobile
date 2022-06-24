@@ -127,7 +127,7 @@
                                                           ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
                                                           LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
                                                           xct:TouchEffect.NativeAnimation="True"
-                                                          xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:TMDBDetailsViewModel}}, Path=AvailableItemTappedCommand}"
+                                                          xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:TMDBDetailsViewModel}}, Path=ItemTappedCommand}"
                                                           xct:TouchEffect.CommandParameter="{Binding}" />
 
                                 </DataTemplate>

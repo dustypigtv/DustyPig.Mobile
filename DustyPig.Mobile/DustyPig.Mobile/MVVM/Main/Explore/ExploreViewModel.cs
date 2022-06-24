@@ -15,7 +15,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
 
         private readonly ExploreRequest _currentRequest = new ExploreRequest();
 
-        public ExploreViewModel(INavigation navigation) : base(navigation)
+        public ExploreViewModel(StackLayout slDimmer, INavigation navigation) : base(slDimmer, navigation)
         {
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);

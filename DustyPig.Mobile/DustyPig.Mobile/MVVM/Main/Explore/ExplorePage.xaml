@@ -16,7 +16,7 @@
 
     <ContentPage.Content>
 
-        <RelativeLayout>
+        <Grid>
 
             <!-- Media -->
             <RefreshView
@@ -74,11 +74,14 @@
             <!-- Gradient Bar -->
             <reusable:TopButtonBarGradient
                 InputTransparent="True"
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Start" />
 
             <ImageButton
                 HeightRequest="40"
                 WidthRequest="40"
+                HorizontalOptions="Start"
+                VerticalOptions="Start"
                 Margin="12,0,0,0"
                 Padding="8"
                 CornerRadius="20"
@@ -98,8 +101,12 @@
 
             </ImageButton>
 
+            <StackLayout x:Name="SLDimmer"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand"
+                         InputTransparent="True" />
 
-        </RelativeLayout>
+        </Grid>
     </ContentPage.Content>
     
 </ContentPage>

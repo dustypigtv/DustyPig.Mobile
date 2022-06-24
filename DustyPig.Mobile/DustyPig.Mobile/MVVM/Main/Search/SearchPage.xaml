@@ -1,199 +1,166 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
-    xmlns="http://xamarin.com/schemas/2014/forms"
-	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-	xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.Main.Search" 
-	xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
-	xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API" 
-	xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers" 
-	xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
-    xmlns:effect="clr-namespace:DustyPig.Mobile.Effects"
-    ios:Page.UseSafeArea="true"    
-    x:Class="DustyPig.Mobile.MVVM.Main.Search.SearchPage"
-    x:DataType="local:SearchViewModel"
-    NavigationPage.HasNavigationBar="False">
-
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+             xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+             xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.Main.Search"
+             xmlns:ffimages="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             x:Class="DustyPig.Mobile.MVVM.Main.Search.SearchPage"
+             x:DataType="local:SearchViewModel"
+             NavigationPage.HasNavigationBar="False">
+    
     <ContentPage.Content>
 
-        <StackLayout Margin="12">
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
             <SearchBar x:Name="TheSearchBar"
+                       Grid.Row="0"
                        IsSpellCheckEnabled="false"
                        TextTransform="Lowercase"
                        xct:CornerRadiusEffect.CornerRadius="8"
-                       Margin="0"
+                       Margin="12,12,12,0"
                        Placeholder="Search for title"
                        PlaceholderColor="{Static helpers:Theme.Placeholder}"
                        TextChanged="SearchBar_TextChanged"
                        SearchButtonPressed="TheSearchBar_SearchButtonPressed" />
 
-            <Grid 
-                BackgroundColor="{Static helpers:Theme.TabBarBackground}"
-                HeightRequest="48"
-                IsVisible="{Binding ShowTabs}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <xct:TabView Grid.Row="1"
+                         Margin="12,0,12,0"
+                         TabStripPlacement="Top"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand"
+                         TabIndex="{Binding TabIndex}"
+                         IsTabStripVisible="{Binding ShowTabs}"
+                         IsSwipeEnabled="{Binding ShowTabs}"
+                         TabStripBackgroundColor="{Static helpers:Theme.TabBarBackground}"
+                         TabIndicatorColor="White">
 
-                <StackLayout
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
-                    xct:TouchEffect.NativeAnimation="True"
-                    xct:TouchEffect.Command="{Binding TabHeaderTapped}">
-                    <xct:TouchEffect.CommandParameter>
-                        <x:Int32>0</x:Int32>
-                    </xct:TouchEffect.CommandParameter>
-                    <Label                       
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"
-                        InputTransparent="True"
-                        TextColor="{Binding AvailableCVColor}"
-                        Text="Available" />
-                </StackLayout>
+                <xct:TabViewItem Text="Available"
+                                 TextColor="{Static helpers:Theme.Grey}"
+                                 TextColorSelected="White">
 
-                <StackLayout
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
-                    xct:TouchEffect.NativeAnimation="True"
-                    xct:TouchEffect.Command="{Binding TabHeaderTapped}">
-                    <xct:TouchEffect.CommandParameter>
-                        <x:Int32>1</x:Int32>
-                    </xct:TouchEffect.CommandParameter>
-                    <Label
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"
-                        InputTransparent="True"
-                        TextColor="{Binding OtherCVColor}"
-                        Text="TMDB" />
-                </StackLayout>
-            </Grid>
+                    <CollectionView x:Name="AvailableCV"
+                                    Margin="{Binding CVMargin}"
+                                    ItemSizingStrategy="MeasureFirstItem"
+                                    ItemsSource="{Binding AvailableItems}">
 
-
-            <Grid
-                Margin="0,12,0,0">
-
-                <CollectionView
-                    x:Name="AvailableCV"
-                    ItemSizingStrategy="MeasureFirstItem"
-					ItemsSource="{Binding AvailableItems}">
-
-                    <CollectionView.EmptyView>
-                        <StackLayout 
-                            xct:TouchEffect.Command="{Binding HideKeyboard}">
-                            <Label
-								Margin="48"
-								FontAttributes="Bold"
-								FontSize="18"
-								TextColor="White"
-								HorizontalTextAlignment="Center"
-                                InputTransparent="True"
-								Text="{Binding MediaEmptyString}" />
-                        </StackLayout>
-                    </CollectionView.EmptyView>
-
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout
-							VerticalItemSpacing="0"
-							HorizontalItemSpacing="0"
-							Orientation="Vertical"
-							Span="{Binding Span}" />
-                    </CollectionView.ItemsLayout>
-
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate
-							x:DataType="models:BasicMedia">
-
-                            <StackLayout Margin="8">
-                                <ffimages:CachedImage 
-                                    xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, Path=ItemTappedCommand}"
-                                    xct:TouchEffect.CommandParameter="{Binding}"
-									Source="{Binding ArtworkUrl}"
-									HeightRequest="150"
-									WidthRequest="100"
-									Aspect="AspectFit"
-									ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-									LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                        <CollectionView.EmptyView>
+                            <StackLayout xct:TouchEffect.Command="{Binding HideKeyboard}">
+                                <Label Margin="48"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       TextColor="White"
+                                       HorizontalTextAlignment="Center"
+                                       InputTransparent="True"
+                                       Text="{Binding MediaEmptyString}" />
                             </StackLayout>
+                        </CollectionView.EmptyView>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout VerticalItemSpacing="0"
+                                             HorizontalItemSpacing="0"
+                                             Orientation="Vertical"
+                                             Span="{Binding Span}" />
+                        </CollectionView.ItemsLayout>
 
-                </CollectionView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:BasicMedia">
 
+                                <StackLayout Margin="8">
+                                    <ffimages:CachedImage xct:TouchEffect.NativeAnimation="True"
+                                                          xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, Path=ItemTappedCommand}"
+                                                          xct:TouchEffect.CommandParameter="{Binding}"
+                                                          Source="{Binding ArtworkUrl}"
+                                                          HeightRequest="150"
+                                                          WidthRequest="100"
+                                                          Aspect="AspectFit"
+                                                          ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                                          LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                                </StackLayout>
 
-                <CollectionView
-                    x:Name="OtherCV"
-                    ItemSizingStrategy="MeasureFirstItem"
-                    ItemsSource="{Binding OtherItems}">
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
 
-                    <CollectionView.EmptyView>
-                        <StackLayout
-                            xct:TouchEffect.Command="{Binding HideKeyboard}">
-                            <Label
-                                Margin="48"
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                TextColor="White"
-                                HorizontalTextAlignment="Center"
-                                InputTransparent="True"
-                                Text="{Binding MediaEmptyString}" />
-                        </StackLayout>
-                    </CollectionView.EmptyView>
+                    </CollectionView>
 
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout
-                            VerticalItemSpacing="0"
-                            HorizontalItemSpacing="0"
-                            Orientation="Vertical"
-                            Span="{Binding Span}" />
-                    </CollectionView.ItemsLayout>
+                </xct:TabViewItem>
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate
-                            x:DataType="models:BasicTMDB">
+                <xct:TabViewItem Text="TMDB"
+                                 TextColor="{Static helpers:Theme.Grey}"
+                                 TextColorSelected="White">
 
-                            <StackLayout Margin="8">
-                                <ffimages:CachedImage 
-                                    xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, Path=TMDBItemTappedCommand}"
-                                    xct:TouchEffect.CommandParameter="{Binding}"
-                                    Source="{Binding ArtworkUrl}"
-                                    HeightRequest="150"
-                                    WidthRequest="100"
-                                    Aspect="AspectFit"
-                                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                    <CollectionView x:Name="OtherCV"
+                                    Margin="{Binding CVMargin}"
+                                    ItemSizingStrategy="MeasureFirstItem"
+                                    ItemsSource="{Binding OtherItems}">
+
+                        <CollectionView.EmptyView>
+                            <StackLayout xct:TouchEffect.Command="{Binding HideKeyboard}">
+                                <Label Margin="48"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       TextColor="White"
+                                       HorizontalTextAlignment="Center"
+                                       InputTransparent="True"
+                                       Text="{Binding MediaEmptyString}" />
                             </StackLayout>
+                        </CollectionView.EmptyView>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout VerticalItemSpacing="0"
+                                             HorizontalItemSpacing="0"
+                                             Orientation="Vertical"
+                                             Span="{Binding Span}" />
+                        </CollectionView.ItemsLayout>
 
-                </CollectionView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:BasicTMDB">
+
+                                <StackLayout Margin="8">
+                                    <ffimages:CachedImage xct:TouchEffect.NativeAnimation="True"
+                                                          xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:SearchViewModel}}, Path=TMDBItemTappedCommand}"
+                                                          xct:TouchEffect.CommandParameter="{Binding}"
+                                                          Source="{Binding ArtworkUrl}"
+                                                          HeightRequest="150"
+                                                          WidthRequest="100"
+                                                          Aspect="AspectFit"
+                                                          ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                                          LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png" />
+                                </StackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
 
 
+                </xct:TabViewItem>
+            </xct:TabView>
 
-                <ActivityIndicator
-					Margin="8"
-					RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-					HeightRequest="20"
-					HorizontalOptions="CenterAndExpand"
-                    VerticalOptions="Start"
-                    InputTransparent="True"
-					IsRunning="{Binding IsBusy}" />
-
-            </Grid>
-
+            <ActivityIndicator Grid.Row="1"
+                               Margin="8"
+                               HeightRequest="20"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="Start"
+                               InputTransparent="True"
+                               IsRunning="{Binding IsBusy}" />
 
 
-        </StackLayout>
+            <StackLayout x:Name="SLDimmer"
+                         Grid.Row="0"
+                         Grid.RowSpan="2"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand"
+                         InputTransparent="True" />
+        </Grid>
 
     </ContentPage.Content>
-
 </ContentPage>

@@ -22,7 +22,7 @@ namespace DustyPig.Mobile.MVVM.Main.Home
 
         private static event EventHandler<BasicMedia> PlaylistArtworkUpdated;
 
-        public HomeViewModel(StackLayout mainStack, Label emptyLabel, INavigation navigation) : base(navigation)
+        public HomeViewModel(StackLayout mainStack, Label emptyLabel, StackLayout slDimmer, INavigation navigation) : base(slDimmer, navigation)
         {
             MainStack = mainStack;
             EmptyLabel = emptyLabel;

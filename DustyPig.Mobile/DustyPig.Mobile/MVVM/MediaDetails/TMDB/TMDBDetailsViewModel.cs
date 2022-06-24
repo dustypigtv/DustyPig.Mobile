@@ -17,7 +17,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             Id = basicTMDB.TMDB_ID;
             _basicTMDB = basicTMDB;
             IsBusy = true;
-            AvailableItemTappedCommand = new AsyncCommand<BasicMedia>(OnItemTapped, allowsMultipleExecutions: false);
             RequestCommand = new AsyncCommand(OnRequest, allowsMultipleExecutions: false);
             LoadData();
         }
@@ -43,25 +42,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             set => SetProperty(ref _showYear, value);
         }
 
-        public AsyncCommand<BasicMedia> AvailableItemTappedCommand { get; }
-        private async Task OnItemTapped(BasicMedia item)
-        {
-            switch (item.MediaType)
-            {
-                case MediaTypes.Movie:
-                    await Navigation.PushModalAsync(new MovieDetailsPage(item, true));
-                    break;
-
-                case MediaTypes.Series:
-                    await Navigation.PushModalAsync(new SeriesDetailsPage(item, true));
-                    break;
-
-                default:
-                    await ShowAlertAsync("Tapped", item.Title);
-                    break;
-            }
-        }
-
+        
         public AsyncCommand RequestCommand { get; }
         private async Task OnRequest()
         {

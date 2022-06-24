@@ -9,15 +9,16 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PlaylistDetailsPage : ContentPage
     {
-        public PlaylistDetailsPage(BasicMedia basicMedia)
+        public PlaylistDetailsPage(BasicMedia basicMedia, StackLayout slDimmer)
         {
             InitializeComponent();
-
-            SCButtons.CloseTapped += (sender, e) => BackgroundColor = Color.Transparent;
 
             On<iOS>().SetModalPresentationStyle(UIModalPresentationStyle.OverFullScreen);
 
             BindingContext = VM = new PlaylistDetailsViewModel(basicMedia, Navigation);
+
+            SCButtons.CloseTapped += (sender, e) => VM.BrightenSL(slDimmer);
+            VM.DimSL(slDimmer);
         }
 
         public PlaylistDetailsViewModel VM { get; }
@@ -26,6 +27,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         {
             base.OnSizeAllocated(width, height);
             VM.OnSizeAllocated(width, height);
-        }       
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            SCButtons.CloseButtonTapped.ExecuteAsync();
+            return true;
+        }
     }
 }

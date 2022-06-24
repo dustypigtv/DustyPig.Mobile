@@ -9,30 +9,33 @@
              NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Content >
-        
-        <RefreshView
-            Margin="12,0,12,0"
-            VerticalOptions="FillAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Command="{Binding RefreshCommand}"
-            IsRefreshing="{Binding IsBusy}">
 
-            <ScrollView
-                x:Name="MainSV">
-                
-                <StackLayout 
-                    x:Name="MainStack">
-                        
-                    <Label 
-                        x:Name="EmptyLabel"
-                        VerticalOptions="CenterAndExpand" 
-                        HorizontalOptions="CenterAndExpand" 
-                        Text="Loading" />
-                </StackLayout>
+        <Grid>
+            <RefreshView Margin="12,0,12,0"
+                         VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Command="{Binding RefreshCommand}"
+                         IsRefreshing="{Binding IsBusy}">
 
-            </ScrollView>
-                
-        </RefreshView>
+                <ScrollView x:Name="MainSV">
+
+                    <StackLayout x:Name="MainStack">
+
+                        <Label x:Name="EmptyLabel"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               Text="Loading" />
+                    </StackLayout>
+
+                </ScrollView>
+
+            </RefreshView>
+
+            <StackLayout x:Name="SLDimmer"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="FillAndExpand"
+                         InputTransparent="True" />
+        </Grid>
         
     </ContentPage.Content>
 

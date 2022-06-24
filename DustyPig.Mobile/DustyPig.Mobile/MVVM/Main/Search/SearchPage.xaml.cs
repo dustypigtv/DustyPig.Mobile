@@ -1,5 +1,8 @@
 ﻿using DustyPig.Mobile.CrossPlatform;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -7,12 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace DustyPig.Mobile.MVVM.Main.Search
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SearchPage : ContentPage, IPageShown
+    public partial class SearchPage : ContentPage
     {
         public SearchPage()
         {
             InitializeComponent();
-            BindingContext = VM = new SearchViewModel(AvailableCV, OtherCV, Navigation);
+            BindingContext = VM = new SearchViewModel(AvailableCV, OtherCV, SLDimmer, Navigation);
         }
 
         public SearchViewModel VM { get; }
@@ -51,7 +54,5 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                     }
                 });
         }
-
-
     }
 }
