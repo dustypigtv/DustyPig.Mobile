@@ -137,14 +137,14 @@
 
 
                         <!-- Request -->
-                        <Button
-                            Margin="0,12,0,0"
-                            Padding="0"
-                            HeightRequest="32" 
-                            Text="Request">
+                        <Button Margin="0,12,0,0"
+                                Padding="0"
+                                HeightRequest="32"
+                                Text="Request"
+                                Command="{Binding RequestCommand}">
                         </Button>
-                        
-                        
+
+
                         <!-- Description -->
                         <Label
                             Margin="0,12,0,0"
