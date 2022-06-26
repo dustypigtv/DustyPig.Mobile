@@ -10,7 +10,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
 {
     public class TMDBDetailsViewModel : _DetailsBaseViewModel
     {
-        private BasicTMDB _basicTMDB;
+        private readonly BasicTMDB _basicTMDB;
+        private TitleRequestPermissions _permission = TitleRequestPermissions.Disabled;
 
         public TMDBDetailsViewModel(BasicTMDB basicTMDB, INavigation navigation) : base(basicTMDB, navigation)
         {
@@ -42,21 +43,84 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             set => SetProperty(ref _showYear, value);
         }
 
+        private bool _showRequest;
+        public bool ShowRequest
+        {
+            get => _showRequest;
+            set => SetProperty(ref _showRequest, value);
+        }
+
+        private string _requestText;
+        public string RequestText
+        {
+            get => _requestText;
+            set => SetProperty(ref _requestText, value);
+        }
+
+        private string _requestStatus;
+        public string RequestStatus
+        {
+            get => _requestStatus;
+            set => SetProperty(ref _requestStatus, value);
+        }
         
         public AsyncCommand RequestCommand { get; }
         private async Task OnRequest()
         {
-            await ShowAlertAsync("To Do", "Implement Request logic");
+            var request = new TitleRequest
+            {
+                MediaType = _basicTMDB.MediaType,
+                TMDB_Id = _basicTMDB.TMDB_ID
+            };
+
+            if (_permission == TitleRequestPermissions.Enabled)
+            {
+                var page = new FriendPickerPage();
+                await Navigation.PushModalAsync(page);
+                request.FriendId = await page.GetResultAsync();
+                if (request.FriendId <= 0)
+                    return;
+            }
+
+            var response = await App.API.TMDB.RequestTitleAsync(request);
+            if (response.Success)
+            {
+                await ShowAlertAsync("Success", "Request Sent");
+                ShowRequest = false;
+                if (RequestStatus == "Not Requested")
+                    RequestStatus = "Requested";
+            }
+            else
+            {
+                await ShowAlertAsync("Error", response.Error.Message);
+            }
         }
 
         private async void LoadData()
         {
-            var response = _basicTMDB.MediaType == MediaTypes.Movie
+            var response = _basicTMDB.MediaType == TMDB_MediaTypes.Movie
                 ? await App.API.TMDB.GetMovieAsync(Id)
                 : await App.API.TMDB.GetSeriesAsync(Id);
 
             if (response.Success)
             {
+                _permission = response.Data.RequestPermission;
+                
+                ShowRequest = _permission != TitleRequestPermissions.Disabled;
+                switch (response.Data.RequestStatus)
+                {
+                    case API.v3.Models.RequestStatus.NotRequested:
+                        RequestStatus = "Not Requested";
+                        RequestText = "Request";
+                        break;
+
+                    default:
+                        RequestStatus = response.Data.RequestStatus.ToString();
+                        RequestText = "Notify When Available";
+                        break;
+                }
+
+
                 BackdropUrl = string.IsNullOrWhiteSpace(response.Data.BackdropUrl) ?
                     response.Data.ArtworkUrl :
                     response.Data.BackdropUrl;

@@ -45,7 +45,7 @@
                             <DataTemplate x:DataType="models:BasicProfile">
                                 <ViewCell>
                                     <Grid>
-                                        <Frame
+                                        <!--<Frame
                                             Grid.Column="0"
                                             CornerRadius="33"
                                             WidthRequest="66"
@@ -60,7 +60,13 @@
                                                 WidthRequest="66"
                                                 HorizontalOptions="Center"
                                                 Source="{Binding AvatarUrl}" />
-                                        </Frame>
+                                        </Frame>-->
+                                        <Image HeightRequest="66"
+                                               WidthRequest="66"
+                                               HorizontalOptions="EndAndExpand"
+                                               VerticalOptions="Center"
+                                               xct:CornerRadiusEffect.CornerRadius="33"
+                                               Source="{Binding AvatarUrl}" />
                                         <Label
                                             Grid.Column="1"
                                             HorizontalTextAlignment="Start"

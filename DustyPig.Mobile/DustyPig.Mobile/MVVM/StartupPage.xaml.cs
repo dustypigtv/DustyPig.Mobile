@@ -41,6 +41,13 @@ namespace DustyPig.Mobile.MVVM
                     App.HomePageNeedsRefresh = true;
                     App.IsMainProfile = response.Data.LoginType == LoginResponseType.MainProfile;
                     Application.Current.MainPage = new NavigationPage(new MainPage());
+#if DEBUG
+                    System.Console.WriteLine();
+                    System.Console.WriteLine("*** API TOKEN: ***");
+                    System.Console.WriteLine(App.API.Token);
+                    System.Console.WriteLine();
+#endif
+
                 }
                 else
                 {

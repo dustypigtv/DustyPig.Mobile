@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DustyPig.Mobile.MVVM.MediaDetails.TMDB"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             xmlns:models="clr-namespace:DustyPig.API.v3.Models;assembly=DustyPig.API"
+             xmlns:helpers="clr-namespace:DustyPig.Mobile.Helpers"
+             ios:Page.UseSafeArea="true"
+             x:Class="DustyPig.Mobile.MVVM.MediaDetails.TMDB.FriendPickerPage"
+             x:DataType="local:FriendPickerViewModel"
+             BackgroundColor="Transparent">
+    
+    <ContentPage.Content>
+
+        <Grid WidthRequest="{Binding Width}"
+              HorizontalOptions="Center"
+              VerticalOptions="FillAndExpand"
+              BackgroundColor="{Static helpers:Theme.DialogPageBackground}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0"
+                  BackgroundColor="{Static helpers:Theme.HeaderBackground}"
+                  HorizontalOptions="FillAndExpand">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0"
+                       BackgroundColor="Transparent"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Cancel"
+                       FontSize="12"
+                       TextColor="White"
+                       xct:TouchEffect.NativeAnimation="True"
+                       xct:TouchEffect.Command="{Binding CancelCommand}" />
+
+                <Label Grid.Column="1"
+                       BackgroundColor="Transparent"
+                       Text="Add To Playlist"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold" />
+
+
+            </Grid>
+
+
+            <Grid Grid.Row="1">
+
+                <CollectionView ItemsSource="{Binding Friends}"
+                                SelectionMode="None"
+                                Margin="24">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                                           ItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:BasicFriend">
+
+                            <Grid HeightRequest="66"
+                                  xct:TouchEffect.NativeAnimation="True"
+                                  xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:FriendPickerViewModel}}, Path=FriendTappedCommand}"
+                                  xct:TouchEffect.CommandParameter="{Binding Id}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="66" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="66" />
+                                </Grid.RowDefinitions>
+
+                                <Image HeightRequest="66"
+                                       WidthRequest="66"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       xct:CornerRadiusEffect.CornerRadius="33"
+                                       Source="{Binding AvatarUrl}" />
+
+
+                                <Label Grid.Column="1"
+                                       VerticalOptions="FillAndExpand"
+                                       VerticalTextAlignment="Center"
+                                       LineBreakMode="TailTruncation"
+                                       Text="{Binding DisplayName}" />
+                            </Grid>
+
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <ActivityIndicator HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}" />
+
+            </Grid>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

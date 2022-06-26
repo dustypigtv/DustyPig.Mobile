@@ -140,9 +140,12 @@
                         <Button Margin="0,12,0,0"
                                 Padding="0"
                                 HeightRequest="32"
-                                Text="Request"
+                                Text="{Binding RequestText}"
+                                IsVisible="{Binding ShowRequest}"
                                 Command="{Binding RequestCommand}">
                         </Button>
+                        <Label Text="{Binding RequestStatus}"
+                               FontSize="Small" />
 
 
                         <!-- Description -->
