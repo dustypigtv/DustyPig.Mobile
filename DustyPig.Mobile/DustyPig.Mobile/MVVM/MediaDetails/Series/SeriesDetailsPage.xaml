@@ -122,18 +122,17 @@
                         </Grid>
 
                         <!-- Request Access button -->
-                        <Frame
-                            Margin="0,12,0,0"
-                            Padding="0"
-                            HeightRequest="32" 
-                            CornerRadius="4" 
-                            HasShadow="false" 
-                            BackgroundColor="White" 
-                            BorderColor="#White" 
-                            HorizontalOptions="Fill"
-                            IsVisible="{Binding CanPlay, Converter={StaticResource InvertedBoolConverter}}"
-                            xct:TouchEffect.NativeAnimation="True"
-                            xct:TouchEffect.Command="{Binding RequestPermissionCommand}">
+                        <Frame Margin="0,12,0,0"
+                               Padding="0"
+                               HeightRequest="32"
+                               CornerRadius="4"
+                               HasShadow="false"
+                               BackgroundColor="White"
+                               BorderColor="#White"
+                               HorizontalOptions="Fill"
+                               IsVisible="{Binding CanRequestAccess}"
+                               xct:TouchEffect.NativeAnimation="True"
+                               xct:TouchEffect.Command="{Binding RequestPermissionCommand}">
 
                             <StackLayout
                                 Orientation="Horizontal"
@@ -158,8 +157,39 @@
                                     VerticalOptions="Center"/>
                             </StackLayout>
                         </Frame>
+                        <Frame Margin="0,12,0,0"
+                               Padding="0"
+                               HeightRequest="32"
+                               CornerRadius="4"
+                               HasShadow="false"
+                               BackgroundColor="{x:Static helpers:Theme.Grey}"
+                               BorderColor="#White"
+                               HorizontalOptions="Fill"
+                               IsVisible="{Binding ShowAccessRequested}">
 
-                        
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         InputTransparent="True">
+                                <Image HeightRequest="16"
+                                       WidthRequest="16"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FontAwesomeSolid"
+                                                         Glyph="{x:Static helpers:FontAwesome.Lock}"
+                                                         Color="Black" />
+                                    </Image.Source>
+                                </Image>
+
+                                <Label Text="Access Requested"
+                                       TextColor="Black"
+                                       FontAttributes="Bold"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </Frame>
+
                         <!-- Play button -->
                         <Frame
                             Margin="0,12,0,0"

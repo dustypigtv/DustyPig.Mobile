@@ -222,6 +222,12 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             // These all are based on whether the user CAN play content, or needs permission
 
             CanPlay = Detailed_Series.CanPlay;
+            if (!CanPlay)
+            {
+                ShowAccessRequested = Detailed_Series.AccessRequested;
+                CanRequestAccess = !Detailed_Series.AccessRequested;
+            }
+
             InWatchlist = Detailed_Series.InWatchlist;
 
             var upNext = Detailed_Series.Episodes.FirstOrDefault(item => item.UpNext);

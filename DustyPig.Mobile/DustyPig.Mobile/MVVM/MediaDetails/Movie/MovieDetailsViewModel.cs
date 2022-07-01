@@ -141,6 +141,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
                 CanManage = response.Data.CanManage;
                 CanPlay = response.Data.CanPlay;
+
+                if (!CanPlay)
+                {
+                    ShowAccessRequested = response.Data.AccessRequested;
+                    CanRequestAccess = !response.Data.AccessRequested;             
+                }
+
                 InWatchlist = response.Data.InWatchlist;
                 Played = response.Data.Played ?? 0;
                 ShowPlayedBar = CanPlay && Played > 0;

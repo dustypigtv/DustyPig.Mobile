@@ -69,9 +69,15 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
             var response = await App.API.Media.RequestAccessOverrideAsync(Basic_Media.Id);
             if (response.Success)
+            {
                 await ShowAlertAsync("Success", "Request sent");
+                CanRequestAccess = false;
+                ShowAccessRequested = true;
+            }
             else
+            {
                 await ShowAlertAsync("Error", response.Error.Message);
+            }
 
             IsBusy2 = false;
         }
@@ -494,6 +500,20 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
         {
             get => _canPlay;
             set => SetProperty(ref _canPlay, value);
+        }
+
+        private bool _canRequestAccess;
+        public bool CanRequestAccess
+        {
+            get => _canRequestAccess;
+            set => SetProperty(ref _canRequestAccess, value);
+        }
+
+        private bool _showAccessRequested;
+        public bool ShowAccessRequested
+        {
+            get => _showAccessRequested;
+            set => SetProperty(ref _showAccessRequested, value);
         }
 
         private string _watchlistIcon;
