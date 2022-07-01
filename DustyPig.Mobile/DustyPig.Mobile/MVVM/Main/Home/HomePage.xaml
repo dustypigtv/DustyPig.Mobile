@@ -17,7 +17,8 @@
                          Command="{Binding RefreshCommand}"
                          IsRefreshing="{Binding IsBusy}">
 
-                <ScrollView x:Name="MainSV">
+                <ScrollView x:Name="MainSV"
+                            VerticalScrollBarVisibility="Never">
 
                     <StackLayout x:Name="MainStack">
 

@@ -12,7 +12,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
     public class ExploreViewModel : _BaseViewModel
     {
         private bool _listFullyLoaded = false;
-
+        
         private readonly ExploreRequest _currentRequest = new ExploreRequest();
         private readonly StackLayout _slDimmer;
 
@@ -22,6 +22,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
             RefreshCommand = new AsyncCommand(LoadInitial, allowsMultipleExecutions: false);
             LoadMoreCommand = new AsyncCommand(LoadMore, canExecute: () => !_listFullyLoaded, allowsMultipleExecutions: false);
             FilterCommand = new AsyncCommand(OnFilter, allowsMultipleExecutions: false);
+            LoadInitial();
         }
 
        
@@ -101,6 +102,13 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
                 IsBusy = true;
         }
 
+        private bool _isBusy2;
+        public bool IsBusy2
+        {
+            get => _isBusy2;
+            set => SetProperty(ref _isBusy2, value);
+        }
+
         public void OnSizeAllocated(double width, double height)
         {
 
@@ -119,8 +127,11 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
 
         private async Task LoadItems(bool initial)
         {
+            IsBusy2 = !initial;
+            EmptyMessage = "Loading";
+
             _currentRequest.Start = initial ? 0 : Items.Count;
-            
+
             REST.Response<List<BasicMedia>> response = await App.API.Media.LoadExploreResultsAsync(_currentRequest);
 
             if (response.Success)
@@ -142,6 +153,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
             }
 
             IsBusy = false;
+            IsBusy2 = false;
         }
 
     }

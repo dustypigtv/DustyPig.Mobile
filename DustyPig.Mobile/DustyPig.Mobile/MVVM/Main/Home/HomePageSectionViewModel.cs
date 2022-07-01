@@ -26,6 +26,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             if (_listFullyLoaded)
                 return;
 
+            IsBusy = true;
+
             var response = await App.API.Media.LoadMoreHomeScreenItemsAsync(ListId, Items.Count);
             if (response.Success)
             {
@@ -37,6 +39,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
                 _listFullyLoaded = true;
                 await ShowAlertAsync("Error loading media", response.Error.FormatMessage());
             }
+
+            IsBusy = false;
         }
 
 

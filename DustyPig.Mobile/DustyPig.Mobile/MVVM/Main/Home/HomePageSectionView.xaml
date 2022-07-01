@@ -101,37 +101,56 @@
     
     
     <ContentView.Content>
-        <StackLayout
-                x:DataType="viewmodels:HomePageSectionViewModel"
-                Orientation="Vertical">
+        <StackLayout x:DataType="viewmodels:HomePageSectionViewModel"
+                     Orientation="Vertical">
 
-            <Label
-                Margin="0,8,0,0"
-                FontSize="16"
-                FontAttributes="Bold"
-                Text="{Binding Title}" />
+            <Label Margin="0,8,0,0"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   Text="{Binding Title}" />
 
-            <controls:MyCollectionView
-                x:Name="MyCV"
-                Margin="0,0,0,24"
-                HeightRequest="160"
-                EmptyView="No media found"
-                ItemSizingStrategy="MeasureFirstItem"
-                RemainingItemsThreshold="100"
-                HorizontalScrollBarVisibility="Never"
-                RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
-                ItemsSource="{Binding Items}"
-                ItemTemplate="{StaticResource TemplateSelector}"
-                MyId="{Binding ListId}">
 
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout 
-                        Orientation="Horizontal"
-                        ItemSpacing="16"/>
-                </CollectionView.ItemsLayout>
+            <Grid HeightRequest="160"
+                  ColumnSpacing="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 
-            </controls:MyCollectionView>
+                <controls:MyCollectionView x:Name="MyCV"
+                                           Grid.Column="0"
+                                           Margin="0,0,0,24"
+                                           HeightRequest="160"
+                                           EmptyView="No media found"
+                                           ItemSizingStrategy="MeasureFirstItem"
+                                           RemainingItemsThreshold="0"
+                                           HorizontalScrollBarVisibility="Never"
+                                           RemainingItemsThresholdReachedCommand="{Binding LoadMoreItemsCommand}"
+                                           ItemsSource="{Binding Items}"
+                                           ItemTemplate="{StaticResource TemplateSelector}"
+                                           MyId="{Binding ListId}">
 
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal"
+                                           ItemSpacing="16" />
+                    </CollectionView.ItemsLayout>
+
+                </controls:MyCollectionView>
+
+
+                <ActivityIndicator Grid.Column="1"
+                                   Margin="8"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   BackgroundColor="Transparent"
+                                   IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}" />
+
+
+            </Grid>
 
         </StackLayout>
     </ContentView.Content>

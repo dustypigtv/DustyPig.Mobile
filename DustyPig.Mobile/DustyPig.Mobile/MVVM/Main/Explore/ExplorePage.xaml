@@ -25,49 +25,80 @@
                 Margin="0,24,0,0"
                 IsRefreshing="{Binding IsBusy}"
                 Command="{Binding RefreshCommand}">
+                
+                <Grid RowSpacing="0">
 
-                <CollectionView
-                    x:Name="MainCV"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    Margin="12,0,12,0"
-                    ItemSizingStrategy="MeasureFirstItem"
-                    SelectionMode="None"
-                    ItemsSource="{Binding Items}"
-                    RemainingItemsThreshold="100"
-                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <CollectionView x:Name="MainCV"
+                                    Grid.Row="0"
+                                    VerticalOptions="FillAndExpand"
+                                    HorizontalOptions="FillAndExpand"
+                                    Margin="12,0,12,0"
+                                    ItemSizingStrategy="MeasureFirstItem"
+                                    SelectionMode="None"
+                                    VerticalScrollBarVisibility="Never"
+                                    HorizontalScrollBarVisibility="Never"
+                                    ItemsSource="{Binding Items}"
+                                    RemainingItemsThreshold="0"
+                                    RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
 
-                    <!-- Stupid bug - Set spacing to zero, then put the poster inside a stacklayout with margin 8 (to create 16 spacing) -->
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout
-                            VerticalItemSpacing="0"
-                            HorizontalItemSpacing="0"
-                            Orientation="Vertical"
-                            Span="{Binding Span}" />
-                    </CollectionView.ItemsLayout>
+                        <!-- Stupid bug - Set spacing to zero, then put the poster inside a stacklayout with margin 8 (to create 16 spacing) -->
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout VerticalItemSpacing="0"
+                                             HorizontalItemSpacing="0"
+                                             Orientation="Vertical"
+                                             Span="{Binding Span}" />
+                        </CollectionView.ItemsLayout>
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate
-                            x:DataType="models:BasicMedia">
-
-                            <StackLayout Margin="8">
-
-                                <ffimages:CachedImage Source="{Binding ArtworkUrl}"
-                                    HeightRequest="150"
-                                    WidthRequest="100"
-                                    Aspect="AspectFit"
-                                    ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
-                                    LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
-                                    xct:TouchEffect.NativeAnimation="True"
-                                    xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:ExploreViewModel}}, Path=ItemTappedCommand}"
-                                    xct:TouchEffect.CommandParameter="{Binding}" />
-
+                        <CollectionView.EmptyView>
+                            <StackLayout>
+                                <Label Margin="48"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       TextColor="White"
+                                       HorizontalTextAlignment="Center"
+                                       InputTransparent="True"
+                                       Text="{Binding EmptyMessage}" />
                             </StackLayout>
+                        </CollectionView.EmptyView>
 
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:BasicMedia">
 
-                </CollectionView>
+                                <StackLayout Margin="8">
+
+                                    <ffimages:CachedImage Source="{Binding ArtworkUrl}"
+                                                          HeightRequest="150"
+                                                          WidthRequest="100"
+                                                          Aspect="AspectFit"
+                                                          ErrorPlaceholder="resource://DustyPig.Mobile.Images.poster_error.png"
+                                                          LoadingPlaceholder="resource://DustyPig.Mobile.Images.poster_placeholder.png"
+                                                          xct:TouchEffect.NativeAnimation="True"
+                                                          xct:TouchEffect.Command="{Binding Source={RelativeSource AncestorType={x:Type local:ExploreViewModel}}, Path=ItemTappedCommand}"
+                                                          xct:TouchEffect.CommandParameter="{Binding}" />
+
+                                </StackLayout>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                    </CollectionView>
+
+                    <ActivityIndicator Grid.Row="1"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End"
+                                       HeightRequest="40"
+                                       WidthRequest="40"
+                                       BackgroundColor="Transparent"
+                                       IsRunning="{Binding IsBusy2}"
+                                       IsVisible="{Binding IsBusy2}" />
+                </Grid>
+            
+            
             </RefreshView>
 
 
