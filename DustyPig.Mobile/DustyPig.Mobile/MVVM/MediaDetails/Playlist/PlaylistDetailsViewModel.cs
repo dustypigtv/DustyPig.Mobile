@@ -17,7 +17,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         {
             Id = basicMedia.Id;
 
-            PlayCommand = new AsyncCommand(() => OnPlayItem(Detailed_Playlist.Items[Detailed_Playlist.CurrentIndex].Id), allowsMultipleExecutions: false);
+            PlayCommand = new AsyncCommand(() => OnPlayItem(Detailed_Playlist.Items[Detailed_Playlist.CurrentIndex].MediaId), allowsMultipleExecutions: false);
             PlayItemCommand = new AsyncCommand<int>(OnPlayItem, allowsMultipleExecutions: false);
             EditCommand = new AsyncCommand(OnEdit, allowsMultipleExecutions: false);
 

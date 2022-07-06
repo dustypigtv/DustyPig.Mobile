@@ -11,6 +11,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
         public int Id { get; set; }
 
+        public int MediaId { get; set; }
+
         public string Title { get; set; }
 
         public string Synopsis { get; set; }
@@ -66,6 +68,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 Synopsis = StringUtils.Coalesce(item.Description, "No synopsis"),
                 Id = item.Id,
                 Length = item.Length,
+                MediaId = item.MediaId,
                 Title = item.Title,
                 Index = item.Index,
                 UpNext = item.Index == currentIndex
