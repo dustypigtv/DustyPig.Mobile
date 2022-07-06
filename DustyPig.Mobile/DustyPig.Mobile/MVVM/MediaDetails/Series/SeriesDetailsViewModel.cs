@@ -224,8 +224,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             CanPlay = Detailed_Series.CanPlay;
             if (!CanPlay)
             {
-                ShowAccessRequested = Detailed_Series.AccessRequested;
-                CanRequestAccess = !Detailed_Series.AccessRequested;
+                ShowAccessRequested = Detailed_Series.AccessRequestedStatus != OverrideRequestStatus.NotRequested;
+                CanRequestAccess = !ShowAccessRequested;
             }
 
             InWatchlist = Detailed_Series.InWatchlist;

@@ -144,8 +144,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
 
                 if (!CanPlay)
                 {
-                    ShowAccessRequested = response.Data.AccessRequested;
-                    CanRequestAccess = !response.Data.AccessRequested;             
+                    ShowAccessRequested = response.Data.AccessRequestedStatus != OverrideRequestStatus.NotRequested;
+                    CanRequestAccess = !ShowAccessRequested;             
                 }
 
                 InWatchlist = response.Data.InWatchlist;
