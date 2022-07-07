@@ -33,8 +33,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         public AsyncCommand CancelCommand { get; }
         private async Task OnCancel()
         {
-            await Navigation.PopModalAsync();
             _taskCompletionSource.SetResult(EditPlaylistResult.NoChange);
+            await Navigation.PopModalAsync();
         }
 
         public AsyncCommand SaveCommand { get; }
@@ -51,8 +51,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 
             if (!changed)
             {
-                await Navigation.PopModalAsync();
                 _taskCompletionSource.SetResult(EditPlaylistResult.NoChange);
+                await Navigation.PopModalAsync();
                 return;
             }
 
@@ -62,8 +62,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 if (response.Success)
                 {
                     Services.Download.DownloadService.Delete(Detailed_Playlist.Id);
-                    await Navigation.PopModalAsync();
                     _taskCompletionSource.SetResult(EditPlaylistResult.Deleted);
+                    await Navigation.PopModalAsync();
                 }
                 else
                 {
@@ -84,8 +84,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                     if (status.Status != Services.Download.JobStatus.NotDownloaded)
                         Services.Download.DownloadService.AddOrUpdatePlaylist(Detailed_Playlist, status.ItemCount);
 
-                    await Navigation.PopModalAsync();
                     _taskCompletionSource.SetResult(EditPlaylistResult.Updated);
+                    await Navigation.PopModalAsync();
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
         {
             Items.Remove(Items.FirstOrDefault(item => item.Id == id));
             
-            //Too easy to remove items too quickly on iOS, so small delay
+            //Too easy to remove items too quickly, so small delay
             await Task.Delay(100);
         }
 
