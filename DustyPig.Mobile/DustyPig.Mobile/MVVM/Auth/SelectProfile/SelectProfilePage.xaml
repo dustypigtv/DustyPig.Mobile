@@ -44,23 +44,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:BasicProfile">
                                 <ViewCell>
-                                    <Grid>
-                                        <!--<Frame
-                                            Grid.Column="0"
-                                            CornerRadius="33"
-                                            WidthRequest="66"
-                                            HeightRequest="66"
-                                            Padding="0"
-                                            Margin="8"
-                                            VerticalOptions="CenterAndExpand"
-                                            HorizontalOptions="EndAndExpand"
-                                            IsClippedToBounds="True">
-                                        <Image 
-                                                HeightRequest="66"
-                                                WidthRequest="66"
-                                                HorizontalOptions="Center"
-                                                Source="{Binding AvatarUrl}" />
-                                        </Frame>-->
+                                    <Grid Margin="12">
                                         <Image HeightRequest="66"
                                                WidthRequest="66"
                                                HorizontalOptions="EndAndExpand"
