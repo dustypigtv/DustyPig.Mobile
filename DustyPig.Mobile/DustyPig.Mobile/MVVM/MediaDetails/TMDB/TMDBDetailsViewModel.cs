@@ -111,10 +111,13 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                     await Navigation.PushModalAsync(page);
                     request.FriendId = await page.GetResultAsync();
                     if (request.FriendId <= 0)
+                    {
+                        IsBusy2 = false;
                         return;
+                    }
                 }
 
-                var response = await App.API.TMDB.RequestTitleAsync(request);
+                    var response = await App.API.TMDB.RequestTitleAsync(request);
                 if (response.Success)
                 {
                     await ShowAlertAsync("Success", "Request Sent");
@@ -131,6 +134,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
 
             IsBusy2 = false;
         }
+
+
 
         private async void LoadData()
         {
