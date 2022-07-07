@@ -67,33 +67,63 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         public AsyncCommand RequestCommand { get; }
         private async Task OnRequest()
         {
+            IsBusy2 = true;
+
             var request = new TitleRequest
             {
                 MediaType = _basicTMDB.MediaType,
                 TMDB_Id = _basicTMDB.TMDB_ID
             };
 
-            if (_permission == TitleRequestPermissions.Enabled)
+            if (RequestText == "Cancel Request")
             {
-                var page = new FriendPickerPage();
-                await Navigation.PushModalAsync(page);
-                request.FriendId = await page.GetResultAsync();
-                if (request.FriendId <= 0)
-                    return;
-            }
-
-            var response = await App.API.TMDB.RequestTitleAsync(request);
-            if (response.Success)
-            {
-                await ShowAlertAsync("Success", "Request Sent");
-                ShowRequest = false;
-                if (RequestStatus == "Not Requested")
-                    RequestStatus = "Requested";
+                var response = await App.API.TMDB.CancelRequestAsync(request);
+                if (response.Success)
+                {
+                    var permissionResponse = await App.API.TMDB.GetRequestTitlePermissionAsync();
+                    if (permissionResponse.Success)
+                    {
+                        await ShowAlertAsync("Success", "Request Cancelled");
+                        _permission = permissionResponse.Data;
+                        ShowRequest = _permission != TitleRequestPermissions.Disabled;
+                        RequestStatus = "Not Requested";
+                        RequestText = "Not Requested";
+                    }
+                    else
+                    {
+                        await ShowAlertAsync("Error", permissionResponse.Error.Message);
+                    }
+                }
+                else
+                {
+                    await ShowAlertAsync("Error", response.Error.Message);
+                }
             }
             else
             {
-                await ShowAlertAsync("Error", response.Error.Message);
+                if (_permission == TitleRequestPermissions.Enabled)
+                {
+                    var page = new FriendPickerPage();
+                    await Navigation.PushModalAsync(page);
+                    request.FriendId = await page.GetResultAsync();
+                    if (request.FriendId <= 0)
+                        return;
+                }
+
+                var response = await App.API.TMDB.RequestTitleAsync(request);
+                if (response.Success)
+                {
+                    await ShowAlertAsync("Success", "Request Sent");
+                    RequestStatus = "Requested";
+                    RequestText = "Cancel Request";
+                }
+                else
+                {
+                    await ShowAlertAsync("Error", response.Error.Message);
+                }
             }
+
+            IsBusy2 = false;
         }
 
         private async void LoadData()
@@ -106,18 +136,38 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             {
                 _permission = response.Data.RequestPermission;
                 
-                ShowRequest = _permission != TitleRequestPermissions.Disabled;
                 switch (response.Data.RequestStatus)
                 {
+                    case API.v3.Models.RequestStatus.Denied:
+                        RequestStatus = "Request Denied";
+                        RequestText = "Cancel Request";
+                        ShowRequest = true;
+                        break;
+
+                    case API.v3.Models.RequestStatus.Fulfilled:
+                        RequestStatus = "Available";
+                        RequestText = "Cancel Request";
+                        ShowRequest = true;
+                        break;
+
                     case API.v3.Models.RequestStatus.NotRequested:
                         RequestStatus = "Not Requested";
                         RequestText = "Request";
+                        ShowRequest = _permission != TitleRequestPermissions.Disabled;
                         break;
 
-                    default:
-                        RequestStatus = response.Data.RequestStatus.ToString();
-                        RequestText = "Notify When Available";
+                    case API.v3.Models.RequestStatus.Pending:
+                        RequestStatus = "Pending";
+                        RequestText = "Cancel Request";
+                        ShowRequest = true;
                         break;
+
+                    case API.v3.Models.RequestStatus.RequestSentToAccount:
+                    case API.v3.Models.RequestStatus.RequestSentToMain:
+                        RequestStatus = "Requested";
+                        RequestText = "Cancel Request";
+                        ShowRequest = true;
+                        break;                    
                 }
 
 
