@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Helpers;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
@@ -42,6 +43,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", response.Error.Message);
                 await CancelCommand.ExecuteAsync();
             }

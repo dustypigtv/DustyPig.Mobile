@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Main.Home;
 using DustyPig.Mobile.Services;
 using DustyPig.Mobile.Services.Download;
@@ -23,7 +24,6 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             RequestPermissionCommand = new AsyncCommand(OnRequestPermission, allowsMultipleExecutions: false);
             ToggleWatchlistCommand = new AsyncCommand<int>(OnToggleWatchlist, allowsMultipleExecutions: false);
             ManageParentalControlsCommand = new AsyncCommand(ManageParentalControls, allowsMultipleExecutions: false);
-            //ShowInfoCommand = new AsyncCommand<string>(OnShowInfo, allowsMultipleExecutions: false);
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
@@ -55,13 +55,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
 
         public int LibraryId { get; set; }
 
-        //public AsyncCommand<string> ShowInfoCommand { get; }
-        //private Task OnShowInfo(string desc)
-        //{
-        //    return ShowAlertAsync("Synopsis", desc);
-        //}
-
-
+        
         public AsyncCommand RequestPermissionCommand { get; }
         private async Task OnRequestPermission()
         {
@@ -76,6 +70,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }
 
@@ -108,6 +104,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }
         }

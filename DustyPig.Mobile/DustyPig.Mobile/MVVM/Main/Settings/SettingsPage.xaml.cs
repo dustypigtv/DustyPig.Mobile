@@ -17,9 +17,9 @@ namespace DustyPig.Mobile.MVVM.Main.Settings
 
         }
 
-        private void Button_Clicked(object sender, System.EventArgs e)
+        private async void Button_Clicked(object sender, System.EventArgs e)
         {
-            Services.LogoutService.Logout();
+            await Services.LogoutService.LogoutAsync();
         }
     }
 }

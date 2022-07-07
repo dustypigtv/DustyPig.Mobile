@@ -1,11 +1,26 @@
 ﻿using DustyPig.Mobile.MVVM;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace DustyPig.Mobile.Services
 {
     static class LogoutService
     {
-        public static void Logout()
+        public static async Task LogoutAsync()
+        {
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAllAsync();
+            await App.Current.MainPage.Navigation.PopToRootAsync();
+            await App.API.Auth.SignoutAsync();
+
+            SetGlobalProprties();
+
+            Application.Current.MainPage = new StartupPage();
+        }
+
+        /// <summary>
+        /// This should only be called from StartupPage or inside of LogoutAsync
+        /// </summary>
+        public static void SetGlobalProprties()
         {
             App.LoggedIn = false;
 
@@ -21,8 +36,6 @@ namespace DustyPig.Mobile.Services
             Download.DownloadService.Reset();
 
             HomePageCache.Reset();
-
-            Application.Current.MainPage = new StartupPage();
         }
     }
 }

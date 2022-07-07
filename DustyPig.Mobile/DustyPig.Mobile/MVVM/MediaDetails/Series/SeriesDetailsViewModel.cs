@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
+using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Main.Home;
 using DustyPig.Mobile.Services.Download;
 using System;
@@ -97,6 +98,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }
         }
@@ -181,6 +184,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", "Unable to retrieve series info");
                 await Navigation.PopModalAsync();
             }

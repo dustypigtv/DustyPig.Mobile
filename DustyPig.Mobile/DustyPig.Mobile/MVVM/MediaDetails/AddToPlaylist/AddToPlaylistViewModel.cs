@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.Helpers;
 using DustyPig.Mobile.MVVM.Main.Home;
 using System;
 using System.Linq;
@@ -74,6 +75,9 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
             var createResponse = await App.API.Playlists.CreateAsync(playlist);
             if (!createResponse.Success)
             {
+                if (await createResponse.Error.HandleUnauthorizedException())
+                    return;
+                
                 await Helpers.Alerts.ShowAlertAsync("Error", createResponse.Error.Message);
                 IsBusy = false;
                 return;
@@ -87,6 +91,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
 
             if (!addResponse.Success)
             {
+                if (await addResponse.Error.HandleUnauthorizedException())
+                    return;
                 await Helpers.Alerts.ShowAlertAsync("Error", addResponse.Error.Message);
                 IsBusy = false;
                 return;
@@ -221,6 +227,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.AddToPlaylist
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await Helpers.Alerts.ShowAlertAsync("Error", response.Error.Message);
             }
 

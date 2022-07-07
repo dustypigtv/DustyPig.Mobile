@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.Mobile.CrossPlatform;
+using DustyPig.Mobile.Helpers;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
@@ -109,6 +110,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
                 IsBusy2 = false;
             }

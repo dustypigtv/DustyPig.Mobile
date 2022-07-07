@@ -149,6 +149,8 @@ namespace DustyPig.Mobile.MVVM.Main.Explore
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", response.Error.FormatMessage());
             }
 

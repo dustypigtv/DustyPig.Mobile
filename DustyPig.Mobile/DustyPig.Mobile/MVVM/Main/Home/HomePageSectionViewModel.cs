@@ -37,6 +37,8 @@ namespace DustyPig.Mobile.MVVM.Main.Home
             else
             {
                 _listFullyLoaded = true;
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error loading media", response.Error.FormatMessage());
             }
 

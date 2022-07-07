@@ -91,11 +91,15 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                     }
                     else
                     {
+                        if (await permissionResponse.Error.HandleUnauthorizedException())
+                            return;
                         await ShowAlertAsync("Error", permissionResponse.Error.Message);
                     }
                 }
                 else
                 {
+                    if (await response.Error.HandleUnauthorizedException())
+                        return;
                     await ShowAlertAsync("Error", response.Error.Message);
                 }
             }
@@ -119,6 +123,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                 }
                 else
                 {
+                    if (await response.Error.HandleUnauthorizedException())
+                        return;
                     await ShowAlertAsync("Error", response.Error.Message);
                 }
             }
@@ -233,6 +239,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
                 await ShowAlertAsync("Error", response.Error.Message);
                 await Navigation.PopModalAsync();
             }

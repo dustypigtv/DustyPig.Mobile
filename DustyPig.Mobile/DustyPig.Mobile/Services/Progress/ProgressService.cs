@@ -2,6 +2,7 @@
     I could go to the trouble of setting up sqlite database, but this should be very lightweight, 
     so I'm just gonna use a json file
  */
+using DustyPig.Mobile.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,7 @@ namespace DustyPig.Mobile.Services.Progress
                     else
                     {
                         AddToList(id, seconds);
+                        await response.Error.HandleUnauthorizedException();                         
                     }
                 }
             }
@@ -95,6 +97,9 @@ namespace DustyPig.Mobile.Services.Progress
                     var response = await App.API.Media.UpdatePlaybackProgressAsync(item.MediaId, item.Played);
                     if (response.Success)
                         lst.Remove(item);
+                    else if (await response.Error.HandleUnauthorizedException())
+                        break;
+                       
                 }
                 Save(lst);
             }

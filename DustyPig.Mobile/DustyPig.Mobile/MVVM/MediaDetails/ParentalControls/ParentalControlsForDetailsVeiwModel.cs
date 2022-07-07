@@ -1,4 +1,5 @@
 ﻿using DustyPig.API.v3.Models;
+using DustyPig.Mobile.Helpers;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
                 }
                 else
                 {
+                    if (await response.Error.HandleUnauthorizedException())
+                        return;
                     await ShowAlertAsync("Error", response.Error.Message);
                     foreach (var grp in Profiles)
                         foreach (var profile in grp.Where(item => item.HasLibraryAccess))
@@ -137,6 +140,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
             }
             else
             {
+                if (await permissionResponse.Error.HandleUnauthorizedException())
+                    return;
                 await Helpers.Alerts.ShowAlertAsync("Error", permissionResponse.Error.Message);
                 await Navigation.PopModalAsync();
             }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using System.Linq;
+using DustyPig.Mobile.Helpers;
 
 namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
 {
@@ -67,6 +68,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 }
                 else
                 {
+                    if (await response.Error.HandleUnauthorizedException())
+                        return;
                     await ShowAlertAsync("Error", response.Error.Message);
                     ResetItems();
                 }
@@ -89,6 +92,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 }
                 else
                 {
+                    if (await response.Error.HandleUnauthorizedException())
+                        return;
                     await ShowAlertAsync("Error", response.Error.Message);
                     ResetItems();
                 }

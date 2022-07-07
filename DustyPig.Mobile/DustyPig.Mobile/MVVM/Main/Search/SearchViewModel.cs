@@ -155,6 +155,9 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                 if (token.IsCancellationRequested)
                     return;
 
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
+
                 ShowTabs = false;
 
                 MediaEmptyString = "Error searching. Please try again";

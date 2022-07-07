@@ -67,5 +67,22 @@ namespace DustyPig.Mobile.Helpers
                 await Task.Delay(50);
             }
         }
+
+        public static async Task<bool> HandleUnauthorizedException(this Exception ex)
+        {
+            if (ex == null)
+                return false;
+
+            if ((ex.Message + string.Empty).Contains("401 (Unauthorized)"))
+            {
+                await Services.LogoutService.LogoutAsync();
+                return true;
+            }
+
+            if (ex.InnerException != null)
+                return await ex.InnerException.HandleUnauthorizedException();
+
+            return false;
+        }
     }
 }

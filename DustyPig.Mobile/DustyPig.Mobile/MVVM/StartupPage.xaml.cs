@@ -29,7 +29,7 @@ namespace DustyPig.Mobile.MVVM
 
             if (string.IsNullOrWhiteSpace(App.API.Token))
             {
-                App.LoggedIn = false;
+                Services.LogoutService.SetGlobalProprties();
                 Application.Current.MainPage = new NavigationPage(new LoginPage());
             }
             else
@@ -51,7 +51,7 @@ namespace DustyPig.Mobile.MVVM
                 }
                 else
                 {
-                    App.LoggedIn = false;
+                    Services.LogoutService.SetGlobalProprties();
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
                 }
             }

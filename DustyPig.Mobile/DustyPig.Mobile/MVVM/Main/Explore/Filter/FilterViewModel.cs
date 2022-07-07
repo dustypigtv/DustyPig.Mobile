@@ -1,5 +1,6 @@
 ﻿using DustyPig.API.v3.Models;
 using DustyPig.API.v3.MPAA;
+using DustyPig.Mobile.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +69,9 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
             }
             else
             {
+                if (await response.Error.HandleUnauthorizedException())
+                    return;
+
                 //Ignore the error and just add all the genres
                 foreach (Genres genre in Enum.GetValues(typeof(Genres)))
                     if (genre != Genres.Unknown)
