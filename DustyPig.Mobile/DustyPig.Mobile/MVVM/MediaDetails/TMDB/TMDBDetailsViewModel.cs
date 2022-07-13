@@ -87,7 +87,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                         _permission = permissionResponse.Data;
                         ShowRequest = _permission != TitleRequestPermissions.Disabled;
                         RequestStatus = "Not Requested";
-                        RequestText = "Not Requested";
+                        RequestText = "Requested";
                     }
                     else
                     {
@@ -117,7 +117,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
                     }
                 }
 
-                    var response = await App.API.TMDB.RequestTitleAsync(request);
+                var response = await App.API.TMDB.RequestTitleAsync(request);
                 if (response.Success)
                 {
                     await ShowAlertAsync("Success", "Request Sent");

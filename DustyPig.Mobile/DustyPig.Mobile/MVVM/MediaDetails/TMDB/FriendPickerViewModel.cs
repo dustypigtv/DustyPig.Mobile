@@ -27,8 +27,8 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
         public AsyncCommand<int> FriendTappedCommand { get; }
         public async Task OnFriendTapped(int id)
         {
-            _taskCompletionSource.TrySetResult(id);
             await Navigation.PopModalAsync();
+            _taskCompletionSource.TrySetResult(id);
         }
 
         public ObservableRangeCollection<BasicFriend> Friends { get; } = new ObservableRangeCollection<BasicFriend>();
