@@ -68,7 +68,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 }
                 else
                 {
-                    if (await response.Error.HandleUnauthorizedException())
+                    if (await response.HandleUnauthorizedException())
                         return;
                     await ShowAlertAsync("Error", response.Error.Message);
                     ResetItems();
@@ -92,7 +92,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
                 }
                 else
                 {
-                    if (await response.Error.HandleUnauthorizedException())
+                    if (await response.HandleUnauthorizedException())
                         return;
                     await ShowAlertAsync("Error", response.Error.Message);
                     ResetItems();

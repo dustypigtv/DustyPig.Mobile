@@ -71,7 +71,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
                 }
                 else
                 {
-                    if (await response.Error.HandleUnauthorizedException())
+                    if (await response.HandleUnauthorizedException())
                         return;
                     await ShowAlertAsync("Error", response.Error.Message);
                     foreach (var grp in Profiles)
@@ -140,7 +140,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.ParentalControls
             }
             else
             {
-                if (await permissionResponse.Error.HandleUnauthorizedException())
+                if (await permissionResponse.HandleUnauthorizedException())
                     return;
                 await Helpers.Alerts.ShowAlertAsync("Error", permissionResponse.Error.Message);
                 await Navigation.PopModalAsync();

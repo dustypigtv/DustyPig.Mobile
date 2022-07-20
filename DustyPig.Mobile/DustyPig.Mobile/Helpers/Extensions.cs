@@ -68,19 +68,16 @@ namespace DustyPig.Mobile.Helpers
             }
         }
 
-        public static async Task<bool> HandleUnauthorizedException(this Exception ex)
+        public static async Task<bool> HandleUnauthorizedException(this REST.Response response)
         {
-            if (ex == null)
+            if (response.Success)
                 return false;
 
-            if ((ex.Message + string.Empty).Contains("401 (Unauthorized)"))
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 await Services.LogoutService.LogoutAsync();
                 return true;
             }
-
-            if (ex.InnerException != null)
-                return await ex.InnerException.HandleUnauthorizedException();
 
             return false;
         }

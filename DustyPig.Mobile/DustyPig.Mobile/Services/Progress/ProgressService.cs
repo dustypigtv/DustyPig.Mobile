@@ -59,7 +59,7 @@ namespace DustyPig.Mobile.Services.Progress
                     else
                     {
                         AddToList(id, seconds);
-                        await response.Error.HandleUnauthorizedException();                         
+                        await response.HandleUnauthorizedException();                         
                     }
                 }
             }
@@ -97,7 +97,7 @@ namespace DustyPig.Mobile.Services.Progress
                     var response = await App.API.Media.UpdatePlaybackProgressAsync(item.MediaId, item.Played);
                     if (response.Success)
                         lst.Remove(item);
-                    else if (await response.Error.HandleUnauthorizedException())
+                    else if (await response.HandleUnauthorizedException())
                         break;
                        
                 }

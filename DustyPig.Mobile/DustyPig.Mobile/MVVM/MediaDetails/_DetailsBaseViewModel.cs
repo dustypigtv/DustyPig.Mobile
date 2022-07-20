@@ -70,7 +70,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }
@@ -104,7 +104,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }

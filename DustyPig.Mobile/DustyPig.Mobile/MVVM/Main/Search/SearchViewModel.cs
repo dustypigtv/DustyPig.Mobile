@@ -155,7 +155,7 @@ namespace DustyPig.Mobile.MVVM.Main.Search
                 if (token.IsCancellationRequested)
                     return;
 
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
 
                 ShowTabs = false;

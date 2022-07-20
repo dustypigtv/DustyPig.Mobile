@@ -98,7 +98,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }
@@ -184,7 +184,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Series
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", "Unable to retrieve series info");
                 await Navigation.PopModalAsync();

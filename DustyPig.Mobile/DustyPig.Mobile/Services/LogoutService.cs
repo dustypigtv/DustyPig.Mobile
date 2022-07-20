@@ -8,8 +8,6 @@ namespace DustyPig.Mobile.Services
     {
         public static async Task LogoutAsync()
         {
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopAllAsync();
-            await App.Current.MainPage.Navigation.PopToRootAsync();
             await App.API.Auth.SignoutAsync();
 
             SetGlobalProprties();

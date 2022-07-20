@@ -43,7 +43,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.TMDB
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", response.Error.Message);
                 await CancelCommand.ExecuteAsync();

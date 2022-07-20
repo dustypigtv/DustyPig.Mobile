@@ -69,7 +69,7 @@ namespace DustyPig.Mobile.MVVM.Main.Explore.Filter
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
 
                 //Ignore the error and just add all the genres

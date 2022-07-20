@@ -110,7 +110,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Playlist
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await DependencyService.Get<IPopup>().AlertAsync("Error", response.Error.Message);
                 IsBusy2 = false;

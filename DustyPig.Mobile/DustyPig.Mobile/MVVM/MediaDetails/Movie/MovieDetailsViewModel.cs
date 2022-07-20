@@ -52,7 +52,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", response.Error.Message);
             }
@@ -167,7 +167,7 @@ namespace DustyPig.Mobile.MVVM.MediaDetails.Movie
             }
             else
             {
-                if (await response.Error.HandleUnauthorizedException())
+                if (await response.HandleUnauthorizedException())
                     return;
                 await ShowAlertAsync("Error", response.Error.Message);
                 await Navigation.PopModalAsync();
